@@ -2,6 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     >
-    <x:String x:Key="AppVersion">2.1.1</x:String>
+    <x:String x:Key="AppVersion">2.2.0</x:String>
     <x:String x:Key="FeatureToken">feature203</x:String>
 </ResourceDictionary>
