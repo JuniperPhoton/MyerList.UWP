@@ -16,7 +16,7 @@ namespace MyerList.Common
             public ObservableDictionaryChangedEventArgs(CollectionChange change, string key)
             {
                 this.CollectionChange = change;
-                this.Key = key;
+                this.Key = key; 
             }
 
             public CollectionChange CollectionChange { get; private set; }
