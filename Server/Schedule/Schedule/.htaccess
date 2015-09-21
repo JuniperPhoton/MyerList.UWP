@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(.*)/(.*)/(.*)$ api.php?interface=$1&action=$2&version=$3&%1

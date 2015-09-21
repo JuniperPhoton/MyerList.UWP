@@ -1,0 +1,60 @@
+﻿<base:BindablePage
+    x:Class="MyerList.SettingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyerList"
+    xmlns:base="using:MyerList.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding SettingVM,Source={StaticResource Locator}}"
+    IsTextScaleFactorEnabled="False" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="#FF47A5DD">
+            <Grid MaxWidth="550">
+                <TextBlock x:Uid="SettingTB"  FontFamily="Microsoft JhengHei UI"  Text="SETTINGS" Foreground="White" FontSize="26.667" VerticalAlignment="Bottom" Margin="10,0,0,10" FontWeight="Bold" HorizontalAlignment="Left"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Background="White">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="550" Background="White" Margin="0">
+                <StackPanel Grid.Row="1" >
+                    <Border Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Uid="HabbitTB"  FontFamily="Microsoft JhengHei UI" TextWrapping="Wrap" Text="USER HABBIT" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+                    <ToggleSwitch x:Uid="HamburgerTS"  FontFamily="Microsoft JhengHei UI" Header="Hamburger Gesture" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{x:Bind SettingVM.EnableGesture,Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
+                    <ToggleSwitch x:Uid="KeyboardTS"  FontFamily="Microsoft JhengHei UI" Header="Show keyboard" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{x:Bind SettingVM.ShowKeyboard,Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
+                    <ToggleSwitch x:Uid="AddToBottomts"  FontFamily="Microsoft JhengHei UI" Header="Add to bottom" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{x:Bind SettingVM.IsAddToBottom,Mode=TwoWay}" FontSize="15" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
+                    <Border Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Uid="TileTB"  FontFamily="Microsoft JhengHei UI" TextWrapping="Wrap" Text="LIVE TILE" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+                    <ToggleSwitch x:Uid="TileTS"  FontFamily="Microsoft JhengHei UI" Header="Live tile" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black" IsOn="{x:Bind SettingVM.EnableTile,Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
+                    <!--<ToggleSwitch x:Uid="TransparentTS" Header="Transparent Tile" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black" IsOn="{x:Bind SettingVM.EnableTile,Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>-->
+                    <!--<ToggleSwitch x:Uid="BackgrdTaskTS" Header="Background task" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10" Foreground="Black"   IsOn="{Binding EnableBackgroundTask,Mode=TwoWay}" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Stretch" />-->
+                    <!--<Border Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Uid="ThemeTB" TextWrapping="Wrap" Text="THEME" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15" FontFamily="Segoe WP" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+                    <ComboBox Margin="10,10,30,10" SelectedIndex="{x:Bind SettingVM.CurrentLanguage,Mode=TwoWay}" Foreground="Black" PlaceholderText="Language" BorderThickness="1.6" BorderBrush="#FFE2E2E2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Background="White" ItemContainerStyle="{StaticResource ComboBoxItemStyle1}">
+                        <ComboBoxItem Content="Classic" Foreground="{StaticResource MyerListDark}" Background="{x:Null}"/>
+                        <ComboBoxItem Content="Light" Foreground="Black" Background="{x:Null}"/>
+                        <ComboBoxItem Content="Dark" Foreground="{StaticResource MyerListDark}" Background="{x:Null}"/>
+                    </ComboBox>-->
+                    <Border Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Uid="LanguageTB"  FontFamily="Microsoft JhengHei UI" TextWrapping="Wrap" Text="LANGUAGE" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    </Border>
+                    <ComboBox  FontFamily="Microsoft JhengHei UI"  Margin="10,10,30,10" SelectedIndex="{x:Bind SettingVM.CurrentLanguage,Mode=TwoWay}" Foreground="Black" PlaceholderText="Language" BorderThickness="1.6" BorderBrush="#FFE2E2E2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Background="White" ItemContainerStyle="{StaticResource ComboBoxItemStyle1}">
+                        <ComboBoxItem Content="English"  FontFamily="Microsoft JhengHei UI" Foreground="Black"/>
+                        <ComboBoxItem Content="简体中文"   FontFamily="Microsoft JhengHei UI" Foreground="Black"/>
+                    </ComboBox>
+                    <TextBlock x:Uid="NoticeHint" Text=""  FontFamily="Microsoft JhengHei UI" TextWrapping="Wrap" Foreground="Black" FontSize="14.667" Margin="10" RenderTransformOrigin="0.5,0.5" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+
+    </Grid>
+</base:BindablePage>

@@ -1,0 +1,52 @@
+﻿<UserControl
+    x:Class="MyerList.UC.DeleteScheduleControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyerList"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="35"
+    d:DesignWidth="400">
+
+    <Grid x:Name="SchduleTempleteGrid"  Tag="{Binding ID}"  Height="35" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RenderTransform>
+            <CompositeTransform/>
+        </Grid.RenderTransform>
+
+        <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="2" Margin="0,0,10,0" >
+            <TextBlock HorizontalAlignment="Left" FontWeight="Light" Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="5,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI"/>
+        </Grid>
+        <Button 
+            Command="{Binding MainVM.RedoCommand,Source={StaticResource Locator}}" 
+            CommandParameter="{Binding ID}"
+            Grid.RowSpan="2" 
+            Style="{StaticResource ButtonCommonStyle}" 
+            BorderThickness="0,2,0,0" Background="{x:Null}">
+            <Grid>
+                <SymbolIcon Symbol="RepeatAll" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2" Foreground="#FFC2C2C2"/>
+            </Grid>
+        </Button>
+
+        <Button 
+            Grid.RowSpan="2" 
+            Command="{Binding MainVM.PermanentDeleteCommand, Mode=OneWay, Source={StaticResource Locator}}"
+        	CommandParameter="{Binding ID}"            
+            Grid.Column="2"
+            Style="{StaticResource ButtonCommonStyle}" 
+            BorderThickness="0,2,0,0" HorizontalAlignment="Right" Margin="0" Background="{x:Null}">
+            <Grid>
+                <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2"/>
+            </Grid>
+        </Button>
+
+
+    </Grid>
+
+</UserControl>

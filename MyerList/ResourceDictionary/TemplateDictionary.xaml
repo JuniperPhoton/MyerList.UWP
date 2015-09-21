@@ -1,0 +1,13 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="using:MyerList.UC"
+    xmlns:model="using:MyerList.Model"
+    >
+    <DataTemplate x:Key="ScheduleTemplete">
+        <uc:ScheduleControl />
+    </DataTemplate>
+    <DataTemplate x:Key="DeletedTemplete">
+        <uc:DeleteScheduleControl />
+    </DataTemplate>
+</ResourceDictionary>

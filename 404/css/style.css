@@ -1,0 +1,314 @@
+.t1{
+    font-weight: 200;
+    color: white;
+    font-size: 50px;
+    
+}
+
+.t2{
+    font-weight: 700;
+    color: white;
+    margin-left: -10;
+    font-size: 40px;
+}
+
+.div2{
+    z-index: 1;
+    display: block;
+    background: white;
+    text-align: left;
+    height: 80%;
+}
+
+.img1{
+    
+}
+.titleDiv {
+    text-align: center;
+    position: relative;
+    display:inline;
+    margin-top:140;
+}
+
+
+body{
+    padding: 0;
+    margin: auto;
+    background: white;
+    font-family: Microsoft YaHei;
+}
+.bodyDiv {
+    height: auto;
+    background: white;
+    display: inline;
+    
+}
+
+.p1 {
+    color: white;
+    font-size: 50px;
+    align:center;
+}
+.a1{
+    height: 50px;
+    width: 250px;
+    background: #4a83c9;
+    color: black;    
+    margin-top: 10px;
+    text-align: center;
+    border: 0px;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 0;
+}
+p {
+    color: black;
+    font-size: 20px;
+    list-style: none;
+}
+
+
+
+.btnp {
+    margin: 0;
+    display: block;float:left;margin-top:15px;margin-left:30px;
+    color: white;
+}
+
+.btnimage {
+    float:left;
+    margin-top: 15px;
+    margin-left: 10px;
+    
+}
+
+#btn2 {
+    width: 250px;
+    background: #542777;
+}
+#btn2:hover{
+    background: #78489d;
+}
+
+
+
+.btndiv {
+    display: block;
+    position: relative;
+}
+
+.btnDiv {
+    margin-top: 20px;
+}
+
+
+
+body{
+    text-align: center;
+}
+
+.linka {
+    position: absolute;
+    color: white;
+    margin: 0 auto;
+    height: auto;
+    font-size: 20px;
+    font-family: Microsoft YaHei;
+}
+
+.contentDiv {
+    display: inline;
+}
+
+.div1 {
+    
+}
+
+.content1 {
+    font-size: 25px;
+    color: #436998;
+    font-family: Microsoft YaHei;
+    width: 500px;
+    margin-top: 20px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+}
+
+.img2 {
+    height: 80%;
+    width: auto;
+}
+
+.leftSpan {
+    width: 50%;
+    display: inline;
+    text-align: center;
+    float: left;
+    position: relative;
+}
+
+.img2 {
+    display: inline;
+}
+
+.rightSpan {
+    display: inline;
+    text-align: center;
+    float: left;
+    position: relative;
+}
+
+.title1 {
+    color: 
+}
+
+.title {
+    font-weight: 700;
+    color: #436998;
+    font-family: Microsoft YaHei;
+    margin-left: -5;
+    margin-top: 30px;
+    font-size: 30px;
+    
+}
+
+@media screen and (max-width: 1000px) { 
+
+    .content1{
+        width:80%;
+        font-size: 20px;
+    }
+    .leftSpan{
+        width: 100%;
+    }
+    .rightSpan{
+        width: 100%;
+    }
+    .img1{
+        width: 100%;
+        height: auto;
+    }
+    .img2{
+        width: 70%;
+        height: auto;
+    }
+    img.logo{
+        width: 100px;
+    }
+    .titleDiv{
+        height: 300px;
+    }
+    span.subTitle{
+        font-size: 16px;
+    }
+    div.secondDiv{
+     top:-500;   
+    }
+} 
+
+@media screen and (max-height:500px){
+    div.secondDiv{
+        top:-350;
+        
+    }
+    div.rootDiv{
+      height: 600px;
+      max-height: 300%;
+    }
+}
+
+
+
+.div3 {
+    z-index: -1;
+    display: block;
+    text-align: left;
+    height: 80%;
+        position: relative;
+
+}
+
+.img3 {
+    height: auto;
+    width: 50%;
+}
+
+#btn3 {
+    background: #8ec34f;
+}
+#btn3:hover{
+    background: #abdb71;
+}
+
+#a1 {
+    background: #4a83c9;
+}
+
+#btn1 {
+    background: #4bafef;
+}
+#btn1:hover{
+    background: #70c0f3;
+}
+
+.btnimage2 {
+    max-width: 10px;
+}
+
+
+.rootDiv {
+    background-image:url('../assets/LOGIN_BACK.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    height: 100%;
+    max-height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.subTitle {
+    font-weight: 100;
+    color: white;
+    font-family: Microsoft YaHei;
+    margin-top: -15;
+    font-size: 18px;
+    opacity: 0.6;
+    
+}
+
+.a2 {
+    height: auto;
+    width: 250px;
+    margin-top: 10px;
+    text-align: center;
+    color: white;
+    border: 0px;
+    text-decoration: underline;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 0;
+}
+
+#a4 {
+    margin-top: 10;
+}
+
+.secondDiv {
+    width:100%;
+    position:absolute;
+    height:130px;
+    margin:auto;
+    top:-470;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.logo {
+    width:140px;
+}

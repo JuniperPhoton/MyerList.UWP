@@ -1,0 +1,19 @@
+<?php
+
+
+//common error define
+define('API_ERROR_DATABASE_ERROR', 100);
+define('API_ERROR_ACTION_NOTEXIST', 101);
+define('API_ERROR_ACCESS_TOKEN_INVAID', 102);
+
+//user
+define('API_ERROR_USER_NOTEXIST', 200);
+define('API_ERROR_PARM_LACK', 202);
+define('API_ERROR_USER_ALEADY_EXIST', 203);
+define('API_ERROR_USER_NOT_EXIST', 204);
+
+//schedule
+define('API_ERROR_LACK_PARAM', 300);
+define('API_ERROR_SCHEDULE_NOT_EXIST', 301);
+
+?>
