@@ -101,12 +101,12 @@
     <Grid x:Name="HamGrid" >
 
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="120"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Background="Black">
             <Image Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill"/>
-            <Border x:Name="border3" Background="Black" Opacity="0.5"/>
+            <Border x:Name="border3" Background="Black" Opacity="0.2"/>
             <StackPanel Margin="16,5" Orientation="Vertical" VerticalAlignment="Bottom">
                 <TextBlock x:Uid="AccountTB" Text="ACCOUNT" Foreground="White" FontWeight="Bold" FontFamily="Microsoft JhengHei UI"/>
                 <TextBlock Text="{x:Bind MainVM.CurrentUser.Email,Mode=OneWay}" Visibility="{x:Bind MainVM.ShowAccountInfoVisibility,Mode=OneWay}" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
@@ -116,7 +116,7 @@
             </StackPanel>
         </Grid>
        
-        <Grid Grid.Row="1" Background="White">
+        <Grid Grid.Row="1" Background="#FFF6F6F6">
                 <StackPanel Orientation="Vertical">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Margin="0,0,0,150">
                     <ListBox
@@ -162,8 +162,8 @@
                 </ScrollViewer>
                 
             </StackPanel>
-                
-            <StackPanel Grid.Row="1" Background="White" VerticalAlignment="Bottom" Margin="0">
+
+            <StackPanel Grid.Row="1" Background="#FFF6F6F6" VerticalAlignment="Bottom" Margin="0">
                 <!--<Button Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <SymbolIcon Symbol="Add" Margin="16,0,0,0"/>

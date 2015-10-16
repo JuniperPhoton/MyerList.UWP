@@ -1,7 +1,7 @@
-MainPackage=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.0.0_ARM.appx
-SymbolPackage=D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_2.2.0.0\MyerList_2.2.0.0_ARM.appxsym
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.0.0_language-zh-hans.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.0.0_scale-100.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.0.0_scale-125.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.0.0_scale-150.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.0.0_scale-400.appx
+MainPackage=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.2.0_ARM.appx
+SymbolPackage=D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_2.2.2.0\MyerList_2.2.2.0_ARM.appxsym
+ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.2.0_language-zh-hans.appx
+ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.2.0_scale-100.appx
+ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.2.0_scale-125.appx
+ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.2.0_scale-150.appx
+ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\ARM\Release\MyerList_2.2.2.0_scale-400.appx

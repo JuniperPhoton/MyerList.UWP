@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -24,10 +25,12 @@ namespace MyerList.Base
             SetUpPageAnimation();
             SetUpTitleBar();
             SetUpNavigationCache();
-
             IsTextScaleFactorEnabled = false;
         }
-
+        protected virtual void SetUpTitleBarExtend()
+        {
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+        }
         protected virtual void SetUpPageAnimation()
         {
             TransitionCollection collection = new TransitionCollection();
@@ -122,7 +125,7 @@ namespace MyerList.Base
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
+        private void CoreWindow_KeyDown(CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
             GlobalPageKeyDown(sender, args);
         }
@@ -140,7 +143,7 @@ namespace MyerList.Base
             }
             SetNavigationBackBtn();
             RegisterHandleBackLogic();
-
+            SetUpTitleBarExtend();
             //resolve global keydown
             if (GlobalPageKeyDown != null)
             {

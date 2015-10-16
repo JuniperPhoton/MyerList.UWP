@@ -37,28 +37,37 @@ namespace MyerList.UC
 
             Messenger.Default.Register<GenericMessage<ObservableCollection<ToDo>>>(this, MessengerTokens.UpdateTile, async msg =>
             {
-                if (LocalSettingHelper.GetValue("EnableTile") == "false")
+                try
                 {
-                    UpdateTileHelper.ClearAllSchedules();
-                    return;
+                    if (LocalSettingHelper.GetValue("EnableTile") == "false")
+                    {
+                        UpdateTileHelper.ClearAllSchedules();
+                        return;
+                    }
+
+                    var list = msg.Content;
+                    //var allLists = from e in list group list by e.Category;
+
+                    //if (allLists == null ) return;
+                    //var firstList = allLists.FirstOrDefault().FirstOrDefault();
+                    //List<ToDo> newList = new List<ToDo>();
+                    //foreach (var item in firstList)
+                    //{
+                    //    var newToDo = new ToDo();
+                    //    newToDo.IsDone = item.IsDone;
+                    //    newToDo.Content = item.Content;
+                    //    newList.Add(newToDo);
+                    //}
+                    //MultiWindowsHelper.ListToDisplayInNewWindow = newList;
+                    //await MultiWindowsHelper.ActiveOrCreateNewWindow(allLists.FirstOrDefault().Key, false);
+
+                    await UpdateCustomeTile(list);
                 }
-
-                var list = msg.Content;
-                var allLists = from e in list group list by e.Category;
-
-                var firstList = allLists.FirstOrDefault().FirstOrDefault();
-                List<ToDo> newList = new List<ToDo>();
-                foreach (var item in firstList)
+                catch(Exception)
                 {
-                    var newToDo = new ToDo();
-                    newToDo.IsDone = item.IsDone;
-                    newToDo.Content = item.Content;
-                    newList.Add(newToDo);
-                }
-                MultiWindowsHelper.ListToDisplayInNewWindow = newList;
-                await MultiWindowsHelper.ActiveOrCreateNewWindow(allLists.FirstOrDefault().Key, false);
 
-                await UpdateCustomeTile(list);
+                }
+                
             });
         }
 

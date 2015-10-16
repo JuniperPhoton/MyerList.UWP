@@ -10,15 +10,15 @@
 - 漂亮的动态磁贴，随时关注你的记录；
 
 
-2.1.1
+2.2.0
 -----
+（注意，锁屏/概览屏幕显示条目的功能已经完成了，但是发现这样的话，动态磁贴就会自动显示数字，不太美观，因此最后并没有加入此功能）
+
 PC 版本的“大磁贴”现已回归；
 
 在添加待办事项的时候可以直接选择类别；
 
 现在“抽屉”的侧滑可以像 Android 一样跟着手滑出；
-
-支持锁屏/概览屏幕显示；
 
 修改了应用内显示的字体为 “微软正黑”；
 
@@ -29,6 +29,8 @@ PC 版本的“大磁贴”现已回归；
 修复了已删除列表显示问题；
 
 修复了已删除项目无法还原的问题；
+
+
 
 ##
 Probably the most efficient To-Do app:
@@ -41,18 +43,21 @@ Probably the most efficient To-Do app:
 
 - Beautiful Live Tile .
 
-What's new with MyerList 2.0:
+2.2.0
+-----
 
-- Now it's an UWP app;
+Large size Live Tile has come back;
 
-- Brand New Logo;
+While adding a new memo, you can directly choose its Category.
 
-- Some improved and redesigned animation;
+Now the Drawer swiping gesture is just like Navigation Drawer in Android.
 
-- Now you can categorize your ToDos and view thems in one page;
+Change the display font of Chinese;
 
-- The PC version now supports sorting your ToDos;
+Fix the issue where Mobile version can't return to Start Screen by pressing Back Button;
 
-- keyshort support;
+Fix the issue where Mobile version can't sort;
 
-- Bugs fixed;
+Fix the issue of some UI display.
+
+Fix the issue where the deleted items can't be re-add;

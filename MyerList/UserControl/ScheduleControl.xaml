@@ -67,11 +67,9 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
-
         <Grid.RenderTransform>
             <CompositeTransform/>
         </Grid.RenderTransform>
-
         <Border x:Name="border"  BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" Background="#004BB685"/>
         <Grid x:Name="LeftSP" >
             <Grid.ColumnDefinitions>
@@ -91,7 +89,7 @@
                 </Grid>
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
-                <TextBlock FontWeight="Light" MaxWidth="350" Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="0,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left"/>
+                <TextBlock FontWeight="Light" MaxWidth="350" Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left"/>
                 <Border Background="#FF888888" Visibility="{Binding IsDone, Converter={StaticResource ShowDoneLineConverter}}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
             </Grid>
         </Grid>

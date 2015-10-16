@@ -1,1 +1,1 @@
-D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_2.2.0.0\MyerList_2.2.0.0_x86_arm.appxbundle
+D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_2.2.2.0\MyerList_2.2.2.0_x86_arm.appxbundle

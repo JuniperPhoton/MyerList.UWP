@@ -167,7 +167,7 @@ namespace MyerList.Helper
                 var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密,这是数据库存的密码
 
                 var pss = NetworkHelper.GetMd5Hash(md5, ps + salt); //加密后的密码跟盐串联再MD5加密
-               
+
                 var param = new Dictionary<string, string>()
                 {
                     {"email",email},
@@ -219,7 +219,7 @@ namespace MyerList.Helper
         /// <param name="content">内容</param>
         /// <param name="isdone">是否完成 0未完成 1完成</param>
         /// <returns>返回JSON数据</returns>
-        public async static Task<string> AddSchedule(string sid, string content, string isdone,string cate)
+        public async static Task<string> AddSchedule(string sid, string content, string isdone, string cate)
         {
             try
             {
@@ -265,7 +265,7 @@ namespace MyerList.Helper
         /// <param name="content">更新后的内容</param>
         /// <param name="cate">类别</param>
         /// <returns>成功返回True</returns>
-        public async static Task<bool> UpdateContent(string id, string content,int cate=0)
+        public async static Task<bool> UpdateContent(string id, string content, int cate = 0)
         {
             try
             {
@@ -447,7 +447,7 @@ namespace MyerList.Helper
                     JObject job = JObject.Parse(response);
                     if ((bool)job["isSuccessed"])
                     {
-                        var orderString=(string)(((job["OrderList"] as JArray).First)["list_order"]);
+                        var orderString = (string)(((job["OrderList"] as JArray).First)["list_order"]);
                         if (orderString != null)
                         {
                             return orderString;
@@ -470,7 +470,7 @@ namespace MyerList.Helper
 
         }
 
-        public async static Task<bool> SetMyOrder(string sid,string order)
+        public async static Task<bool> SetMyOrder(string sid, string order)
         {
             try
             {
@@ -519,8 +519,8 @@ namespace MyerList.Helper
             {
                 return null;
             }
-            
+
         }
     }
 }
-    
+

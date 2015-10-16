@@ -159,41 +159,87 @@
     </base:BindablePage.Resources>
 
     <Grid Background="White" >
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
-        <Grid Background="{x:Bind MainVM.CateColor,Mode=OneWay}">
-            <Grid VerticalAlignment="Bottom" MaxWidth="450" Margin="0,0,0,10">
-                <StackPanel Orientation="Horizontal">
-                    <uc:HamburgerButton x:Name="HamburgerBtn" ButtonClick="HamClick" Margin="5,0,0,0"/>
-                    <cc:AnimatedTextBlock TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="White" VerticalAlignment="Center" FontSize="26.667" Margin="5,0,0,0" HorizontalAlignment="Left" />
-                    <ProgressRing Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
-                    <Button Command="{x:Bind MainVM.SelectToDoCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" Margin="10,0,0,0">
-                        <Grid>
-                            <Image Opacity="{x:Bind MainVM.TodoIconAlpha,Mode=OneWay}" Source="ms-appx:///Assets/Icon/NAVI_TODO.png" Width="25" Height="25"/>
-                        </Grid>
-                    </Button>
-                    <Button Command="{x:Bind MainVM.SelectDeleteCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" Margin="10,0,0,0">
-                        <Grid>
-                            <Image Opacity="{x:Bind MainVM.DeleteIconAlpha,Mode=OneWay}" Source="ms-appx:///Assets/Icon/NAVI_DELETE_WHITE.png" Width="25" Height="25" />
-                        </Grid>
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </Grid>
-        <uc:LiveTileTemplate x:Name="TileControl" Grid.Row="1"/>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="C1.Width" Value="0"/>-->
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
+                            <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-260">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Drawer" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1020" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="C1.Width" Value="230"/>-->
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="-260"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase EasingMode="EaseOut"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="C1" Width="230"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>-->
+        <Grid x:Name="ContentGrid" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Background="White">
-            <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedIndex,Mode=TwoWay}" Background="White">
-                <Pivot.RenderTransform>
-                    <CompositeTransform />
-                </Pivot.RenderTransform>
-                <PivotItem Margin="0,-50,0,0" >
-                    <Grid>
-                        <ListView x:Name="DisplayedListView" Grid.Row="1"
+            <Grid Background="{x:Bind MainVM.CateColor,Mode=OneWay}">
+                <Grid VerticalAlignment="Bottom" MaxWidth="450" Margin="0,0,0,10">
+                    <StackPanel Orientation="Horizontal">
+                        <uc:HamburgerButton x:Name="HamburgerBtn" ButtonClick="HamClick" Margin="5,0,0,0"/>
+                        <cc:AnimatedTextBlock TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="White" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left" />
+                        <ProgressRing Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                        <Button Command="{x:Bind MainVM.SelectToDoCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" Margin="10,0,0,0">
+                            <Grid>
+                                <Image Opacity="{x:Bind MainVM.TodoIconAlpha,Mode=OneWay}" Source="ms-appx:///Assets/Icon/NAVI_TODO.png" Width="25" Height="25"/>
+                            </Grid>
+                        </Button>
+                        <Button Command="{x:Bind MainVM.SelectDeleteCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" Margin="10,0,0,0">
+                            <Grid>
+                                <Image Opacity="{x:Bind MainVM.DeleteIconAlpha,Mode=OneWay}" Source="ms-appx:///Assets/Icon/NAVI_DELETE_WHITE.png" Width="25" Height="25" />
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <uc:LiveTileTemplate x:Name="TileControl" Grid.Row="1"/>
+            <Grid Grid.Row="1" Background="White">
+                <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedIndex,Mode=TwoWay}" Background="White">
+                    <Pivot.RenderTransform>
+                        <CompositeTransform />
+                    </Pivot.RenderTransform>
+                    <PivotItem Margin="0,-50,0,0" >
+                        <Grid>
+                            <ListView x:Name="DisplayedListView" Grid.Row="1"
 				            ItemTemplate="{StaticResource ScheduleTemplete}"
 				            ItemsSource="{x:Bind MainVM.CurrentDisplayToDos,Mode=OneWay}" 
 				            ItemContainerStyle="{StaticResource ListViewItemStyle1}" 
@@ -206,15 +252,15 @@
                             IsItemClickEnabled="True"
                             attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"
                         />
-                        <StackPanel x:Name="stackPanel1" Orientation="Vertical"  Visibility="{x:Bind MainVM.ShowNoItems,Mode=OneWay}" Grid.RowSpan="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,100">
-                            <TextBlock x:Uid="WorkDoneTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="WORK DONE" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="Microsoft JhengHei UI"/>
-                            <TextBlock x:Uid="EnjoyTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Enjoy your day ;-)" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="Microsoft JhengHei UI"/>
-                        </StackPanel>
-                    </Grid>
-                </PivotItem>
-                <PivotItem Margin="0,-50,0,0">
-                    <Grid>
-                        <ListView
+                            <StackPanel x:Name="stackPanel1" Orientation="Vertical"  Visibility="{x:Bind MainVM.ShowNoItems,Mode=OneWay}" Grid.RowSpan="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,100">
+                                <TextBlock x:Uid="WorkDoneTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="WORK DONE" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="Microsoft JhengHei UI"/>
+                                <TextBlock x:Uid="EnjoyTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Enjoy your day ;-)" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="Microsoft JhengHei UI"/>
+                            </StackPanel>
+                        </Grid>
+                    </PivotItem>
+                    <PivotItem Margin="0,-50,0,0">
+                        <Grid>
+                            <ListView
                             ItemContainerStyle="{StaticResource ListViewItemStyle1}"
                             ItemsSource="{x:Bind MainVM.DeletedToDos,Mode=OneWay}"
                             ItemTemplate="{StaticResource DeletedTemplete}"
@@ -223,45 +269,45 @@
                             CanDragItems="False"
                             MaxWidth="450"  
                             SelectionMode="None" BorderThickness="10,0" Margin="0,30,0,50">
-                        </ListView>
-                        <StackPanel Orientation="Vertical" Visibility="{x:Bind MainVM.NoDeletedItemsVisibility,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,0,0,100">
-                            <TextBlock x:Uid="NoDeletedTB" Text="NoDeleted" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26.667" FontFamily="Microsoft JhengHei UI" Opacity="0.8" FontWeight="Light"/>
-                            <TextBlock x:Uid="DeletedHintTB" Text="Deleted items will be showed up here" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Microsoft JhengHei UI" Opacity="0.8" FontWeight="Light" TextTrimming="WordEllipsis" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
-                </PivotItem>
-            </Pivot>
-        </Grid>
-
-        <CommandBar x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" Background="#FFF1F1F1" RenderTransformOrigin="0.5,0.5">
-            <CommandBar.RenderTransform>
-                <CompositeTransform/>
-            </CommandBar.RenderTransform>
-            <AppBarButton x:Uid="AddAppbarBtn" Icon="Add" Label="添加" Command="{x:Bind MainVM.AddCommand}"/>
-            <AppBarButton x:Uid="RefreshAppbarBtn" Icon="Sync" Label="刷新" Command="{x:Bind MainVM.SyncCommand}"/>
-            <AppBarToggleButton x:Uid="ReorderAppbarBtn" Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" Label="排序" Icon="Sort" Command="{x:Bind MainVM.ToggleReorderCommand}" Style="{StaticResource AppBarToggleButtonStyle}"/>
-            <CommandBar.SecondaryCommands>
+                            </ListView>
+                            <StackPanel Orientation="Vertical" Visibility="{x:Bind MainVM.NoDeletedItemsVisibility,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,0,0,100">
+                                <TextBlock x:Uid="NoDeletedTB" Text="NoDeleted" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26.667" FontFamily="Microsoft JhengHei UI" Opacity="0.8" FontWeight="Light"/>
+                                <TextBlock x:Uid="DeletedHintTB" Text="Deleted items will be showed up here" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Microsoft JhengHei UI" Opacity="0.8" FontWeight="Light" TextTrimming="WordEllipsis" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </PivotItem>
+                </Pivot>
+            </Grid>
+            <CommandBar x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" Background="#FFF1F1F1" RenderTransformOrigin="0.5,0.5">
+                <CommandBar.RenderTransform>
+                    <CompositeTransform/>
+                </CommandBar.RenderTransform>
+                <AppBarButton x:Uid="AddAppbarBtn" Icon="Add" Label="添加" Command="{x:Bind MainVM.AddCommand}"/>
+                <AppBarButton x:Uid="RefreshAppbarBtn" Icon="Sync" Label="刷新" Command="{x:Bind MainVM.SyncCommand}"/>
+                <AppBarToggleButton x:Uid="ReorderAppbarBtn" Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" Label="排序" Icon="Sort" Command="{x:Bind MainVM.ToggleReorderCommand}" Style="{StaticResource AppBarToggleButtonStyle}"/>
+                <!--<CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="MultiWindowsAppbarBtn" Icon="FullScreen" Click="AppBarButton_Click"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-        <CommandBar x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" Background="#FFF1F1F1" RenderTransformOrigin="0.5,0.5">
-            <CommandBar.RenderTransform>
-                <CompositeTransform TranslateY="50"/>
-            </CommandBar.RenderTransform>
-            <AppBarButton x:Uid="DeleteAppBarTB" Label="排序" Icon="Delete" Command="{x:Bind MainVM.DeteteAllCommand}"/>
-        </CommandBar>
-        <Border x:Name="MaskBorder" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
-        <uc:AddingPane x:Name="AddingPane" Background="{StaticResource MyerListBlueLight}" Height="260" Grid.RowSpan="5" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <uc:AddingPane.RenderTransform>
-                <CompositeTransform TranslateY="-400"/>
-            </uc:AddingPane.RenderTransform>
-        </uc:AddingPane>
+            </CommandBar.SecondaryCommands>-->
+            </CommandBar>
+            <CommandBar x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" Background="#FFF1F1F1" RenderTransformOrigin="0.5,0.5">
+                <CommandBar.RenderTransform>
+                    <CompositeTransform TranslateY="50"/>
+                </CommandBar.RenderTransform>
+                <AppBarButton x:Uid="DeleteAppBarTB" Label="排序" Icon="Delete" Command="{x:Bind MainVM.DeteteAllCommand}"/>
+            </CommandBar>
+            <Border x:Name="MaskBorder" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
+            <uc:AddingPane x:Name="AddingPane" Background="{StaticResource MyerListBlueLight}" Height="260" Grid.RowSpan="5" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                <uc:AddingPane.RenderTransform>
+                    <CompositeTransform TranslateY="-400"/>
+                </uc:AddingPane.RenderTransform>
+            </uc:AddingPane>
+        </Grid>
         <uc:NavigationDrawer x:Name="Drawer" Width="250" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}" RenderTransformOrigin="0.5,0.5">
             <uc:NavigationDrawer.RenderTransform>
-                <CompositeTransform TranslateX="-260"/>
+                <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>
         </uc:NavigationDrawer>
-        <uc:ToastUC d:IsHidden="True" x:Name="ToastControl" Margin="0 0 0 20" Grid.RowSpan="2"/>
+        <uc:ToastUC d:IsHidden="True" Grid.ColumnSpan="2" x:Name="ToastControl" Margin="0 0 0 20" Grid.RowSpan="2"/>
         <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="10" ManipulationMode="TranslateX" ManipulationStarted="Grid_ManipulationStarted" ManipulationDelta="Grid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
     </Grid>
 </base:BindablePage>

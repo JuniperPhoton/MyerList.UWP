@@ -6,6 +6,7 @@ using MyerList.Model;
 using MyerList.ViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -112,6 +113,11 @@ namespace MyerListUWP.View
                   SlideInKey1.Value = -260;
                   SlideInKey2.Value = 0;
               });
+        }
+
+        protected override void SetUpTitleBarExtend()
+        {
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
 
         #region CommandBar
