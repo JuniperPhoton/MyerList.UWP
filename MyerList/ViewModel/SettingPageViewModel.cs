@@ -11,6 +11,11 @@ using MyerList.Interface;
 using Windows.UI.Xaml.Media;
 using JP.Utils.UI;
 using HttpReqModule;
+using GalaSoft.MvvmLight.Command;
+using DialogExt;
+using MyerList.Helper;
+using Windows.UI.Xaml.Controls;
+using MyerListUWP;
 
 namespace MyerList.ViewModel
 {
@@ -80,7 +85,7 @@ namespace MyerList.ViewModel
                 {
                     LocalSettingHelper.AddValue("EnableTile", "false");
                     IsOpen = false;
-                    UpdateTileHelper.ClearAllSchedules();
+                    HttpReqModule.UpdateTileHelper.ClearAllSchedules();
                 }
             }
         }
@@ -210,6 +215,43 @@ namespace MyerList.ViewModel
                     _showHint = value;
                 }
                 RaisePropertyChanged(() => ShowHint);
+            }
+        }
+
+        /// <summary>
+        /// 登出
+        /// </summary>
+        private RelayCommand _logoutCommand;
+        public RelayCommand LogoutCommand
+        {
+            get
+            {
+                if (_logoutCommand != null)
+                {
+                    return _logoutCommand;
+                }
+
+                return _logoutCommand = new RelayCommand(async () =>
+                {
+                    Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.CloseHam);
+
+                    ContentDialogEx cdex = new ContentDialogEx(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("LogoutContent"));
+                    cdex.LeftButtonContent = ResourcesHelper.GetString("Ok");
+                    cdex.RightButtonContent = ResourcesHelper.GetString("Cancel");
+                    cdex.OnLeftBtnClick += ((senderl, el) =>
+                    {
+                        App.IsSyncListOnce = false;
+                        LocalSettingHelper.CleanUpAll();
+                        cdex.Hide();
+                        Frame rootFrame = Window.Current.Content as Frame;
+                        if (rootFrame != null) rootFrame.Navigate(typeof(StartPage));
+                    });
+                    cdex.OnRightBtnClick += ((senderr, er) =>
+                    {
+                        cdex.Hide();
+                    });
+                    await cdex.ShowAsync();
+                });
             }
         }
 

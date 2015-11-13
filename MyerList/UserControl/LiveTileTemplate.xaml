@@ -7,7 +7,6 @@
     mc:Ignorable="d"
     d:DesignHeight="1300"
     d:DesignWidth="400">
-
     <Grid x:Name="TileGrid" Grid.Row="1">
         <Grid x:Name="LargeGrid" d:IsHidden="False"  HorizontalAlignment="Center" Height="310" VerticalAlignment="Center" Width="310" Grid.RowSpan="2" >
             <Border x:Name="LargeBackGrd" BorderThickness="0" Background="#FF47A5DD"/>
@@ -31,7 +30,7 @@
             </StackPanel>
         </Grid>
         <Grid x:Name="WideGrid" d:IsHidden="False"  HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="310" Grid.RowSpan="2" >
-            <Border x:Name="WideBackGrd" BorderThickness="0" Background="#FF6DC8FF"/>
+            <Border x:Name="WideBackGrd" BorderThickness="0" Background="White"/>
             <StackPanel Orientation="Vertical" Margin="2,27,10,7" VerticalAlignment="Top" Opacity="0.8">
                 <TextBlock x:Name="WideText0"    TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,5,0,0" FontSize="18.667" Foreground="White" Text="文本Text" />
                 <TextBlock x:Name="WideText1"    TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,2,0,0" FontSize="18.667" Foreground="White" Text="文本Text" />
@@ -46,25 +45,23 @@
                 <TextBlock x:Name="WideCount" TextWrapping="Wrap" Text="4" FontSize="29.333"  TextAlignment="Right" Foreground="White" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontWeight="SemiBold"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="MiddleGrid" d:IsHidden="False"  HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="150">
+        <Grid x:Name="MiddleGrid" d:IsHidden="True"  HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="150">
             <Border x:Name="MiddleBackGrd" BorderThickness="0" Background="{StaticResource MyerListBlueLight}"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                 <TextBlock x:Name="MiddleTitleTB" TextWrapping="NoWrap" Text="TO-DO" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,5" FontWeight="SemiBold"   FontSize="20"/>
             </StackPanel>
             <TextBlock x:Name="MiddleCount" TextWrapping="Wrap" Text="10" FontSize="33.333" FontWeight="Bold" TextAlignment="Right" Foreground="White" Margin="0,0,5,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"   Height="45"/>
             <StackPanel Orientation="Vertical" Opacity="0.8">
-                <TextBlock x:Name="MiddleText0"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,10,0,0" FontSize="18" Foreground="White"   Text="TEXT" FontFamily="Microsoft YaHei UI"/>
-                <TextBlock x:Name="MiddleText1"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" FontFamily="Microsoft YaHei UI"/>
-                <TextBlock x:Name="MiddleText2"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" FontFamily="Microsoft YaHei UI"/>
-                <TextBlock x:Name="MiddleText3"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" FontFamily="Microsoft YaHei UI"/>
+                <TextBlock x:Name="MiddleText0"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,10,0,0" FontSize="18" Foreground="White"   Text="TEXT" />
+                <TextBlock x:Name="MiddleText1"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" />
+                <TextBlock x:Name="MiddleText2"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" />
+                <TextBlock x:Name="MiddleText3"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" />
             </StackPanel>
         </Grid>
-        <Grid x:Name="SmallGrid" d:IsHidden="True"  HorizontalAlignment="Center" Height="71" VerticalAlignment="Center" Width="71" Margin="50,215" >
+        <Grid x:Name="SmallGrid" d:IsHidden="False"  HorizontalAlignment="Center" Height="71" VerticalAlignment="Center" Width="71" Margin="50,215" >
             <Border x:Name="SmallBackGrd" BorderThickness="1" Background="{StaticResource MyerListBlueLight}"/>
             <TextBlock x:Name="SmallCount" TextWrapping="Wrap" Text="3" VerticalAlignment="Center" FontSize="22.667" FontWeight="Bold" TextAlignment="Right" Foreground="White" Margin="25,0,0,0" HorizontalAlignment="Center"  />
-            <Image  HorizontalAlignment="Left" VerticalAlignment="Center" Source="ms-appx:///Assets/WHITE_500.png" Height="40" Width="40" Margin="10,0,0,0"/>
+            <!--<Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="ms-appx:///Assets/WHITE_500.png" Height="40" Width="40" Margin="10,0,0,0"/>-->
         </Grid>
-
-
     </Grid>
 </UserControl>

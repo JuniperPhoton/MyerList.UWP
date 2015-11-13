@@ -313,7 +313,7 @@ namespace MyerList.ViewModel
                         var login = await PostHelper.Login(TempEmail, InputPassword, salt);
                         if (login)
                         {
-                            App.isInOfflineMode = false;
+                            App.IsInOfflineMode = false;
 
                             LocalSettingHelper.AddValue("OfflineMode", "false");
                             return true;

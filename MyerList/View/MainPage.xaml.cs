@@ -167,7 +167,7 @@ namespace MyerListUWP.View
 
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if (_pointOriX < 10 && LocalSettingHelper.GetValue("EnableGesture") == "true")
+            if (_pointOriX < 10 && LocalSettingHelper.GetValue("EnableGesture") == "true" && !IsAddingPaneOpen)
             {
                 var transform = Drawer.RenderTransform as CompositeTransform;
                 var newX = transform.TranslateX + e.Delta.Translation.X;
@@ -261,12 +261,10 @@ namespace MyerListUWP.View
 
             if (LocalSettingHelper.GetValue("EnableBackgroundTask") == "true")
             {
-                BackgroundTaskHelper.RegisterBackgroundTask(DeviceKind.Windows);
+                BackgroundTaskHelper.RegisterBackgroundTask();
             }
 
             Frame.BackStack.Clear();
-
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -284,16 +282,16 @@ namespace MyerListUWP.View
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            List<ToDo> list = new List<ToDo>();
-            foreach(var item in MainVM.CurrentDisplayToDos)
-            {
-                var newToDo = new ToDo();
-                newToDo.IsDone = item.IsDone;
-                newToDo.Content = item.Content;
-                list.Add(newToDo);
-            }
-            MultiWindowsHelper.ListToDisplayInNewWindow = list;
-            await MultiWindowsHelper.ActiveOrCreateNewWindow(MainVM.SelectedCate,true);
+            //List<ToDo> list = new List<ToDo>();
+            //foreach(var item in MainVM.CurrentDisplayToDos)
+            //{
+            //    var newToDo = new ToDo();
+            //    newToDo.IsDone = item.IsDone;
+            //    newToDo.Content = item.Content;
+            //    list.Add(newToDo);
+            //}
+            //MultiWindowsHelper.ListToDisplayInNewWindow = list;
+            //await MultiWindowsHelper.ActiveOrCreateNewWindow(MainVM.SelectedCate,true);
         }
     }
 }

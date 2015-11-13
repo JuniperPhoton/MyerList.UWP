@@ -6,7 +6,7 @@
     <Color x:Key="ButtonPointOver">#FFE7E7E7</Color>
     <SolidColorBrush x:Key="MyerListGray">#FFF2F2F2</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListGrayLight">#FFECECEC</SolidColorBrush>
-
+    <SolidColorBrush x:Key="MyerListWhie">#FFF2F2F2</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListGrayDark">#FFE3E3E3</SolidColorBrush>
 
     <SolidColorBrush x:Key="MyerListBlue">#FF4096C9</SolidColorBrush>
@@ -22,6 +22,7 @@
     <SolidColorBrush x:Key="FamilyColor">#FFFF395F</SolidColorBrush>
     <SolidColorBrush x:Key="EnterColor">#FF55C1C1</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultColor">#FF47A5DD</SolidColorBrush>
+    <SolidColorBrush x:Key="DeletedColor">#FFa9a9a9</SolidColorBrush>
 
     <SolidColorBrush x:Key="WorkColorLight">#FF648AB8</SolidColorBrush>
     <SolidColorBrush x:Key="LifeColorLight">#FFFFC264</SolidColorBrush>

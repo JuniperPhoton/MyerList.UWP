@@ -441,4 +441,10 @@
   <data name="MultiWindowsAppbarBtn.Label" xml:space="preserve">
     <value>多窗口</value>
   </data>
+  <data name="CateDeletedTB.Text" xml:space="preserve">
+    <value>已删除</value>
+  </data>
+  <data name="CateDeleted" xml:space="preserve">
+    <value>已删除</value>
+  </data>
 </root>

@@ -374,8 +374,8 @@
                     <Button.RenderTransform>
                         <CompositeTransform TranslateY="-50"/>
                     </Button.RenderTransform>
-                    <Border BorderThickness="2" Background="Gainsboro" BorderBrush="Gainsboro">
-                        <TextBlock Text="Register" FontSize="15"  x:Uid="RegisterTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListDark}" FontFamily="Microsoft JhengHei UI"/>
+                    <Border BorderThickness="0" Background="#FF69BFF1" BorderBrush="Gainsboro">
+                        <TextBlock Text="Register" FontSize="15"  x:Uid="RegisterTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
                     </Border>
                 </Button>
                 <Button x:Name="OfflineBtn" Grid.Row="1"

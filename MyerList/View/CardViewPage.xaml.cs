@@ -109,8 +109,6 @@ namespace MyerList.View
             var color = new CateColorConverter().Convert(cate, null, null, null);
             TitleGrid.Background = (SolidColorBrush)color;
 
-            TitleBarHelper.SetUpCateTitleBar(Enum.GetName(typeof(CateColors), cate));
-
             switch (cate)
             {
                 case 0:

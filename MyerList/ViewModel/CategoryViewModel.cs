@@ -70,7 +70,7 @@ namespace MyerListUWP.ViewModel
 
         public async Task<ObservableCollection<ToDoCategory>> GetCateInfoFromLocalAsync()
         {
-            var cates= await SerializerHelper.DeserializerFromJsonByFileName<ObservableCollection<ToDoCategory>>(SerializerFileNames.CategoryFileName);
+            var cates= await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDoCategory>>(SerializerFileNames.CategoryFileName);
             return cates;
         }
     }

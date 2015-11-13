@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -38,26 +39,18 @@ namespace MyerList
 
         protected override void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpGrayTitleBar();
-        }
-
-        protected override void SetNavigationBackBtn()
-        {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            TitleBarHelper.SetUpTitleBar(Colors.Black);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+
+            TitleBarHelper.SetUpTitleBar(Colors.Black);
             Frame.BackStack.Clear();
-           
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.2);
-            timer.Tick += ((st, et) =>
-              {
-                  StartStory2.Begin();
-                  timer.Stop();
-              });
-            timer.Start();
+            
+            StartStory.BeginTime = TimeSpan.FromSeconds(0.2);
+            StartStory2.Begin();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

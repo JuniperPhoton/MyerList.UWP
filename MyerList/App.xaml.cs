@@ -39,7 +39,8 @@ namespace MyerListUWP
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         /// 
-        public static bool isInOfflineMode = false;
+        public static bool IsInOfflineMode { get; set; } = false;
+        public static bool IsSyncListOnce { get; set; } = false;
         public static bool IsNoNetwork
         {
             get
@@ -111,21 +112,21 @@ namespace MyerListUWP
                 }
                 else ApplicationLanguages.PrimaryLanguageOverride = LocalSettingHelper.GetValue("AppLang");
 
-                
-                    if (LocalSettingHelper.HasValue("email"))
-                    {
-                        rootFrame.Navigate(typeof(MainPage), LoginMode.Login);
-                    }
-                    else if (LocalSettingHelper.GetValue("OfflineMode") == "true")
-                    {
-                        App.isInOfflineMode = true;
-                        rootFrame.Navigate(typeof(MainPage), LoginMode.OfflineMode);
-                    }
-                    else
-                    {
-                        App.isInOfflineMode = false;
-                        rootFrame.Navigate(typeof(StartPage));
-                    }
+
+                if (LocalSettingHelper.HasValue("email"))
+                {
+                    rootFrame.Navigate(typeof(MainPage), LoginMode.Login);
+                }
+                else if (LocalSettingHelper.GetValue("OfflineMode") == "true")
+                {
+                    App.IsInOfflineMode = true;
+                    rootFrame.Navigate(typeof(MainPage), LoginMode.OfflineMode);
+                }
+                else
+                {
+                    App.IsInOfflineMode = false;
+                    rootFrame.Navigate(typeof(StartPage));
+                }
             }
             // Ensure the current window is active
             Window.Current.Activate();

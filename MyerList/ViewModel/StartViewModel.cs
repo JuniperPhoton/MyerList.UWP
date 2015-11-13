@@ -27,7 +27,7 @@ namespace MyerList.ViewModel
                 }
                 return _navigateToLoginCommand = new RelayCommand(() =>
                 {
-                    App.isInOfflineMode = false;
+                    App.IsInOfflineMode = false;
                     LocalSettingHelper.AddValue("OfflineMode", "false");
 
                     Frame rootFrame = Window.Current.Content as Frame;
@@ -47,7 +47,7 @@ namespace MyerList.ViewModel
                 }
                 return _navigatToRegisterCommand = new RelayCommand(() =>
                 {
-                    App.isInOfflineMode = false;
+                    App.IsInOfflineMode = false;
                     LocalSettingHelper.AddValue("OfflineMode", "false");
 
                     Frame rootFrame = Window.Current.Content as Frame;
@@ -69,7 +69,7 @@ namespace MyerList.ViewModel
                 return _navigateToOfflinemodeCommand = new RelayCommand(() =>
                 {
                     LocalSettingHelper.AddValue("OfflineMode", "true");
-                    App.isInOfflineMode = true;
+                    App.IsInOfflineMode = true;
 
                     Frame rootFrame = Window.Current.Content as Frame;
                     Task.Delay(50);

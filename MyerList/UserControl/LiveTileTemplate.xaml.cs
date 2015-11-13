@@ -46,20 +46,6 @@ namespace MyerList.UC
                     }
 
                     var list = msg.Content;
-                    //var allLists = from e in list group list by e.Category;
-
-                    //if (allLists == null ) return;
-                    //var firstList = allLists.FirstOrDefault().FirstOrDefault();
-                    //List<ToDo> newList = new List<ToDo>();
-                    //foreach (var item in firstList)
-                    //{
-                    //    var newToDo = new ToDo();
-                    //    newToDo.IsDone = item.IsDone;
-                    //    newToDo.Content = item.Content;
-                    //    newList.Add(newToDo);
-                    //}
-                    //MultiWindowsHelper.ListToDisplayInNewWindow = newList;
-                    //await MultiWindowsHelper.ActiveOrCreateNewWindow(allLists.FirstOrDefault().Key, false);
 
                     await UpdateCustomeTile(list);
                 }
@@ -98,7 +84,7 @@ namespace MyerList.UC
                 {
                     LargeBackGrd.Background = WideBackGrd.Background = MiddleBackGrd.Background = SmallBackGrd.Background = new SolidColorBrush(Colors.Transparent);
                 }
-
+                LargeBackGrd.Background = WideBackGrd.Background = new SolidColorBrush(Colors.Transparent);
 
                 List<string> undoList = new List<string>();
 
@@ -110,12 +96,6 @@ namespace MyerList.UC
                     }
                 }
 
-
-                //var badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
-                //XmlElement badgeElement = (XmlElement)badgeXml.SelectSingleNode("/badge");
-                //badgeElement.SetAttribute("value", undoList.Count.ToString());
-                //BadgeNotification badge = new BadgeNotification(badgeXml);
-                //BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(badge);
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
 
                 LargeText0.Text = WideText0.Text = MiddleText0.Text = undoList.ElementAtOrDefault(0) ?? "";
@@ -124,10 +104,10 @@ namespace MyerList.UC
                 LargeText3.Text = WideText3.Text = MiddleText3.Text = undoList.ElementAtOrDefault(3) ?? "";
 
                 LargeText4.Text = undoList.ElementAtOrDefault(4) ?? "";
-                LargeText5.Text = undoList.ElementAtOrDefault(4) ?? "";
-                LargeText6.Text = undoList.ElementAtOrDefault(4) ?? "";
-                LargeText7.Text = undoList.ElementAtOrDefault(4) ?? "";
-                LargeText8.Text = undoList.ElementAtOrDefault(4) ?? "";
+                LargeText5.Text = undoList.ElementAtOrDefault(5) ?? "";
+                LargeText6.Text = undoList.ElementAtOrDefault(6) ?? "";
+                LargeText7.Text = undoList.ElementAtOrDefault(7) ?? "";
+                LargeText8.Text = undoList.ElementAtOrDefault(8) ?? "";
 
                 LargeCount.Text = WideCount.Text = MiddleCount.Text = SmallCount.Text = undoList.Count.ToString();
 
@@ -169,15 +149,11 @@ namespace MyerList.UC
                         await UpdateTileHelper.UpdatePersonalTile(LargeGrid, WideGrid, MiddleGrid, SmallGrid, false,true);
                     }
                 }
-
             }
             catch (Exception e)
             {
                 var task = ExceptionHelper.WriteRecord(e);
-
             }
-
         }
-
     }
 }

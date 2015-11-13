@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Text;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,7 +30,7 @@ namespace MyerList.Base
         }
         protected virtual void SetUpTitleBarExtend()
         {
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
         protected virtual void SetUpPageAnimation()
         {
@@ -50,7 +51,7 @@ namespace MyerList.Base
 
         protected virtual void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpCateTitleBar(CateColors.DefaultColor.ToString());
+            TitleBarHelper.SetUpTitleBar(Colors.White);
         }
 
         protected virtual void SetUpStatusBar()
@@ -60,7 +61,7 @@ namespace MyerList.Base
 
         protected virtual void SetNavigationBackBtn()
         {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         protected virtual void RegisterHandleBackLogic()
@@ -93,7 +94,6 @@ namespace MyerList.Base
             {
                 Debug.WriteLine(e.Message);
             }
-
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -144,6 +144,8 @@ namespace MyerList.Base
             SetNavigationBackBtn();
             RegisterHandleBackLogic();
             SetUpTitleBarExtend();
+            Window.Current.SetTitleBar(null);
+            TitleBarHelper.SetUpTitleBar(Colors.White);
             //resolve global keydown
             if (GlobalPageKeyDown != null)
             {

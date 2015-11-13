@@ -15,42 +15,20 @@ namespace MyerListUWP.Helper
         WorkColor,
         LifeColor,
         FamilyColor,
-        EnterColor
+        EnterColor,
+        DeletedColor
     }
     public static class TitleBarHelper
     {
-        public static void SetUpGrayTitleBar()
+        public static void SetUpTitleBar(Color foreColor)
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = (App.Current.Resources["MyerListGray"] as SolidColorBrush).Color;
-            titleBar.ForegroundColor = Colors.Black;
-            titleBar.InactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.InactiveForegroundColor = Colors.Black;
-            titleBar.ButtonBackgroundColor = (App.Current.Resources["MyerListGray"] as SolidColorBrush).Color;
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.ButtonInactiveForegroundColor = Colors.Black;
-            titleBar.ButtonHoverBackgroundColor = (App.Current.Resources["MyerListGrayLight"] as SolidColorBrush).Color;
-            titleBar.ButtonHoverForegroundColor = Colors.Black;
-            titleBar.ButtonPressedBackgroundColor = (App.Current.Resources["MyerListGrayDark"] as SolidColorBrush).Color;
-        }
-
-        public static void SetUpCateTitleBar(string color)
-        {
-            if (string.IsNullOrEmpty(color)) return;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = (App.Current.Resources[color.ToString()] as SolidColorBrush).Color;
-            titleBar.ForegroundColor = Colors.White;
-            titleBar.InactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.InactiveForegroundColor = Colors.White;
-            titleBar.ButtonBackgroundColor = (App.Current.Resources[color.ToString()] as SolidColorBrush).Color;
-            titleBar.ButtonForegroundColor = Colors.White;
-            titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.ButtonInactiveForegroundColor = Colors.White;
-            titleBar.ButtonHoverBackgroundColor = (App.Current.Resources[color.ToString()+"Light"] as SolidColorBrush).Color;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonPressedBackgroundColor = (App.Current.Resources[color.ToString()+"Dark"] as SolidColorBrush).Color;
-            titleBar.ButtonPressedForegroundColor = Colors.Black;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = foreColor;
+            titleBar.ButtonHoverBackgroundColor = (new SolidColorBrush(new Color() {A=50,R=255,G=255,B=255 })).Color;
+            titleBar.ButtonPressedBackgroundColor = (new SolidColorBrush(new Color() { A = 20, R = 255, G = 255, B = 255 })).Color;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveForegroundColor = (new SolidColorBrush(new Color() { A = 50, R = 255, G = 255, B = 255 })).Color;
         }
 
         public static void SetUpBlackTitleBar()

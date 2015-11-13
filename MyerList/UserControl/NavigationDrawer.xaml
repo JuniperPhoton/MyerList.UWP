@@ -97,9 +97,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-
     <Grid x:Name="HamGrid" >
-
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
             <RowDefinition />
@@ -115,16 +113,14 @@
                 </Button>
             </StackPanel>
         </Grid>
-       
         <Grid Grid.Row="1" Background="#FFF6F6F6">
-                <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Margin="0,0,0,150">
                     <ListBox
                         SelectedIndex="{x:Bind MainVM.SelectedCate,Mode=TwoWay}"  
                         ItemContainerStyle="{StaticResource MenuListBoxItemStyle}" 
                         Background="{x:Null}"
                         attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.SelectCateCommand}">
-                        
                         <ListBox.Items>
                             <Button IsHitTestVisible="False" Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="0" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
@@ -156,11 +152,15 @@
                                     <TextBlock x:Uid="CateEnterTB" Text="Entertainment" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI"/>
                                 </StackPanel>
                             </Button>
-
+                            <Button  IsHitTestVisible="False"  Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="5"  Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50">
+                                <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
+                                    <Ellipse Width="20" Height="20" Fill="{StaticResource DeletedColor}"/>
+                                    <TextBlock x:Uid="CateDeletedTB" Text="Entertainment" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI"/>
+                                </StackPanel>
+                            </Button>
                         </ListBox.Items>
                     </ListBox>
                 </ScrollViewer>
-                
             </StackPanel>
 
             <StackPanel Grid.Row="1" Background="#FFF6F6F6" VerticalAlignment="Bottom" Margin="0">
@@ -182,15 +182,7 @@
                         <TextBlock x:Uid="AboutTB" Text="ABOUT" VerticalAlignment="Center" Margin="20,0,0,0" FontFamily="Microsoft JhengHei UI"/>
                     </StackPanel>
                 </Button>
-                <Button Command="{x:Bind MainVM.LogoutCommand}" HorizontalContentAlignment="Stretch" Style="{StaticResource ListButtonStyle}"  BorderThickness="0" HorizontalAlignment="Stretch" Height="50" Margin="0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <SymbolIcon Symbol="Contact" Margin="16,0,0,0"/>
-                        <TextBlock x:Uid="LogoutTB"  Text="LOGOUT" VerticalAlignment="Center" Margin="20,0,0,0" FontFamily="Microsoft JhengHei UI"/>
-                    </StackPanel>
-                </Button>
             </StackPanel>
         </Grid>
-
     </Grid>
-
 </UserControl>

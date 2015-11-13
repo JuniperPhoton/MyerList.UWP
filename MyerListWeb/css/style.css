@@ -320,3 +320,7 @@ body{
     display: block;float:left;margin-top:15px;margin-left:30px;
     color: white;
 }
+
+#p1 {
+    text-align: center;
+}

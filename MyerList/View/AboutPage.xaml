@@ -1,4 +1,4 @@
-﻿<base:BindablePage
+﻿<base:CustomTitleBarPage
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MyerList"
@@ -11,10 +11,10 @@
     >
     <Grid Background="#FFF2F2F2">
         <Image Source="ms-appx:///Assets/back2.png" Stretch="UniformToFill" Opacity="0.02"/>
-        <ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto">
             <StackPanel VerticalAlignment="Center">
                 <Image MaxHeight="200" Source="ms-appx:///Assets/SOLID_WHITE_500.png" Margin="0,0,0,10"/>
-                <StackPanel x:Name="stackPanel" RenderTransformOrigin="0.5,0.5" Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <StackPanel x:Name="stackPanel" DoubleTapped="stackPanel_DoubleTapped" RenderTransformOrigin="0.5,0.5" Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <TextBlock Text="Myer" FontSize="35" FontWeight="Light"  FontFamily="Microsoft JhengHei UI"  Foreground="{StaticResource MyerListBlueLight}" />
                     <TextBlock Text="List" FontSize="35" FontWeight="Bold"  FontFamily="Microsoft JhengHei UI"  Foreground="{StaticResource MyerListBlueLight}"/>
                 </StackPanel>
@@ -53,4 +53,4 @@
             </StackPanel>
         </ScrollViewer>
     </Grid>
-</base:BindablePage>
+</base:CustomTitleBarPage>

@@ -108,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Base\BindablePage.cs" />
+    <Compile Include="Base\CustomTitleBarPage.cs" />
     <Compile Include="Common\BooleanNegationConverter.cs" />
     <Compile Include="Common\BooleanToVisibilityConverter.cs" />
     <Compile Include="Common\ObservableDictionary.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Helper\ResourcesHelper.cs" />
     <Compile Include="Helper\StatusBarHelper.cs" />
     <Compile Include="Helper\TitleBarHelper.cs" />
+    <Compile Include="Interface\ICanGoBack.cs" />
     <Compile Include="Interface\INavigable.cs" />
     <Compile Include="Model\AddMode.cs" />
     <Compile Include="Model\LoginMode.cs" />
@@ -152,6 +154,9 @@
     </Compile>
     <Compile Include="UserControl\ScheduleControl.xaml.cs">
       <DependentUpon>ScheduleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\TitleBarUC.xaml.cs">
+      <DependentUpon>TitleBarUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\ToastControl.xaml.cs">
       <DependentUpon>ToastControl.xaml</DependentUpon>
@@ -312,6 +317,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControl\TitleBarUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControl\ToastControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -354,13 +363,17 @@
       <Project>{5d4b47df-d685-4fe9-9ad4-ebc3fc812e2c}</Project>
       <Name>ContentDialogEx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\JP.Utils\JP.Utils.csproj">
-      <Project>{7e22106b-24ab-49b3-b09d-255cc07fc159}</Project>
-      <Name>JP.Utils</Name>
+    <ProjectReference Include="..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
+      <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
+      <Name>JP.Utils.UWP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CloudService\CloudServiceModel.csproj">
+    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.vcxproj">
+      <Project>{56df5d9a-057e-418f-9702-de07ee283a4d}</Project>
+      <Name>BackgroundTasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudService\CloudService.csproj">
       <Project>{cf48ac98-e3ae-426a-8411-66ed3e2e59ed}</Project>
-      <Name>CloudServiceModel</Name>
+      <Name>CloudService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

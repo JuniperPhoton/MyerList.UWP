@@ -250,10 +250,10 @@
     <value>RETRY</value>
   </data>
   <data name="SettingContent" xml:space="preserve">
-    <value>SETTING</value>
+    <value>SETTINGS</value>
   </data>
   <data name="SettingTB.Text" xml:space="preserve">
-    <value>SETTING</value>
+    <value>SETTINGS</value>
   </data>
   <data name="SignUpContent" xml:space="preserve">
     <value>Sign up to sync your todos</value>
@@ -440,5 +440,11 @@
   </data>
   <data name="MultiWindowsAppbarBtn.Label" xml:space="preserve">
     <value>MultiWindow</value>
+  </data>
+  <data name="CateDeletedTB.Text" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="CateDeleted" xml:space="preserve">
+    <value>Deleted</value>
   </data>
 </root>

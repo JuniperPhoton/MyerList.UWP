@@ -61,7 +61,6 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-
     <Grid x:Name="SchduleTempleteGrid"  Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -114,6 +113,5 @@
                 <SymbolIcon x:Name="symbolIcon" Symbol="Sort" Foreground="#FFC2C2C2"/>
             </Button>
         </Grid>
-
     </Grid>
 </UserControl>

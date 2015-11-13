@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Navigation;
 namespace MyerList
 {
 
-    public sealed partial class LoginPage : BindablePage
+    public sealed partial class LoginPage : CustomTitleBarPage
     {
         public LoginViewModel LoginVM;
         public LoginPage()
@@ -54,18 +54,10 @@ namespace MyerList
             }
         }
 
-        protected override void SetUpTitleBar()
-        {
-            TitleBarHelper.SetUpGrayTitleBar();
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            
             Messenger.Default.Send(new GenericMessage<string>(""), "ClearInfo");
         }
-
-
     }
 }

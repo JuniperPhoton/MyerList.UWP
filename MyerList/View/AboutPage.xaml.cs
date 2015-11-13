@@ -1,5 +1,8 @@
 ﻿using ChaoFunctionRT;
+using JP.Utils.Debug;
+using JP.Utils.Helper;
 using MyerList.Base;
+using MyerList.Helper;
 using MyerListUWP;
 using MyerListUWP.Helper;
 using System;
@@ -7,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Email;
 using Windows.ApplicationModel.Store;
 using Windows.Foundation;
@@ -29,7 +33,7 @@ using Windows.UI.Xaml.Navigation;
 namespace MyerList
 {
     
-    public sealed partial class AboutPage : BindablePage
+    public sealed partial class AboutPage : CustomTitleBarPage
     {
         public AboutPage()
         {
@@ -48,11 +52,6 @@ namespace MyerList
             this.Transitions = collection;
         }
 
-        protected override void SetUpTitleBar()
-        {
-            TitleBarHelper.SetUpGrayTitleBar();
-        }
-
         private async void FeedbackClick(object sender,RoutedEventArgs e)
         {
             try
@@ -63,16 +62,14 @@ namespace MyerList
                 mes.Subject = "MyerList for Windows 10 feedback";
                 await EmailManager.ShowComposeNewEmailAsync(mes);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-
+                var task = ExceptionHelper.WriteRecord(ex, nameof(AboutPage), nameof(FeedbackClick));
             }
         }
 
         private async void RateClick(object sender, RoutedEventArgs e)
         {
-            //await Launcher.LaunchUriAsync(
-            //                 new Uri("ms-windows-store:reviewapp?appid=31eb52eb-aaee-43d9-b573-22ee91490502"));
             await Launcher.LaunchUriAsync(
                   new Uri("ms-windows-store://review/?ProductId=9nblggh11k1m"));
         }
@@ -80,8 +77,34 @@ namespace MyerList
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            TitleBarHelper.SetUpGrayTitleBar();
+            if(DeviceHelper.IsDesktop)
+            {
+                this.TitleBarUC.SetForegroundColor(Colors.Black);
+                TitleBarHelper.SetUpTitleBar(Colors.Black);
+            }
+            else
+            {
+                StatusBarHelper.SetUpStatusBar("MyerListGrayLight");
+            }
         }
 
+        private async void stackPanel_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            try
+            {
+                var msg = await ExceptionHelper.ReadRecord();
+                var task=ExceptionHelper.EraseRecord();
+                EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
+                EmailMessage mes = new EmailMessage();
+                mes.To.Add(rec);
+                mes.Subject = "MyerList for Windows 10 exception";
+                mes.Body += msg;
+                await EmailManager.ShowComposeNewEmailAsync(mes);
+            }
+            catch (Exception ex)
+            {
+                var task = ExceptionHelper.WriteRecord(ex, nameof(AboutPage), nameof(stackPanel_DoubleTapped));
+            }
+        }
     }
 }

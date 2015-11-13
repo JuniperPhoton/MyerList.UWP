@@ -33,10 +33,6 @@ namespace MyerListUWP.View
             this.InitializeComponent();
         }
 
-        protected override void SetUpTitleBar()
-        {
-            TitleBarHelper.SetUpGrayTitleBar();
-        }
 
         protected override void SetNavigationBackBtn()
         {
@@ -52,12 +48,12 @@ namespace MyerListUWP.View
             }
             else if (LocalSettingHelper.GetValue("OfflineMode") == "true")
             {
-                App.isInOfflineMode = true;
+                App.IsInOfflineMode = true;
                 Frame.Navigate(typeof(MainPage), LoginMode.OfflineMode);
             }
             else
             {
-                App.isInOfflineMode = false;
+                App.IsInOfflineMode = false;
                 Frame.Navigate(typeof(StartPage));
             }
         }

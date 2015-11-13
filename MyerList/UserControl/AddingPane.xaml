@@ -188,7 +188,6 @@
                             <ItemsStackPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-
                     <ListBox.Items>
                         <Button IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}"  Background="{x:Null}" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="30" Height="30">
                             <Ellipse Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource DefaultColorLight}" Stroke="{StaticResource DefaultColorDark}" StrokeThickness="2"/>
@@ -207,17 +206,16 @@
                         </Button>
                     </ListBox.Items>
                 </ListBox>
-
             </StackPanel>
-            <TextBox x:Uid="AddContentBox" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0" BorderBrush="{x:Bind MainVM.CateColorDark,Mode=OneWay}" Style="{StaticResource TextBoxStyle}" FontFamily="Microsoft JhengHei UI" SelectionHighlightColor="{StaticResource DefaultColor}"/>
+            <TextBox x:Uid="AddContentBox" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="Microsoft JhengHei UI" SelectionHighlightColor="{StaticResource DefaultColor}"/>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Button Command="{x:Bind MainVM.OkCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}">
-                    <Grid Width="100" Height="35" Background="{x:Bind MainVM.CateColorLight,Mode=OneWay}" BorderBrush="{x:Bind MainVM.CateColorLight,Mode=OneWay}" BorderThickness="2">
+                    <Grid Width="100" Height="35" Background="#33FFFFFF"  BorderThickness="3" BorderBrush="#33FFFFFF">
                         <TextBlock x:Uid="OKBtnTB" Text="确认" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontFamily="Microsoft JhengHei UI" />
                     </Grid>
                 </Button>
                 <Button Command="{x:Bind MainVM.CancelCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" >
-                    <Grid Width="100" Height="35" Background="{x:Bind MainVM.CateColor,Mode=OneWay}" BorderBrush="{x:Bind MainVM.CateColorLight,Mode=OneWay}" BorderThickness="2">
+                    <Grid Width="100" Height="35" Background="Transparent"   BorderThickness="2" BorderBrush="#33FFFFFF">
                         <TextBlock x:Uid="CancelBtnTB" Text="取消" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
                     </Grid>
                 </Button>

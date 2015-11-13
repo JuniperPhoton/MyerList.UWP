@@ -1,4 +1,6 @@
-﻿using MyerList.Base;
+﻿using JP.Utils.Helper;
+using MyerList.Base;
+using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListUWP;
 using MyerListUWP.Helper;
@@ -26,7 +28,7 @@ using Windows.UI.Xaml.Navigation;
 namespace MyerList
 {
 
-    public sealed partial class SettingPage : BindablePage
+    public sealed partial class SettingPage : CustomTitleBarPage
     {
         private SettingPageViewModel SettingVM
         {
@@ -55,7 +57,12 @@ namespace MyerList
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            TitleBarHelper.SetUpCateTitleBar("DefaultColor");
+
+            if(DeviceHelper.IsMobile)
+            {
+                StatusBarHelper.SetUpBlueStatusBar();
+            }
         }
+
     }
 }
