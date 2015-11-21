@@ -15,7 +15,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#FF47A5DD">
+        <Grid Background="{StaticResource MyerListBlue}" Margin="0 -30 0 0">
             <Grid MaxWidth="550">
                 <TextBlock x:Uid="SettingTB"  FontFamily="Microsoft JhengHei UI"  Text="SETTINGS" Foreground="White" FontSize="26.667" VerticalAlignment="Bottom" Margin="10,0,0,10" FontWeight="Bold" HorizontalAlignment="Left"/>
             </Grid>

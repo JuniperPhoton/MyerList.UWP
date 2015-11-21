@@ -2,13 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     >
-
+    <Color x:Key="CommandBarGrey">#FFF1F1F1</Color>
     <Color x:Key="ButtonPointOver">#FFE7E7E7</Color>
     <SolidColorBrush x:Key="MyerListGray">#FFF2F2F2</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListGrayLight">#FFECECEC</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListWhie">#FFF2F2F2</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListGrayDark">#FFE3E3E3</SolidColorBrush>
-
+    <SolidColorBrush x:Key="CommandBarColor">#FFF1F1F1</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListBlue">#FF4096C9</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListBlueLight">#FF47A5DD</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListLight">White</SolidColorBrush>

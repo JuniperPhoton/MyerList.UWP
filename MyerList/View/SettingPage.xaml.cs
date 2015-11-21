@@ -42,25 +42,13 @@ namespace MyerList
             this.InitializeComponent();
         }
 
-        protected override void SetUpPageAnimation()
-        {
-            TransitionCollection collection = new TransitionCollection();
-            NavigationThemeTransition theme = new NavigationThemeTransition();
-
-            var info = new ContinuumNavigationTransitionInfo();
-   
-            theme.DefaultNavigationTransitionInfo = info;
-            collection.Add(theme);
-            this.Transitions = collection;
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             if(DeviceHelper.IsMobile)
             {
-                StatusBarHelper.SetUpBlueStatusBar();
+                //StatusBarHelper.SetUpBlueStatusBar();
             }
         }
 

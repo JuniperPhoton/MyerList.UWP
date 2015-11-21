@@ -12,10 +12,10 @@ using Windows.UI.Xaml.Media;
 using JP.Utils.UI;
 using HttpReqModule;
 using GalaSoft.MvvmLight.Command;
-using DialogExt;
 using MyerList.Helper;
 using Windows.UI.Xaml.Controls;
 using MyerListUWP;
+using MyerListCustomControl;
 
 namespace MyerList.ViewModel
 {
@@ -235,10 +235,10 @@ namespace MyerList.ViewModel
                 {
                     Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.CloseHam);
 
-                    ContentDialogEx cdex = new ContentDialogEx(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("LogoutContent"));
+                    DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("LogoutContent"));
                     cdex.LeftButtonContent = ResourcesHelper.GetString("Ok");
                     cdex.RightButtonContent = ResourcesHelper.GetString("Cancel");
-                    cdex.OnLeftBtnClick += ((senderl, el) =>
+                    cdex.OnLeftBtnClick += ((str) =>
                     {
                         App.IsSyncListOnce = false;
                         LocalSettingHelper.CleanUpAll();
@@ -246,7 +246,7 @@ namespace MyerList.ViewModel
                         Frame rootFrame = Window.Current.Content as Frame;
                         if (rootFrame != null) rootFrame.Navigate(typeof(StartPage));
                     });
-                    cdex.OnRightBtnClick += ((senderr, er) =>
+                    cdex.OnRightBtnClick += (() =>
                     {
                         cdex.Hide();
                     });

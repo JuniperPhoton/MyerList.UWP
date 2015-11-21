@@ -1,7 +1,2 @@
-MainPackage=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.0.0_x86.appx
-SymbolPackage=D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_2.3.0.0\MyerList_2.3.0.0_x86.appxsym
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.0.0_language-zh-hans.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.0.0_scale-100.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.0.0_scale-125.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.0.0_scale-150.appx
-ResourcePack=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.0.0_scale-400.appx
+MainPackage=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_2.3.2.0_x86.appx
+SymbolPackage=D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_2.3.2.0\MyerList_2.3.2.0_x86.appxsym

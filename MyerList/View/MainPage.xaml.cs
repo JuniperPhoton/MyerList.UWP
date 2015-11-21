@@ -162,7 +162,7 @@ namespace MyerListUWP.View
         {
             _pointOriX = e.Position.X;
             MaskBorder.Visibility = Visibility.Visible;
-            MaskBorder.Opacity = 0.1;
+            MaskBorder.Opacity = 0;
         }
 
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -174,7 +174,7 @@ namespace MyerListUWP.View
                 if(newX<0) transform.TranslateX = newX;
                 if (newX > -100) _isDrawerSlided = true;
 
-                if(MaskBorder.Opacity<0.5) MaskBorder.Opacity += e.Delta.Translation.X > 0 ? 0.05 : -0.05;
+                if(MaskBorder.Opacity<0.5) MaskBorder.Opacity += e.Delta.Translation.X > 0 ? 0.005 : -0.005;
             }
         }
 
@@ -196,8 +196,7 @@ namespace MyerListUWP.View
                 SlideOutKey2.Value = MaskBorder.Opacity;
                 SlideOutStory.Begin();
                 HamburgerBtn.PlayHamOutStory();
-            }
-            
+            }     
         }
 
         #endregion
@@ -279,19 +278,5 @@ namespace MyerListUWP.View
         }
 
         #endregion
-
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //List<ToDo> list = new List<ToDo>();
-            //foreach(var item in MainVM.CurrentDisplayToDos)
-            //{
-            //    var newToDo = new ToDo();
-            //    newToDo.IsDone = item.IsDone;
-            //    newToDo.Content = item.Content;
-            //    list.Add(newToDo);
-            //}
-            //MultiWindowsHelper.ListToDisplayInNewWindow = list;
-            //await MultiWindowsHelper.ActiveOrCreateNewWindow(MainVM.SelectedCate,true);
-        }
     }
 }

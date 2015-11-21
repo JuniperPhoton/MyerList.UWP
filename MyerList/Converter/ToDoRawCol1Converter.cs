@@ -13,7 +13,7 @@ namespace MyerList.Converter
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var visibility = (Visibility)value;
-            if (visibility == Visibility.Visible) return new GridLength(30);
+            if (visibility == Visibility.Visible) return new GridLength(20);
             else return new GridLength(0);
         }
 

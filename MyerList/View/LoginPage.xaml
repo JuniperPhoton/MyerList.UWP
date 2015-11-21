@@ -5,136 +5,79 @@
     xmlns:local="using:MyerList"
     xmlns:uc="using:MyerList.UC"
     xmlns:base="using:MyerList.Base"
+    xmlns:triggers="using:JP.CustomTriggers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Background="{StaticResource MyerListGray}">
-    <base:BindablePage.Resources>
-        <Storyboard x:Name="BackStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="image">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="border">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="BackBtn">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="stackPanel">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="grid1">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ToastControl">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0.3"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="BackBtn">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid1">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-    </base:BindablePage.Resources>
-    
     <Grid Background="{StaticResource MyerListGray}">
-
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="1.5*"/>
-        </Grid.RowDefinitions>
-        <Image x:Name="image" Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0,-35,0,0" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <CompositeTransform/>
-            </Image.RenderTransform>
-        </Image>
-        <Border x:Name="border" Background="Black" Opacity="0.3" RenderTransformOrigin="0.5,0.5" Margin="0,-35,0,0">
-            <Border.RenderTransform>
-                <CompositeTransform/>
-            </Border.RenderTransform>
-        </Border>
-
-        <StackPanel x:Name="stackPanel" MaxWidth="600" Orientation="Vertical" VerticalAlignment="Bottom" Margin="0,0,0,20" RenderTransformOrigin="0.5,0.5">
-            <StackPanel.RenderTransform>
-                <CompositeTransform/>
-            </StackPanel.RenderTransform>
-            <TextBlock HorizontalAlignment="Left" FontWeight="Bold" TextWrapping="Wrap" Text="{x:Bind LoginVM.Title,Mode=OneWay}"  VerticalAlignment="Center" Foreground="{StaticResource MyerListGray}" FontSize="33.333" Margin="10,150,0,0" FontFamily="Microsoft JhengHei UI" />
-            <TextBlock x:Uid="LoginHintTB" x:Name="LoginHint" HorizontalAlignment="Left" FontWeight="Light" TextWrapping="Wrap" Text="Login to sync your todos"  VerticalAlignment="Center" Foreground="{StaticResource MyerListGray}" FontSize="20" Margin="10,10,0,0" FontFamily="Microsoft JhengHei UI" />
-
-
-        </StackPanel>
-        <Grid x:Name="grid" MaxWidth="600" Margin="0" Grid.Row="1" RenderTransformOrigin="0.5,0.5" >
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
-
-            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-                <TextBox x:Uid="Emailbox"  InputScope="EmailSmtpAddress" Margin="10,30,10,0" Text="{x:Bind LoginVM.TempEmail, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="2" PlaceholderText="Email" BorderBrush="{x:Null}" BorderThickness="2" Background="White" Padding="10,3,10,5" FontFamily="Microsoft JhengHei UI"/>
-                <PasswordBox x:Uid="PasswordBox" Margin="10,20,10,0" Password="{x:Bind LoginVM.InputPassword, Mode=TwoWay}" VerticalAlignment="Center" Grid.Row="3" PlaceholderText="Password" BorderBrush="{x:Null}" BorderThickness="2" Background="White"/>
-                <PasswordBox x:Uid="ConfirmBox" Visibility="{x:Bind LoginVM.ShowRegister,Mode=OneWay}" Margin="10,20,10,0" Password="{x:Bind LoginVM.ConfirmPassword, Mode=TwoWay}" VerticalAlignment="Center" Grid.Row="4" PlaceholderText="Confirm Password" BorderBrush="{x:Null}" BorderThickness="2" Background="{x:Null}"/>
-                <Button Height="40" 
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Top" 
-                        Grid.Row="5" 
-                        BorderBrush="{x:Null}" 
-                        BorderThickness="0" 
-                        Margin="10,20,10,0" 
-                        Command="{x:Bind LoginVM.NextCommand}"
-                        Style="{StaticResource ButtonCommonStyle}">
-                    <Border Background="{StaticResource MyerListBlueLight}">
-                        <TextBlock Text="{x:Bind LoginVM.BtnContent,Mode=OneWay}" Foreground="{StaticResource MyerListGray}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI"/>
-                    </Border>
-                </Button>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Desktop"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainBorder.Margin" Value="20 0 20 0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Mobile"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainBorder.Margin" Value="20 0 20 100"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Image x:Name="Image" Grid.RowSpan="2"  Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0,-35,0,0" RenderTransformOrigin="0.5,0.5"/>
+        <Border x:Name="MaskBorder" Grid.RowSpan="2" Background="Black" Opacity="0.3" RenderTransformOrigin="0.5,0.5" Margin="-30"/>
+        <Border x:Name="MainBorder" Margin="20 0 20 0" MaxWidth="600" VerticalAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0" BorderBrush="#FF515151">
+            <StackPanel Background="White"   VerticalAlignment="Center">
+                <Grid Height="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Column="0" Fill="{StaticResource LifeColor}"/>
+                    <Rectangle Grid.Column="1" Fill="{StaticResource WorkColor}"/>
+                    <Rectangle Grid.Column="2" Fill="{StaticResource FamilyColor}"/>
+                    <Rectangle Grid.Column="3" Fill="{StaticResource EnterColor}"/>
+                </Grid>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0" RenderTransformOrigin="0.5,0.5">
+                    <TextBlock HorizontalAlignment="Left" FontWeight="Bold" TextWrapping="Wrap" Text="{x:Bind LoginVM.Title,Mode=OneWay}"  VerticalAlignment="Center" Foreground="Black" FontSize="23" Margin="10,20,0,0" FontFamily="Microsoft JhengHei UI" />
+                    <TextBlock x:Uid="LoginHintTB" x:Name="LoginHint" HorizontalAlignment="Left" FontWeight="Light" TextWrapping="Wrap" Text="Login to sync your todos"  VerticalAlignment="Center" Foreground="#9A000000" FontSize="15" Margin="10,10,10,20" FontFamily="Microsoft JhengHei UI" />
+                </StackPanel>
+                <Grid Margin="0,10,0,0" Grid.Row="1" RenderTransformOrigin="0.5,0.5" >
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <TextBox x:Uid="Emailbox" IsSpellCheckEnabled="False" BorderThickness="0"  InputScope="EmailSmtpAddress" Margin="10,10,10,0" Text="{x:Bind LoginVM.TempEmail, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="2" PlaceholderText="Email" BorderBrush="{x:Null}" Background="White" Padding="10,3,10,5" FontFamily="Microsoft JhengHei UI"/>
+                        <PasswordBox x:Uid="PasswordBox" Margin="10,20,10,0" Password="{x:Bind LoginVM.InputPassword, Mode=TwoWay}" VerticalAlignment="Center" Grid.Row="3" PlaceholderText="Password" BorderBrush="{x:Null}" BorderThickness="0" Background="White"/>
+                        <PasswordBox x:Uid="ConfirmBox" BorderThickness="0" Visibility="{x:Bind LoginVM.ShowRegister,Mode=OneWay}" Margin="10,20,10,0" Password="{x:Bind LoginVM.ConfirmPassword, Mode=TwoWay}" VerticalAlignment="Center" Grid.Row="4" PlaceholderText="Confirm Password" BorderBrush="{x:Null}"  Background="{x:Null}"/>
+                        <Button Height="40" 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Top" 
+                            Grid.Row="5" 
+                            BorderBrush="{x:Null}" 
+                            BorderThickness="0" 
+                            Margin="20" 
+                            Command="{x:Bind LoginVM.NextCommand}"
+                            Style="{StaticResource ButtonCommonStyle}">
+                            <Border Background="{StaticResource MyerListBlueLight}">
+                                <TextBlock Text="{x:Bind LoginVM.BtnContent,Mode=OneWay}" Foreground="{StaticResource MyerListGray}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI"/>
+                            </Border>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
-            
-        </Grid>
-        <HyperlinkButton NavigateUri="http://121.41.21.21/privacy.html" FontSize="20" Foreground="{StaticResource MyerListBlue}" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" Margin="10,0,10,10" Grid.Row="1">
-            <HyperlinkButton.RenderTransform>
-                <CompositeTransform/>
-            </HyperlinkButton.RenderTransform>
-            <Border BorderThickness="0,0,0,1" BorderBrush="#FF767676" VerticalAlignment="Bottom">
-                <TextBlock x:Uid="Privacy" Text="Privacy Note" FontWeight="Light" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Right" FontFamily="Microsoft JhengHei UI" />
-            </Border>
-        </HyperlinkButton>
-        <Grid x:Name="grid1" d:IsHidden="True" Visibility="{x:Bind LoginVM.IsLoading,Mode=OneWay}" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" >
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
+        </Border>
+        <Grid d:IsHidden="True" Margin="-40" Visibility="{x:Bind LoginVM.IsLoading,Mode=OneWay}" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" >
             <Border Background="Black" Opacity="0.7"/>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="50" Foreground="{StaticResource MyerListLight}" Height="50" Background="{x:Null}" />
                 <TextBlock x:Uid="LoadingTB" Text="Loading" TextAlignment="Center" FontSize="26.667" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
             </StackPanel>
-
         </Grid>
         <uc:ToastUC x:Name="ToastControl" d:IsHidden="True"  Grid.RowSpan="3" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
             <uc:ToastUC.RenderTransform>

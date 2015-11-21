@@ -15,13 +15,13 @@ using JP.Utils.Debug;
 using MyerList.Interface;
 using MyerListUWP;
 using MyerListUWP.Model;
-using DialogExt;
 using MyerListUWP.Helper;
 using System.Diagnostics;
 using MyerListUWP.ViewModel;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
 using Windows.UI;
+using MyerListCustomControl;
 
 namespace MyerList.ViewModel
 {
@@ -280,17 +280,17 @@ namespace MyerList.ViewModel
                 if (_loginCommand != null) return _loginCommand;
                 return _loginCommand = new RelayCommand(async() =>
                  {
-                     ContentDialogEx cdex = new ContentDialogEx(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("SignUpContent"));
+                     DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("SignUpContent"));
                      cdex.LeftButtonContent = ResourcesHelper.GetString("Register");
                      cdex.RightButtonContent = ResourcesHelper.GetString("Login");
-                     cdex.OnLeftBtnClick += ((senderl, el) =>
+                     cdex.OnLeftBtnClick += ((s) =>
                        {
                            App.IsSyncListOnce = false;
                            var rootFrame = Window.Current.Content as Frame;
                            rootFrame.Navigate(typeof(LoginPage),LoginMode.OfflineModeToRegister);
                            cdex.Hide();
                        });
-                     cdex.OnRightBtnClick += ((senderr, er) =>
+                     cdex.OnRightBtnClick += (() =>
                        {
                            App.IsSyncListOnce = false;
                            var rootFrame = Window.Current.Content as Frame;
@@ -820,10 +820,10 @@ namespace MyerList.ViewModel
                 return _deleteAllCommand = new RelayCommand(async () =>
                  {
                      if (DeletedToDos.Count == 0) return;
-                     ContentDialogEx cdex = new ContentDialogEx(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("DeleteAllConfirm"));
+                     DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("DeleteAllConfirm"));
                      cdex.LeftButtonContent = ResourcesHelper.GetString("Ok");
                      cdex.RightButtonContent = ResourcesHelper.GetString("Cancel");
-                     cdex.OnLeftBtnClick += (async (sender, e) =>
+                     cdex.OnLeftBtnClick += (async (s) =>
                        {
                            DeletedToDos.Clear();
                            await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName, true);
@@ -1148,11 +1148,14 @@ namespace MyerList.ViewModel
                 //加载滚动条
                 IsLoading = Visibility.Visible;
 
+                var isSyncOK = false;
+
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromSeconds(3.2);
                 timer.Tick += ((sendert, et) =>
                 {
-                    IsLoading = Visibility.Collapsed;
+                    if(isSyncOK)
+                        IsLoading = Visibility.Collapsed;
                     timer.Stop();
                 });
                 timer.Start();
@@ -1176,6 +1179,7 @@ namespace MyerList.ViewModel
                     await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName, true);
                 }
 
+                IsLoading = Visibility.Collapsed;
 
                 //最后更新动态磁贴
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
@@ -1403,9 +1407,9 @@ namespace MyerList.ViewModel
 
                         if (mode == LoginMode.OfflineModeToLogin|| mode==LoginMode.OfflineModeToRegister) await AddAllToDos();
 
+                        await RestoreData(true);
                         await SyncAllToDos();
                         CurrentDisplayToDos = MyToDos;
-                        var resotreTask = RestoreData(false);
                     }
                 }
                 //处于离线模式

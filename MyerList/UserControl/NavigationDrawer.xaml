@@ -99,7 +99,7 @@
     </UserControl.Resources>
     <Grid x:Name="HamGrid" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"/>
+            <RowDefinition Height="150"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Background="Black">

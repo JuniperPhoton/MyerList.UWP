@@ -40,18 +40,6 @@ namespace MyerList
             this.InitializeComponent();
         }
 
-        protected override void SetUpPageAnimation()
-        {
-            TransitionCollection collection = new TransitionCollection();
-            NavigationThemeTransition theme = new NavigationThemeTransition();
-
-            var info = new ContinuumNavigationTransitionInfo();
-            
-            theme.DefaultNavigationTransitionInfo = info;
-            collection.Add(theme);
-            this.Transitions = collection;
-        }
-
         private async void FeedbackClick(object sender,RoutedEventArgs e)
         {
             try
@@ -84,7 +72,7 @@ namespace MyerList
             }
             else
             {
-                StatusBarHelper.SetUpStatusBar("MyerListGrayLight");
+                //StatusBarHelper.SetUpStatusBar("MyerListGrayLight");
             }
         }
 

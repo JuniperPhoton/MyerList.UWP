@@ -6,8 +6,9 @@
     xmlns:uc="using:MyerList.UC"
     xmlns:base="using:MyerList.Base"
     xmlns:attach="using:JP.Utils.Framework"
-    xmlns:cc="using:JP.Utils.UI"
+    xmlns:cc="using:MyerListCustomControl"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:triggers="using:JP.CustomTriggers"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -166,6 +167,8 @@
                     <VisualState.Setters>
                     </VisualState.Setters>
                     <Storyboard>
+                        <ColorAnimation To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
+                        <ColorAnimation To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
                             <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
                             <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-260">
@@ -180,6 +183,10 @@
                             <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TitleTB">
+                            <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ProgressRing">
                             <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
                             <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                         </DoubleAnimationUsingKeyFrames>
@@ -200,6 +207,8 @@
                     <VisualState.Setters>
                     </VisualState.Setters>
                     <Storyboard>
+                        <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
+                        <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
                             <EasingDoubleKeyFrame KeyTime="0" Value="-260"/>
                             <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
@@ -216,6 +225,10 @@
                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                             <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
                         </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ProgressRing">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
+                        </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HamburgerBtn">
                             <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
                             <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
@@ -228,13 +241,33 @@
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Desktop"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DisplayedListView.MaxWidth" Value="550"/>
+                        <Setter Target="ContentGrid.MaxWidth" Value="550"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Mobile"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DisplayedListView.MaxWidth" Value="450"/>
+                        <Setter Target="ContentGrid.MaxWidth" Value="450"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Grid.Column="1"  >
+        <Grid Grid.Column="1"  Margin="0 -30 0 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="120"/>
+                <RowDefinition Height="150"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Background="{x:Bind MainVM.CateColor,Mode=OneWay}">
+            <Grid  Background="{x:Bind MainVM.CateColor,Mode=OneWay}">
                 <Grid x:Name="ContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,10">
                     <StackPanel Orientation="Horizontal">
                         <uc:HamburgerButton x:Name="HamburgerBtn" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5">
@@ -247,7 +280,11 @@
                                 <CompositeTransform/>
                             </cc:AnimatedTextBlock.RenderTransform>
                         </cc:AnimatedTextBlock>
-                        <ProgressRing Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                        <ProgressRing x:Name="ProgressRing" Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0">
+                            <ProgressRing.RenderTransform>
+                                <CompositeTransform/>
+                            </ProgressRing.RenderTransform>
+                        </ProgressRing>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -269,7 +306,7 @@
 				                    ItemContainerStyle="{StaticResource ListViewItemStyle1}" 
 				                    MaxWidth="450"  
                                     SelectionMode="None" 
-                                    Margin="10,20,0,50"
+                                    Margin="0,20,0,50"
                                     CanReorderItems="False"
                                     AllowDrop="False"
                                     CanDragItems="False"
@@ -303,7 +340,15 @@
                     </Pivot>
                 </Grid>
             </Grid>
-            <CommandBar x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" Background="#FFF1F1F1" RenderTransformOrigin="0.5,0.5">
+            <!--<cc:FloatingActionButton x:Name="DefaultCommandBar" PrimaryButtonCommand="{x:Bind MainVM.AddCommand}" Grid.RowSpan="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="30">
+                <cc:FloatingActionButton.RenderTransform>
+                    <CompositeTransform/>
+                </cc:FloatingActionButton.RenderTransform>
+            </cc:FloatingActionButton>-->
+            <CommandBar x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+                <CommandBar.Background>
+                    <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
+                </CommandBar.Background>
                 <CommandBar.RenderTransform>
                     <CompositeTransform/>
                 </CommandBar.RenderTransform>
@@ -311,20 +356,23 @@
                 <AppBarButton x:Uid="RefreshAppbarBtn" Icon="Sync" Label="刷新" Command="{x:Bind MainVM.SyncCommand}"/>
                 <AppBarToggleButton x:Uid="ReorderAppbarBtn" Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" Label="排序" Icon="Sort" Command="{x:Bind MainVM.ToggleReorderCommand}" Style="{StaticResource AppBarToggleButtonStyle}"/>
             </CommandBar>
-            <CommandBar x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" Background="#FFF1F1F1" RenderTransformOrigin="0.5,0.5">
+            <CommandBar x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+                <CommandBar.Background>
+                    <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
+                </CommandBar.Background>
                 <CommandBar.RenderTransform>
                     <CompositeTransform TranslateY="50"/>
                 </CommandBar.RenderTransform>
                 <AppBarButton x:Uid="DeleteAppBarTB" Label="排序" Icon="Delete" Command="{x:Bind MainVM.DeteteAllCommand}"/>
             </CommandBar>
-            <Border x:Name="MaskBorder" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
+            <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
             <uc:AddingPane x:Name="AddingPane" Background="{StaticResource MyerListBlueLight}" Height="260" Grid.RowSpan="5" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                 <uc:AddingPane.RenderTransform>
                     <CompositeTransform TranslateY="-400"/>
                 </uc:AddingPane.RenderTransform>
             </uc:AddingPane>
         </Grid>
-        <uc:NavigationDrawer x:Name="Drawer" Width="250" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}" RenderTransformOrigin="0.5,0.5">
+        <uc:NavigationDrawer x:Name="Drawer" Width="250" Margin="0 -30 0 0" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}" RenderTransformOrigin="0.5,0.5">
             <uc:NavigationDrawer.RenderTransform>
                 <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>

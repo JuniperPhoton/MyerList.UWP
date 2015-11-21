@@ -61,7 +61,7 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid"  Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="SchduleTempleteGrid"  Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="30"/>
@@ -77,18 +77,23 @@
             </Grid.ColumnDefinitions>
             <Button
                     Visibility="{Binding MainVM.ShowCategory,Mode=OneWay,Source={StaticResource Locator}}"
-                    Width="30"
+                    Width="20"
+                    Padding="0"
                     Style="{StaticResource ButtonCommonStyle}"
                     Command="{Binding MainVM.ChangeCateCommand,Mode=OneWay, Source={StaticResource Locator}}"
                     CommandParameter="{Binding ID}"
                     Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
                     <Border Background="White" Opacity="0.001"/>
-                    <Ellipse Width="15" Height="15" Fill="{Binding Category,Converter={StaticResource CateColorConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Ellipse Width="15" Height="15" Fill="{Binding Category,Converter={StaticResource CateColorConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
-                <TextBlock FontWeight="Light" MaxWidth="350" Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left"/>
+                <TextBlock FontWeight="Light"  Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left">
+                    <ToolTipService.ToolTip>
+                        <TextBlock Text="{Binding Content}" Margin="5" TextWrapping="Wrap"/>
+                    </ToolTipService.ToolTip>
+                </TextBlock>
                 <Border Background="#FF888888" Visibility="{Binding IsDone, Converter={StaticResource ShowDoneLineConverter}}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
@@ -96,17 +101,17 @@
             <Grid.Clip>
                 <RectangleGeometry Rect="0 0 30 30"/>
             </Grid.Clip>
-            <Button x:Name="button"  Style="{StaticResource ButtonCommonStyle}" 
+            <Button x:Name="button" MinHeight="0" MinWidth="0" Padding="0" Margin="0" Style="{StaticResource ButtonCommonStyle}" 
                 Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding ID}" HorizontalAlignment="Center" Background="{x:Null}" Grid.Column="2" RenderTransformOrigin="0.5,0.5">
+                CommandParameter="{Binding ID}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
                 <Button.RenderTransform>
                     <CompositeTransform/>
                 </Button.RenderTransform>
-                <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2"/>
+                <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
             </Button>
-            <Button x:Name="button1" IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" 
+            <Button x:Name="button1" Padding="0" Margin="0" IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" 
                 Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding ID}" HorizontalAlignment="Center" Background="{x:Null}" Margin="0,4" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
+                CommandParameter="{Binding ID}" HorizontalAlignment="Center" Background="{x:Null}" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
                 <Button.RenderTransform>
                     <CompositeTransform TranslateX="30"/>
                 </Button.RenderTransform>
