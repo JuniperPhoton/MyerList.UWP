@@ -4,16 +4,14 @@ using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using JP.Utils.Debug;
 using JP.Utils.Functions;
-using JP.Utils.Network;
 using MyerList.Helper;
 using MyerList.Interface;
 using MyerList.Model;
+using MyerListCustomControl;
 using MyerListUWP;
 using MyerListUWP.View;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
@@ -156,20 +154,16 @@ namespace MyerList.ViewModel
                     IsLoading = Visibility.Visible;
                     try
                     {
-                        var loader = new ResourceLoader();
-
                         if (string.IsNullOrEmpty(TempEmail) || string.IsNullOrEmpty(InputPassword))
                         {
-                            Messenger.Default.Send(new GenericMessage<string>(loader.GetString("InputAlert")), "toast");
-                            
+                            await ToastService.SendToastAsync(ResourcesHelper.GetString("InputAlert"));
                             IsLoading = Visibility.Collapsed;
                             return;
                         }
 
                         if (!Functions.IsValidEmail(TempEmail))
                         {
-                            Messenger.Default.Send(new GenericMessage<string>(loader.GetString("EmailInvaild")), "toast");
-
+                            await ToastService.SendToastAsync(ResourcesHelper.GetString("EmailInvaild"));
                             IsLoading = Visibility.Collapsed;
                             return;
                         }
@@ -180,7 +174,7 @@ namespace MyerList.ViewModel
                            
                             if (InputPassword != ConfirmPassword)
                             {
-                                Messenger.Default.Send(new GenericMessage<string>(loader.GetString("PasswordInvaild")), "toast");
+                                await ToastService.SendToastAsync(ResourcesHelper.GetString("PasswordInvaild"));
 
                                 IsLoading = Visibility.Collapsed;
                                 return;
@@ -188,7 +182,7 @@ namespace MyerList.ViewModel
                             var isRegisterSuccessfully = await Register();
                             if (!isRegisterSuccessfully)
                             {
-                                Messenger.Default.Send(new GenericMessage<string>(loader.GetString("AccountExist")), "toast");
+                                await ToastService.SendToastAsync(ResourcesHelper.GetString("AccountExist"));
                                 IsLoading = Visibility.Collapsed;
                             }
                             else
@@ -266,13 +260,13 @@ namespace MyerList.ViewModel
                 var check = await PostHelper.CheckExist(TempEmail);
                 if (check)
                 {
-                    Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(loader.GetString("EmailExistContent")), "toast");
+                    Messenger.Default.Send(new GenericMessage<string>(loader.GetString("EmailExistContent")), "toast");
 
                     IsLoading = Visibility.Collapsed;
                     return false;
                 }
                 string salt = await PostHelper.Register(TempEmail, InputPassword);
-                if (!String.IsNullOrEmpty(salt))
+                if (!string.IsNullOrEmpty(salt))
                 {
                     LocalSettingHelper.AddValue("email", TempEmail);
                     LocalSettingHelper.AddValue("password", InputPassword);
@@ -280,75 +274,66 @@ namespace MyerList.ViewModel
                 }
                 else
                 {
-                    Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(loader.GetString("RegisterFailedContent")), "toast");
+                    Messenger.Default.Send(new GenericMessage<string>(loader.GetString("RegisterFailedContent")), "toast");
 
                     IsLoading = Visibility.Collapsed;
                     return false;
                 }
             }
-            catch (Exception e)
+            catch(COMException)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
                 return false;
             }
-
         }
 
         private async Task<bool> Login()
         {
             try
             {
-
-                var loader = new ResourceLoader();
-
                 IsLoading = Visibility.Visible;
 
                 var check = await PostHelper.CheckExist(TempEmail);
                 if (check)
                 {
                     string salt = await PostHelper.GetSalt(TempEmail);
-                    if (!String.IsNullOrEmpty(salt))
+                    if (!string.IsNullOrEmpty(salt))
                     {
                         //尝试登录
                         var login = await PostHelper.Login(TempEmail, InputPassword, salt);
                         if (login)
                         {
                             App.IsInOfflineMode = false;
-
                             LocalSettingHelper.AddValue("OfflineMode", "false");
                             return true;
                         }
                         else
                         {
-                            Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(loader.GetString("NotCorrectContent")), "toast");
-
+                            await ToastService.SendToastAsync(ResourcesHelper.GetString("NotCorrectContent"));
                             IsLoading = Visibility.Collapsed;
                             return false;
                         }
                     }
                     else
                     {
-                        Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(loader.GetString("NotCorrectContent")), "toast");
-
+                        await ToastService.SendToastAsync(ResourcesHelper.GetString("NotCorrectContent"));
                         IsLoading = Visibility.Collapsed;
                         return false;
                     }
-
                 }
                 else
                 {
-                    Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(loader.GetString("AccountNotExistContent")), "toast");
-
+                    await ToastService.SendToastAsync(ResourcesHelper.GetString("AccountNotExistContent"));
                     IsLoading = Visibility.Collapsed;
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (COMException)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                IsLoading = Visibility.Collapsed;
                 return false;
             }
-
         }
 
         private void ToLoginMode()
@@ -363,11 +348,8 @@ namespace MyerList.ViewModel
         private void ToRegisterMode()
         {
             ShowRegister = Visibility.Visible;
-
-            var loader = new ResourceLoader();
-            Title = loader.GetString("Register");
-            BtnContent = loader.GetString("Register");
-
+            Title = ResourcesHelper.GetString("Register");
+            BtnContent = ResourcesHelper.GetString("Register");
         }
 
         public void Activate(object param)

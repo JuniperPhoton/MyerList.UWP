@@ -533,4 +533,47 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="local:ToastService">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ToastService">
+                    <Grid x:Name="RootGrid">
+                        <Grid.Resources>
+                            <Storyboard x:Name="PlayStory">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="border">
+                                    <EasingDoubleKeyFrame KeyTime="0" Value="40"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <CircleEase EasingMode="EaseOut"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1.3" Value="50"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+                                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <CircleEase EasingMode="EaseOut"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1.3" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </Grid.Resources>
+                        <Border x:Name="border" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 30">
+                            <Border.RenderTransform>
+                                <CompositeTransform/>
+                            </Border.RenderTransform>
+                            <Grid>
+                                <Border Background="#FF47A5DD" CornerRadius="2" Opacity="0.8"/>
+                                <TextBlock x:Name="ContentTB" FontSize="18.667" Margin="20,10" Text="{TemplateBinding ContentText}" Foreground="White"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

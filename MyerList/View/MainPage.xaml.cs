@@ -4,6 +4,7 @@ using MyerList.Base;
 using MyerList.Helper;
 using MyerList.Model;
 using MyerList.ViewModel;
+using MyerListCustomControl;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -61,10 +62,6 @@ namespace MyerListUWP.View
             };
             BindingOperations.SetBinding(this, IsAddingPaneOpenProperty, b);
 
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.ToastToken, msg =>
-            {
-                ToastControl.ShowMessage(msg.Content);
-            });
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CloseHam, msg =>
             {
                 if (_isDrawerSlided)
@@ -82,14 +79,13 @@ namespace MyerListUWP.View
             {
                 SwitchCommandBarToDefault.Begin();
             });
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, act =>
+            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, async act =>
             {
                 DisplayedListView.CanDragItems = true;
                 DisplayedListView.CanReorderItems = true;
                 DisplayedListView.AllowDrop = true;
                 DisplayedListView.IsItemClickEnabled = false;
-
-                ToastControl.ShowMessage(ResourcesHelper.GetString("ReorderHint"));
+                await ToastService.SendToastAsync(ResourcesHelper.GetString("ReorderHint"));
             });
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.LeaveSort, act =>
             {

@@ -38,63 +38,7 @@ namespace MyerList
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;
                 StatusBar.GetForCurrentView().ForegroundColor = Colors.White;
             }
-
-            Messenger.Default.Register<GenericMessage<string>>(this, "toast", act =>
-            {
-                var msg = act.Content;
-                ToastControl.ShowMessage(msg);
-            });
         }
-
-        //#region BackGrdImage
-
-        //private CanvasBitmap bitmapTiger;
-        //private ICanvasImage effect;
-
-        //private void Canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
-        //{
-        //    args.TrackAsyncAction(Canvas_CreateResourcesAsync(sender).AsAsyncAction());
-        //}
-
-        //private async Task Canvas_CreateResourcesAsync(CanvasControl sender)
-        //{
-        //    bitmapTiger = await CanvasBitmap.LoadAsync(sender, new Uri("ms-appx:///Assets/loginbackgrd.jpg"));
-
-        //    effect = CreateGaussianBlur();
-        //}
-
-        //private ICanvasImage CreateGaussianBlur()
-        //{
-        //    var blurEffect = new GaussianBlurEffect
-        //    {
-        //        Source = bitmapTiger,
-        //        BorderMode = EffectBorderMode.Hard,
-        //        BlurAmount =0
-        //    };
-        //    return blurEffect;
-        //}
-        //private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
-        //{
-        //    var size = sender.Size;
-        //    var scale = size.Width / size.Height;
-        //    var ds = args.DrawingSession;
-
-        //    ds.DrawImage(effect,
-        //        new Rect(0, 0, size.Width, size.Height),
-        //        new Rect(0, 0,
-        //            size.Width,
-        //            size.Height));
-        //}
-
-        //private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    if (canvas.ReadyToDraw)
-        //    {
-        //        canvas.Invalidate();
-        //    }
-        //}
-
-        //#endregion
 
         private void LoginPage_KeyDown(object sender, KeyRoutedEventArgs e)
         {

@@ -7,6 +7,8 @@ using System.Text;
 using System.Linq;
 using ChaoFunctionRT;
 using JP.Utils.Debug;
+using Windows.ApplicationModel.Resources;
+using MyerList.Helper;
 
 namespace MyerList.Model
 {
@@ -74,6 +76,24 @@ namespace MyerList.Model
                 RaisePropertyChanged(()=>Content);
             }
         }
+
+        private string _createTime;
+        public string CreateTime
+        {
+            get
+            {
+                return _createTime;
+            }
+            set
+            {
+                if (_createTime != value)
+                {
+                    _createTime = value;
+                    RaisePropertyChanged(() => CreateTime);
+                }
+            }
+        }
+
 
         private int _order;
         public int Order
@@ -173,9 +193,16 @@ namespace MyerList.Model
                     {
                         ToDo newSchedule = new ToDo();
 
+                        var timeString = (string)sch["time"];
+                        DateTime time;
+                        if (DateTime.TryParse(timeString, out time))
+                        {
+                            newSchedule.CreateTime = time.ToString();
+                        }
+                        else newSchedule.CreateTime = ResourcesHelper.GetString("UnknownTime");
+
                         newSchedule.ID = (string)sch["id"];
                         newSchedule.SID = (string)sch["sid"];
-
                         newSchedule.Content = (string)sch["content"];
                         newSchedule.IsDone = (string)sch["isdone"] != "0";
                         newSchedule.Category = (int)sch["cate"];

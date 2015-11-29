@@ -79,10 +79,5 @@
                 <TextBlock x:Uid="LoadingTB" Text="Loading" TextAlignment="Center" FontSize="26.667" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
             </StackPanel>
         </Grid>
-        <uc:ToastUC x:Name="ToastControl" d:IsHidden="True"  Grid.RowSpan="3" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
-            <uc:ToastUC.RenderTransform>
-                <CompositeTransform/>
-            </uc:ToastUC.RenderTransform>
-        </uc:ToastUC>
     </Grid>
 </base:CustomTitleBarPage>

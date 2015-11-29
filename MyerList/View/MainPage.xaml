@@ -377,7 +377,6 @@
                 <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>
         </uc:NavigationDrawer>
-        <uc:ToastUC d:IsHidden="True" Grid.ColumnSpan="2" x:Name="ToastControl" Margin="0 0 0 20" Grid.RowSpan="2"/>
         <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="10" ManipulationMode="TranslateX" ManipulationStarted="Grid_ManipulationStarted" ManipulationDelta="Grid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
     </Grid>
 </base:BindablePage>

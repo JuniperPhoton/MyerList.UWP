@@ -7,6 +7,8 @@ using JP.Utils.Network;
 using JP.Utils.Debug;
 using JP.Utils.Data;
 using Newtonsoft.Json.Linq;
+using JP.API;
+using System.Runtime.InteropServices;
 
 namespace MyerList.Helper
 {
@@ -33,17 +35,14 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"email",email},
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("email", email));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.UserCheckExist, new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserCheckExist, param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return false;
                     }
@@ -65,8 +64,7 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
-                return false;
+                throw;
             }
         }
 
@@ -83,17 +81,14 @@ namespace MyerList.Helper
                 var md5 = MD5.Create();
                 var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密
 
-                var param = new Dictionary<string, string>()
-                {
-                    {"email",email},
-                    {"password",ps},
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("email", email));
+                param.Add(new KeyValuePair<string, string>("password", ps));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.UserRegisterUri, new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserRegisterUri, param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
+                    var response = result.JsonSrc;
                     if (String.IsNullOrEmpty(response))
                     {
                         return null;
@@ -126,16 +121,13 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>
-                {
-                    {"email",email }
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("email", email));
 
-                HttpClient client = new HttpClient();
-                var message = await client.PostAsync(UrlHelper.UserGetSalt, new FormUrlEncodedContent(param));
-                if (message.IsSuccessStatusCode)
+                var message = await APIHelper.SendPostRequestAsync(UrlHelper.UserGetSalt, param);
+                if (message.IsSuccessful)
                 {
-                    var content = await message.Content.ReadAsStringAsync();
+                    var content = message.JsonSrc;
                     JObject job = JObject.Parse(content);
                     if ((bool)job["isSuccessed"])
                     {
@@ -165,21 +157,16 @@ namespace MyerList.Helper
             {
                 var md5 = MD5.Create();
                 var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密,这是数据库存的密码
+                var psplussalt = NetworkHelper.GetMd5Hash(md5, ps + salt); //加密后的密码跟盐串联再MD5加密
 
-                var pss = NetworkHelper.GetMd5Hash(md5, ps + salt); //加密后的密码跟盐串联再MD5加密
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("email", email));
+                param.Add(new KeyValuePair<string, string>("password", psplussalt));
 
-                var param = new Dictionary<string, string>()
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserLoginUri, param);
+                if (result.IsSuccessful)
                 {
-                    {"email",email},
-                    {"password",pss},
-                };
-                Debug.WriteLine(pss);
-
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.UserLoginUri, new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
-                {
-                    var response = await messsage.Content.ReadAsStringAsync();
+                    var response = result.JsonSrc;
                     if (String.IsNullOrEmpty(response))
                     {
                         return false;
@@ -223,21 +210,19 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"sid",sid},
-                    {"time",DateTime.Now.ToString()},
-                    {"content",content},
-                    {"isdone",isdone},
-                    {"cate",cate }
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("sid", sid));
+                param.Add(new KeyValuePair<string, string>("time", DateTime.Now.ToString()));
+                param.Add(new KeyValuePair<string, string>("content", content));
+                param.Add(new KeyValuePair<string, string>("isdone", isdone));
+                param.Add(new KeyValuePair<string, string>("cate", cate));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleAddUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return null;
                     }
@@ -265,22 +250,21 @@ namespace MyerList.Helper
         /// <param name="content">更新后的内容</param>
         /// <param name="cate">类别</param>
         /// <returns>成功返回True</returns>
-        public async static Task<bool> UpdateContent(string id, string content, int cate = 0)
+        public async static Task<bool> UpdateContent(string id, string content, string time, int cate = 0)
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"content",content},
-                    {"id",id},
-                    {"cate",cate.ToString() }
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("content", content));
+                param.Add(new KeyValuePair<string, string>("id", id));
+                param.Add(new KeyValuePair<string, string>("cate", cate.ToString()));
+                param.Add(new KeyValuePair<string, string>("time", time));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleUpdateUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
+                    var response = result.JsonSrc;
                     if (String.IsNullOrEmpty(response))
                     {
                         return false;
@@ -312,18 +296,17 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"isdone",isdone},
-                    {"id",id}
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("id", id));
+                param.Add(new KeyValuePair<string, string>("isdone", isdone));
 
                 HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleFinishUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return false;
                     }
@@ -353,17 +336,15 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"id",id}
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("id", id));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleDeleteUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return false;
                     }
@@ -393,17 +374,15 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"sid",sid}
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("sid", sid));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleGetUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return null;
                     }
@@ -430,17 +409,16 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"sid",sid}
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("sid", sid));
 
                 HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return null;
                     }
@@ -474,25 +452,22 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new Dictionary<string, string>()
-                {
-                    {"sid",sid},
-                    {"order",order}
-                };
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("sid", sid));
+                param.Add(new KeyValuePair<string, string>("order", order));
 
-                HttpClient client = new HttpClient();
-                var messsage = await client.PostAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"), new FormUrlEncodedContent(param));
-                if (messsage.IsSuccessStatusCode)
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param);
+                if (result.IsSuccessful)
                 {
-                    var response = await messsage.Content.ReadAsStringAsync();
-                    if (String.IsNullOrEmpty(response))
+                    var response = result.JsonSrc;
+                    if (string.IsNullOrEmpty(response))
                     {
                         return false;
                     }
                     JObject job = JObject.Parse(response);
                     if ((bool)job["isSuccessed"]) return true;
                     else return false;
-
                 }
                 else
                 {
@@ -504,22 +479,19 @@ namespace MyerList.Helper
                 var task = ExceptionHelper.WriteRecord(e);
                 return false;
             }
-
         }
 
         public async static Task<string> GetCateInfo()
         {
             try
             {
-                HttpClient client = new HttpClient();
-                var response = await client.GetAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}");
-                return await response.Content.ReadAsStringAsync();
+                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}");
+                return response.JsonSrc;
             }
             catch (Exception)
             {
                 return null;
             }
-
         }
     }
 }

@@ -16,22 +16,17 @@ using MyerList.Interface;
 using MyerListUWP;
 using MyerListUWP.Model;
 using MyerListUWP.Helper;
-using System.Diagnostics;
 using MyerListUWP.ViewModel;
-using Windows.UI.ViewManagement;
-using Windows.UI.Core;
-using Windows.UI;
 using MyerListCustomControl;
+using System.Runtime.InteropServices;
 
 namespace MyerList.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
-
         private AddMode _addMode = AddMode.None;
 
         #region 汉堡包/类别/导航
-
         /// <summary>
         /// 选择了的类别
         /// </summary>
@@ -214,7 +209,6 @@ namespace MyerList.ViewModel
         #endregion
 
         #region 账号
-
         /// <summary>
         ///是否显示要求登录按钮
         /// </summary>
@@ -278,7 +272,7 @@ namespace MyerList.ViewModel
             get
             {
                 if (_loginCommand != null) return _loginCommand;
-                return _loginCommand = new RelayCommand(async() =>
+                return _loginCommand = new RelayCommand(async () =>
                  {
                      DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("SignUpContent"));
                      cdex.LeftButtonContent = ResourcesHelper.GetString("Register");
@@ -287,7 +281,7 @@ namespace MyerList.ViewModel
                        {
                            App.IsSyncListOnce = false;
                            var rootFrame = Window.Current.Content as Frame;
-                           rootFrame.Navigate(typeof(LoginPage),LoginMode.OfflineModeToRegister);
+                           rootFrame.Navigate(typeof(LoginPage), LoginMode.OfflineModeToRegister);
                            cdex.Hide();
                        });
                      cdex.OnRightBtnClick += (() =>
@@ -305,7 +299,6 @@ namespace MyerList.ViewModel
         #endregion
 
         #region CommandBar
-
         public Visibility ShowSortButton
         {
             get
@@ -331,6 +324,7 @@ namespace MyerList.ViewModel
                 RaisePropertyChanged(() => IsLoading);
             }
         }
+
         /// <summary>
         /// 点击+号添加新的待办事项
         /// </summary>
@@ -386,25 +380,22 @@ namespace MyerList.ViewModel
                   });
             }
         }
-
         #endregion
 
         #region 添加/修改面板
-
         private bool _showPaneOpen;
         public bool ShowPaneOpen
         {
             get
             {
-                return  _showPaneOpen;
+                return _showPaneOpen;
             }
             set
             {
-                 _showPaneOpen = value;
+                _showPaneOpen = value;
                 RaisePropertyChanged(() => ShowPaneOpen);
             }
         }
-
 
         /// <summary>
         /// 对话框显示的标题
@@ -440,7 +431,6 @@ namespace MyerList.ViewModel
                 }
             }
         }
-
 
         /// <summary>
         /// 添加/修改待办事项时候的“完成”
@@ -480,7 +470,6 @@ namespace MyerList.ViewModel
         #endregion
 
         #region 待办事项列表本身
-
         public Visibility ShowCategory
         {
             get
@@ -607,7 +596,7 @@ namespace MyerList.ViewModel
                 {
                     string id = (string)param;
                     await CompleteTodo(id);
-                    
+
                 });
             }
         }
@@ -695,7 +684,7 @@ namespace MyerList.ViewModel
                     _isInSortMode = value;
                     RaisePropertyChanged(() => IsInSortMode);
 
-                    if(!App.IsSyncListOnce)
+                    if (!App.IsSyncListOnce)
                     {
                         return;
                     }
@@ -833,8 +822,6 @@ namespace MyerList.ViewModel
                  });
             }
         }
-
-
         #endregion
 
         #region 抽屉底部命令
@@ -852,7 +839,6 @@ namespace MyerList.ViewModel
                 });
             }
         }
-
 
         /// <summary>
         /// 跳到 About 页面
@@ -893,9 +879,6 @@ namespace MyerList.ViewModel
                 });
             }
         }
-
-    
-
         #endregion
 
         public MainViewModel()
@@ -922,7 +905,7 @@ namespace MyerList.ViewModel
             SelectedIndex = 0;
             TodoIconAlpha = 1;
             DeleteIconAlpha = 0.3;
-            Title = ResourcesHelper.GetString("ToDoPivotItem");
+            Title = ResourcesHelper.GetString("CateDefault");
 
             //完成ToDo
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CheckToDo, act =>
@@ -932,11 +915,11 @@ namespace MyerList.ViewModel
             });
 
             //删除To-Do
-            Messenger.Default.Register<GenericMessage<string>>(this,MessengerTokens.DeleteToDo, act =>
-            {
-                var id = act.Content;
-                DeleteCommand.Execute(id);
-            });
+            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.DeleteToDo, act =>
+             {
+                 var id = act.Content;
+                 DeleteCommand.Execute(id);
+             });
 
             Messenger.Default.Register<GenericMessage<ToDo>>(this, MessengerTokens.ReaddToDo, act =>
             {
@@ -1023,32 +1006,39 @@ namespace MyerList.ViewModel
             }
             else
             {
-                //在线模式
-                var result = await PostHelper.AddSchedule(LocalSettingHelper.GetValue("sid"), NewToDo.Content, "0", AddingCate.ToString());
-                if (!string.IsNullOrEmpty(result))
+                try
                 {
-                    ToDo newSchedule = ToDo.ParseJsonTo(result);
-
-                    if (LocalSettingHelper.GetValue("AddMode") == "0")
+                    //在线模式
+                    var result = await PostHelper.AddSchedule(LocalSettingHelper.GetValue("sid"), NewToDo.Content, "0", AddingCate.ToString());
+                    if (!string.IsNullOrEmpty(result))
                     {
-                        MyToDos.Insert(0, newSchedule);
-                        UpdateDisplayList(SelectedCate);
+                        ToDo newSchedule = ToDo.ParseJsonTo(result);
+
+                        if (LocalSettingHelper.GetValue("AddMode") == "0")
+                        {
+                            MyToDos.Insert(0, newSchedule);
+                            UpdateDisplayList(SelectedCate);
+                        }
+                        else
+                        {
+                            MyToDos.Add(newSchedule);
+                            UpdateDisplayList(SelectedCate);
+                        }
+
+                        await PostHelper.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
+
+                        NewToDo = new ToDo();
+
+                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+
+                        IsLoading = Visibility.Collapsed;
+
+                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
                     }
-                    else
-                    {
-                        MyToDos.Add(newSchedule);
-                        UpdateDisplayList(SelectedCate);
-                    }
-
-                    await PostHelper.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
-
-                    NewToDo = new ToDo();
-
-                    Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
-
-                    IsLoading = Visibility.Collapsed;
-
-                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+                }
+                catch (Exception)
+                {
+                    await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
                 }
             }
         }
@@ -1090,7 +1080,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e,nameof(MainViewModel),nameof(DeleteToDo));
+                var task = ExceptionHelper.WriteRecord(e, nameof(MainViewModel), nameof(DeleteToDo));
             }
         }
 
@@ -1141,12 +1131,13 @@ namespace MyerList.ViewModel
                 if (App.IsNoNetwork)
                 {
                     //通知没有网络
-                    Messenger.Default.Send(new GenericMessage<string>(ResourcesHelper.GetString("NoNetworkHint")), MessengerTokens.ToastToken);
+                    await ToastService.SendToastAsync(ResourcesHelper.GetString("NoNetworkHint"));
                     return;
                 }
-
                 //加载滚动条
                 IsLoading = Visibility.Visible;
+
+                var task = ToastService.SendToastAsync(ResourcesHelper.GetString("Syncing"));
 
                 var isSyncOK = false;
 
@@ -1154,32 +1145,41 @@ namespace MyerList.ViewModel
                 timer.Interval = TimeSpan.FromSeconds(3.2);
                 timer.Tick += ((sendert, et) =>
                 {
-                    if(isSyncOK)
+                    if (isSyncOK)
                         IsLoading = Visibility.Collapsed;
                     timer.Stop();
                 });
                 timer.Start();
 
-                var result = await PostHelper.GetMySchedules(LocalSettingHelper.GetValue("sid"));
-                if (!string.IsNullOrEmpty(result))
+                try
                 {
-                    //获得无序的待办事项
-                    var scheduleWithoutOrder = ToDo.ParseJsonToObs(result);
+                    var result = await PostHelper.GetMySchedules(LocalSettingHelper.GetValue("sid"));
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        //获得无序的待办事项
+                        var scheduleWithoutOrder = ToDo.ParseJsonToObs(result);
 
-                    //获得顺序列表
-                    var orders = await PostHelper.GetMyOrder(LocalSettingHelper.GetValue("sid"));
+                        //获得顺序列表
+                        var orders = await PostHelper.GetMyOrder(LocalSettingHelper.GetValue("sid"));
 
-                    //排序
-                    MyToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
+                        //排序
+                        MyToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
 
-                    ChangeDisplayCateList(SelectedCate);
+                        ChangeDisplayCateList(SelectedCate);
 
-                    Messenger.Default.Send(new GenericMessage<string>(ResourcesHelper.GetString("SyncSuccessfully")), MessengerTokens.ToastToken);
+                        await ToastService.SendToastAsync(ResourcesHelper.GetString("SyncSuccessfully"));
 
-                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName, true);
+                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName, true);
+                    }
                 }
-
-                IsLoading = Visibility.Collapsed;
+                catch (COMException)
+                {
+                    await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                }
+                finally
+                {
+                    IsLoading = Visibility.Collapsed;
+                }
 
                 //最后更新动态磁贴
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
@@ -1214,6 +1214,7 @@ namespace MyerList.ViewModel
             });
             itemToModify.Content = NewToDo.Content;
             itemToModify.Category = AddingCate;
+            itemToModify.CreateTime = DateTime.Now.ToString();
 
             //离线模式
             if (App.IsInOfflineMode)
@@ -1229,23 +1230,28 @@ namespace MyerList.ViewModel
             //非离线模式
             else
             {
-                var resultUpdate = await PostHelper.UpdateContent(NewToDo.ID, NewToDo.Content, AddingCate);
-                if (resultUpdate)
+                try
                 {
-                    MyToDos.ToList().Find(sche =>
+                    var resultUpdate = await PostHelper.UpdateContent(itemToModify.ID, itemToModify.Content, itemToModify.CreateTime, AddingCate);
+                    if (resultUpdate)
                     {
-                        if (sche.ID == NewToDo.ID) return true;
-                        else return false;
-                    }).Content = NewToDo.Content;
+                        MyToDos.ToList().Find(sche =>
+                        {
+                            if (sche.ID == NewToDo.ID) return true;
+                            else return false;
+                        }).Content = NewToDo.Content;
 
-                    NewToDo = new ToDo();
+                        NewToDo = new ToDo();
 
-                    Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                    }
                 }
-
+                catch (COMException)
+                {
+                    await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                }
             }
             IsLoading = Visibility.Collapsed;
-
         }
 
         /// <summary>
@@ -1265,7 +1271,7 @@ namespace MyerList.ViewModel
                 scheduleToChange.Category++;
                 if (!App.IsNoNetwork && !App.IsInOfflineMode)
                 {
-                    await PostHelper.UpdateContent(id, scheduleToChange.Content, scheduleToChange.Category);
+                    await PostHelper.UpdateContent(id, scheduleToChange.Content,"", scheduleToChange.Category);
                 }
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
             }
@@ -1276,14 +1282,14 @@ namespace MyerList.ViewModel
         /// </summary>
         /// <param name="id"></param>
         private void ChangeDisplayCateList(int id)
-        { 
+        {
             Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.CloseHam);
 
             if (id == -1) return;
 
             UpdateColor(id);
 
-            if(id!=5) UpdateDisplayList(id);
+            if (id != 5) UpdateDisplayList(id);
 
             IsInSortMode = false;
 
@@ -1371,14 +1377,13 @@ namespace MyerList.ViewModel
             }
         }
 
-
         /// <summary>
         /// 进入 MainPage 会调用
         /// </summary>
         /// <param name="param"></param>
         public async void Activate(object param)
         {
-            UpdateColor(this.SelectedCate==-1?0:this.SelectedCate);
+            UpdateColor(this.SelectedCate == -1 ? 0 : this.SelectedCate);
             if (param is LoginMode)
             {
                 if (App.IsSyncListOnce) return;
@@ -1386,7 +1391,7 @@ namespace MyerList.ViewModel
 
                 var mode = (LoginMode)param;
                 //已经登陆过的了
-                if (mode !=LoginMode.OfflineMode)
+                if (mode != LoginMode.OfflineMode)
                 {
                     CurrentUser.Email = LocalSettingHelper.GetValue("email");
                     ShowLoginBtnVisibility = Visibility.Collapsed;
@@ -1397,17 +1402,18 @@ namespace MyerList.ViewModel
                     {
                         await RestoreData(true);
                         await Task.Delay(500);
-                        Messenger.Default.Send(new GenericMessage<string>(ResourcesHelper.GetString("NoNetworkHint")), MessengerTokens.ToastToken);
+
+                        await ToastService.SendToastAsync(ResourcesHelper.GetString("NoNetworkHint"));
                     }
                     //有网络
                     else
                     {
-                        Messenger.Default.Send(new GenericMessage<string>(ResourcesHelper.GetString("WelcomeBackHint")), MessengerTokens.ToastToken);
+                        await RestoreData(true);
+
                         SelectedCate = 0;
 
-                        if (mode == LoginMode.OfflineModeToLogin|| mode==LoginMode.OfflineModeToRegister) await AddAllToDos();
+                        if (mode == LoginMode.OfflineModeToLogin || mode == LoginMode.OfflineModeToRegister) await AddAllToDos();
 
-                        await RestoreData(true);
                         await SyncAllToDos();
                         CurrentDisplayToDos = MyToDos;
                     }

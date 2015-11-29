@@ -447,4 +447,13 @@
   <data name="CateDeleted" xml:space="preserve">
     <value>已删除</value>
   </data>
+  <data name="UnknownTime" xml:space="preserve">
+    <value>未知时间</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>请求失败，请检查网络环境 :-(</value>
+  </data>
+  <data name="Syncing" xml:space="preserve">
+    <value>同步中...</value>
+  </data>
 </root>
