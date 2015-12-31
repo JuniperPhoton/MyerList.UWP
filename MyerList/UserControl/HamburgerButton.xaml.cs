@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,15 @@ namespace MyerList.UC
                 return this.DataContext as MainViewModel;
             }
         }
+
+        public Brush ForegroundBrush
+        {
+            get { return (Brush)GetValue(ForegroundBrushProperty); }
+            set { SetValue(ForegroundBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty ForegroundBrushProperty =
+            DependencyProperty.Register("ForegroundBrush", typeof(Brush), typeof(HamburgerButton), new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         public event RoutedEventHandler ButtonClick;
 

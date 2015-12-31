@@ -60,6 +60,18 @@ namespace MyerListUWP
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Resuming += App_Resuming;
+            this.UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            
         }
 
         /// <summary>
@@ -69,7 +81,6 @@ namespace MyerListUWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -81,11 +92,8 @@ namespace MyerListUWP
 
             Frame rootFrame = Window.Current.Content as Frame;
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
             if (rootFrame == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
@@ -96,8 +104,6 @@ namespace MyerListUWP
                 }
 
                 Window.Current.Content = rootFrame;
-
-                ConfigHelper.CheckConfig();
 
                 if (LocalSettingHelper.HasValue("AppLang") == false)
                 {
@@ -112,23 +118,21 @@ namespace MyerListUWP
                 }
                 else ApplicationLanguages.PrimaryLanguageOverride = LocalSettingHelper.GetValue("AppLang");
 
-
                 if (LocalSettingHelper.HasValue("email"))
                 {
-                    rootFrame.Navigate(typeof(MainPage), LoginMode.Login);
+                    rootFrame.Navigate(typeof(MainPage), new LaunchParam() { Mode = LoginMode.Login, Param = e.Arguments });
                 }
                 else if (LocalSettingHelper.GetValue("OfflineMode") == "true")
                 {
-                    App.IsInOfflineMode = true;
-                    rootFrame.Navigate(typeof(MainPage), LoginMode.OfflineMode);
+                    IsInOfflineMode = true;
+                    rootFrame.Navigate(typeof(MainPage), new LaunchParam() { Mode = LoginMode.OfflineMode, Param = e.Arguments });
                 }
                 else
                 {
-                    App.IsInOfflineMode = false;
+                    IsInOfflineMode = false;
                     rootFrame.Navigate(typeof(StartPage));
                 }
             }
-            // Ensure the current window is active
             Window.Current.Activate();
         }
 
@@ -140,6 +144,11 @@ namespace MyerListUWP
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
         }
 
         /// <summary>

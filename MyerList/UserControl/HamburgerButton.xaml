@@ -45,17 +45,17 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Border Background="{x:Bind MainVM.CateColor,Mode=OneWay}" Visibility="Collapsed"/>
-            <Border x:Name="border" Height="2" Width="20" Background="White" VerticalAlignment="Bottom" RenderTransformOrigin="0,0.5">
+            <Border x:Name="border" Height="2" Width="20" Background="{x:Bind ForegroundBrush,Mode=OneWay}" VerticalAlignment="Bottom" RenderTransformOrigin="0,0.5">
                 <Border.RenderTransform>
                     <CompositeTransform/>
                 </Border.RenderTransform>
             </Border>
-            <Border x:Name="border1" Height="2" Width="20" Background="White" VerticalAlignment="Center" Margin="0" Grid.Row="1" RenderTransformOrigin="0,0.5">
+            <Border x:Name="border1" Height="2" Width="20" Background="{x:Bind ForegroundBrush,Mode=OneWay}" VerticalAlignment="Center" Margin="0" Grid.Row="1" RenderTransformOrigin="0,0.5">
                 <Border.RenderTransform>
                     <CompositeTransform/>
                 </Border.RenderTransform>
             </Border>
-            <Border x:Name="border2" Height="2" Width="20" Background="White" VerticalAlignment="Top" Margin="0" Grid.Row="2" RenderTransformOrigin="0,0.5">
+            <Border x:Name="border2" Height="2" Width="20" Background="{x:Bind ForegroundBrush,Mode=OneWay}" VerticalAlignment="Top" Margin="0" Grid.Row="2" RenderTransformOrigin="0,0.5">
                 <Border.RenderTransform>
                     <CompositeTransform/>
                 </Border.RenderTransform>

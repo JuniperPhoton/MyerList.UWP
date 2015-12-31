@@ -9,6 +9,7 @@ using JP.Utils.Data;
 using Newtonsoft.Json.Linq;
 using JP.API;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace MyerList.Helper
 {
@@ -38,7 +39,8 @@ namespace MyerList.Helper
                 var param = new List<KeyValuePair<string, string>>();
                 param.Add(new KeyValuePair<string, string>("email", email));
 
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserCheckExist, param);
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserCheckExist, param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -55,16 +57,16 @@ namespace MyerList.Helper
                         }
                         else return false;
                     }
-                    else return false;
+                    else throw new Exception();
                 }
                 else
                 {
-                    return false;
+                    throw new Exception();
                 }
             }
             catch (Exception e)
             {
-                throw;
+                throw e;
             }
         }
 
@@ -85,7 +87,8 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("email", email));
                 param.Add(new KeyValuePair<string, string>("password", ps));
 
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserRegisterUri, param);
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserRegisterUri, param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -105,9 +108,13 @@ namespace MyerList.Helper
                     return null;
                 }
             }
+            catch(OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
         }
@@ -124,7 +131,8 @@ namespace MyerList.Helper
                 var param = new List<KeyValuePair<string, string>>();
                 param.Add(new KeyValuePair<string, string>("email", email));
 
-                var message = await APIHelper.SendPostRequestAsync(UrlHelper.UserGetSalt, param);
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var message = await APIHelper.SendPostRequestAsync(UrlHelper.UserGetSalt, param,cts.Token);
                 if (message.IsSuccessful)
                 {
                     var content = message.JsonSrc;
@@ -139,10 +147,9 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
-
         }
 
         /// <summary>
@@ -163,7 +170,8 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("email", email));
                 param.Add(new KeyValuePair<string, string>("password", psplussalt));
 
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserLoginUri, param);
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserLoginUri, param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -191,12 +199,15 @@ namespace MyerList.Helper
                     return false;
                 }
             }
+            catch(OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return false;
             }
-
         }
 
         /// <summary>
@@ -217,8 +228,10 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("isdone", isdone));
                 param.Add(new KeyValuePair<string, string>("cate", cate));
 
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var task =APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param,cts.Token);
+                var result = await task;
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -235,12 +248,15 @@ namespace MyerList.Helper
                     return null;
                 }
             }
+            catch(OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
-
         }
 
         /// <summary>
@@ -260,12 +276,13 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("cate", cate.ToString()));
                 param.Add(new KeyValuePair<string, string>("time", time));
 
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                    param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
-                    if (String.IsNullOrEmpty(response))
+                    if (string.IsNullOrEmpty(response))
                     {
                         return false;
                     }
@@ -280,10 +297,9 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return false;
             }
-
         }
 
         /// <summary>
@@ -301,8 +317,9 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("isdone", isdone));
 
                 HttpClient client = new HttpClient();
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                    param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -321,10 +338,9 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return false;
             }
-
         }
 
         /// <summary>
@@ -339,8 +355,9 @@ namespace MyerList.Helper
                 var param = new List<KeyValuePair<string, string>>();
                 param.Add(new KeyValuePair<string, string>("id", id));
 
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                    param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -359,10 +376,9 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return false;
             }
-
         }
 
         /// <summary>
@@ -377,8 +393,9 @@ namespace MyerList.Helper
                 var param = new List<KeyValuePair<string, string>>();
                 param.Add(new KeyValuePair<string, string>("sid", sid));
 
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                    param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -399,10 +416,9 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
-
         }
 
         public async static Task<string> GetMyOrder(string sid)
@@ -413,8 +429,9 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("sid", sid));
 
                 HttpClient client = new HttpClient();
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                    param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -442,10 +459,9 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
-
         }
 
         public async static Task<bool> SetMyOrder(string sid, string order)
@@ -456,8 +472,9 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("sid", sid));
                 param.Add(new KeyValuePair<string, string>("order", order));
 
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
-                    param);
+                    param,cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -476,7 +493,7 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return false;
             }
         }
@@ -485,7 +502,8 @@ namespace MyerList.Helper
         {
             try
             {
-                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}");
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}",cts.Token);
                 return response.JsonSrc;
             }
             catch (Exception)

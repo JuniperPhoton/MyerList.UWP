@@ -19,12 +19,31 @@ using MyerListUWP.Helper;
 using MyerListUWP.ViewModel;
 using MyerListCustomControl;
 using System.Runtime.InteropServices;
+using JP.Utils.Helper;
 
 namespace MyerList.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
         private AddMode _addMode = AddMode.None;
+
+        private int _undoneCount;
+        public int UndoneCount
+        {
+            get
+            {
+                return _undoneCount;
+            }
+            set
+            {
+                if (_undoneCount != value)
+                {
+                    _undoneCount = value;
+                    RaisePropertyChanged(() => UndoneCount);
+                }
+            }
+        }
+
 
         #region 汉堡包/类别/导航
         /// <summary>
@@ -115,7 +134,7 @@ namespace MyerList.ViewModel
                     {
                         case 0:
                             {
-                                Title = ResourcesHelper.GetString("ToDoPivotItem");
+                                Title = ResourcesHelper.GetResString("ToDoPivotItem");
                                 DeleteIconAlpha = 0.3;
                                 TodoIconAlpha = 1;
                                 Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.ChangeCommandBarToDefault);
@@ -274,9 +293,9 @@ namespace MyerList.ViewModel
                 if (_loginCommand != null) return _loginCommand;
                 return _loginCommand = new RelayCommand(async () =>
                  {
-                     DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("SignUpContent"));
-                     cdex.LeftButtonContent = ResourcesHelper.GetString("Register");
-                     cdex.RightButtonContent = ResourcesHelper.GetString("Login");
+                     DialogService cdex = new DialogService(ResourcesHelper.GetResString("Notice"), ResourcesHelper.GetResString("SignUpContent"));
+                     cdex.LeftButtonContent = ResourcesHelper.GetResString("Register");
+                     cdex.RightButtonContent = ResourcesHelper.GetResString("Login");
                      cdex.OnLeftBtnClick += ((s) =>
                        {
                            App.IsSyncListOnce = false;
@@ -339,7 +358,7 @@ namespace MyerList.ViewModel
                 }
                 return _addCommand = new RelayCommand(() =>
                 {
-                    ModeTitle = ResourcesHelper.GetString("AddTitle");
+                    ModeTitle = ResourcesHelper.GetResString("AddTitle");
                     NewToDo = new ToDo();
                     AddingCate = 0;
                     _addMode = AddMode.Add;
@@ -415,6 +434,9 @@ namespace MyerList.ViewModel
             }
         }
 
+        /// <summary>
+        /// 当前添加类别
+        /// </summary>
         private int _addingCate;
         public int AddingCate
         {
@@ -558,6 +580,7 @@ namespace MyerList.ViewModel
                 {
                     _currentDisplayToDos = value;
                     RaisePropertyChanged(() => CurrentDisplayToDos);
+                    UpdateUndoneCount();
                 }
             }
         }
@@ -640,12 +663,12 @@ namespace MyerList.ViewModel
 
                         Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.ShowModifyUI);
 
-                        ModeTitle = ResourcesHelper.GetString("ModifyTitle");
+                        ModeTitle = ResourcesHelper.GetResString("ModifyTitle");
 
                     }
                     catch (Exception ex)
                     {
-                        var task = ExceptionHelper.WriteRecord(ex, nameof(MainViewModel), nameof(ModifyCommand));
+                        var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(ModifyCommand));
                     }
                 });
             }
@@ -772,8 +795,7 @@ namespace MyerList.ViewModel
                     await AddToDo();
 
                     DeletedToDos.Remove(scheToAdd);
-                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch", true);
-
+                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch");
                 });
             }
         }
@@ -794,7 +816,7 @@ namespace MyerList.ViewModel
                         if (s.ID == id) return true;
                         else return false;
                     }));
-                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch", true);
+                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch");
 
                 });
             }
@@ -809,19 +831,47 @@ namespace MyerList.ViewModel
                 return _deleteAllCommand = new RelayCommand(async () =>
                  {
                      if (DeletedToDos.Count == 0) return;
-                     DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("DeleteAllConfirm"));
-                     cdex.LeftButtonContent = ResourcesHelper.GetString("Ok");
-                     cdex.RightButtonContent = ResourcesHelper.GetString("Cancel");
+                     DialogService cdex = new DialogService(ResourcesHelper.GetResString("Notice"), ResourcesHelper.GetResString("DeleteAllConfirm"));
+                     cdex.LeftButtonContent = ResourcesHelper.GetResString("Ok");
+                     cdex.RightButtonContent = ResourcesHelper.GetResString("Cancel");
                      cdex.OnLeftBtnClick += (async (s) =>
                        {
                            DeletedToDos.Clear();
-                           await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName, true);
+                           await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName);
                            cdex.Hide();
                        });
                      await cdex.ShowAsync();
                  });
             }
         }
+        #endregion
+
+        #region 暂存区
+
+        /// <summary>
+        /// 已经删除了的待办事项
+        /// </summary>
+        private ObservableCollection<ToDo> _stagedToDos;
+        public ObservableCollection<ToDo> StagedToDos
+        {
+            get
+            {
+                if (_stagedToDos != null)
+                {
+                    return _stagedToDos;
+                }
+                return _stagedToDos = new ObservableCollection<ToDo>();
+            }
+            set
+            {
+                if (_stagedToDos != value)
+                {
+                    _stagedToDos = value;
+                    RaisePropertyChanged(() => StagedToDos);
+                }
+            }
+        }
+
         #endregion
 
         #region 抽屉底部命令
@@ -886,12 +936,17 @@ namespace MyerList.ViewModel
             IsLoading = Visibility.Collapsed;
             NoDeletedItemsVisibility = Visibility.Collapsed;
 
+            var task = JumpListHelper.SetupJumpList();
+
+            UndoneCount = 0;
+
             //初始化
             CateVM = new CategoryViewModel();
             NewToDo = new ToDo();
             CurrentUser = new MyerListUser();
             MyToDos = new ObservableCollection<ToDo>();
             DeletedToDos = new ObservableCollection<ToDo>();
+            StagedToDos = new ObservableCollection<ToDo>();
             CurrentDisplayToDos = MyToDos;
             IsInSortMode = false;
 
@@ -905,7 +960,7 @@ namespace MyerList.ViewModel
             SelectedIndex = 0;
             TodoIconAlpha = 1;
             DeleteIconAlpha = 0.3;
-            Title = ResourcesHelper.GetString("CateDefault");
+            Title = ResourcesHelper.GetResString("CateDefault");
 
             //完成ToDo
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CheckToDo, act =>
@@ -970,77 +1025,72 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecord(ex, nameof(MainViewModel), nameof(AddOrModifyToDo));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(AddOrModifyToDo));
             }
         }
 
+        /// <summary>
+        /// 添加待办事项
+        /// </summary>
+        /// <returns></returns>
         private async Task AddToDo()
         {
             ShowNoItems = Visibility.Collapsed;
-            //离线模式
-            if (App.IsInOfflineMode || App.IsNoNetwork)
+
+            NewToDo.ID = Guid.NewGuid().ToString();
+            NewToDo.Category = AddingCate;
+
+            //0 for insert,1 for add
+            if (!AppSettings.Instance.IsAddToBottom)
             {
-                NewToDo.ID = Guid.NewGuid().ToString();
-                NewToDo.Category = AddingCate;
-
-                //0 for insert,1 for add
-                if (LocalSettingHelper.GetValue("AddMode") == "0")
-                {
-                    MyToDos.Insert(0, NewToDo);
-                }
-                else
-                {
-                    MyToDos.Add(NewToDo);
-                }
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
-
-                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
-
-                NewToDo = new ToDo();
-
-                IsLoading = Visibility.Collapsed;
-            }
-            else if (App.IsNoNetwork)
-            {
-                //TO DO: Store the schedule in SendingQueue
+                MyToDos.Insert(0, NewToDo);
             }
             else
+            {
+                MyToDos.Add(NewToDo);
+            }
+
+            //序列化保存
+            await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+
+            //更新磁贴
+            Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+
+            //离线模式，还没有登录过
+            if (App.IsInOfflineMode)
+            {
+                IsLoading = Visibility.Collapsed;
+            }
+            //登录过的，但是没有网络
+            else if (App.IsNoNetwork && !App.IsInOfflineMode)
+            {
+                //await ToastService.SendToastAsync(ResourcesHelper.GetResString("FailToAdd"));
+                StagedToDos.Add(NewToDo);
+                var task = SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
+            }
+            //登录过的，有网络
+            else if (!App.IsNoNetwork && !App.IsInOfflineMode)
             {
                 try
                 {
                     //在线模式
+                    //发送请求
                     var result = await PostHelper.AddSchedule(LocalSettingHelper.GetValue("sid"), NewToDo.Content, "0", AddingCate.ToString());
                     if (!string.IsNullOrEmpty(result))
                     {
-                        ToDo newSchedule = ToDo.ParseJsonTo(result);
-
-                        if (LocalSettingHelper.GetValue("AddMode") == "0")
-                        {
-                            MyToDos.Insert(0, newSchedule);
-                            UpdateDisplayList(SelectedCate);
-                        }
-                        else
-                        {
-                            MyToDos.Add(newSchedule);
-                            UpdateDisplayList(SelectedCate);
-                        }
-
+                        ////发送当前的顺序
                         await PostHelper.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
-
-                        NewToDo = new ToDo();
-
-                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
-
-                        IsLoading = Visibility.Collapsed;
-
-                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
                     }
                 }
                 catch (Exception)
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                    StagedToDos.Add(NewToDo);
+                    await ToastService.SendToastAsync("发送失败，下次登录将自动发送。");
                 }
             }
+            NewToDo = new ToDo();
+            IsLoading = Visibility.Collapsed;
+            UpdateUndoneCount();
         }
 
         /// <summary>
@@ -1062,12 +1112,11 @@ namespace MyerList.ViewModel
                   });
 
                 DeletedToDos.Add(itemToDeleted);
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName, true);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName);
 
                 MyToDos.Remove(itemToDeleted);
                 UpdateDisplayList(SelectedCate);
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName, true);
-
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
 
                 if (!App.IsInOfflineMode)
                 {
@@ -1077,10 +1126,11 @@ namespace MyerList.ViewModel
 
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
 
+                UpdateUndoneCount();
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e, nameof(MainViewModel), nameof(DeleteToDo));
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(MainViewModel), nameof(DeleteToDo));
             }
         }
 
@@ -1096,7 +1146,7 @@ namespace MyerList.ViewModel
                 var currentItem = (from e in MyToDos where e.ID == id select e).FirstOrDefault();
                 currentItem.IsDone = !currentItem.IsDone;
 
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, "myschedules.sch", true);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, "myschedules.sch");
 
                 //非离线模式
                 if (!App.IsInOfflineMode)
@@ -1111,10 +1161,12 @@ namespace MyerList.ViewModel
                 }
                 //离线模式
                 else Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+
+                UpdateUndoneCount();
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecord(ex, nameof(MainViewModel), nameof(CompleteTodo));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(CompleteTodo));
             }
 
         }
@@ -1131,28 +1183,32 @@ namespace MyerList.ViewModel
                 if (App.IsNoNetwork)
                 {
                     //通知没有网络
-                    await ToastService.SendToastAsync(ResourcesHelper.GetString("NoNetworkHint"));
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
                     return;
                 }
                 //加载滚动条
                 IsLoading = Visibility.Visible;
 
-                var task = ToastService.SendToastAsync(ResourcesHelper.GetString("Syncing"));
+                var task = ToastService.SendToastAsync(ResourcesHelper.GetResString("Syncing"));
 
                 var isSyncOK = false;
 
                 DispatcherTimer timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(3.2);
-                timer.Tick += ((sendert, et) =>
+                timer.Interval = TimeSpan.FromSeconds(2);
+                timer.Tick += (async(sendert, et) =>
                 {
                     if (isSyncOK)
+                    {
                         IsLoading = Visibility.Collapsed;
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
+                    }
                     timer.Stop();
                 });
                 timer.Start();
 
                 try
                 {
+                    await ReSendStagedToDos();
                     var result = await PostHelper.GetMySchedules(LocalSettingHelper.GetValue("sid"));
                     if (!string.IsNullOrEmpty(result))
                     {
@@ -1167,18 +1223,22 @@ namespace MyerList.ViewModel
 
                         ChangeDisplayCateList(SelectedCate);
 
-                        await ToastService.SendToastAsync(ResourcesHelper.GetString("SyncSuccessfully"));
+                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
 
-                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName, true);
+                        isSyncOK = true;
                     }
                 }
                 catch (COMException)
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
                 }
                 finally
                 {
                     IsLoading = Visibility.Collapsed;
+                    if(!timer.IsEnabled)
+                    {
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
+                    }
                 }
 
                 //最后更新动态磁贴
@@ -1186,7 +1246,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecord(ex, nameof(MainViewModel), nameof(SyncAllToDos));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(SyncAllToDos));
             }
         }
 
@@ -1219,7 +1279,7 @@ namespace MyerList.ViewModel
             //离线模式
             if (App.IsInOfflineMode)
             {
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName, true);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
 
                 NewToDo = new ToDo();
 
@@ -1248,7 +1308,7 @@ namespace MyerList.ViewModel
                 }
                 catch (COMException)
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
                 }
             }
             IsLoading = Visibility.Collapsed;
@@ -1271,7 +1331,7 @@ namespace MyerList.ViewModel
                 scheduleToChange.Category++;
                 if (!App.IsNoNetwork && !App.IsInOfflineMode)
                 {
-                    await PostHelper.UpdateContent(id, scheduleToChange.Content,"", scheduleToChange.Category);
+                    await PostHelper.UpdateContent(id, scheduleToChange.Content, "", scheduleToChange.Category);
                 }
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
             }
@@ -1297,28 +1357,28 @@ namespace MyerList.ViewModel
             {
                 case 0:
                     {
-                        Title = ResourcesHelper.GetString("CateDefault");
+                        Title = ResourcesHelper.GetResString("CateDefault");
                     }; break;
                 case 1:
                     {
-                        Title = ResourcesHelper.GetString("CateWork");
+                        Title = ResourcesHelper.GetResString("CateWork");
                     }; break;
                 case 2:
                     {
-                        Title = ResourcesHelper.GetString("CateLife");
+                        Title = ResourcesHelper.GetResString("CateLife");
 
                     }; break;
                 case 3:
                     {
-                        Title = ResourcesHelper.GetString("CateFamily");
+                        Title = ResourcesHelper.GetResString("CateFamily");
                     }; break;
                 case 4:
                     {
-                        Title = ResourcesHelper.GetString("CateEnter");
+                        Title = ResourcesHelper.GetResString("CateEnter");
                     }; break;
                 case 5:
                     {
-                        Title = ResourcesHelper.GetString("CateDeleted");
+                        Title = ResourcesHelper.GetResString("CateDeleted");
                         SelectedIndex = 1;
                     }; break;
             }
@@ -1330,7 +1390,7 @@ namespace MyerList.ViewModel
 
             CateColor = App.Current.Resources[Enum.GetName(typeof(CateColors), cateid)] as SolidColorBrush;
 
-            if (Helper.ApiInformationHelper.HasStatusBar())
+            if (ApiInformationHelper.HasStatusBar)
                 StatusBarHelper.SetUpStatusBar(Enum.GetName(typeof(CateColors), cateid));
         }
 
@@ -1346,50 +1406,78 @@ namespace MyerList.ViewModel
             else CurrentDisplayToDos = DeletedToDos;
 
             if (CurrentDisplayToDos.Count == 0) ShowNoItems = Visibility.Visible;
+
+            UpdateUndoneCount();
         }
 
         /// <summary>
         /// 从储存反序列化所有数据
         /// </summary>
         /// <returns></returns>
-        private async Task RestoreData(bool restoreMainList)
+        private async Task RestoreData()
         {
             try
             {
-                if (restoreMainList)
-                {
-                    SelectedCate = 0;
-                    MyToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
-                    CurrentDisplayToDos = MyToDos;
-                    Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
-                }
+                SelectedCate = 0;
+                MyToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
+                CurrentDisplayToDos = MyToDos;
+                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+
                 DeletedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.DeletedFileName);
                 DeletedToDos.ToList().ForEach(s =>
                 {
                     if (s == null) DeletedToDos.Remove(s);
                 });
 
+                StagedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.StageFileName);
+
                 App.IsSyncListOnce = true;
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecord(ex, nameof(MainViewModel), nameof(RestoreData));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(RestoreData));
             }
+        }
+
+        private async Task ReSendStagedToDos()
+        {
+            foreach (var item in StagedToDos)
+            {
+                var result = await PostHelper.AddSchedule(LocalSettingHelper.GetValue("sid"), item.Content, "0", item.Category.ToString());
+            }
+            await PostHelper.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
+            StagedToDos.Clear();
+            await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
+        }
+
+        private void UpdateUndoneCount()
+        {
+            var count = 0;
+            foreach(var item in CurrentDisplayToDos)
+            {
+                if (!item.IsDone) count++;
+            }
+            this.UndoneCount = count;
         }
 
         /// <summary>
         /// 进入 MainPage 会调用
         /// </summary>
-        /// <param name="param"></param>
-        public async void Activate(object param)
+        /// <param name="p"></param>
+        public async void Activate(object p)
         {
             UpdateColor(this.SelectedCate == -1 ? 0 : this.SelectedCate);
-            if (param is LoginMode)
+            if (p is LaunchParam)
             {
+                var param = p as LaunchParam;
                 if (App.IsSyncListOnce) return;
                 App.IsSyncListOnce = true;
 
-                var mode = (LoginMode)param;
+                var mode = param.Mode;
+                var stringParam = param.Param;
+
+                HandleJumpListLaunch(stringParam);
+
                 //已经登陆过的了
                 if (mode != LoginMode.OfflineMode)
                 {
@@ -1397,23 +1485,32 @@ namespace MyerList.ViewModel
                     ShowLoginBtnVisibility = Visibility.Collapsed;
                     ShowAccountInfoVisibility = Visibility.Visible;
 
+                    if (stringParam == JumpListHelper.AddToken)
+                    {
+                        AddCommand.Execute(null);
+                    }
+
                     //没有网络
                     if (App.IsNoNetwork)
                     {
-                        await RestoreData(true);
+                        await RestoreData();
                         await Task.Delay(500);
 
-                        await ToastService.SendToastAsync(ResourcesHelper.GetString("NoNetworkHint"));
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
                     }
                     //有网络
                     else
                     {
-                        await RestoreData(true);
+                        await RestoreData();
 
                         SelectedCate = 0;
 
                         if (mode == LoginMode.OfflineModeToLogin || mode == LoginMode.OfflineModeToRegister) await AddAllToDos();
 
+                        if(StagedToDos.Count>0)
+                        {
+                            await ReSendStagedToDos();
+                        }
                         await SyncAllToDos();
                         CurrentDisplayToDos = MyToDos;
                     }
@@ -1423,8 +1520,28 @@ namespace MyerList.ViewModel
                 {
                     ShowLoginBtnVisibility = Visibility.Visible;
                     ShowAccountInfoVisibility = Visibility.Collapsed;
-                    var restoreTask = RestoreData(true);
+                    await RestoreData();
                 }
+            }
+        }
+
+        private void HandleJumpListLaunch(string stringParam)
+        {
+            if (stringParam == JumpListHelper.WorkToken)
+            {
+                SelectedCate = 1;
+            }
+            else if (stringParam == JumpListHelper.LifeToken)
+            {
+                SelectedCate = 2;
+            }
+            else if (stringParam == JumpListHelper.FamilyToken)
+            {
+                SelectedCate = 3;
+            }
+            else if (stringParam == JumpListHelper.EnterToken)
+            {
+                SelectedCate = 4;
             }
         }
 

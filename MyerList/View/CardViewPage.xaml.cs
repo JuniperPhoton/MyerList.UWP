@@ -113,25 +113,25 @@ namespace MyerList.View
             {
                 case 0:
                     {
-                        TitleTB.Text = ResourcesHelper.GetString("CateDefault");
+                        TitleTB.Text = ResourcesHelper.GetResString("CateDefault");
                     }; break;
                 case 1:
                     {
-                        TitleTB.Text = ResourcesHelper.GetString("CateWork");
+                        TitleTB.Text = ResourcesHelper.GetResString("CateWork");
 
                     }; break;
                 case 2:
                     {
-                        TitleTB.Text = ResourcesHelper.GetString("CateLife");
+                        TitleTB.Text = ResourcesHelper.GetResString("CateLife");
 
                     }; break;
                 case 3:
                     {
-                        TitleTB.Text = ResourcesHelper.GetString("CateFamily");
+                        TitleTB.Text = ResourcesHelper.GetResString("CateFamily");
                     }; break;
                 case 4:
                     {
-                        TitleTB.Text = ResourcesHelper.GetString("CateEnter");
+                        TitleTB.Text = ResourcesHelper.GetResString("CateEnter");
                     }; break;
             }
         }

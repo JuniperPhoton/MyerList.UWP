@@ -1,4 +1,5 @@
-﻿using MyerList.Helper;
+﻿using JP.Utils.Helper;
+using MyerList.Helper;
 using MyerList.Interface;
 using MyerListUWP.Helper;
 using System;
@@ -18,8 +19,7 @@ namespace MyerList.Base
 {
     public class BindablePage : Page
     {
-        public delegate void KeyDownEventHandler(object sender, KeyEventArgs args);
-        public event KeyDownEventHandler GlobalPageKeyDown;
+        public event EventHandler<KeyEventArgs> GlobalPageKeyDown;
 
         public BindablePage()
         {
@@ -37,7 +37,12 @@ namespace MyerList.Base
             TransitionCollection collection = new TransitionCollection();
             NavigationThemeTransition theme = new NavigationThemeTransition();
 
-            var info = new EntranceNavigationTransitionInfo();
+            NavigationTransitionInfo info;
+            if (DeviceHelper.IsMobile)
+            {
+                info = new EntranceNavigationTransitionInfo();
+            }
+            else info = new ContinuumNavigationTransitionInfo();
 
             theme.DefaultNavigationTransitionInfo = info;
             collection.Add(theme);
@@ -51,7 +56,7 @@ namespace MyerList.Base
 
         protected virtual void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpTitleBar(Colors.White);
+            TitleBarHelper.SetUpTitleBar(Colors.Black);
         }
 
         protected virtual void SetUpStatusBar()
@@ -69,7 +74,7 @@ namespace MyerList.Base
             try
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += BindablePage_BackRequested;
-                if (ApiInformationHelper.HasHardwareButton())
+                if (ApiInformationHelper.HasHardwareButton)
                 {
                     HardwareButtons.BackPressed += HardwareButtons_BackPressed;
                 }
@@ -85,7 +90,7 @@ namespace MyerList.Base
             try
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= BindablePage_BackRequested;
-                if (ApiInformationHelper.HasHardwareButton())
+                if (ApiInformationHelper.HasHardwareButton)
                 {
                     HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 }
@@ -145,7 +150,7 @@ namespace MyerList.Base
             RegisterHandleBackLogic();
             SetUpTitleBarExtend();
             Window.Current.SetTitleBar(null);
-            TitleBarHelper.SetUpTitleBar(Colors.White);
+            TitleBarHelper.SetUpTitleBar(Colors.Black);
             //resolve global keydown
             if (GlobalPageKeyDown != null)
             {

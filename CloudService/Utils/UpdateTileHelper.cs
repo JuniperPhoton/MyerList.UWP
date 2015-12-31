@@ -75,7 +75,7 @@ namespace HttpReqModule
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e, nameof(UpdateTileHelper), nameof(UpdatePersonalTile));
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(UpdateTileHelper), nameof(UpdatePersonalTile));
                 return false;
             }
         }
@@ -122,10 +122,8 @@ namespace HttpReqModule
             }
             catch(Exception)
             {
-                
                 return null;
             }
-            
         }
 
         public static void ClearAllSchedules()

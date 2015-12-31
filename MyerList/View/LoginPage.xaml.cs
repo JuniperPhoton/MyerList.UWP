@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using JP.Utils.Helper;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI;
@@ -32,7 +33,7 @@ namespace MyerList
             LoginVM = new LoginViewModel();
             this.DataContext = LoginVM;
 
-            if(ApiInformationHelper.HasStatusBar())
+            if(ApiInformationHelper.HasStatusBar)
             {
                 StatusBar.GetForCurrentView().BackgroundColor = (App.Current.Resources["MyerListBlueLight"] as SolidColorBrush).Color;
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;

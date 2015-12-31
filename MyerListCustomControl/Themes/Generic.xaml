@@ -567,8 +567,8 @@
                                 <CompositeTransform/>
                             </Border.RenderTransform>
                             <Grid>
-                                <Border Background="#FF47A5DD" CornerRadius="2" Opacity="0.8"/>
-                                <TextBlock x:Name="ContentTB" FontSize="18.667" Margin="20,10" Text="{TemplateBinding ContentText}" Foreground="White"/>
+                                <Border Background="#FF47A5DD" CornerRadius="2" Opacity="1"/>
+                                <TextBlock x:Name="ContentTB" FontSize="15" Margin="20,10" Text="{TemplateBinding ContentText}" Foreground="White"/>
                             </Grid>
                         </Border>
                     </Grid>

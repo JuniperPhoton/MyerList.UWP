@@ -4,6 +4,9 @@
     >
     <Color x:Key="CommandBarGrey">#FFF1F1F1</Color>
     <Color x:Key="ButtonPointOver">#FFE7E7E7</Color>
+    <Color x:Key="ListButtonSelected">#7A000000</Color>
+    <Color x:Key="ListButtonPointOver">#28000000</Color>
+    <Color x:Key="ListButtonPressed">#78000000</Color>
     <SolidColorBrush x:Key="MyerListGray">#FFF2F2F2</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListGrayLight">#FFECECEC</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListWhie">#FFF2F2F2</SolidColorBrush>

@@ -17,7 +17,7 @@ namespace MyerListUWP.Model
             {
                 if(_cateName=="Default")
                 {
-                    return ResourcesHelper.GetString("DefaultCateName");
+                    return ResourcesHelper.GetResString("DefaultCateName");
                 }
                 else return _cateName;
             }

@@ -1,16 +1,10 @@
-﻿using System;
-using Windows.UI.Xaml.Media.Imaging;
-using ChaoFunctionRT;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using Windows.UI.Xaml;
 using Windows.Globalization;
 using Windows.ApplicationModel.Resources.Core;
 using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using MyerList.Interface;
-using Windows.UI.Xaml.Media;
-using JP.Utils.UI;
-using HttpReqModule;
 using GalaSoft.MvvmLight.Command;
 using MyerList.Helper;
 using Windows.UI.Xaml.Controls;
@@ -22,165 +16,6 @@ namespace MyerList.ViewModel
 
     public class SettingPageViewModel : ViewModelBase, INavigable
     {
-        private bool isopen;
-        public bool IsOpen
-        {
-            get
-            {
-                return isopen;
-            }
-            set
-            {
-                if (isopen != value)
-                {
-                    isopen = value;
-                    RaisePropertyChanged(() => IsOpen);
-                }
-            }
-        }
-
-        private bool _enableBackgroundTask;
-        public bool EnableBackgroundTask
-        {
-            get { return _enableBackgroundTask; }
-            set
-            {
-                if (_enableBackgroundTask != value)
-                {
-                    _enableBackgroundTask = value;
-                }
-                RaisePropertyChanged(() => EnableBackgroundTask);
-                if (value == true)
-                {
-                    LocalSettingHelper.AddValue("EnableBackgroundTask", "true");
-                    Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(""), "RegisterBackgroundTask");
-                }
-                else
-                {
-                    LocalSettingHelper.AddValue("EnableBackgroundTask", "false");
-                    Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(""), "UnRegisterBackgroundTask");
-                }
-            }
-        }
-
-        private bool _enableTile;
-        public bool EnableTile
-        {
-            get
-            {
-                return _enableTile;
-            }
-            set
-            {
-                if (_enableTile != value)
-                    _enableTile = value;
-                RaisePropertyChanged(() => EnableTile);
-                if (value == true)
-                {
-                    LocalSettingHelper.AddValue("EnableTile", "true");
-                    IsOpen = true;
-                    Messenger.Default.Send<GenericMessage<string>>(new GenericMessage<string>(""), "SyncExecute");
-                }
-                else
-                {
-                    LocalSettingHelper.AddValue("EnableTile", "false");
-                    IsOpen = false;
-                    HttpReqModule.UpdateTileHelper.ClearAllSchedules();
-                }
-            }
-        }
-
-        private bool _enablegesture;
-        public bool EnableGesture
-        {
-            get
-            {
-                return _enablegesture;
-            }
-            set
-            {
-                if (_enablegesture != value)
-                    _enablegesture = value;
-                RaisePropertyChanged(() => EnableGesture);
-                if (value == true)
-                {
-                    LocalSettingHelper.AddValue("EnableGesture", "true");
-                }
-                else
-                {
-                    LocalSettingHelper.AddValue("EnableGesture", "false");
-                }
-            }
-        }
-
-        private bool _showkeyboard;
-        public bool ShowKeyboard
-        {
-            get
-            {
-                return _showkeyboard;
-            }
-            set
-            {
-                if (_showkeyboard != value)
-                    _showkeyboard = value;
-                RaisePropertyChanged(() => ShowKeyboard);
-                if (value == true)
-                {
-                    LocalSettingHelper.AddValue("ShowKeyboard", "true");
-                }
-                else
-                {
-                    LocalSettingHelper.AddValue("ShowKeyboard", "false");
-                }
-            }
-        }
-
-        private bool _transparentTile;
-        public bool TransparentTile
-        {
-            get
-            {
-                return _transparentTile;
-            }
-            set
-            {
-                if (_transparentTile != value)
-                    _transparentTile = value;
-                RaisePropertyChanged(() => TransparentTile);
-                if (value == true)
-                {
-                    LocalSettingHelper.AddValue("TransparentTile", "true");
-                }
-                else
-                {
-                    LocalSettingHelper.AddValue("TransparentTile", "false");
-                }
-            }
-        }
-
-        private bool _isAddToBottom;
-        public bool IsAddToBottom
-        {
-            get
-            {
-                return _isAddToBottom;
-            }
-            set
-            {
-                if (_isAddToBottom != value)
-                    _isAddToBottom = value;
-                RaisePropertyChanged(() => IsAddToBottom);
-                if (value == true)
-                {
-                    LocalSettingHelper.AddValue("AddMode", "1");
-                }
-                else
-                {
-                    LocalSettingHelper.AddValue("AddMode", "0");
-                }
-            }
-        }
 
         private int _currentLanguage;
         public int CurrentLanguage
@@ -235,9 +70,9 @@ namespace MyerList.ViewModel
                 {
                     Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.CloseHam);
 
-                    DialogService cdex = new DialogService(ResourcesHelper.GetString("Notice"), ResourcesHelper.GetString("LogoutContent"));
-                    cdex.LeftButtonContent = ResourcesHelper.GetString("Ok");
-                    cdex.RightButtonContent = ResourcesHelper.GetString("Cancel");
+                    DialogService cdex = new DialogService(ResourcesHelper.GetResString("Notice"), ResourcesHelper.GetResString("LogoutContent"));
+                    cdex.LeftButtonContent = ResourcesHelper.GetResString("Ok");
+                    cdex.RightButtonContent = ResourcesHelper.GetResString("Cancel");
                     cdex.OnLeftBtnClick += ((str) =>
                     {
                         App.IsSyncListOnce = false;
@@ -265,13 +100,6 @@ namespace MyerList.ViewModel
                 CurrentLanguage = 1;
             }
             else CurrentLanguage = 0;
-
-            EnableTile = LocalSettingHelper.GetValue("EnableTile") == "true" ? true : false;
-            EnableBackgroundTask = LocalSettingHelper.GetValue("EnableBackgroundTask") == "true" ? true : false;
-            EnableGesture = LocalSettingHelper.GetValue("EnableGesture") == "true" ? true : false;
-            ShowKeyboard = LocalSettingHelper.GetValue("ShowKeyboard") == "true" ? true : false;
-            IsAddToBottom = LocalSettingHelper.GetValue("AddMode") == "1" ? true : false;
-            TransparentTile = LocalSettingHelper.GetValue("TransparentTile") == "true" ? true : false;
         }
 
         private void ChangeLanguage()

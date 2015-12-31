@@ -174,7 +174,7 @@ namespace MyerList.Model
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return orisches;
             }
            
@@ -199,7 +199,7 @@ namespace MyerList.Model
                         {
                             newSchedule.CreateTime = time.ToString();
                         }
-                        else newSchedule.CreateTime = ResourcesHelper.GetString("UnknownTime");
+                        else newSchedule.CreateTime = ResourcesHelper.GetResString("UnknownTime");
 
                         newSchedule.ID = (string)sch["id"];
                         newSchedule.SID = (string)sch["sid"];
@@ -213,7 +213,7 @@ namespace MyerList.Model
             }
             catch(Exception e)
             {
-                var task=ExceptionHelper.WriteRecord(e);
+                var task=ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
             
@@ -259,7 +259,7 @@ namespace MyerList.Model
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JP.Utils.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,10 +26,10 @@ namespace MyerListUWP.Helper
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = foreColor;
-            titleBar.ButtonHoverBackgroundColor = (new SolidColorBrush(new Color() {A=50,R=255,G=255,B=255 })).Color;
-            titleBar.ButtonPressedBackgroundColor = (new SolidColorBrush(new Color() { A = 20, R = 255, G = 255, B = 255 })).Color;
+            titleBar.ButtonHoverBackgroundColor = ColorConverter.Hex2Color("#DEDEDE");
+            titleBar.ButtonPressedBackgroundColor = ColorConverter.Hex2Color("#BBBBBB");
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveForegroundColor = (new SolidColorBrush(new Color() { A = 50, R = 255, G = 255, B = 255 })).Color;
+            titleBar.ButtonInactiveForegroundColor = ColorConverter.Hex2Color("#676767");
         }
 
         public static void SetUpBlackTitleBar()

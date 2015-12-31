@@ -11,7 +11,7 @@
     <AssemblyName>MyerList</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>MyerList_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>2E0DC88BBA40010A33052B0F9A19E0A67319FCF5</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -97,7 +97,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Assets\Thumbs.db" />
     <None Include="MyerList_StoreKey.pfx" />
     <None Include="project.json" />
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
@@ -116,10 +115,10 @@
     <Compile Include="Converter\IsInReorderConverter.cs" />
     <Compile Include="Converter\ShowDoneLineConverter.cs" />
     <Compile Include="Converter\ToDoRawCol1Converter.cs" />
-    <Compile Include="Helper\ApiInformationHelper.cs" />
+    <Compile Include="Helper\AppSettings.cs" />
     <Compile Include="Helper\CategoryHelper.cs" />
-    <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\InvokeCommandByKeyDown.cs" />
+    <Compile Include="Helper\JumpListHelper.cs" />
     <Compile Include="Helper\MessengerExt.cs" />
     <Compile Include="Helper\MessengerTokens.cs" />
     <Compile Include="Helper\MultiWindowsHelper.cs" />
@@ -129,11 +128,13 @@
     <Compile Include="Interface\ICanGoBack.cs" />
     <Compile Include="Interface\INavigable.cs" />
     <Compile Include="Model\AddMode.cs" />
+    <Compile Include="Model\LaunchParam.cs" />
     <Compile Include="Model\LoginMode.cs" />
     <Compile Include="Model\MultiWindowsData.cs" />
     <Compile Include="Model\MyerListUser.cs" />
     <Compile Include="Model\SendingItem.cs" />
     <Compile Include="Model\SerializerFiles.cs" />
+    <Compile Include="Model\StagedItem.cs" />
     <Compile Include="Model\ToDo.cs" />
     <Compile Include="Model\ToDoCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,9 +158,6 @@
     </Compile>
     <Compile Include="UserControl\TitleBarUC.xaml.cs">
       <DependentUpon>TitleBarUC.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl\ToastControl.xaml.cs">
-      <DependentUpon>ToastControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -204,7 +202,14 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\cate_add.png" />
+    <Content Include="Assets\cate_default.png" />
+    <Content Include="Assets\cate_enter.png" />
+    <Content Include="Assets\cate_family.png" />
+    <Content Include="Assets\cate_life.png" />
+    <Content Include="Assets\cate_work.png" />
     <Content Include="Assets\CLIP_WHITE.png" />
+    <Content Include="Assets\feature1.png" />
     <Content Include="Assets\Icon\accept.png" />
     <Content Include="Assets\Icon\Account.png" />
     <Content Include="Assets\Icon\Alert_BLACK.png" />
@@ -239,15 +244,6 @@
     <Content Include="Assets\Square310x310Logo.scale-150.png" />
     <Content Include="Assets\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Square310x310Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
     <Content Include="Assets\Square71x71Logo.scale-100.png" />
     <Content Include="Assets\Square71x71Logo.scale-125.png" />
     <Content Include="Assets\Square71x71Logo.scale-150.png" />
@@ -258,7 +254,9 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\tranlogo.png" />
+    <Content Include="Assets\tran_logo.scale-125.png" />
+    <Content Include="Assets\tran_logo.targetsize-44.png" />
+    <Content Include="Assets\tran_logo.targetsize-44_altform-unplated.png" />
     <Content Include="Assets\WHITE_500.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
@@ -321,10 +319,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\ToastControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\AboutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -355,14 +349,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AnimatedTextBlock\AnimatedTextBlock.csproj">
-      <Project>{4e0becfb-8f8d-4c55-bfb3-5b63e047ee92}</Project>
-      <Name>AnimatedTextBlock</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ContentDialogEx\ContentDialogEx\ContentDialogEx.csproj">
-      <Project>{5d4b47df-d685-4fe9-9ad4-ebc3fc812e2c}</Project>
-      <Name>ContentDialogEx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
       <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
       <Name>JP.Utils.UWP</Name>
@@ -375,11 +361,12 @@
       <Project>{cf48ac98-e3ae-426a-8411-66ed3e2e59ed}</Project>
       <Name>CloudService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyerListCustomControl\MyerListCustomControl.csproj">
+      <Project>{1c9fde7a-452e-44b7-a065-fb3c4f170048}</Project>
+      <Name>MyerListCustomControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
-      <Name>Behaviors SDK %28XAML%29</Name>
-    </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>

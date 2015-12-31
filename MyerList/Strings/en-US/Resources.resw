@@ -400,7 +400,7 @@
     <value>Work</value>
   </data>
   <data name="CateDefaultTB.Text" xml:space="preserve">
-    <value>To-Dos</value>
+    <value>All</value>
   </data>
   <data name="CateWorkTB.Text" xml:space="preserve">
     <value>Work</value>
@@ -455,5 +455,14 @@
   </data>
   <data name="Syncing" xml:space="preserve">
     <value>Syncing...</value>
+  </data>
+  <data name="KnownItTB.Text" xml:space="preserve">
+    <value>Got it.</value>
+  </data>
+  <data name="FailToAdd" xml:space="preserve">
+    <value>You need network to sync this new nemo.</value>
+  </data>
+  <data name="UndoneLeftTB.Text" xml:space="preserve">
+    <value>left</value>
   </data>
 </root>

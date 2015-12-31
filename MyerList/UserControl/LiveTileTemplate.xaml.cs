@@ -4,6 +4,7 @@ using JP.Utils.Data;
 using JP.Utils.Debug;
 using MyerList.Helper;
 using MyerList.Model;
+using MyerListUWP.Helper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,7 +40,7 @@ namespace MyerList.UC
             {
                 try
                 {
-                    if (LocalSettingHelper.GetValue("EnableTile") == "false")
+                    if (!AppSettings.Instance.EnableTile)
                     {
                         UpdateTileHelper.ClearAllSchedules();
                         return;
@@ -71,7 +72,7 @@ namespace MyerList.UC
             try
             {
                 //关闭了磁贴更新
-                if (LocalSettingHelper.GetValue("EnableTile") == "false")
+                if (!AppSettings.Instance.EnableTile)
                 {
                     UpdateTileHelper.ClearAllSchedules();
                     return;
@@ -79,12 +80,7 @@ namespace MyerList.UC
 
                 CleanUpTileTemplate();
 
-                //透明磁贴
-                if (LocalSettingHelper.GetValue("TransparentTile") == "true")
-                {
-                    LargeBackGrd.Background = WideBackGrd.Background = MiddleBackGrd.Background = SmallBackGrd.Background = new SolidColorBrush(Colors.Transparent);
-                }
-                LargeBackGrd.Background = WideBackGrd.Background = new SolidColorBrush(Colors.Transparent);
+                LargeBackGrd.Background = WideBackGrd.Background = MiddleBackGrd.Background = SmallBackGrd.Background = new SolidColorBrush(Colors.Transparent);
 
                 List<string> undoList = new List<string>();
 
@@ -152,7 +148,7 @@ namespace MyerList.UC
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecord(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
             }
         }
     }

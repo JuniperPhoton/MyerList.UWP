@@ -52,7 +52,7 @@ namespace MyerList
             }
             catch(Exception ex)
             {
-                var task = ExceptionHelper.WriteRecord(ex, nameof(AboutPage), nameof(FeedbackClick));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(AboutPage), nameof(FeedbackClick));
             }
         }
 
@@ -80,7 +80,7 @@ namespace MyerList
         {
             try
             {
-                var msg = await ExceptionHelper.ReadRecord();
+                var msg = await ExceptionHelper.ReadRecordAsync();
                 var task=ExceptionHelper.EraseRecord();
                 EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
                 EmailMessage mes = new EmailMessage();
@@ -91,7 +91,7 @@ namespace MyerList
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecord(ex, nameof(AboutPage), nameof(stackPanel_DoubleTapped));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(AboutPage), nameof(stackPanel_DoubleTapped));
             }
         }
     }

@@ -21,8 +21,6 @@ namespace MyerListCustomControl
         public static DependencyProperty ContentTextProperty = DependencyProperty.Register("ContentText",
             typeof(string), typeof(ToastService), new PropertyMetadata("Content"));
 
-
-
         public TimeSpan HideTimeSpan
         {
             get { return (TimeSpan)GetValue(HideTimeSpanProperty); }

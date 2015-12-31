@@ -37,6 +37,7 @@ namespace MyerList
                 return this.DataContext as SettingPageViewModel;
             }
         }
+
         public SettingPage()
         {
             this.InitializeComponent();

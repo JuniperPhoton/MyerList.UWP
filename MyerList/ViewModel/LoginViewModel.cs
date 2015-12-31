@@ -156,14 +156,14 @@ namespace MyerList.ViewModel
                     {
                         if (string.IsNullOrEmpty(TempEmail) || string.IsNullOrEmpty(InputPassword))
                         {
-                            await ToastService.SendToastAsync(ResourcesHelper.GetString("InputAlert"));
+                            await ToastService.SendToastAsync(ResourcesHelper.GetResString("InputAlert"));
                             IsLoading = Visibility.Collapsed;
                             return;
                         }
 
                         if (!Functions.IsValidEmail(TempEmail))
                         {
-                            await ToastService.SendToastAsync(ResourcesHelper.GetString("EmailInvaild"));
+                            await ToastService.SendToastAsync(ResourcesHelper.GetResString("EmailInvaild"));
                             IsLoading = Visibility.Collapsed;
                             return;
                         }
@@ -174,7 +174,7 @@ namespace MyerList.ViewModel
                            
                             if (InputPassword != ConfirmPassword)
                             {
-                                await ToastService.SendToastAsync(ResourcesHelper.GetString("PasswordInvaild"));
+                                await ToastService.SendToastAsync(ResourcesHelper.GetResString("PasswordInvaild"));
 
                                 IsLoading = Visibility.Collapsed;
                                 return;
@@ -182,7 +182,7 @@ namespace MyerList.ViewModel
                             var isRegisterSuccessfully = await Register();
                             if (!isRegisterSuccessfully)
                             {
-                                await ToastService.SendToastAsync(ResourcesHelper.GetString("AccountExist"));
+                                await ToastService.SendToastAsync(ResourcesHelper.GetResString("AccountExist"));
                                 IsLoading = Visibility.Collapsed;
                             }
                             else
@@ -191,7 +191,7 @@ namespace MyerList.ViewModel
                                 if(isLogin)
                                 {
                                     Frame rootframe = Window.Current.Content as Frame;
-                                    if (rootframe != null) rootframe.Navigate(typeof(MainPage), LOGINMODE);
+                                    if (rootframe != null) rootframe.Navigate(typeof(MainPage), new LaunchParam() { Mode = LOGINMODE });
                                 }
                             }
                         }
@@ -203,13 +203,13 @@ namespace MyerList.ViewModel
                             if (isLoginSuccessfylly)
                             {
                                 Frame rootframe = Window.Current.Content as Frame;
-                                if (rootframe != null) rootframe.Navigate(typeof(MainPage), LOGINMODE);
+                                if (rootframe != null) rootframe.Navigate(typeof(MainPage), new LaunchParam() { Mode=LOGINMODE});
                             }
                         }
                     }
                     catch (Exception e)
                     {
-                        var task = ExceptionHelper.WriteRecord(e);
+                        var task = ExceptionHelper.WriteRecordAsync(e);
                     }
                 });
             }
@@ -280,9 +280,14 @@ namespace MyerList.ViewModel
                     return false;
                 }
             }
-            catch(COMException)
+            catch(TaskCanceledException)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
+                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                return false;
+            }
+            catch (COMException)
+            {
+                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
                 return false;
             }
         }
@@ -309,29 +314,41 @@ namespace MyerList.ViewModel
                         }
                         else
                         {
-                            await ToastService.SendToastAsync(ResourcesHelper.GetString("NotCorrectContent"));
                             IsLoading = Visibility.Collapsed;
+                            await ToastService.SendToastAsync(ResourcesHelper.GetResString("NotCorrectContent"));
                             return false;
                         }
                     }
                     else
                     {
-                        await ToastService.SendToastAsync(ResourcesHelper.GetString("NotCorrectContent"));
                         IsLoading = Visibility.Collapsed;
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("NotCorrectContent"));
                         return false;
                     }
                 }
                 else
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetString("AccountNotExistContent"));
                     IsLoading = Visibility.Collapsed;
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("AccountNotExistContent"));
                     return false;
                 }
             }
+            catch(TaskCanceledException)
+            {
+                IsLoading = Visibility.Collapsed;
+                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                return false;
+            }
             catch (COMException)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetString("RequestError"));
                 IsLoading = Visibility.Collapsed;
+                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                return false;
+            }
+            catch(Exception)
+            {
+                IsLoading = Visibility.Collapsed;
+                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
                 return false;
             }
         }
@@ -348,8 +365,8 @@ namespace MyerList.ViewModel
         private void ToRegisterMode()
         {
             ShowRegister = Visibility.Visible;
-            Title = ResourcesHelper.GetString("Register");
-            BtnContent = ResourcesHelper.GetString("Register");
+            Title = ResourcesHelper.GetResString("Register");
+            BtnContent = ResourcesHelper.GetResString("Register");
         }
 
         public void Activate(object param)
