@@ -139,6 +139,9 @@
     <Compile Include="UserControl\AddingPane.xaml.cs">
       <DependentUpon>AddingPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\CategorySettingControl.xaml.cs">
+      <DependentUpon>CategorySettingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\DeleteScheduleControl.xaml.cs">
       <DependentUpon>DeleteScheduleControl.xaml</DependentUpon>
     </Compile>
@@ -292,6 +295,10 @@
     <Page Include="UserControl\AddingPane.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl\CategorySettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\DeleteScheduleControl.xaml">
       <Generator>MSBuild:Compile</Generator>
