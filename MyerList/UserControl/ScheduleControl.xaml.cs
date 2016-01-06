@@ -3,12 +3,15 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight.Messaging;
 using MyerList.Helper;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
+using System;
+using MyerList.Model;
 
 namespace MyerList.UC
 {
     public sealed partial class ScheduleControl : UserControl
     {
-
         TranslateTransform _tranTemplete = new TranslateTransform();
         bool _isToBeDone = false;
         bool _isInDeleteMode = false;
@@ -16,6 +19,14 @@ namespace MyerList.UC
 
         ManipulationModes defaultmode=ManipulationModes.TranslateX | ManipulationModes.System;
         ManipulationModes reordermode = ManipulationModes.TranslateY;
+
+        public ToDo CurrentToDo
+        {
+            get
+            {
+                return this.DataContext as ToDo;
+            }
+        }
 
         public ScheduleControl()
         {
@@ -113,18 +124,15 @@ namespace MyerList.UC
                     }
                 }
             }
-
         }
 
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            Grid _grid = sender as Grid;
-
             if (e.Cumulative.Translation.X > 10)
             {
                 if (e.Cumulative.Translation.X > 100)
                 {
-                   Messenger.Default.Send(new GenericMessage<string>((string)_grid.Tag),MessengerTokens.CheckToDo);
+                   Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag),MessengerTokens.CheckToDo);
                 }
                 HideGreenStory.Begin();
                 BeginReturnStoryboard(e.Cumulative.Translation.X);
@@ -133,8 +141,10 @@ namespace MyerList.UC
             {
                 if (e.Cumulative.Translation.X < -100)
                 {
-                    if (_grid != null)
-                        Messenger.Default.Send(new GenericMessage<string>((string)_grid.Tag), MessengerTokens.DeleteToDo);
+                    if (SchduleTempleteGrid != null)
+                    {
+                        Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag), MessengerTokens.DeleteToDo);
+                    }
                 }
                 HideRedStory.Begin();
                 BeginReturnStoryboard(e.Cumulative.Translation.X);
@@ -143,5 +153,50 @@ namespace MyerList.UC
             _isInDeleteMode = false;
         }
 
+        private void SchduleTempleteGrid_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            if (element != null)
+            {
+                try
+                {
+                    var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
+                    var position = e.GetPosition(null);
+                    attatchedFlyout.ShowAt(null, position);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        private void SchduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            if (element != null)
+            {
+                try
+                {
+                    var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
+                    var position = e.GetPosition(null);
+                    attatchedFlyout.ShowAt(null, position);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        private void MarkDownItem_Click(object sender, RoutedEventArgs e)
+        {
+            Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag), MessengerTokens.CheckToDo);
+        }
+
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag), MessengerTokens.DeleteToDo);
+        }
     }
 }

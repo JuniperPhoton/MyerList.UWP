@@ -22,8 +22,8 @@
     </Interactivity:Interaction.Behaviors>
     <base:BindablePage.Resources>
         <Storyboard x:Name="AddStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="AddingPane">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-400"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPane">
+                <EasingDoubleKeyFrame KeyTime="0" x:Name="AddingPaneFirstOffset" Value="-400"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <QuinticEase EasingMode="EaseOut"/>
@@ -35,10 +35,22 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ListGrid">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddingPane">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPane">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
+                    <DiscreteObjectKeyFrame.Value>Visible</DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>Visible</DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ListGrid">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-200"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="DefaultCommandBar">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
@@ -58,17 +70,29 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="RemoveStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="AddingPane">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPane">
                 <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="-400">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" x:Name="AddingPaneLastOffset" Value="-400">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CubicEase EasingMode="EaseOut"/>
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ListGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="96.9843"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddingPane">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPane">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
+                    <DiscreteObjectKeyFrame.Value>Visible</DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>Collapsed</DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ListGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-96.9843"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
                         <CircleEase EasingMode="EaseOut"/>
@@ -303,7 +327,7 @@
             <Grid x:Name="ListContentGrid" Grid.Row="1" Background="White">
                 <Grid x:Name="ListGrid">
                     <Grid.RenderTransform>
-                        <CompositeTransform />
+                        <CompositeTransform/>
                     </Grid.RenderTransform>
                     <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedIndex,Mode=TwoWay}" IsLocked="True" Background="White">
                         <Pivot.RenderTransform>
@@ -376,16 +400,17 @@
             </CommandBar>
             <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
         </Grid>
+        <uc:AddingPane x:Name="AddingPane" Margin="0 -30 0 0" Visibility="Collapsed" Opacity="0" Background="{StaticResource MyerListBlueLight}" Grid.RowSpan="5" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+            <uc:AddingPane.RenderTransform>
+                <CompositeTransform TranslateX="-3000"/>
+            </uc:AddingPane.RenderTransform>
+        </uc:AddingPane>
         <uc:NavigationDrawer x:Name="Drawer" Width="250" Margin="0 -30 0 0" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}" RenderTransformOrigin="0.5,0.5">
             <uc:NavigationDrawer.RenderTransform>
                 <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>
         </uc:NavigationDrawer>
-        <uc:AddingPane x:Name="AddingPane" Margin="0 -30 0 0" Background="{StaticResource MyerListBlueLight}" Height="260" Grid.RowSpan="5" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <uc:AddingPane.RenderTransform>
-                <CompositeTransform TranslateY="-400"/>
-            </uc:AddingPane.RenderTransform>
-        </uc:AddingPane>
+       
         <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="20" ManipulationMode="TranslateX" ManipulationStarted="Grid_ManipulationStarted" ManipulationDelta="Grid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
         <Grid x:Name="FeatureGrid">
             <Border Background="#E1000000"/>

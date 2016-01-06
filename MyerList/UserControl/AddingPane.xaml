@@ -36,7 +36,7 @@
                             </Grid.Resources>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                   
+
                                     <VisualState x:Name="Normal">
                                         <VisualState.Setters>
                                             <Setter Target="PressedBackground.(UIElement.Visibility)" Value="Collapsed"/>
@@ -174,9 +174,8 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-
-    <Grid x:Name="AddGrid" Background="{x:Bind MainVM.CateColor,Mode=OneWay}" Height="260" Grid.RowSpan="5" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-        <StackPanel MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,10">
+    <Grid x:Name="AddGrid" Background="{x:Bind MainVM.CateColor,Mode=OneWay}" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+        <StackPanel MaxWidth="450" VerticalAlignment="Center" Margin="0">
             <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                 <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" FontWeight="Bold" Margin="0" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ListBox 

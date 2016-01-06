@@ -41,31 +41,38 @@
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="GoSortStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="button">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="DeleteBtn">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-30"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="button1">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="SortBtn">
                 <EasingDoubleKeyFrame KeyTime="0" Value="30"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="LeaveSortStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="button">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="DeleteBtn">
                 <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="button1">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="SortBtn">
                 <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="30"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid"  Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+    <Grid x:Name="SchduleTempleteGrid" Holding="SchduleTempleteGrid_Holding" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+        <FlyoutBase.AttachedFlyout>
+            <MenuFlyout x:Name="ItemFlyout">
+                <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Uid="MarkDeleteItem" Click="DeleteItem_Click" Text="删除" />
+            </MenuFlyout>
+        </FlyoutBase.AttachedFlyout>
         <ToolTipService.ToolTip>
             <StackPanel>
-                <TextBlock Text="{Binding CreateTime}" Margin="5" Opacity="0.5" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Content}" Margin="5" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding CreateTime,Mode=OneWay}" Margin="5" Opacity="0.5" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding Content,Mode=OneWay}" Margin="5" TextWrapping="Wrap"/>
             </StackPanel>
         </ToolTipService.ToolTip>
         <Grid.ColumnDefinitions>
@@ -87,35 +94,33 @@
                     Padding="0"
                     Style="{StaticResource ButtonCommonStyle}"
                     Command="{Binding MainVM.ChangeCateCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                    CommandParameter="{Binding ID}"
+                    CommandParameter="{Binding ID,Mode=OneWay}"
                     Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
                     <Border Background="White" Opacity="0.001"/>
-                    <Ellipse Width="15" Height="15" Fill="{Binding Category,Converter={StaticResource CateColorConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Ellipse Width="15" Height="15" Fill="{Binding Category,Mode=OneWay,Converter={StaticResource CateColorConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
-                <TextBlock FontWeight="Light"  Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left">
-                    
-                </TextBlock>
-                <Border Background="#FF888888" Visibility="{Binding IsDone, Converter={StaticResource ShowDoneLineConverter}}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
+                <TextBlock FontWeight="Light"  Text="{Binding Content,Mode=OneWay}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left"/>
+                <Border Background="#FF888888" Visibility="{Binding IsDone,Mode=OneWay,Converter={StaticResource ShowDoneLineConverter}}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="2">
             <Grid.Clip>
                 <RectangleGeometry Rect="0 0 30 30"/>
             </Grid.Clip>
-            <Button x:Name="button" MinHeight="0" MinWidth="0" Padding="0" Margin="0" Style="{StaticResource ButtonCommonStyle}" 
+            <Button x:Name="DeleteBtn" MinHeight="0" MinWidth="0" Padding="0" Margin="0" 
                 Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding ID}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
+                CommandParameter="{Binding ID,Mode=OneWay}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
                 <Button.RenderTransform>
                     <CompositeTransform/>
                 </Button.RenderTransform>
                 <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
             </Button>
-            <Button x:Name="button1" Padding="0" Margin="0" IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" 
+            <Button x:Name="SortBtn" Padding="0" Margin="0" IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" 
                 Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding ID}" HorizontalAlignment="Center" Background="{x:Null}" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
+                CommandParameter="{Binding ID,Mode=OneWay}" HorizontalAlignment="Center" Background="{x:Null}" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
                 <Button.RenderTransform>
                     <CompositeTransform TranslateX="30"/>
                 </Button.RenderTransform>

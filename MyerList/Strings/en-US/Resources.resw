@@ -465,4 +465,10 @@
   <data name="UndoneLeftTB.Text" xml:space="preserve">
     <value>left</value>
   </data>
+  <data name="MarkDeleteItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="MarkDownItem.Text" xml:space="preserve">
+    <value>Mark done/undone</value>
+  </data>
 </root>

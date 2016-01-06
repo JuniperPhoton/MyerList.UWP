@@ -465,4 +465,10 @@
   <data name="UndoneLeftTB.Text" xml:space="preserve">
     <value>个没完成的</value>
   </data>
+  <data name="MarkDeleteItem.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="MarkDownItem.Text" xml:space="preserve">
+    <value>标记“已完成”/"未完成"</value>
+  </data>
 </root>

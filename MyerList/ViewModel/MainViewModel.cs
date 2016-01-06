@@ -44,7 +44,6 @@ namespace MyerList.ViewModel
             }
         }
 
-
         #region 汉堡包/类别/导航
         /// <summary>
         /// 选择了的类别
@@ -135,8 +134,6 @@ namespace MyerList.ViewModel
                         case 0:
                             {
                                 Title = ResourcesHelper.GetResString("ToDoPivotItem");
-                                DeleteIconAlpha = 0.3;
-                                TodoIconAlpha = 1;
                                 Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.ChangeCommandBarToDefault);
                             }; break;
                         case 1:
@@ -171,40 +168,6 @@ namespace MyerList.ViewModel
                  {
                      SelectedIndex = 1;
                  });
-            }
-        }
-
-        private double _todoIconAlpha;
-        public double TodoIconAlpha
-        {
-            get
-            {
-                return _todoIconAlpha;
-            }
-            set
-            {
-                if (_todoIconAlpha != value)
-                {
-                    _todoIconAlpha = value;
-                    RaisePropertyChanged(() => TodoIconAlpha);
-                }
-            }
-        }
-
-        private double _deleteIconAlpha;
-        public double DeleteIconAlpha
-        {
-            get
-            {
-                return _deleteIconAlpha;
-            }
-            set
-            {
-                if (_deleteIconAlpha != value)
-                {
-                    _deleteIconAlpha = value;
-                    RaisePropertyChanged(() => DeleteIconAlpha);
-                }
             }
         }
 
@@ -723,7 +686,6 @@ namespace MyerList.ViewModel
                 }
             }
         }
-
         #endregion
 
         #region 已经删除的
@@ -958,10 +920,14 @@ namespace MyerList.ViewModel
 
             //设置当前页面为 To-Do
             SelectedIndex = 0;
-            TodoIconAlpha = 1;
-            DeleteIconAlpha = 0.3;
+
             Title = ResourcesHelper.GetResString("CateDefault");
 
+            RegisterMessenger();
+        }
+
+        private void RegisterMessenger()
+        {
             //完成ToDo
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CheckToDo, act =>
             {
@@ -971,10 +937,10 @@ namespace MyerList.ViewModel
 
             //删除To-Do
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.DeleteToDo, act =>
-             {
-                 var id = act.Content;
-                 DeleteCommand.Execute(id);
-             });
+            {
+                var id = act.Content;
+                DeleteCommand.Execute(id);
+            });
 
             Messenger.Default.Register<GenericMessage<ToDo>>(this, MessengerTokens.ReaddToDo, act =>
             {
@@ -983,11 +949,15 @@ namespace MyerList.ViewModel
             });
 
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CompleteSort, async act =>
-              {
-                  await UpdateOrder();
-              });
+            {
+                await UpdateOrder();
+            });
         }
 
+        /// <summary>
+        /// 更新排序
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateOrder()
         {
             var orderStr = ToDo.GetCurrentOrderString(MyToDos);
@@ -1384,6 +1354,10 @@ namespace MyerList.ViewModel
             }
         }
 
+        /// <summary>
+        /// 更新颜色
+        /// </summary>
+        /// <param name="id"></param>
         private void UpdateColor(int id)
         {
             var cateid = id;
@@ -1394,6 +1368,10 @@ namespace MyerList.ViewModel
                 StatusBarHelper.SetUpStatusBar(Enum.GetName(typeof(CateColors), cateid));
         }
 
+        /// <summary>
+        /// 更新要显示的类别
+        /// </summary>
+        /// <param name="id"></param>
         private void UpdateDisplayList(int id)
         {
             if (id != 0 && id != 5)
@@ -1439,6 +1417,10 @@ namespace MyerList.ViewModel
             }
         }
 
+        /// <summary>
+        /// 重新发送暂存区的ToDo
+        /// </summary>
+        /// <returns></returns>
         private async Task ReSendStagedToDos()
         {
             foreach (var item in StagedToDos)
@@ -1450,6 +1432,9 @@ namespace MyerList.ViewModel
             await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
         }
 
+        /// <summary>
+        /// 更新显示未完成的数字
+        /// </summary>
         private void UpdateUndoneCount()
         {
             var count = 0;
@@ -1461,87 +1446,75 @@ namespace MyerList.ViewModel
         }
 
         /// <summary>
-        /// 进入 MainPage 会调用
+        /// 初始化，还原列表等
+        /// 区分账户的各种状态：离线模式，没有网络，登录了有网络
         /// </summary>
-        /// <param name="p"></param>
-        public async void Activate(object p)
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private async Task HandleActive(LaunchParam args)
         {
-            UpdateColor(this.SelectedCate == -1 ? 0 : this.SelectedCate);
-            if (p is LaunchParam)
+            var mode = args.Mode;
+            var stringParam = args.Param;
+
+            //已经登陆过的了
+            if (mode != LoginMode.OfflineMode)
             {
-                var param = p as LaunchParam;
-                if (App.IsSyncListOnce) return;
-                App.IsSyncListOnce = true;
+                CurrentUser.Email = LocalSettingHelper.GetValue("email");
+                ShowLoginBtnVisibility = Visibility.Collapsed;
+                ShowAccountInfoVisibility = Visibility.Visible;
 
-                var mode = param.Mode;
-                var stringParam = param.Param;
-
-                HandleJumpListLaunch(stringParam);
-
-                //已经登陆过的了
-                if (mode != LoginMode.OfflineMode)
+                if (stringParam == JumpListHelper.AddToken)
                 {
-                    CurrentUser.Email = LocalSettingHelper.GetValue("email");
-                    ShowLoginBtnVisibility = Visibility.Collapsed;
-                    ShowAccountInfoVisibility = Visibility.Visible;
-
-                    if (stringParam == JumpListHelper.AddToken)
-                    {
-                        AddCommand.Execute(null);
-                    }
-
-                    //没有网络
-                    if (App.IsNoNetwork)
-                    {
-                        await RestoreData();
-                        await Task.Delay(500);
-
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
-                    }
-                    //有网络
-                    else
-                    {
-                        await RestoreData();
-
-                        SelectedCate = 0;
-
-                        if (mode == LoginMode.OfflineModeToLogin || mode == LoginMode.OfflineModeToRegister) await AddAllToDos();
-
-                        if(StagedToDos.Count>0)
-                        {
-                            await ReSendStagedToDos();
-                        }
-                        await SyncAllToDos();
-                        CurrentDisplayToDos = MyToDos;
-                    }
+                    AddCommand.Execute(null);
                 }
-                //处于离线模式
-                else if (mode == LoginMode.OfflineMode)
+
+                //没有网络
+                if (App.IsNoNetwork)
                 {
-                    ShowLoginBtnVisibility = Visibility.Visible;
-                    ShowAccountInfoVisibility = Visibility.Collapsed;
                     await RestoreData();
+                    await Task.Delay(500);
+
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
                 }
+                //有网络
+                else
+                {
+                    await RestoreData();
+
+                    SelectedCate = 0;
+
+                    if (mode == LoginMode.OfflineModeToLogin || mode == LoginMode.OfflineModeToRegister) await AddAllToDos();
+
+                    if (StagedToDos.Count > 0)
+                    {
+                        await ReSendStagedToDos();
+                    }
+                    await SyncAllToDos();
+                    CurrentDisplayToDos = MyToDos;
+                }
+            }
+            //处于离线模式
+            else if (mode == LoginMode.OfflineMode)
+            {
+                ShowLoginBtnVisibility = Visibility.Visible;
+                ShowAccountInfoVisibility = Visibility.Collapsed;
+                await RestoreData();
             }
         }
 
-        private void HandleJumpListLaunch(string stringParam)
+        /// <summary>
+        /// 进入 MainPage 会调用
+        /// </summary>
+        /// <param name="param"></param>
+        public async void Activate(object param)
         {
-            if (stringParam == JumpListHelper.WorkToken)
+            UpdateColor(this.SelectedCate == -1 ? 0 : this.SelectedCate);
+            if (param is LaunchParam)
             {
-                SelectedCate = 1;
-            }
-            else if (stringParam == JumpListHelper.LifeToken)
-            {
-                SelectedCate = 2;
-            }
-            else if (stringParam == JumpListHelper.FamilyToken)
-            {
-                SelectedCate = 3;
-            }
-            else if (stringParam == JumpListHelper.EnterToken)
-            {
-                SelectedCate = 4;
+                if (App.IsSyncListOnce) return;
+                App.IsSyncListOnce = true;
+
+                await HandleActive(param as LaunchParam);
             }
         }
 

@@ -104,6 +104,9 @@ namespace MyerListUWP.View
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
             }
+
+            AddingPaneFirstOffset.Value= -this.ActualWidth;
+            AddingPaneLastOffset.Value = -this.ActualWidth;
         }
 
         public static async void IsAddingPaneOpenPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs args)
@@ -164,6 +167,9 @@ namespace MyerListUWP.View
             else _isDrawerSlided = false;
             ListContentGrid.Margin = new Thickness(left, 0, right, 0);
             HeaderContentGrid.Margin = new Thickness(left, 0, right, 0);
+
+            AddingPaneFirstOffset .Value= -this.ActualWidth;
+            AddingPaneLastOffset.Value = -this.ActualWidth;
         }
 
         #endregion

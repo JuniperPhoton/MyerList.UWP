@@ -5,9 +5,9 @@
     xmlns:model="using:MyerList.Model"
     >
     <DataTemplate x:Key="ScheduleTemplete">
-        <uc:ScheduleControl />
+        <uc:ScheduleControl/>
     </DataTemplate>
     <DataTemplate x:Key="DeletedTemplete">
-        <uc:DeleteScheduleControl />
+        <uc:DeleteScheduleControl/>
     </DataTemplate>
 </ResourceDictionary>

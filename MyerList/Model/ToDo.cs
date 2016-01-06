@@ -1,18 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
-using ChaoFunctionRT;
 using JP.Utils.Debug;
-using Windows.ApplicationModel.Resources;
 using MyerList.Helper;
 
 namespace MyerList.Model
 {
-    public class ToDo:ViewModelBase
+    public class ToDo : ViewModelBase
     {
         private int _category;
         public int Category
@@ -41,7 +38,7 @@ namespace MyerList.Model
             }
             set
             {
-                if(_id!=value)
+                if (_id != value)
                     _id = value;
                 RaisePropertyChanged(() => ID);
             }
@@ -56,9 +53,9 @@ namespace MyerList.Model
             }
             set
             {
-                if(_sid!=value)
+                if (_sid != value)
                     _sid = value;
-                RaisePropertyChanged(()=>SID);
+                RaisePropertyChanged(() => SID);
             }
         }
 
@@ -71,9 +68,9 @@ namespace MyerList.Model
             }
             set
             {
-                if(_content!=value)
+                if (_content != value)
                     _content = value;
-                RaisePropertyChanged(()=>Content);
+                RaisePropertyChanged(() => Content);
             }
         }
 
@@ -104,7 +101,7 @@ namespace MyerList.Model
             }
             set
             {
-                if(_order!=value)
+                if (_order != value)
                 {
                     _order = value;
                     RaisePropertyChanged(() => Order);
@@ -121,9 +118,9 @@ namespace MyerList.Model
             }
             set
             {
-                if(_isdone!=value)
+                if (_isdone != value)
                     _isdone = value;
-                RaisePropertyChanged(()=>IsDone);
+                RaisePropertyChanged(() => IsDone);
             }
         }
 
@@ -145,7 +142,7 @@ namespace MyerList.Model
                     ObservableCollection<ToDo> temp = new ObservableCollection<ToDo>();
                     foreach (var orderID in order_list)
                     {
-                        if (orderID == "" || orderID==" ")
+                        if (orderID == "" || orderID == " ")
                         {
                             continue;
                         }
@@ -163,21 +160,21 @@ namespace MyerList.Model
                             orisches.Remove(currentSche);
                         }
                     }
-                    foreach(var item in orisches)
+                    foreach (var item in orisches)
                     {
                         temp.Add(item);
                     }
                     return temp;
                 }
                 else return orisches;
-            
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 var task = ExceptionHelper.WriteRecordAsync(e);
                 return orisches;
             }
-           
+
         }
 
         public static ObservableCollection<ToDo> ParseJsonToObs(string jsontext)
@@ -211,12 +208,12 @@ namespace MyerList.Model
                     }
                 return schedules;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                var task=ExceptionHelper.WriteRecordAsync(e);
+                var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;
             }
-            
+
         }
 
         public static ToDo ParseJsonTo(string jsontext)
@@ -225,7 +222,7 @@ namespace MyerList.Model
             JObject info = job["ScheduleInfo"] as JObject;
 
             if (info == null) return null;
-            
+
             ToDo newSchedule = new ToDo();
 
             newSchedule.ID = (string)info["id"];
@@ -245,19 +242,19 @@ namespace MyerList.Model
         {
             try
             {
-                if (schedules.Count == 0 || schedules==null)
+                if (schedules.Count == 0 || schedules == null)
                 {
                     return "0";
                 }
                 StringBuilder sb = new StringBuilder();
                 foreach (var sche in schedules)
                 {
-                    if(sche!=null) sb.Append(sche.ID + ",");
+                    if (sche != null) sb.Append(sche.ID + ",");
                 }
 
                 return sb.ToString();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 var task = ExceptionHelper.WriteRecordAsync(e);
                 return null;

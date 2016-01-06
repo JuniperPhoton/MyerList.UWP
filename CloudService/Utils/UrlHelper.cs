@@ -9,7 +9,6 @@ namespace MyerList.Helper
     public static class UrlHelper
     {
         #region API_URI
-
         public static string domain = "juniperphoton.net";
         public static string UserCheckExist = "http://" + domain + "/schedule/User/CheckUserExist/v1?";
         public static string UserRegisterUri = "http://" + domain + "/schedule/User/Register/v1?";
