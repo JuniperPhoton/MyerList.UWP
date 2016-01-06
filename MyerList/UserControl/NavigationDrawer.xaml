@@ -106,13 +106,13 @@
         <Grid>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,30">
                 <TextBlock Text="{x:Bind MainVM.UndoneCount,Mode=OneWay}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Agency FB" FontSize="106.667" Margin="0"/>
-                <TextBlock x:Uid="UndoneLeftTB" FontFamily="Microsoft JhengHei UI" Text="个没完成" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15" FontSize="17.333"/>
+                <TextBlock x:Uid="UndoneLeftTB" FontFamily="{StaticResource MyerListThemeFontFamily}" Text="个没完成" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15" FontSize="17.333"/>
             </StackPanel>
             <StackPanel Margin="0,5,0,20" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <TextBlock x:Uid="AccountTB" Text="ACCOUNT" Foreground="White" FontWeight="Bold" FontFamily="Microsoft JhengHei UI"/>
-                <TextBlock Text="{x:Bind MainVM.CurrentUser.Email,Mode=OneWay}" Visibility="{x:Bind MainVM.ShowAccountInfoVisibility,Mode=OneWay}" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
+                <TextBlock x:Uid="AccountTB" Text="ACCOUNT" Foreground="White" FontWeight="Bold" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
+                <TextBlock Text="{x:Bind MainVM.CurrentUser.Email,Mode=OneWay}" Visibility="{x:Bind MainVM.ShowAccountInfoVisibility,Mode=OneWay}" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                 <Button Style="{StaticResource ButtonCommonStyle}" Command="{x:Bind MainVM.LoginCommand}" Visibility="{x:Bind MainVM.ShowLoginBtnVisibility,Mode=OneWay}" Background="{x:Null}" HorizontalAlignment="Stretch">
-                    <TextBlock x:Uid="LoginNowTB" Text="LOGIN NOW" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
+                    <TextBlock x:Uid="LoginNowTB" Text="LOGIN NOW" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                 </Button>
             </StackPanel>
         </Grid>
@@ -127,37 +127,37 @@
                         <Button IsHitTestVisible="False" Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="0" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                                 <Ellipse Width="20" Height="20" Fill="{StaticResource MyerListBlueLight}"/>
-                                <TextBlock x:Uid="CateDefaultTB" Text="All" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                                <TextBlock x:Uid="CateDefaultTB" Text="All" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                             </StackPanel>
                         </Button>
                         <Button  IsHitTestVisible="False"  Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="1" Style="{StaticResource ListButtonStyle}"  Background="#FFFA2929" Margin="0" HorizontalAlignment="Stretch" Height="50">
                             <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                                 <Ellipse Width="20" Height="20" Fill="#FF436998"/>
-                                <TextBlock x:Uid="CateWorkTB" Text="Work" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                                <TextBlock x:Uid="CateWorkTB" Text="Work" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                             </StackPanel>
                         </Button>
                         <Button  IsHitTestVisible="False"  Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="2"  Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50">
                             <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                                 <Ellipse Width="20" Height="20" Fill="{StaticResource LifeColor}"/>
-                                <TextBlock x:Uid="CateLifeTB" Text="Life" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                                <TextBlock x:Uid="CateLifeTB" Text="Life" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                             </StackPanel>
                         </Button>
                         <Button  IsHitTestVisible="False"  Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="3"  Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50">
                             <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                                 <Ellipse Width="20" Height="20" Fill="{StaticResource FamilyColor}"/>
-                                <TextBlock x:Uid="CateFamilyTB" Text="Family" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                                <TextBlock x:Uid="CateFamilyTB" Text="Family" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                             </StackPanel>
                         </Button>
                         <Button  IsHitTestVisible="False"  Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="4"  Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50">
                             <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                                 <Ellipse Width="20" Height="20" Fill="{StaticResource EnterColor}"/>
-                                <TextBlock x:Uid="CateEnterTB" Text="Entertainment" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                                <TextBlock x:Uid="CateEnterTB" Text="Entertainment" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                             </StackPanel>
                         </Button>
                         <Button  IsHitTestVisible="False"  Command="{x:Bind MainVM.SelectCateCommand}" CommandParameter="5"  Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50">
                             <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                                 <Ellipse Width="20" Height="20" Fill="{StaticResource DeletedColor}"/>
-                                <TextBlock x:Uid="CateDeletedTB" Text="Deleted" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                                <TextBlock x:Uid="CateDeletedTB" Text="Deleted" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                             </StackPanel>
                         </Button>
                     </ListBox.Items>
@@ -172,13 +172,13 @@
             <Button Command="{x:Bind MainVM.GoToSettingCommand}" HorizontalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}"  BorderThickness="0" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <SymbolIcon Symbol="Setting" Margin="0" Foreground="White"/>
-                    <TextBlock x:Uid="SettingTB" Text="SETTINGS" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                    <TextBlock x:Uid="SettingTB" Text="SETTINGS" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                 </StackPanel>
             </Button>
             <Button Command="{x:Bind MainVM.GoToAboutCommand}" HorizontalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" BorderThickness="0" HorizontalAlignment="Stretch" Margin="0" Grid.Column="1" VerticalAlignment="Stretch" >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <SymbolIcon Symbol="Emoji2" Margin="0" Foreground="White"/>
-                    <TextBlock x:Uid="AboutTB" Text="ABOUT" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="Microsoft JhengHei UI" Foreground="White"/>
+                    <TextBlock x:Uid="AboutTB" Text="ABOUT" VerticalAlignment="Center" Margin="10,0,0,0" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                 </StackPanel>
             </Button>
         </Grid>

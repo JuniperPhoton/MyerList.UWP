@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MyerList.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyerList.Model
+namespace MyerListUWP.Common
 {
     public class MultiWindowsData
     {

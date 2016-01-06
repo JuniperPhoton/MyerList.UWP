@@ -102,7 +102,7 @@
                 </Grid>
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
-                <TextBlock FontWeight="Light"  Text="{Binding Content,Mode=OneWay}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left"/>
+                <TextBlock FontWeight="Light"  Text="{Binding Content,Mode=OneWay}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left"/>
                 <Border Background="#FF888888" Visibility="{Binding IsDone,Mode=OneWay,Converter={StaticResource ShowDoneLineConverter}}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
             </Grid>
         </Grid>

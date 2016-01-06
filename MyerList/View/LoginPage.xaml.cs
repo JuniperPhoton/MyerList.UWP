@@ -1,16 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Helper;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Graphics.Canvas.UI;
-using Microsoft.Graphics.Canvas.UI.Xaml;
 using MyerList.Base;
 using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListUWP;
-using System;
-using System.Threading.Tasks;
-using Windows.Foundation;
+using MyerListUWP.Common;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -20,7 +14,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace MyerList
 {
-
     public sealed partial class LoginPage : CustomTitleBarPage
     {
         public LoginViewModel LoginVM;

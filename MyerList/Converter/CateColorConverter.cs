@@ -1,10 +1,5 @@
 ﻿using MyerListUWP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
@@ -36,7 +31,6 @@ namespace MyerList.Converter
                     {
                         return (App.Current.Resources["EnterColor"] as SolidColorBrush);
                     }; 
-                
             }
             return (App.Current.Resources["MyerListBlueLight"] as SolidColorBrush);
         }

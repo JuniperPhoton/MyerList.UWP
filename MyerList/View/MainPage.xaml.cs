@@ -6,6 +6,7 @@ using MyerList.Helper;
 using MyerList.Model;
 using MyerList.ViewModel;
 using MyerListCustomControl;
+using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System.Collections.Generic;
 using System.Threading.Tasks;

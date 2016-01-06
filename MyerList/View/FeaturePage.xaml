@@ -31,7 +31,7 @@
         </FlipView>
         <Button x:Name="EnterBtn" Click="EnterBtn_Click" Margin="10,0,10,0" HorizontalContentAlignment="Stretch" Grid.Row="1" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" HorizontalAlignment="Stretch">
             <Border Background="{StaticResource DefaultColor}" BorderBrush="{StaticResource DefaultColor}" Height="40">
-                <TextBlock x:Uid="EnterTB" Text="ENTER" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI"/>
+                <TextBlock x:Uid="EnterTB" Text="ENTER" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
             </Border>
         </Button>
     </Grid>

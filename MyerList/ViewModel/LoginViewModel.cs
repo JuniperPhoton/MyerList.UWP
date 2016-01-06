@@ -9,6 +9,7 @@ using MyerList.Interface;
 using MyerList.Model;
 using MyerListCustomControl;
 using MyerListUWP;
+using MyerListUWP.Common;
 using MyerListUWP.View;
 using System;
 using System.Runtime.InteropServices;

@@ -350,8 +350,8 @@
                                     attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"
                                      />
                                 <StackPanel x:Name="stackPanel1" Orientation="Vertical"  Visibility="{x:Bind MainVM.ShowNoItems,Mode=OneWay}" Grid.RowSpan="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,100">
-                                    <TextBlock x:Uid="WorkDoneTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="WORK DONE" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="Microsoft JhengHei UI"/>
-                                    <TextBlock x:Uid="EnjoyTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Enjoy your day ;-)" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="Microsoft JhengHei UI"/>
+                                    <TextBlock x:Uid="WorkDoneTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="WORK DONE" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
+                                    <TextBlock x:Uid="EnjoyTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Enjoy your day ;-)" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                                 </StackPanel>
                             </Grid>
                         </PivotItem>
@@ -370,8 +370,8 @@
                                     SelectionMode="None" BorderThickness="10,0" Margin="0,30,0,50">
                                 </ListView>
                                 <StackPanel Orientation="Vertical" Visibility="{x:Bind MainVM.NoDeletedItemsVisibility,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,0,0,100">
-                                    <TextBlock x:Uid="NoDeletedTB" Text="NoDeleted" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26.667" FontFamily="Microsoft JhengHei UI" Opacity="0.8" FontWeight="Light"/>
-                                    <TextBlock x:Uid="DeletedHintTB" Text="Deleted items will be showed up here" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Microsoft JhengHei UI" Opacity="0.8" FontWeight="Light" TextTrimming="WordEllipsis" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    <TextBlock x:Uid="NoDeletedTB" Text="NoDeleted" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26.667" FontFamily="{StaticResource MyerListThemeFontFamily}" Opacity="0.8" FontWeight="Light"/>
+                                    <TextBlock x:Uid="DeletedHintTB" Text="Deleted items will be showed up here" Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="{StaticResource MyerListThemeFontFamily}" Opacity="0.8" FontWeight="Light" TextTrimming="WordEllipsis" TextWrapping="Wrap" TextAlignment="Center"/>
                                 </StackPanel>
                             </Grid>
                         </PivotItem>

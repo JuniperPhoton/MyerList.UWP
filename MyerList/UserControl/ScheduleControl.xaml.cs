@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using System;
 using MyerList.Model;
+using MyerListUWP.Common;
 
 namespace MyerList.UC
 {

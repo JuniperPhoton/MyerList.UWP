@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System;
 using Windows.Storage;
 
-namespace MyerListUWP.Helper
+namespace MyerListUWP.Common
 {
     public class AppSettings:ViewModelBase
     {

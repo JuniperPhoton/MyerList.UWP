@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyerList.Model
+namespace MyerListUWP.Common
 {
     public class LaunchParam
     {

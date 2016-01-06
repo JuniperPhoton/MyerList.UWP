@@ -47,12 +47,12 @@
                     <Rectangle Grid.Column="3" Fill="{StaticResource EnterColor}"/>
                 </Grid>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0" RenderTransformOrigin="0.5,0.5">
-                    <TextBlock HorizontalAlignment="Left" FontWeight="Bold" TextWrapping="Wrap" Text="{x:Bind LoginVM.Title,Mode=OneWay}"  VerticalAlignment="Center" Foreground="Black" FontSize="23" Margin="10,20,0,0" FontFamily="Microsoft JhengHei UI" />
-                    <TextBlock x:Uid="LoginHintTB" x:Name="LoginHint" HorizontalAlignment="Left" FontWeight="Light" TextWrapping="Wrap" Text="Login to sync your todos"  VerticalAlignment="Center" Foreground="#9A000000" FontSize="15" Margin="10,10,10,20" FontFamily="Microsoft JhengHei UI" />
+                    <TextBlock HorizontalAlignment="Left" FontWeight="Bold" TextWrapping="Wrap" Text="{x:Bind LoginVM.Title,Mode=OneWay}"  VerticalAlignment="Center" Foreground="Black" FontSize="23" Margin="10,20,0,0" FontFamily="{StaticResource MyerListThemeFontFamily}" />
+                    <TextBlock x:Uid="LoginHintTB" x:Name="LoginHint" HorizontalAlignment="Left" FontWeight="Light" TextWrapping="Wrap" Text="Login to sync your todos"  VerticalAlignment="Center" Foreground="#9A000000" FontSize="15" Margin="10,10,10,20" FontFamily="{StaticResource MyerListThemeFontFamily}" />
                 </StackPanel>
                 <Grid Margin="0,10,0,0" Grid.Row="1" RenderTransformOrigin="0.5,0.5" >
                     <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <TextBox x:Uid="Emailbox" IsSpellCheckEnabled="False" BorderThickness="0"  InputScope="EmailSmtpAddress" Margin="10,10,10,0" Text="{x:Bind LoginVM.TempEmail, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="2" PlaceholderText="Email" BorderBrush="{x:Null}" Background="White" Padding="10,3,10,5" FontFamily="Microsoft JhengHei UI"/>
+                        <TextBox x:Uid="Emailbox" IsSpellCheckEnabled="False" BorderThickness="0"  InputScope="EmailSmtpAddress" Margin="10,10,10,0" Text="{x:Bind LoginVM.TempEmail, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="2" PlaceholderText="Email" BorderBrush="{x:Null}" Background="White" Padding="10,3,10,5" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                         <PasswordBox x:Uid="PasswordBox" Margin="10,20,10,0" Password="{x:Bind LoginVM.InputPassword, Mode=TwoWay}" VerticalAlignment="Center" Grid.Row="3" PlaceholderText="Password" BorderBrush="{x:Null}" BorderThickness="0" Background="White"/>
                         <PasswordBox x:Uid="ConfirmBox" BorderThickness="0" Visibility="{x:Bind LoginVM.ShowRegister,Mode=OneWay}" Margin="10,20,10,0" Password="{x:Bind LoginVM.ConfirmPassword, Mode=TwoWay}" VerticalAlignment="Center" Grid.Row="4" PlaceholderText="Confirm Password" BorderBrush="{x:Null}"  Background="{x:Null}"/>
                         <Button Height="40" 
@@ -65,7 +65,7 @@
                             Command="{x:Bind LoginVM.NextCommand}"
                             Style="{StaticResource ButtonCommonStyle}">
                             <Border Background="{StaticResource MyerListBlueLight}">
-                                <TextBlock Text="{x:Bind LoginVM.BtnContent,Mode=OneWay}" Foreground="{StaticResource MyerListGray}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Microsoft JhengHei UI"/>
+                                <TextBlock Text="{x:Bind LoginVM.BtnContent,Mode=OneWay}" Foreground="{StaticResource MyerListGray}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                             </Border>
                         </Button>
                     </StackPanel>
@@ -76,7 +76,7 @@
             <Border Background="Black" Opacity="0.7"/>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="50" Foreground="{StaticResource MyerListLight}" Height="50" Background="{x:Null}" />
-                <TextBlock x:Uid="LoadingTB" Text="Loading" TextAlignment="Center" FontSize="26.667" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
+                <TextBlock x:Uid="LoadingTB" Text="Loading" TextAlignment="Center" FontSize="26.667" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -3,6 +3,7 @@ using JP.Utils.Data;
 using JP.Utils.Data.Json;
 using MyerList.Helper;
 using MyerList.Model;
+using MyerListUWP.Common;
 using MyerListUWP.Model;
 using System;
 using System.Collections.ObjectModel;
@@ -52,7 +53,7 @@ namespace MyerListUWP.ViewModel
                         {
                             ToDoCategory newCate = new ToDoCategory();
                             newCate.CateName = JsonParser.GetStringFromJsonObj(item, "CateName");
-                            newCate.CateColor = (int)JsonParser.GetNumberFromJsonObj(item, "CateColor");
+                            newCate.CateColorID = (int)JsonParser.GetNumberFromJsonObj(item, "CateColor");
 
                             Categories.Add(newCate);
                         }

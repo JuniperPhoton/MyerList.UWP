@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyerList.Model
+namespace MyerListUWP.Common
 {
     public enum LoginMode
     {

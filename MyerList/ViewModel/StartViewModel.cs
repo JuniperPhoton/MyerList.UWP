@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using JP.Utils.Data;
 using MyerList.Model;
 using MyerListUWP;
+using MyerListUWP.Common;
 using MyerListUWP.View;
 using System;
 using System.Collections.Generic;

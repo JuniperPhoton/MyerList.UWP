@@ -10,6 +10,7 @@ using MyerList.Helper;
 using Windows.UI.Xaml.Controls;
 using MyerListUWP;
 using MyerListCustomControl;
+using MyerListUWP.Common;
 
 namespace MyerList.ViewModel
 {

@@ -15,7 +15,6 @@ namespace MyerListUWP.Helper
             {2,"Work" },
             {3,"Home" },
             {4, "Entertainment"},
-
         };
     }
 }

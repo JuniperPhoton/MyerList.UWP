@@ -324,20 +324,20 @@
                     <CompositeTransform TranslateY="-50"/>
                 </StackPanel.RenderTransform>
 
-                <TextBlock Text="Myer" FontSize="25" FontWeight="Light" FontFamily="Microsoft JhengHei UI" Foreground="{StaticResource MyerListBlueLight}" />
-                <TextBlock Text="List" FontSize="25" FontWeight="Bold" FontFamily="Microsoft JhengHei UI" Foreground="{StaticResource MyerListBlueLight}"/>
+                <TextBlock Text="Myer" FontSize="25" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}" />
+                <TextBlock Text="List" FontSize="25" FontWeight="Bold" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}"/>
             </StackPanel>
             <TextBlock x:Name="textBlock1" 
                        x:Uid="SubtitleTB"
         	Foreground="{StaticResource MyerListDark}" 
         	FontSize="15" 
-        	FontFamily="Microsoft JhengHei UI" 
+        	FontFamily="{StaticResource MyerListThemeFontFamily}" 
         	VerticalAlignment="Center"  TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="0,20,0,0" FontWeight="Light" Opacity="0">
                 <TextBlock.RenderTransform>
                     <CompositeTransform TranslateY="-50"/>
                 </TextBlock.RenderTransform>
-        	<Run Text="Sync your To-dos over "/>
-        	<Run  Text="Windows "/>
+        	    <Run Text="Sync your To-dos over "/>
+        	    <Run  Text="Windows "/>
             </TextBlock>
             <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" VerticalAlignment="Bottom">
                 <Button x:Name="button" Grid.Row="1"
@@ -354,7 +354,7 @@
                     MaxWidth="400" Style="{StaticResource ButtonCommonStyle}" Opacity="0" 
                     >
                     <Border Background="{StaticResource MyerListBlueLight}" BorderBrush="#FF4C83C9">
-                        <TextBlock Text="Login" FontSize="15"  x:Uid="LoginTB" FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListGray}" FontFamily="Microsoft JhengHei UI"/>
+                        <TextBlock Text="Login" FontSize="15"  x:Uid="LoginTB" FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListGray}" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                     </Border>
                     <Button.RenderTransform>
                         <CompositeTransform TranslateY="-50"/>
@@ -375,7 +375,7 @@
                         <CompositeTransform TranslateY="-50"/>
                     </Button.RenderTransform>
                     <Border BorderThickness="0" Background="#FF69BFF1" BorderBrush="Gainsboro">
-                        <TextBlock Text="Register" FontSize="15"  x:Uid="RegisterTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
+                        <TextBlock Text="Register" FontSize="15"  x:Uid="RegisterTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                     </Border>
                 </Button>
                 <Button x:Name="OfflineBtn" Grid.Row="1"
@@ -393,7 +393,7 @@
                         <CompositeTransform TranslateY="-50"/>
                     </Button.RenderTransform>
                     <Border BorderThickness="2" Background="#FFE7E7E7" BorderBrush="#FFE7E7E7">
-                        <TextBlock Text="Offline Mode" FontSize="15"  x:Uid="OfflineTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListDark}" FontFamily="Microsoft JhengHei UI"/>
+                        <TextBlock Text="Offline Mode" FontSize="15"  x:Uid="OfflineTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListDark}" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                     </Border>
                 </Button>
 

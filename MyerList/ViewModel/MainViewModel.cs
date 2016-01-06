@@ -14,12 +14,12 @@ using JP.Utils.Data;
 using JP.Utils.Debug;
 using MyerList.Interface;
 using MyerListUWP;
-using MyerListUWP.Model;
 using MyerListUWP.Helper;
 using MyerListUWP.ViewModel;
 using MyerListCustomControl;
 using System.Runtime.InteropServices;
 using JP.Utils.Helper;
+using MyerListUWP.Common;
 
 namespace MyerList.ViewModel
 {
@@ -413,6 +413,24 @@ namespace MyerList.ViewModel
                 {
                     _addingCate = value;
                     RaisePropertyChanged(() => AddingCate);
+                    UpdateAddingColor();
+                }
+            }
+        }
+
+        private SolidColorBrush _addingCateColor;
+        public SolidColorBrush AddingCateColor
+        {
+            get
+            {
+                return _addingCateColor;
+            }
+            set
+            {
+                if (_addingCateColor != value)
+                {
+                    _addingCateColor = value;
+                    RaisePropertyChanged(() => AddingCateColor);
                 }
             }
         }
@@ -918,7 +936,7 @@ namespace MyerList.ViewModel
 
             CateColor = Application.Current.Resources["DefaultColor"] as SolidColorBrush;
 
-            //设置当前页面为 To-Do
+            //设置当前页面为 ALL To-Do
             SelectedIndex = 0;
 
             Title = ResourcesHelper.GetResString("CateDefault");
@@ -964,6 +982,12 @@ namespace MyerList.ViewModel
             await PostHelper.SetMyOrder(LocalSettingHelper.GetValue("sid"), orderStr);
         }
 
+        private void UpdateAddingColor()
+        {
+            
+        }
+
+        #region Add,modify,check,delete
         /// <summary>
         /// 添加or修改内容
         /// </summary>
@@ -1034,9 +1058,8 @@ namespace MyerList.ViewModel
             //登录过的，但是没有网络
             else if (App.IsNoNetwork && !App.IsInOfflineMode)
             {
-                //await ToastService.SendToastAsync(ResourcesHelper.GetResString("FailToAdd"));
                 StagedToDos.Add(NewToDo);
-                var task = SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
             }
             //登录过的，有网络
             else if (!App.IsNoNetwork && !App.IsInOfflineMode)
@@ -1088,6 +1111,7 @@ namespace MyerList.ViewModel
                 UpdateDisplayList(SelectedCate);
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
 
+                //登录过的
                 if (!App.IsInOfflineMode)
                 {
                     var result = await PostHelper.DeleteSchedule(id);
@@ -1138,96 +1162,7 @@ namespace MyerList.ViewModel
             {
                 var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(CompleteTodo));
             }
-
         }
-
-        /// <summary>
-        /// 从云端同步所有待办事项
-        /// </summary>
-        /// <returns></returns>
-        private async Task SyncAllToDos()
-        {
-            try
-            {
-                //没网络
-                if (App.IsNoNetwork)
-                {
-                    //通知没有网络
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
-                    return;
-                }
-                //加载滚动条
-                IsLoading = Visibility.Visible;
-
-                var task = ToastService.SendToastAsync(ResourcesHelper.GetResString("Syncing"));
-
-                var isSyncOK = false;
-
-                DispatcherTimer timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(2);
-                timer.Tick += (async(sendert, et) =>
-                {
-                    if (isSyncOK)
-                    {
-                        IsLoading = Visibility.Collapsed;
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
-                    }
-                    timer.Stop();
-                });
-                timer.Start();
-
-                try
-                {
-                    await ReSendStagedToDos();
-                    var result = await PostHelper.GetMySchedules(LocalSettingHelper.GetValue("sid"));
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        //获得无序的待办事项
-                        var scheduleWithoutOrder = ToDo.ParseJsonToObs(result);
-
-                        //获得顺序列表
-                        var orders = await PostHelper.GetMyOrder(LocalSettingHelper.GetValue("sid"));
-
-                        //排序
-                        MyToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
-
-                        ChangeDisplayCateList(SelectedCate);
-
-                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
-
-                        isSyncOK = true;
-                    }
-                }
-                catch (COMException)
-                {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
-                }
-                finally
-                {
-                    IsLoading = Visibility.Collapsed;
-                    if(!timer.IsEnabled)
-                    {
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
-                    }
-                }
-
-                //最后更新动态磁贴
-                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
-            }
-            catch (Exception ex)
-            {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(SyncAllToDos));
-            }
-        }
-
-        private async Task AddAllToDos()
-        {
-            foreach (var sche in MyToDos)
-            {
-                var result = await PostHelper.AddSchedule(LocalSettingHelper.GetValue("sid"), sche.Content, sche.IsDone ? "1" : "0", SelectedCate.ToString());
-            }
-        }
-
         /// <summary>
         /// 修改待办事项
         /// </summary>
@@ -1284,6 +1219,9 @@ namespace MyerList.ViewModel
             IsLoading = Visibility.Collapsed;
         }
 
+        #endregion
+
+        #region Display Category
         /// <summary>
         /// 改变类别
         /// </summary>
@@ -1387,6 +1325,99 @@ namespace MyerList.ViewModel
 
             UpdateUndoneCount();
         }
+        #endregion
+
+        #region All ToDos
+        /// <summary>
+        /// 从云端同步所有待办事项
+        /// </summary>
+        /// <returns></returns>
+        private async Task SyncAllToDos()
+        {
+            try
+            {
+                //没网络
+                if (App.IsNoNetwork)
+                {
+                    //通知没有网络
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
+                    return;
+                }
+                //加载滚动条
+                IsLoading = Visibility.Visible;
+
+                var task = ToastService.SendToastAsync(ResourcesHelper.GetResString("Syncing"));
+
+                var isSyncOK = false;
+
+                DispatcherTimer timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(2);
+                timer.Tick += (async (sendert, et) =>
+                {
+                    if (isSyncOK)
+                    {
+                        IsLoading = Visibility.Collapsed;
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
+                    }
+                    timer.Stop();
+                });
+                timer.Start();
+
+                try
+                {
+                    await ReSendStagedToDos();
+                    var result = await PostHelper.GetMySchedules(LocalSettingHelper.GetValue("sid"));
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        //获得无序的待办事项
+                        var scheduleWithoutOrder = ToDo.ParseJsonToObs(result);
+
+                        //获得顺序列表
+                        var orders = await PostHelper.GetMyOrder(LocalSettingHelper.GetValue("sid"));
+
+                        //排序
+                        MyToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
+
+                        ChangeDisplayCateList(SelectedCate);
+
+                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+
+                        isSyncOK = true;
+                    }
+                }
+                catch (COMException)
+                {
+                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                }
+                finally
+                {
+                    IsLoading = Visibility.Collapsed;
+                    if (!timer.IsEnabled)
+                    {
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
+                    }
+                }
+
+                //最后更新动态磁贴
+                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+            }
+            catch (Exception ex)
+            {
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(SyncAllToDos));
+            }
+        }
+
+        /// <summary>
+        /// 从离线模式注册/登录后，同步所有
+        /// </summary>
+        /// <returns></returns>
+        private async Task AddAllOfflineToDos()
+        {
+            foreach (var sche in MyToDos)
+            {
+                var result = await PostHelper.AddSchedule(LocalSettingHelper.GetValue("sid"), sche.Content, sche.IsDone ? "1" : "0", SelectedCate.ToString());
+            }
+        }
 
         /// <summary>
         /// 从储存反序列化所有数据
@@ -1397,8 +1428,10 @@ namespace MyerList.ViewModel
             try
             {
                 SelectedCate = 0;
+
                 MyToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
                 CurrentDisplayToDos = MyToDos;
+
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
 
                 DeletedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.DeletedFileName);
@@ -1444,6 +1477,7 @@ namespace MyerList.ViewModel
             }
             this.UndoneCount = count;
         }
+        #endregion
 
         /// <summary>
         /// 初始化，还原列表等
@@ -1460,6 +1494,7 @@ namespace MyerList.ViewModel
             if (mode != LoginMode.OfflineMode)
             {
                 CurrentUser.Email = LocalSettingHelper.GetValue("email");
+
                 ShowLoginBtnVisibility = Visibility.Collapsed;
                 ShowAccountInfoVisibility = Visibility.Visible;
 
@@ -1468,28 +1503,28 @@ namespace MyerList.ViewModel
                     AddCommand.Execute(null);
                 }
 
+                await RestoreData();
+
                 //没有网络
                 if (App.IsNoNetwork)
                 {
-                    await RestoreData();
-                    await Task.Delay(500);
-
                     await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
                 }
                 //有网络
                 else
                 {
-                    await RestoreData();
-
                     SelectedCate = 0;
 
-                    if (mode == LoginMode.OfflineModeToLogin || mode == LoginMode.OfflineModeToRegister) await AddAllToDos();
-
-                    if (StagedToDos.Count > 0)
+                    //从离线模式注册/登录的
+                    if (mode == LoginMode.OfflineModeToLogin || mode == LoginMode.OfflineModeToRegister)
                     {
-                        await ReSendStagedToDos();
+                        await AddAllOfflineToDos();
                     }
+
+                    await ReSendStagedToDos();
+
                     await SyncAllToDos();
+
                     CurrentDisplayToDos = MyToDos;
                 }
             }

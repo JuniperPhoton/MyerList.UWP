@@ -3,6 +3,7 @@ using JP.Utils.Network;
 using MyerList;
 using MyerList.Helper;
 using MyerList.Model;
+using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using MyerListUWP.View;
 using MyerListUWP.ViewModel;

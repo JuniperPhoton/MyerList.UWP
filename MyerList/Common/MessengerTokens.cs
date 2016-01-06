@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyerList.Helper
+namespace MyerListUWP.Common
 {
     public class MessengerTokens
     {
@@ -22,6 +22,5 @@ namespace MyerList.Helper
         public static string CheckToDo { get; set; } = "CheckToDo";
         public static string DeleteToDo { get; set; } = "DeleteToDo";
         public static string ReaddToDo { get; set; } = "ReAddToDo";
-
     }
 }

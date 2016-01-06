@@ -1,10 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using MyerList.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 
 namespace MyerListUWP.Model
 {
@@ -31,33 +27,49 @@ namespace MyerListUWP.Model
             }
         }
 
-        private int _cateColor;
-        public int CateColor
+        private int _cateColorID;
+        public int CateColorID
         {
             get
             {
-                return _cateColor;
+                return _cateColorID;
             }
             set
             {
-                if (_cateColor != value)
+                if (_cateColorID != value)
                 {
-                    _cateColor = value;
-                    RaisePropertyChanged(() => CateColor);
+                    _cateColorID = value;
+                    RaisePropertyChanged(() => CateColorID);
                 }
             }
         }
 
-        public ToDoCategory(string name,int color)
+        private SolidColorBrush _color;
+        public SolidColorBrush Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                if (_color != value)
+                {
+                    _color = value;
+                    RaisePropertyChanged(() => Color);
+                }
+            }
+        }
+
+        public ToDoCategory(string name,int colorID)
         {
             this.CateName = name;
-            this.CateColor = color;
+            this.CateColorID = colorID;
         }
 
         public ToDoCategory()
         {
 
         }
-
     }
 }

@@ -4,6 +4,7 @@ using MyerList.Helper;
 using MyerList.Model;
 using MyerList.ViewModel;
 using MyerListUWP;
+using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System;
 using System.Collections.Generic;

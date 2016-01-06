@@ -177,7 +177,7 @@
     <Grid x:Name="AddGrid" Background="{x:Bind MainVM.CateColor,Mode=OneWay}" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
         <StackPanel MaxWidth="450" VerticalAlignment="Center" Margin="0">
             <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" FontWeight="Bold" Margin="0" FontFamily="Microsoft JhengHei UI" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" FontWeight="Bold" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ListBox 
                     SelectedIndex="{x:Bind MainVM.AddingCate,Mode=TwoWay}"
                     Background="{x:Null}" 
@@ -206,16 +206,16 @@
                     </ListBox.Items>
                 </ListBox>
             </StackPanel>
-            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="Microsoft JhengHei UI" SelectionHighlightColor="{StaticResource DefaultColor}"/>
+            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}"/>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Button Command="{x:Bind MainVM.OkCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}">
                     <Grid Width="100" Height="35" Background="#33FFFFFF"  BorderThickness="3" BorderBrush="#33FFFFFF">
-                        <TextBlock x:Uid="OKBtnTB" Text="确认" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontFamily="Microsoft JhengHei UI" />
+                        <TextBlock x:Uid="OKBtnTB" Text="确认" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}" />
                     </Grid>
                 </Button>
                 <Button Command="{x:Bind MainVM.CancelCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" >
                     <Grid Width="100" Height="35" Background="Transparent"   BorderThickness="2" BorderBrush="#33FFFFFF">
-                        <TextBlock x:Uid="CancelBtnTB" Text="取消" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontFamily="Microsoft JhengHei UI"/>
+                        <TextBlock x:Uid="CancelBtnTB" Text="取消" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                     </Grid>
                 </Button>
             </StackPanel>

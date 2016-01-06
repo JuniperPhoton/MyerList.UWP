@@ -19,7 +19,7 @@
             <CompositeTransform/>
         </Grid.RenderTransform>
         <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="2" Margin="0,0,10,0" >
-            <TextBlock HorizontalAlignment="Left" FontWeight="Light" Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="5,0,0,0" TextTrimming="WordEllipsis" FontFamily="Microsoft JhengHei UI"/>
+            <TextBlock HorizontalAlignment="Left" FontWeight="Light" Text="{Binding Content}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="5,0,0,0" TextTrimming="WordEllipsis" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
         </Grid>
         <Button 
             Command="{Binding MainVM.RedoCommand,Source={StaticResource Locator}}" 
