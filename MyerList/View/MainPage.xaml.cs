@@ -55,27 +55,24 @@ namespace MyerListUWP.View
         {
             this.InitializeComponent();
 
-            if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
-            {
-                if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
-                {
-                    FeatureGrid.Visibility = Visibility.Collapsed;
-                }
-                else FeatureGrid.Visibility = Visibility.Visible;
-            }
-            else FeatureGrid.Visibility = Visibility.Visible;
+            //if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
+            //{
+            //    if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
+            //    {
+            //        FeatureGrid.Visibility = Visibility.Collapsed;
+            //    }
+            //    else FeatureGrid.Visibility = Visibility.Visible;
+            //}
+            //else FeatureGrid.Visibility = Visibility.Visible;
 
             var b = new Binding()
             {
                 Source = MainVM,
                 Path = new PropertyPath("ShowPaneOpen"),
+                Mode=BindingMode.TwoWay
             };
             BindingOperations.SetBinding(this, IsAddingPaneOpenProperty, b);
 
-            RemoveStory.Completed += ((senderr, er) =>
-              {
-
-              });
             SlideOutStory.Completed += ((senders, es) =>
               {
                   MaskBorder.Visibility = Visibility.Collapsed;
@@ -93,21 +90,35 @@ namespace MyerListUWP.View
 
             RegisterMessenger();
 
-            if (DeviceHelper.IsMobile)
-            {
-                var b2 = new Binding()
-                {
-                    Source=this.MainVM,
-                    Path=new PropertyPath("CateColor"),
-                    Mode=BindingMode.OneWay
-                };
-                //BindingOperations.SetBinding(this.ContentRootGird, BackgroundProperty, b2);
-                TitleTB.Foreground = new SolidColorBrush(Colors.White);
-                HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
-            }
-
             AddingPaneFirstOffset.Value= -this.ActualWidth;
             AddingPaneLastOffset.Value = -this.ActualWidth;
+
+            this.Loaded += MainPage_Loaded;
+
+            MainVM.OnCategoryChanged += MainVM_OnCategoryChanged;
+        }
+
+        private void MainVM_OnCategoryChanged()
+        {
+            UpdateColorForNarrow();
+        }
+
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(this.ActualWidth>=720)
+            {
+                HeaderContentRootGrid.Background = new SolidColorBrush(Colors.White);
+                HamburgerBtn.ForegroundBrush = App.Current.Resources["MyerListBlue"] as SolidColorBrush;
+                TitleTB.Foreground = App.Current.Resources["MyerListBlue"] as SolidColorBrush;
+                ProgressRing.Foreground = App.Current.Resources["MyerListBlue"] as SolidColorBrush;
+            }
+            else
+            {
+                HeaderContentRootGrid.Background = App.Current.Resources["MyerListBlue"] as SolidColorBrush;
+                HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
+                TitleTB.Foreground = new SolidColorBrush(Colors.White);
+                ProgressRing.Foreground = new SolidColorBrush(Colors.White);
+            }
         }
 
         public static async void IsAddingPaneOpenPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs args)
@@ -159,13 +170,20 @@ namespace MyerListUWP.View
         {
             var left = 0d;
             var right = 0d;
+
             if (args.Size.Width >= 720)
             {
                 left = 270;
                 right = (args.Size.Width - 250) / 5d;
                 _isDrawerSlided = true;
             }
-            else _isDrawerSlided = false;
+            else
+            {
+                _isDrawerSlided = false;
+            }
+
+            UpdateColorForNarrow();
+
             ListContentGrid.Margin = new Thickness(left, 0, right, 0);
             HeaderContentGrid.Margin = new Thickness(left, 0, right, 0);
 
@@ -173,19 +191,39 @@ namespace MyerListUWP.View
             AddingPaneLastOffset.Value = -this.ActualWidth;
         }
 
+        private void UpdateColorForNarrow()
+        {
+            if(this.ActualWidth >= 720)
+            {
+                HeaderContentRootGrid.Background = new SolidColorBrush(Colors.White);
+                HamburgerBtn.ForegroundBrush = MainVM.CateColor;
+                TitleTB.Foreground = MainVM.CateColor;
+                ProgressRing.Foreground = MainVM.CateColor;
+                TitleBarHelper.SetUpWideTitleBar();
+            }
+            else
+            {
+                HeaderContentRootGrid.Background = MainVM.CateColor;
+                HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
+                TitleTB.Foreground = new SolidColorBrush(Colors.White);
+                ProgressRing.Foreground = new SolidColorBrush(Colors.White);
+                TitleBarHelper.SetUpNarrowTitleBar();
+            }
+        }
+
         #endregion
 
         #region CommandBar
         private async Task EnterAddMode()
         {
-            AddingPane.Visibility = Visibility.Visible;
+            AddingPanel.Visibility = Visibility.Visible;
             AddStory.Begin();
             if (_isDrawerSlided)
             {
                 SlideOutStory.Begin();
             }
             await Task.Delay(100);
-            AddingPane.SetFocus();
+            AddingPanel.SetFocus();
         }
 
         private void LeaveAddmode()

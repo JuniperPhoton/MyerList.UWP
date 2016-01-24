@@ -471,4 +471,16 @@
   <data name="MarkDownItem.Text" xml:space="preserve">
     <value>Mark done/undone</value>
   </data>
+  <data name="CateAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="CateDelete" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="CateManage" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="ModifyCateTB.Text" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
 </root>

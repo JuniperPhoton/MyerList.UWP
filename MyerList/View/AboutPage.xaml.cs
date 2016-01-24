@@ -68,7 +68,7 @@ namespace MyerList
             if(DeviceHelper.IsDesktop)
             {
                 this.TitleBarUC.SetForegroundColor(Colors.Black);
-                TitleBarHelper.SetUpTitleBar(Colors.Black);
+                TitleBarHelper.SetUpNarrowTitleBar();
             }
             else
             {

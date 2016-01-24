@@ -30,7 +30,6 @@
     <SolidColorBrush x:Key="FamilyColorLight">#FFFF6482</SolidColorBrush>
     <SolidColorBrush x:Key="EnterColorLight">#FF7FE1E1</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultColorLight">#FF69BFF1</SolidColorBrush>
-
     <SolidColorBrush x:Key="WorkColorDark">#FF3B6395</SolidColorBrush>
     <SolidColorBrush x:Key="LifeColorDark">#FFFFAF34</SolidColorBrush>
     <SolidColorBrush x:Key="FamilyColorDark">#FFFF2650</SolidColorBrush>

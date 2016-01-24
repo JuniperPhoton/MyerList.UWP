@@ -39,14 +39,14 @@ namespace MyerList
 
         protected override void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpTitleBar(Colors.Black);
+            TitleBarHelper.SetUpWideTitleBar();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            TitleBarHelper.SetUpTitleBar(Colors.Black);
+            TitleBarHelper.SetUpWideTitleBar();
             Frame.BackStack.Clear();
             
             StartStory.BeginTime = TimeSpan.FromSeconds(0.2);

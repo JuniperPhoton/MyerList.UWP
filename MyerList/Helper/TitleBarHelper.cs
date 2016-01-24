@@ -21,31 +21,31 @@ namespace MyerListUWP.Helper
     }
     public static class TitleBarHelper
     {
-        public static void SetUpTitleBar(Color foreColor)
+        public static void SetUpWideTitleBar()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = foreColor;
+            titleBar.ButtonForegroundColor = Colors.Black;
             titleBar.ButtonHoverBackgroundColor = ColorConverter.Hex2Color("#DEDEDE");
             titleBar.ButtonPressedBackgroundColor = ColorConverter.Hex2Color("#BBBBBB");
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveForegroundColor = ColorConverter.Hex2Color("#676767");
+            titleBar.ButtonInactiveForegroundColor = ColorConverter.Hex2Color("#FF676767");
         }
 
-        public static void SetUpBlackTitleBar()
+        public static void SetUpNarrowTitleBar()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = Colors.Black;
+            titleBar.BackgroundColor = Colors.Transparent;
             titleBar.ForegroundColor = Colors.White;
-            titleBar.InactiveBackgroundColor = titleBar.BackgroundColor;
+            titleBar.InactiveBackgroundColor = Colors.Transparent;
             titleBar.InactiveForegroundColor = Colors.White;
-            titleBar.ButtonBackgroundColor = Colors.Black;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = Colors.White;
-            titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveForegroundColor = Colors.White;
-            titleBar.ButtonHoverBackgroundColor = Colors.Black;
+            titleBar.ButtonHoverBackgroundColor = Colors.Transparent;
             titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonPressedBackgroundColor = Colors.Black;
+            titleBar.ButtonPressedBackgroundColor = Colors.Transparent;
         }
     }
 }

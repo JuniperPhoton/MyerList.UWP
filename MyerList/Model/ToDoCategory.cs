@@ -1,8 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
+using JP.Utils.Data.Json;
+using JP.Utils.UI;
 using MyerList.Helper;
+using System.Collections.ObjectModel;
+using Windows.Data.Json;
 using Windows.UI.Xaml.Media;
 
-namespace MyerListUWP.Model
+namespace MyerList.Model
 {
     public class ToDoCategory:ViewModelBase
     {
@@ -44,24 +48,41 @@ namespace MyerListUWP.Model
             }
         }
 
-        private SolidColorBrush _color;
-        public SolidColorBrush Color
+        private SolidColorBrush _cateColor;
+        public SolidColorBrush CateColor
         {
             get
             {
-                return _color;
+                return _cateColor;
             }
             set
             {
-                if (_color != value)
+                if (_cateColor != value)
                 {
-                    _color = value;
-                    RaisePropertyChanged(() => Color);
+                    _cateColor = value;
+                    RaisePropertyChanged(() => CateColor);
                 }
             }
         }
 
-        public ToDoCategory(string name,int colorID)
+        private int _selectedCateColor;
+        public int SelectedCateColor
+        {
+            get
+            {
+                return _selectedCateColor;
+            }
+            set
+            {
+                if (_selectedCateColor != value)
+                {
+                    _selectedCateColor = value;
+                    RaisePropertyChanged(() => SelectedCateColor);
+                }
+            }
+        }
+
+        public ToDoCategory(string name,int colorID):this()
         {
             this.CateName = name;
             this.CateColorID = colorID;
@@ -69,7 +90,26 @@ namespace MyerListUWP.Model
 
         public ToDoCategory()
         {
+            SelectedCateColor = 0;
+        }
 
+        public static ObservableCollection<ToDoCategory> GenerateList(string jsonStr)
+        {
+            ObservableCollection<ToDoCategory> list = new ObservableCollection<ToDoCategory>();
+            var jsonObj = JsonObject.Parse(jsonStr);
+            var isModify = JsonParser.GetBooleanFromJsonObj(jsonObj, "modified");
+            var array = JsonParser.GetJsonArrayFromJsonObj(jsonObj, "cates");
+            foreach(var item in array)
+            {
+                var name = JsonParser.GetStringFromJsonObj(item, "name");
+                var color = JsonParser.GetStringFromJsonObj(item, "color");
+
+                var newCate = new ToDoCategory();
+                newCate.CateName = name;
+                newCate.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(color.Replace("#FF","#")));
+                list.Add(newCate);
+            }
+            return list;
         }
     }
 }

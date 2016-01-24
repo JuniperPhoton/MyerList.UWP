@@ -108,9 +108,11 @@
     </Compile>
     <Compile Include="Base\BindablePage.cs" />
     <Compile Include="Base\CustomTitleBarPage.cs" />
+    <Compile Include="Common\UmengKey.cs" />
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\CateColorConverter.cs" />
+    <Compile Include="Converter\CateStrokeConverter.cs" />
     <Compile Include="Converter\IsInReorderConverter.cs" />
     <Compile Include="Converter\ShowDoneLineConverter.cs" />
     <Compile Include="Converter\ToDoRawCol1Converter.cs" />
@@ -136,11 +138,11 @@
     <Compile Include="Model\ToDo.cs" />
     <Compile Include="Model\ToDoCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControl\AddingPane.xaml.cs">
-      <DependentUpon>AddingPane.xaml</DependentUpon>
+    <Compile Include="UserControl\AddingPanel.xaml.cs">
+      <DependentUpon>AddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\CategorySettingControl.xaml.cs">
-      <DependentUpon>CategorySettingControl.xaml</DependentUpon>
+    <Compile Include="UserControl\CatePersonalizationControl.xaml.cs">
+      <DependentUpon>CatePersonalizationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\DeleteScheduleControl.xaml.cs">
       <DependentUpon>DeleteScheduleControl.xaml</DependentUpon>
@@ -214,6 +216,7 @@
     <Content Include="Assets\Icon\accept.png" />
     <Content Include="Assets\Icon\Account.png" />
     <Content Include="Assets\Icon\Alert_BLACK.png" />
+    <Content Include="Assets\Icon\cate_per.png" />
     <Content Include="Assets\Icon\DELETE_BLACK.png" />
     <Content Include="Assets\Icon\DELETE_WHITE.png" />
     <Content Include="Assets\Icon\Like_BLACK.png" />
@@ -292,11 +295,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\AddingPane.xaml">
+    <Page Include="UserControl\AddingPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\CategorySettingControl.xaml">
+    <Page Include="UserControl\CatePersonalizationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -365,6 +368,10 @@
     <ProjectReference Include="..\CloudService\CloudService.csproj">
       <Project>{cf48ac98-e3ae-426a-8411-66ed3e2e59ed}</Project>
       <Name>CloudService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FABExt\FABExt.csproj">
+      <Project>{0317c40d-ee39-499a-bd42-956fa10f87b7}</Project>
+      <Name>FABExt</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyerListCustomControl\MyerListCustomControl.csproj">
       <Project>{1c9fde7a-452e-44b7-a065-fb3c4f170048}</Project>

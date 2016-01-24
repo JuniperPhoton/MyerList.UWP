@@ -61,7 +61,7 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid" Holding="SchduleTempleteGrid_Holding" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" Holding="SchduleTempleteGrid_Holding" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>
@@ -98,7 +98,7 @@
                     Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
                     <Border Background="White" Opacity="0.001"/>
-                    <Ellipse Width="15" Height="15" Fill="{Binding Category,Mode=OneWay,Converter={StaticResource CateColorConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Ellipse Width="15" Height="15" Fill="{Binding CateColor,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
@@ -110,7 +110,7 @@
             <Grid.Clip>
                 <RectangleGeometry Rect="0 0 30 30"/>
             </Grid.Clip>
-            <Button x:Name="DeleteBtn" MinHeight="0" MinWidth="0" Padding="0" Margin="0" 
+            <Button x:Name="DeleteBtn" MinHeight="0" MinWidth="0" Padding="0" Margin="0" Style="{StaticResource ButtonCommonStyle}" 
                 Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
                 CommandParameter="{Binding ID,Mode=OneWay}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
                 <Button.RenderTransform>

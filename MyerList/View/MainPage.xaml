@@ -7,6 +7,7 @@
     xmlns:base="using:MyerList.Base"
     xmlns:attach="using:JP.Utils.Framework"
     xmlns:cc="using:MyerListCustomControl"
+    xmlns:ext="using:FABExt"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:triggers="using:JP.CustomTriggers"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
@@ -22,7 +23,7 @@
     </Interactivity:Interaction.Behaviors>
     <base:BindablePage.Resources>
         <Storyboard x:Name="AddStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPane">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPanel">
                 <EasingDoubleKeyFrame KeyTime="0" x:Name="AddingPaneFirstOffset" Value="-400"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -35,12 +36,12 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddingPane">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddingPanel">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPane">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPanel">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
                     <DiscreteObjectKeyFrame.Value>Visible</DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
@@ -70,7 +71,7 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="RemoveStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPane">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPanel">
                 <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.6" x:Name="AddingPaneLastOffset" Value="-400">
                     <EasingDoubleKeyFrame.EasingFunction>
@@ -78,11 +79,11 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddingPane">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddingPanel">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPane">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPanel">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
                     <DiscreteObjectKeyFrame.Value>Visible</DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
@@ -230,7 +231,6 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-
                     </VisualState.Setters>
                     <Storyboard>
                         <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
@@ -299,23 +299,28 @@
         </VisualStateManager.VisualStateGroups>
         <Grid x:Name="ContentRootGird" Grid.Column="1" Margin="0 -30 0 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="170"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid x:Name="HeaderContentRootGrid" Background="White">
-                <Grid x:Name="HeaderContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                <Grid x:Name="HeaderContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,20">
                     <StackPanel Orientation="Horizontal">
-                        <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="{x:Bind MainVM.CateColor,Mode=OneWay}" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5">
+                        <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="Black" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5">
                             <uc:HamburgerButton.RenderTransform>
                                 <CompositeTransform/>
                             </uc:HamburgerButton.RenderTransform>
                         </uc:HamburgerButton>
-                        <cc:AnimatedTextBlock x:Name="TitleTB" TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="{x:Bind MainVM.CateColor,Mode=OneWay}" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left">
+                        <TextBlock x:Name="TitleTB" Text="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="Black" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left">
+                            <TextBlock.RenderTransform>
+                                <CompositeTransform/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                        <!--<cc:AnimatedTextBlock x:Name="TitleTB" TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="Black" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left">
                             <cc:AnimatedTextBlock.RenderTransform>
                                 <CompositeTransform/>
                             </cc:AnimatedTextBlock.RenderTransform>
-                        </cc:AnimatedTextBlock>
-                        <ProgressRing x:Name="ProgressRing" Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="{x:Bind MainVM.CateColor,Mode=OneWay}" HorizontalAlignment="Left" Margin="10,0,0,0">
+                        </cc:AnimatedTextBlock>-->
+                        <ProgressRing x:Name="ProgressRing" Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="Black" HorizontalAlignment="Left" Margin="10,0,0,0">
                             <ProgressRing.RenderTransform>
                                 <CompositeTransform/>
                             </ProgressRing.RenderTransform>
@@ -329,7 +334,7 @@
                     <Grid.RenderTransform>
                         <CompositeTransform/>
                     </Grid.RenderTransform>
-                    <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedIndex,Mode=TwoWay}" IsLocked="True" Background="White">
+                    <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedPage,Mode=TwoWay}" IsLocked="True" Background="White">
                         <Pivot.RenderTransform>
                             <CompositeTransform/>
                         </Pivot.RenderTransform>
@@ -378,41 +383,63 @@
                     </Pivot>
                 </Grid>
             </Grid>
-            <CommandBar x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
-                <CommandBar.Background>
+            <Grid x:Name="DefaultCommandBar" Opacity="0" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+                <Grid.Background>
                     <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
-                </CommandBar.Background>
-                <CommandBar.RenderTransform>
+                </Grid.Background>
+                <Grid.RenderTransform>
                     <CompositeTransform/>
-                </CommandBar.RenderTransform>
-                <AppBarButton x:Uid="AddAppbarBtn" Icon="Add" Label="添加" Command="{x:Bind MainVM.AddCommand}"/>
-                <AppBarButton x:Uid="RefreshAppbarBtn" Icon="Sync" Label="刷新" Command="{x:Bind MainVM.SyncCommand}"/>
-                <AppBarToggleButton x:Uid="ReorderAppbarBtn" Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" Label="排序" Icon="Sort" Command="{x:Bind MainVM.ToggleReorderCommand}" Style="{StaticResource AppBarToggleButtonStyle}"/>
-            </CommandBar>
-            <CommandBar x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
-                <CommandBar.Background>
+                </Grid.RenderTransform>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.AddCommand}">
+                        <SymbolIcon Symbol="Add"/>
+                    </Button>
+                    <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.SyncCommand}">
+                        <SymbolIcon Symbol="Sync"/>
+                    </Button>
+                    <ToggleButton
+                        Width="60" Height="50"
+                        BorderThickness="0"
+                        Background="{x:Null}"
+                        Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" 
+                        IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" 
+                        Command="{x:Bind MainVM.ToggleReorderCommand}">
+                        <SymbolIcon Symbol="Sort"/>
+                    </ToggleButton>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="DeleteCommandBar" Opacity="0" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+                <Grid.Background>
                     <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
-                </CommandBar.Background>
-                <CommandBar.RenderTransform>
-                    <CompositeTransform TranslateY="50"/>
-                </CommandBar.RenderTransform>
-                <AppBarButton x:Uid="DeleteAppBarTB" Label="排序" Icon="Delete" Command="{x:Bind MainVM.DeteteAllCommand}"/>
-            </CommandBar>
+                </Grid.Background>
+                <Grid.RenderTransform>
+                    <CompositeTransform TranslateY="60"/>
+                </Grid.RenderTransform>
+                <AppBarButton HorizontalAlignment="Right" Icon="Delete" VerticalAlignment="Bottom" Command="{x:Bind MainVM.DeteteAllCommand}"/>
+            </Grid>
             <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
         </Grid>
-        <uc:AddingPane x:Name="AddingPane" Margin="0 -30 0 0" Visibility="Collapsed" Opacity="0" Background="{StaticResource MyerListBlueLight}" Grid.RowSpan="5" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
-            <uc:AddingPane.RenderTransform>
+        <uc:AddingPanel x:Name="AddingPanel" Margin="0 -30 0 0" Visibility="Collapsed" Opacity="0" Background="{StaticResource MyerListBlueLight}" Grid.RowSpan="5" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+            <uc:AddingPanel.RenderTransform>
                 <CompositeTransform TranslateX="-3000"/>
-            </uc:AddingPane.RenderTransform>
-        </uc:AddingPane>
+            </uc:AddingPanel.RenderTransform>
+        </uc:AddingPanel>
         <uc:NavigationDrawer x:Name="Drawer" Width="250" Margin="0 -30 0 0" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}" RenderTransformOrigin="0.5,0.5">
             <uc:NavigationDrawer.RenderTransform>
                 <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>
         </uc:NavigationDrawer>
-       
         <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="20" ManipulationMode="TranslateX" ManipulationStarted="Grid_ManipulationStarted" ManipulationDelta="Grid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
-        <Grid x:Name="FeatureGrid">
+        <ext:FABExt Radius="60" Grid.RowSpan="5" Margin="0 -30 0 0" PrimaryCommand="{x:Bind MainVM.AddCommand}" SecondaryUpCommand="{x:Bind MainVM.SyncCommand}" Grid.ColumnSpan="5" SecondaryColor="#FFDADADA" PrimaryColor="#FFD44661">
+            <SymbolIcon Symbol="Add" Foreground="White"/>
+            <ext:FABExt.SecondaryUpContent>
+                <SymbolIcon Symbol="Refresh" Foreground="Black"/>
+            </ext:FABExt.SecondaryUpContent>
+            <ext:FABExt.SecondaryLeftContent>
+                <SymbolIcon Symbol="Sort" Foreground="Black"/>
+            </ext:FABExt.SecondaryLeftContent>
+        </ext:FABExt>
+        <Grid x:Name="FeatureGrid" Visibility="Collapsed">
             <Border Background="#E1000000"/>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Image Source="ms-appx:///Assets/feature1.png" HorizontalAlignment="Center" MaxWidth="400" Stretch="UniformToFill" VerticalAlignment="Center"/>

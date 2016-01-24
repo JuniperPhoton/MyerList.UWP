@@ -14,17 +14,20 @@ using JP.Utils.Data;
 using JP.Utils.Debug;
 using MyerList.Interface;
 using MyerListUWP;
-using MyerListUWP.Helper;
 using MyerListUWP.ViewModel;
 using MyerListCustomControl;
 using System.Runtime.InteropServices;
 using JP.Utils.Helper;
 using MyerListUWP.Common;
+using JP.UWP.CustomControl;
+using MyerList.UC;
 
 namespace MyerList.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
+        public event Action OnCategoryChanged;
+
         private AddMode _addMode = AddMode.None;
 
         private int _undoneCount;
@@ -45,8 +48,9 @@ namespace MyerList.ViewModel
         }
 
         #region 汉堡包/类别/导航
+        private int _lastIndex = -1;
         /// <summary>
-        /// 选择了的类别
+        /// 选择了的类别，值表示的只是顺序
         /// </summary>
         private int _selectedCate;
         public int SelectedCate
@@ -61,9 +65,26 @@ namespace MyerList.ViewModel
                 {
                     _selectedCate = value;
                     RaisePropertyChanged(() => SelectedCate);
-                    SelectCateCommand.Execute(value);
                     RaisePropertyChanged(() => ShowSortButton);
+                    SelectedPage = 0;
+                    UpdateCallByCate();
+                    _lastIndex = value;
+                    OnCategoryChanged?.Invoke();
                 }
+            }
+        }
+
+        private RelayCommand _personalizeCommand;
+        public RelayCommand PersonalizeCommand
+        {
+            get
+            {
+                if (_personalizeCommand != null) return _personalizeCommand;
+                return _personalizeCommand = new RelayCommand(() =>
+                  {
+                      ContentPopupEx cpex = new ContentPopupEx(new CatePersonalizationControl() { Width = 400, Height = 400 });
+                      var task = cpex.ShowAsync();
+                  });
             }
         }
 
@@ -84,20 +105,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        private RelayCommand<object> _selectCateCommand;
-        public RelayCommand<object> SelectCateCommand
-        {
-            get
-            {
-                if (_selectCateCommand != null) return _selectCateCommand;
-                return _selectCateCommand = new RelayCommand<object>((param) =>
-                 {
-                     SelectedIndex = 0;
-                     ChangeDisplayCateList((int)param);
-                 });
-            }
-        }
-
         private string _title;
         public string Title
         {
@@ -115,19 +122,22 @@ namespace MyerList.ViewModel
             }
         }
 
-        private int _selectedIndex;
-        public int SelectedIndex
+        /// <summary>
+        /// 0为显示待办事项的，1为显示已删除的
+        /// </summary>
+        private int _selectedPage;
+        public int SelectedPage
         {
             get
             {
-                return _selectedIndex;
+                return _selectedPage;
             }
             set
             {
-                if (_selectedIndex != value)
+                if (_selectedPage != value)
                 {
-                    _selectedIndex = value;
-                    RaisePropertyChanged(() => SelectedIndex);
+                    _selectedPage = value;
+                    RaisePropertyChanged(() => SelectedPage);
 
                     switch (value)
                     {
@@ -142,32 +152,6 @@ namespace MyerList.ViewModel
                             }; break;
                     }
                 }
-            }
-        }
-
-        private RelayCommand _selectToDoCommand;
-        public RelayCommand SelectToDoCommand
-        {
-            get
-            {
-                if (_selectToDoCommand != null) return _selectToDoCommand;
-                return _selectToDoCommand = new RelayCommand(() =>
-                 {
-                     SelectedIndex = 0;
-                 });
-            }
-        }
-
-        private RelayCommand _selectDeleteCommand;
-        public RelayCommand SelectDeleteCommand
-        {
-            get
-            {
-                if (_selectDeleteCommand != null) return _selectDeleteCommand;
-                return _selectDeleteCommand = new RelayCommand(() =>
-                 {
-                     SelectedIndex = 1;
-                 });
             }
         }
 
@@ -187,7 +171,6 @@ namespace MyerList.ViewModel
                 }
             }
         }
-
         #endregion
 
         #region 账号
@@ -323,7 +306,7 @@ namespace MyerList.ViewModel
                 {
                     ModeTitle = ResourcesHelper.GetResString("AddTitle");
                     NewToDo = new ToDo();
-                    AddingCate = 0;
+                    AddingCate = SelectedCate;
                     _addMode = AddMode.Add;
 
                     ShowPaneOpen = true;
@@ -413,24 +396,23 @@ namespace MyerList.ViewModel
                 {
                     _addingCate = value;
                     RaisePropertyChanged(() => AddingCate);
-                    UpdateAddingColor();
+                    RaisePropertyChanged(() => AddingCateColor);
                 }
             }
         }
 
-        private SolidColorBrush _addingCateColor;
         public SolidColorBrush AddingCateColor
         {
             get
             {
-                return _addingCateColor;
-            }
-            set
-            {
-                if (_addingCateColor != value)
+                try
                 {
-                    _addingCateColor = value;
-                    RaisePropertyChanged(() => AddingCateColor);
+                    var color = CateVM.Categories[AddingCate].CateColor;
+                    return color;
+                }
+                catch(Exception)
+                {
+                    return App.Current.Resources["MyerListBlue"] as SolidColorBrush;
                 }
             }
         }
@@ -627,25 +609,27 @@ namespace MyerList.ViewModel
                         ShowPaneOpen = true;
 
                         var id = todo.ID;
-                        var itemToModify = MyToDos.ToList().Find(sche =>
+                        var targetToDo = MyToDos.ToList().Find(sche =>
                         {
                             if (sche.ID == id) return true;
                             else return false;
                         });
 
-                        if (itemToModify == null)
+                        if (targetToDo== null)
                         {
                             return;
                         }
 
-                        this.NewToDo.ID = itemToModify.ID;
-                        this.NewToDo.Content = itemToModify.Content;
-                        this.AddingCate = itemToModify.Category;
+                        this.NewToDo.ID = targetToDo.ID;
+                        this.NewToDo.Content = targetToDo.Content;
 
-                        Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.ShowModifyUI);
+                        var cateIndex = CateVM.Categories.ToList().FindIndex(s=>s.CateColorID==targetToDo.Category);
+                        if(cateIndex!=-1)
+                        {
+                            this.AddingCate = cateIndex;
+                        }
 
                         ModeTitle = ResourcesHelper.GetResString("ModifyTitle");
-
                     }
                     catch (Exception ex)
                     {
@@ -937,7 +921,7 @@ namespace MyerList.ViewModel
             CateColor = Application.Current.Resources["DefaultColor"] as SolidColorBrush;
 
             //设置当前页面为 ALL To-Do
-            SelectedIndex = 0;
+            SelectedPage = 0;
 
             Title = ResourcesHelper.GetResString("CateDefault");
 
@@ -1042,6 +1026,11 @@ namespace MyerList.ViewModel
             else
             {
                 MyToDos.Add(NewToDo);
+            }
+
+            if(SelectedCate==AddingCate)
+            {
+                CurrentDisplayToDos.Add(NewToDo);
             }
 
             //序列化保存
@@ -1225,21 +1214,28 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 改变类别
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="sid"></param>
         /// <returns></returns>
-        private async Task ChangeCategory(string id)
+        private async Task ChangeCategory(string sid)
         {
-            var scheduleToChange = MyToDos.ToList().Find(s =>
+            var currentSchedule = MyToDos.ToList().Find(s =>
               {
-                  if (s.ID == id) return true;
+                  if (s.ID == sid) return true;
                   else return false;
               });
-            if (scheduleToChange != null)
+            if (currentSchedule != null)
             {
-                scheduleToChange.Category++;
+                var cateID = (from e in CateVM.Categories where e.CateColorID == currentSchedule.Category select e.CateColorID).FirstOrDefault();
+                if(cateID!=-1)
+                {
+                    var index = CateVM.Categories.ToList().FindIndex(s => s.CateColorID == cateID);
+                    index++;
+                    if (index == CateVM.Categories.Count - 1) index = 0;
+                    currentSchedule.Category = index;
+                }
                 if (!App.IsNoNetwork && !App.IsInOfflineMode)
                 {
-                    await PostHelper.UpdateContent(id, scheduleToChange.Content, "", scheduleToChange.Category);
+                    await PostHelper.UpdateContent(sid, currentSchedule.Content, "", currentSchedule.Category);
                 }
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
             }
@@ -1248,78 +1244,93 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 改变要显示的列表
         /// </summary>
-        /// <param name="id"></param>
-        private void ChangeDisplayCateList(int id)
+        /// <param name="cateID"></param>
+        private void UpdateCallByCate()
         {
             Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.CloseHam);
 
-            if (id == -1) return;
+            if (SelectedCate == -1) return;
 
-            UpdateColor(id);
+            var cateID = 0;
+            if (SelectedCate == 0) cateID = 0;
+            else if (SelectedCate == CateVM.Categories.Count - 1) cateID = -1;
+            else cateID = SelectedCate;
 
-            if (id != 5) UpdateDisplayList(id);
+            UpdateColor(cateID);
+            UpdateTitle(cateID);
+            
+            UpdateDisplayList(cateID);
 
             IsInSortMode = false;
-
-            switch (id)
-            {
-                case 0:
-                    {
-                        Title = ResourcesHelper.GetResString("CateDefault");
-                    }; break;
-                case 1:
-                    {
-                        Title = ResourcesHelper.GetResString("CateWork");
-                    }; break;
-                case 2:
-                    {
-                        Title = ResourcesHelper.GetResString("CateLife");
-
-                    }; break;
-                case 3:
-                    {
-                        Title = ResourcesHelper.GetResString("CateFamily");
-                    }; break;
-                case 4:
-                    {
-                        Title = ResourcesHelper.GetResString("CateEnter");
-                    }; break;
-                case 5:
-                    {
-                        Title = ResourcesHelper.GetResString("CateDeleted");
-                        SelectedIndex = 1;
-                    }; break;
-            }
         }
 
         /// <summary>
         /// 更新颜色
         /// </summary>
-        /// <param name="id"></param>
-        private void UpdateColor(int id)
+        /// <param name="cateID"></param>
+        private void UpdateColor(int cateID)
         {
-            var cateid = id;
+            if(cateID>0)
+            {
+                var cate = CateVM.Categories.ToList().Find(s => s.CateColorID == cateID);
+                if (cate != null)
+                {
+                    CateColor = cate.CateColor;
+                }
+            }
+            else if(cateID==0)
+            {
+                CateColor = App.Current.Resources["MyerListBlueLight"] as SolidColorBrush;
+            }
+            else if(cateID == -1)
+            {
+                CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush;
+            }
+        }
 
-            CateColor = App.Current.Resources[Enum.GetName(typeof(CateColors), cateid)] as SolidColorBrush;
-
-            if (ApiInformationHelper.HasStatusBar)
-                StatusBarHelper.SetUpStatusBar(Enum.GetName(typeof(CateColors), cateid));
+        private void UpdateTitle(int cateID)
+        {
+            if(cateID>0)
+            {
+                var cate = CateVM.Categories.ToList().Find(s => s.CateColorID == cateID);
+                if (cate != null)
+                {
+                    Title = cate.CateName;
+                }
+            }
+            else if(cateID==0)
+            {
+                Title = ResourcesHelper.GetResString("CateAll");
+            }
+            else if(cateID==-1)
+            {
+                Title = ResourcesHelper.GetResString("CateDelete");
+            }
         }
 
         /// <summary>
         /// 更新要显示的类别
         /// </summary>
-        /// <param name="id"></param>
-        private void UpdateDisplayList(int id)
+        /// <param name="cateID"></param>
+        private void UpdateDisplayList(int cateID)
         {
-            if (id != 0 && id != 5)
+            if (cateID != 0 && cateID != -1)
             {
-                var newList = from e in MyToDos where e.Category == id select e;
+                var newList = from e in MyToDos where e.Category == cateID select e;
                 CurrentDisplayToDos = new ObservableCollection<ToDo>();
                 newList.ToList().ForEach(s => CurrentDisplayToDos.Add(s));
+                SelectedPage = 0;
             }
-            else if (id == 0) CurrentDisplayToDos = MyToDos;
-            else CurrentDisplayToDos = DeletedToDos;
+            else if (cateID == 0)
+            {
+                CurrentDisplayToDos = MyToDos;
+                SelectedPage = 0;
+            }
+            else if (cateID == -1)
+            {
+                CurrentDisplayToDos = DeletedToDos;
+                SelectedPage = 1;
+            }
 
             if (CurrentDisplayToDos.Count == 0) ShowNoItems = Visibility.Visible;
 
@@ -1378,7 +1389,7 @@ namespace MyerList.ViewModel
                         //排序
                         MyToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
 
-                        ChangeDisplayCateList(SelectedCate);
+                        UpdateCallByCate();
 
                         await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
 
@@ -1490,6 +1501,8 @@ namespace MyerList.ViewModel
             var mode = args.Mode;
             var stringParam = args.Param;
 
+            await InitialCate(mode);
+
             //已经登陆过的了
             if (mode != LoginMode.OfflineMode)
             {
@@ -1497,11 +1510,6 @@ namespace MyerList.ViewModel
 
                 ShowLoginBtnVisibility = Visibility.Collapsed;
                 ShowAccountInfoVisibility = Visibility.Visible;
-
-                if (stringParam == JumpListHelper.AddToken)
-                {
-                    AddCommand.Execute(null);
-                }
 
                 await RestoreData();
 
@@ -1537,19 +1545,27 @@ namespace MyerList.ViewModel
             }
         }
 
+        private async Task InitialCate(LoginMode mode)
+        {
+            await CateVM.Initial(mode);
+        }
+
         /// <summary>
         /// 进入 MainPage 会调用
         /// </summary>
         /// <param name="param"></param>
         public async void Activate(object param)
         {
-            UpdateColor(this.SelectedCate == -1 ? 0 : this.SelectedCate);
             if (param is LaunchParam)
             {
                 if (App.IsSyncListOnce) return;
                 App.IsSyncListOnce = true;
 
                 await HandleActive(param as LaunchParam);
+            }
+            if (ApiInformationHelper.HasStatusBar)
+            {
+                StatusBarHelper.SetUpStatusBar();
             }
         }
 

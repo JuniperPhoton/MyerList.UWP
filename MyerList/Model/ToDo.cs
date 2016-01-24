@@ -6,6 +6,9 @@ using System.Text;
 using System.Linq;
 using JP.Utils.Debug;
 using MyerList.Helper;
+using Windows.UI.Xaml.Media;
+using MyerListUWP;
+using MyerList.ViewModel;
 
 namespace MyerList.Model
 {
@@ -24,11 +27,31 @@ namespace MyerList.Model
                 {
                     _category = value;
                     RaisePropertyChanged(() => Category);
-                    if (_category == 5) _category = 0;
+                    RaisePropertyChanged(() => CateColor);
                 }
             }
         }
 
+        public SolidColorBrush CateColor
+        {
+            get
+            {
+                if(App.MainVM.CateVM!= null)
+                {
+                    if(App.MainVM.CateVM.Categories!= null)
+                    {
+                        var color = (from e in App.MainVM.CateVM.Categories where e.CateColorID == Category select e.CateColor).FirstOrDefault();
+                        if (color != null)
+                        {
+                            return color;
+                        }
+                        else return (App.Current.Resources["MyerListBlue"] as SolidColorBrush);
+                    }
+                }
+                return (App.Current.Resources["MyerListBlue"] as SolidColorBrush);
+            }
+        }
+        
         private string _id;
         public string ID
         {

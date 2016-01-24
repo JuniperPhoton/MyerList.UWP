@@ -388,7 +388,7 @@
     <value>待办事项</value>
   </data>
   <data name="CateEnter" xml:space="preserve">
-    <value>娱乐</value>
+    <value>旅行</value>
   </data>
   <data name="CateFamily" xml:space="preserve">
     <value>家庭</value>
@@ -412,7 +412,7 @@
     <value>家庭</value>
   </data>
   <data name="CateEnterTB.Text" xml:space="preserve">
-    <value>娱乐</value>
+    <value>旅行</value>
   </data>
   <data name="DeleteAppBarTB.Label" xml:space="preserve">
     <value>清空</value>
@@ -470,5 +470,17 @@
   </data>
   <data name="MarkDownItem.Text" xml:space="preserve">
     <value>标记“已完成”/"未完成"</value>
+  </data>
+  <data name="CateAll" xml:space="preserve">
+    <value>所有</value>
+  </data>
+  <data name="CateDelete" xml:space="preserve">
+    <value>已删除</value>
+  </data>
+  <data name="CateManage" xml:space="preserve">
+    <value>个性化</value>
+  </data>
+  <data name="ModifyCateTB.Text" xml:space="preserve">
+    <value>个性化</value>
   </data>
 </root>

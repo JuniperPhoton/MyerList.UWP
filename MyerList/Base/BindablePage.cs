@@ -56,7 +56,7 @@ namespace MyerList.Base
 
         protected virtual void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpTitleBar(Colors.Black);
+            TitleBarHelper.SetUpWideTitleBar();
         }
 
         protected virtual void SetUpStatusBar()
@@ -147,15 +147,19 @@ namespace MyerList.Base
                 }
             }
             SetNavigationBackBtn();
-            RegisterHandleBackLogic();
             SetUpTitleBarExtend();
+            SetUpTitleBar();
+
+            RegisterHandleBackLogic();
+
             Window.Current.SetTitleBar(null);
-            TitleBarHelper.SetUpTitleBar(Colors.Black);
+
             //resolve global keydown
             if (GlobalPageKeyDown != null)
             {
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             }
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -176,6 +180,7 @@ namespace MyerList.Base
             {
                 Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
             }
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
     }
 }

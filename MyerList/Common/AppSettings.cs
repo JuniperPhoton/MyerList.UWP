@@ -7,6 +7,8 @@ namespace MyerListUWP.Common
 {
     public class AppSettings:ViewModelBase
     {
+        public static string DefaultCateJsonString= "{ \"modified\":true, \"cates\":[{\"name\":\"Work\",\"color\":\"#FF436998\",\"id\":1},{\"name\":\"Life\",\"color\":\"#FFFFB542\",\"id\":2},{\"name\":\"Family\",\"color\":\"#FFFF395F\",\"id\":3},{\"name\":\"Entertainment\",\"color\":\"#FF55C1C1\",\"id\":4}]}";
+
         public bool EnableTile
         {
             get
