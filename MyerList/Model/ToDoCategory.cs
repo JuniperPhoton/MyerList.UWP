@@ -3,6 +3,7 @@ using JP.Utils.Data.Json;
 using JP.Utils.UI;
 using MyerList.Helper;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using Windows.Data.Json;
 using Windows.UI.Xaml.Media;
 
@@ -49,6 +50,7 @@ namespace MyerList.Model
         }
 
         private SolidColorBrush _cateColor;
+        [IgnoreDataMember]
         public SolidColorBrush CateColor
         {
             get
@@ -61,26 +63,12 @@ namespace MyerList.Model
                 {
                     _cateColor = value;
                     RaisePropertyChanged(() => CateColor);
+                    CateColorString = value.Color.ToString();
                 }
             }
         }
 
-        private int _selectedCateColor;
-        public int SelectedCateColor
-        {
-            get
-            {
-                return _selectedCateColor;
-            }
-            set
-            {
-                if (_selectedCateColor != value)
-                {
-                    _selectedCateColor = value;
-                    RaisePropertyChanged(() => SelectedCateColor);
-                }
-            }
-        }
+        public string CateColorString { get; set; }
 
         public ToDoCategory(string name,int colorID):this()
         {
@@ -90,7 +78,15 @@ namespace MyerList.Model
 
         public ToDoCategory()
         {
-            SelectedCateColor = 0;
+            
+        }
+
+        public void UpdateColor()
+        {
+            if(!string.IsNullOrEmpty(CateColorString))
+            {
+                this.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(CateColorString));
+            }
         }
 
         public static ObservableCollection<ToDoCategory> GenerateList(string jsonStr)

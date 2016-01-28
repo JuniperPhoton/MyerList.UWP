@@ -8,12 +8,11 @@ using JP.Utils.Debug;
 using JP.Utils.Data;
 using Newtonsoft.Json.Linq;
 using JP.API;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace MyerList.Helper
 {
-    public class PostHelper
+    public class CloudService
     {
         public static string GetHashingCode()
         {
@@ -509,6 +508,33 @@ namespace MyerList.Helper
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public async static Task<bool> UpdateCateInfo(string content)
+        {
+            try
+            {
+                var param = new List<KeyValuePair<string, string>>();
+                param.Add(new KeyValuePair<string, string>("sid", LocalSettingHelper.GetValue("sid")));
+                param.Add(new KeyValuePair<string, string>("access_token", LocalSettingHelper.GetValue("access_token")));
+                param.Add(new KeyValuePair<string, string>("cate_info", content));
+
+                CancellationTokenSource cts = new CancellationTokenSource(10000);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserUpdateCateUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                    param, cts.Token);
+                if (!result.IsSuccessful) throw new ArgumentException();
+
+                var json = result.JsonSrc;
+                if (string.IsNullOrEmpty(json)) throw new ArgumentException();
+
+                JObject job = JObject.Parse(json);
+                if ((bool)job["isSuccessed"]) return true;
+                else return false;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

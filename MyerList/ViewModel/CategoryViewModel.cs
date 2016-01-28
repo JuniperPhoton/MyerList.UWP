@@ -24,6 +24,9 @@ namespace MyerListUWP.ViewModel
     /// </summary>
     public class CategoryViewModel : ViewModelBase
     {
+        /// <summary>
+        /// 所有用于展示在抽屉的类别
+        /// </summary>
         private ObservableCollection<ToDoCategory> _categories;
         public ObservableCollection<ToDoCategory> Categories
         {
@@ -43,35 +46,108 @@ namespace MyerListUWP.ViewModel
             }
         }
 
+        /// <summary>
+        /// 个性化里出现的类别
+        /// </summary>
+        private ObservableCollection<ToDoCategory> _catesToModify;
         public ObservableCollection<ToDoCategory> CatesToModify
         {
             get
             {
-                var list = from e in Categories where (e.CateColorID > 0) select e;
-                var listToReturn = new ObservableCollection<ToDoCategory>();
-                list.ToList().ForEach(s => listToReturn.Add(s));
-                return listToReturn;
+                return _catesToModify;
+            }
+            set
+            {
+                _catesToModify = value;
+                RaisePropertyChanged(() => CatesToModify);
             }
         }
 
+        /// <summary>
+        /// 出现在添加/修改里的类别
+        /// </summary>
+        public ObservableCollection<ToDoCategory> _catesToAdd;
         public ObservableCollection<ToDoCategory> CatesToAdd
         {
             get
             {
-                var list = from e in Categories where (e.CateColorID >= 0) select e;
-                var listToReturn = new ObservableCollection<ToDoCategory>();
-                list.ToList().ForEach(s => listToReturn.Add(s));
-                return listToReturn;
+                return _catesToAdd;
+            }
+            set
+            {
+                if(_catesToAdd!=value)
+                {
+                    _catesToAdd = value;
+                    RaisePropertyChanged(() => CatesToAdd);
+                }
             }
         }
-
 
         public CategoryViewModel()
         {
             Categories = new ObservableCollection<ToDoCategory>();
         }
 
-        public async Task Initial(LoginMode mode)
+        public void UpdateCatesToAdd()
+        {
+            var list = from e in Categories where (e.CateColorID >= 0) select e;
+            var listToReturn = new ObservableCollection<ToDoCategory>();
+            list.ToList().ForEach(s => listToReturn.Add(s));
+            CatesToAdd = listToReturn;
+        }
+
+        public void UpdateCateToModify()
+        {
+            var list = from e in Categories where (e.CateColorID > 0) select e;
+            var cateList = new ObservableCollection<ToDoCategory>();
+            foreach (var item in list)
+            {
+                var cate = new ToDoCategory()
+                {
+                    CateColorID = item.CateColorID,
+                    CateName = item.CateName,
+                    CateColor = item.CateColor,
+                };
+                cateList.Add(cate);
+            }
+            CatesToModify = cateList;
+        }
+
+        public async Task SaveCatesToModify()
+        {
+            var currentMaxID = CreateNewID();
+            var array = new JsonArray();
+            foreach(var item in CatesToModify)
+            {
+                var obj = new JsonObject();
+                obj.Add("name", JsonValue.CreateStringValue(item.CateName));
+                obj.Add("color", JsonValue.CreateStringValue(item.CateColor.Color.ToString()));
+                obj.Add("id", JsonValue.CreateNumberValue(item.CateColorID));
+                array.Add(obj);
+            }
+            var arrayString = array.ToString();
+            var cateString = AppSettings.DefaultCateJsonStringFore + arrayString + "}";
+
+            var isOK = await CloudService.UpdateCateInfo(cateString);
+            if(isOK)
+            {
+                Categories = CatesToModify;
+                var ok = await SerializerHelper.SerializerToJson<ObservableCollection<ToDoCategory>>(Categories, SerializerFileNames.CategoryFileName);
+                Categories.Insert(0, new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateAll"), CateColor = App.Current.Resources["MyerListBlue"] as SolidColorBrush, CateColorID = 0 });
+                Categories.Add(new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateDelete"), CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush, CateColorID = -1 });
+                UpdateCatesToAdd();
+                App.MainVM.RefreshCate();
+            }
+        }
+
+        public int CreateNewID()
+        {
+            var ids = from e in Categories select e.CateColorID;
+            var max = ids.Max();
+            return max++;
+        }
+
+        public async Task Refresh(LoginMode mode)
         {
             Categories = await RestoreCacheButDefaultList();
             //已经登陆过的了
@@ -84,10 +160,18 @@ namespace MyerListUWP.ViewModel
                     await SerializerHelper.SerializerToJson<ObservableCollection<ToDoCategory>>(Categories, SerializerFileNames.CategoryFileName);
                 }
             }
+            Categories.ToList().ForEach(s => s.UpdateColor());
             Categories.Insert(0, new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateAll"), CateColor = App.Current.Resources["MyerListBlue"] as SolidColorBrush ,CateColorID=0});
             Categories.Add(new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateDelete"), CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush ,CateColorID=-1});
+            UpdateCateToModify();
+            UpdateCatesToAdd();
+            App.MainVM.RefreshCate();
         }
 
+        /// <summary>
+        /// 从本地缓存还原列表，如果不存在缓存，则还原默认列表
+        /// </summary>
+        /// <returns></returns>
         private async Task<ObservableCollection<ToDoCategory>> RestoreCacheButDefaultList()
         {
             var cacheList = await SerializerHelper.DeserializeFromJsonByFileName
@@ -103,11 +187,15 @@ namespace MyerListUWP.ViewModel
             return defaultList;
         }
 
+        /// <summary>
+        /// 从服务器同步列表
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> GetLatestCates()
         {
             try
             {
-                var response = await PostHelper.GetCateInfo();
+                var response = await CloudService.GetCateInfo();
                 if (response == null) throw new ArgumentNullException();
 
                 var respJson = JsonObject.Parse(response);
@@ -149,7 +237,7 @@ namespace MyerListUWP.ViewModel
                     ToDoCategory newCate = new ToDoCategory();
                     newCate.CateName = JsonParser.GetStringFromJsonObj(item, "name");
                     var colorStr = JsonParser.GetStringFromJsonObj(item, "color");
-                    newCate.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(colorStr.Replace("#FF", string.Empty)));
+                    newCate.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(colorStr));
                     newCate.CateColorID = (int)JsonParser.GetNumberFromJsonObj(item, "id");
                     list.Add(newCate);
                 }
@@ -161,6 +249,5 @@ namespace MyerListUWP.ViewModel
                 return null;
             }
         }
-
     }
 }

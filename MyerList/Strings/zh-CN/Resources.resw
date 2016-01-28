@@ -483,4 +483,7 @@
   <data name="ModifyCateTB.Text" xml:space="preserve">
     <value>个性化</value>
   </data>
+  <data name="ChooseColorTB.Text" xml:space="preserve">
+    <value>选择一个颜色</value>
+  </data>
 </root>

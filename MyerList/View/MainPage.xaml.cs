@@ -3,12 +3,10 @@ using JP.Utils.Data;
 using JP.Utils.Helper;
 using MyerList.Base;
 using MyerList.Helper;
-using MyerList.Model;
 using MyerList.ViewModel;
 using MyerListCustomControl;
 using MyerListUWP.Common;
 using MyerListUWP.Helper;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
@@ -100,7 +98,7 @@ namespace MyerListUWP.View
 
         private void MainVM_OnCategoryChanged()
         {
-            UpdateColorForNarrow();
+            UpdateColorWhenSizeChanged();
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -182,20 +180,33 @@ namespace MyerListUWP.View
                 _isDrawerSlided = false;
             }
 
-            UpdateColorForNarrow();
+            UpdateColorWhenSizeChanged();
 
-            ListContentGrid.Margin = new Thickness(left, 0, right, 0);
-            HeaderContentGrid.Margin = new Thickness(left, 0, right, 0);
+            if(ListContentGrid.Margin.Left!=left)
+            {
+                ListContentGrid.Margin = new Thickness(left, 0, 0, 0);
+                HeaderContentGrid.Margin = new Thickness(left, 0, 0, 0);
+            }
 
-            AddingPaneFirstOffset .Value= -this.ActualWidth;
+            AddingPaneFirstOffset.Value = -this.ActualWidth;
             AddingPaneLastOffset.Value = -this.ActualWidth;
         }
 
-        private void UpdateColorForNarrow()
+        bool _isToggleAnim1 = false;
+        bool _isToggleAnim2 = false;
+        private void UpdateColorWhenSizeChanged()
         {
             if(this.ActualWidth >= 720)
             {
-                HeaderContentRootGrid.Background = new SolidColorBrush(Colors.White);
+                if (!_isToggleAnim1)
+                {
+                    ChangeColorAnim.To = Colors.White;
+                    ChangeColorAnim.From = (HeaderContentRootGrid.Background as SolidColorBrush).Color;
+                    ChangeColorStory.Begin();
+                    _isToggleAnim1 = true;
+                    _isToggleAnim2 = false;
+                    
+                }
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
                 ProgressRing.Foreground = MainVM.CateColor;
@@ -203,7 +214,15 @@ namespace MyerListUWP.View
             }
             else
             {
-                HeaderContentRootGrid.Background = MainVM.CateColor;
+                if (!_isToggleAnim2)
+                {
+                    ChangeColorAnim.To = MainVM.CateColor.Color;
+                    ChangeColorAnim.From = Colors.White;
+                    ChangeColorStory.Begin();
+                    _isToggleAnim2 = true;
+                    _isToggleAnim1 = false;
+                    
+                }
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);

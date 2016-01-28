@@ -483,4 +483,10 @@
   <data name="ModifyCateTB.Text" xml:space="preserve">
     <value>Personalization</value>
   </data>
+  <data name="ChooseColorTB.Text" xml:space="preserve">
+    <value>Pick a color</value>
+  </data>
+  <data name="PersonalizeCateTB.Text" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

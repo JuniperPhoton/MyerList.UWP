@@ -258,7 +258,7 @@ namespace MyerList.ViewModel
 
                 var loader = new ResourceLoader();
 
-                var check = await PostHelper.CheckExist(TempEmail);
+                var check = await CloudService.CheckExist(TempEmail);
                 if (check)
                 {
                     Messenger.Default.Send(new GenericMessage<string>(loader.GetString("EmailExistContent")), "toast");
@@ -266,7 +266,7 @@ namespace MyerList.ViewModel
                     IsLoading = Visibility.Collapsed;
                     return false;
                 }
-                string salt = await PostHelper.Register(TempEmail, InputPassword);
+                string salt = await CloudService.Register(TempEmail, InputPassword);
                 if (!string.IsNullOrEmpty(salt))
                 {
                     LocalSettingHelper.AddValue("email", TempEmail);
@@ -299,14 +299,14 @@ namespace MyerList.ViewModel
             {
                 IsLoading = Visibility.Visible;
 
-                var check = await PostHelper.CheckExist(TempEmail);
+                var check = await CloudService.CheckExist(TempEmail);
                 if (check)
                 {
-                    string salt = await PostHelper.GetSalt(TempEmail);
+                    string salt = await CloudService.GetSalt(TempEmail);
                     if (!string.IsNullOrEmpty(salt))
                     {
                         //尝试登录
-                        var login = await PostHelper.Login(TempEmail, InputPassword, salt);
+                        var login = await CloudService.Login(TempEmail, InputPassword, salt);
                         if (login)
                         {
                             App.IsInOfflineMode = false;

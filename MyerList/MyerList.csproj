@@ -162,6 +162,7 @@
     <Compile Include="UserControl\TitleBarUC.xaml.cs">
       <DependentUpon>TitleBarUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CategoryColorViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -182,6 +183,9 @@
     </Compile>
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PersonalizeCatePage.xaml.cs">
+      <DependentUpon>PersonalizeCatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
@@ -347,6 +351,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\PersonalizeCatePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SettingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -368,10 +376,6 @@
     <ProjectReference Include="..\CloudService\CloudService.csproj">
       <Project>{cf48ac98-e3ae-426a-8411-66ed3e2e59ed}</Project>
       <Name>CloudService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FABExt\FABExt.csproj">
-      <Project>{0317c40d-ee39-499a-bd42-956fa10f87b7}</Project>
-      <Name>FABExt</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyerListCustomControl\MyerListCustomControl.csproj">
       <Project>{1c9fde7a-452e-44b7-a065-fb3c4f170048}</Project>

@@ -21,7 +21,7 @@ namespace MyerListCustomControl
         PlainText,
         InputContent
     }
-    public class DialogService:ContentControl
+    public class DialogService : ContentControl
     {
         #region DependencyProperty
 
@@ -145,7 +145,7 @@ namespace MyerListCustomControl
 
         public static readonly DependencyProperty InputBoxTextProperty =
             DependencyProperty.Register("InputBoxText", typeof(string), typeof(DialogService), new PropertyMetadata("",
-                async(sender,e)=>
+                async (sender, e) =>
                 {
                     var control = sender as DialogService;
                     await control.UpdateInputBoxContent();
@@ -206,45 +206,38 @@ namespace MyerListCustomControl
         {
             DefaultStyleKey = (typeof(DialogService));
 
-            if (!DesignMode.DesignModeEnabled)
-            {
-                _tcs = new TaskCompletionSource<int>();
+            _tcs = new TaskCompletionSource<int>();
 
-                if (_currentPopup == null)
-                {
-                    _currentPopup = new Popup();
-                    _currentPopup.VerticalAlignment = VerticalAlignment.Stretch;
-                    this.Height = (Window.Current.Content as Frame).Height;
-                    this.Width = (Window.Current.Content as Frame).Width;
-                    _currentPopup.Child = this;
-                    _currentPopup.IsOpen = true;
-                }
+            if (_currentPopup == null)
+            {
+                _currentPopup = new Popup();
+                _currentPopup.VerticalAlignment = VerticalAlignment.Stretch;
+                this.Height = (Window.Current.Content as Frame).Height;
+                this.Width = (Window.Current.Content as Frame).Width;
+                _currentPopup.Child = this;
+                _currentPopup.IsOpen = true;
             }
 
             CurrentPage.SizeChanged -= Page_SizeChanged;
             CurrentPage.SizeChanged += Page_SizeChanged;
         }
 
-        public DialogService(DialogKind kind, string title, string content) :this()
+        public DialogService(DialogKind kind, string title, string content) : this()
         {
             this._kind = kind;
-            if (!DesignMode.DesignModeEnabled)
-            {
-                _title = title;
-                _content = content;
-            }
+
+            _title = title;
+            _content = content;
+
         }
 
-        public DialogService(string title, string content):this()
+        public DialogService(string title, string content) : this()
         {
-            if (!DesignMode.DesignModeEnabled)
-            {
-                _title = title;
-                _content = content;
-            }
+
+            _title = title;
+            _content = content;
+
         }
-
-
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -292,7 +285,7 @@ namespace MyerListCustomControl
             _outStory = _rootGrid.Resources["OutStory"] as Storyboard;
             _outStory.Completed += OutStory_Completed;
 
-            _tcs.TrySetResult(1);
+            _tcs.TrySetResult(0);
 
             _rootGrid.Width = Window.Current.Bounds.Width;
             _rootGrid.Height = Window.Current.Bounds.Height;

@@ -29,8 +29,28 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Storyboard x:Name="ShowColorStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ColorGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="450"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideColorStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ColorGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="450">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
-    <Grid Background="White">
+    <Grid Background="White" x:Name="RootGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>
@@ -41,57 +61,20 @@
         </Grid>
         <Grid Grid.Row="1">
             <ListView
-                        SelectedIndex="{Binding SelectedCate,Mode=TwoWay}"
                         SelectionMode="None"
                         ItemsSource="{x:Bind MainVM.CateVM.CatesToModify,Mode=OneWay}"
                         Background="{x:Null}" ItemContainerStyle="{StaticResource ListViewItemStyle2}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:ToDoCategory">
-                        <Grid Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
+                        <Grid Background="{x:Null}" Margin="-10,0,0,0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
                             <Grid Margin="0,0,0,0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="50"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <ComboBox 
-                                            SelectedIndex="{x:Bind SelectedCateColor,Mode=TwoWay}" BorderThickness="0" 
-                                            HorizontalAlignment="Stretch" 
-                                            VerticalAlignment="Stretch" 
-                                            MinWidth="10"
-                                            >
-                                    <ComboBox.Items>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FF43659D"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FF43989D"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FF439D8B"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FFA5A93F"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FFA9843F"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FFD77332"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FFD75032"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FFD73232"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FFD73250"/>
-                                        </ComboBoxItem>
-                                        <ComboBoxItem MinWidth="10" Height="50">
-                                            <Ellipse Width="20" Height="20" Fill="#FF5A4182"/>
-                                        </ComboBoxItem>
-                                    </ComboBox.Items>
-                                </ComboBox>
+                                <Button Click="Button_Click" Tag="{x:Bind CateColorID,Mode=OneWay}" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Ellipse Width="20" Height="20" Fill="{x:Bind CateColor,Mode=OneWay}" StrokeThickness="0"/>
+                                </Button>
                                 <TextBox Text="{x:Bind CateName,Mode=TwoWay}" Margin="10,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="Black" BorderThickness="0" Grid.Column="1" Background="{x:Null}" MinHeight="20"/>
                             </Grid>
                             <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -114,14 +97,48 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="OkBtn" Click="OkBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
                 <Border Background="{StaticResource DefaultColor}">
-                    <TextBlock x:Uid="OkTB.Text" Foreground="White" Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="OkTB" Foreground="White" Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </Button>
             <Button x:Name="CancelBtn" Click="CancelBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="{x:Null}">
                 <Border Background="#FFD0D0D0">
-                    <TextBlock x:Uid="CancelTB.Text" Foreground="Black" Text="CANCEL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="CancelTB" Foreground="Black" Text="CANCEL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </Button>
+        </Grid>
+        <Grid x:Name="ColorGrid" Grid.Row="1" Grid.RowSpan="2" Background="White" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <CompositeTransform TranslateY="450"/>
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+                <RowDefinition Height="55"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Uid="ChooseColorTB" Text="Pick a color" Margin="10,0,0,0" FontSize="20" Foreground="#4C000000"/>
+            <GridView x:Name="ColorGirdView" Grid.Row="1" SelectionMode="Single" ItemsSource="{x:Bind CateColorsVM.CateColors,Mode=OneWay}" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="30" Height="30" Background="{Binding}"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <Grid Grid.Row="2" Height="55" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="PickColorOKBtn" Click="PickColorOKBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                    <Border Background="{StaticResource DefaultColorLight}">
+                        <TextBlock x:Uid="OkTB" Foreground="White" Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Button>
+                <Button x:Name="PickColorCancelBtn" Click="PickColorCancelBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="{x:Null}">
+                    <Border Background="#FFD0D0D0">
+                        <TextBlock x:Uid="CancelTB" Foreground="Black" Text="CANCEL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

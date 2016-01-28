@@ -200,26 +200,9 @@
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    <!--<ListBox.Items>
-                        <Button IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}"  Background="{x:Null}" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="30" Height="30">
-                            <Ellipse Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource DefaultColorLight}" Stroke="{StaticResource DefaultColorDark}" StrokeThickness="2"/>
-                        </Button>
-                        <Button IsHitTestVisible="False"  Style="{StaticResource ButtonCommonStyle}"    Background="{x:Null}" HorizontalAlignment="Center" Margin="0">
-                            <Ellipse Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource WorkColorLight}" Stroke="{StaticResource WorkColorDark}" StrokeThickness="2"/>
-                        </Button>
-                        <Button  IsHitTestVisible="False"   Style="{StaticResource ButtonCommonStyle}"   Background="{x:Null}" HorizontalAlignment="Center" Margin="0">
-                            <Ellipse Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource LifeColorLight}" Stroke="{StaticResource LifeColorDark}" StrokeThickness="2"/>
-                        </Button>
-                        <Button  IsHitTestVisible="False"  Style="{StaticResource ButtonCommonStyle}"    Background="{x:Null}" HorizontalAlignment="Center" Margin="0">
-                            <Ellipse Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource FamilyColorLight}" Stroke="{StaticResource FamilyColorDark}" StrokeThickness="2"/>
-                        </Button>
-                        <Button  IsHitTestVisible="False"  Style="{StaticResource ButtonCommonStyle}"    Background="{x:Null}" HorizontalAlignment="Center" Margin="0">
-                            <Ellipse Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource EnterColorLight}" Stroke="{StaticResource EnterColorDark}" StrokeThickness="2"/>
-                        </Button>
-                    </ListBox.Items>-->
                 </ListBox>
             </StackPanel>
-            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}"/>
+            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10" Height="35"/>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Button Command="{x:Bind MainVM.OkCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}">
                     <Grid Width="100" Height="35" Background="#33FFFFFF"  BorderThickness="3" BorderBrush="#33FFFFFF">

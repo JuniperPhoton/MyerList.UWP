@@ -117,7 +117,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Margin="0" HorizontalAlignment="Center">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Margin="0,0,0,30" HorizontalAlignment="Center">
                 <StackPanel>
                     <ListBox
                         SelectedIndex="{Binding SelectedCate,Mode=TwoWay}"  
@@ -139,7 +139,7 @@
                     <Button Command="{x:Bind MainVM.PersonalizeCommand}" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
                             <Image Source="ms-appx:///Assets/Icon/cate_per.png" Width="20" Height="20"/>
-                            <TextBlock Text="Personalize" Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
+                            <TextBlock Text="Personalize" x:Uid="ModifyCateTB"  Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

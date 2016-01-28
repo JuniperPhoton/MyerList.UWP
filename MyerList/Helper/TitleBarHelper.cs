@@ -29,7 +29,7 @@ namespace MyerListUWP.Helper
             titleBar.ButtonHoverBackgroundColor = ColorConverter.Hex2Color("#DEDEDE");
             titleBar.ButtonPressedBackgroundColor = ColorConverter.Hex2Color("#BBBBBB");
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveForegroundColor = ColorConverter.Hex2Color("#FF676767");
+            titleBar.ButtonInactiveForegroundColor = ColorConverter.Hex2Color("#676767");
         }
 
         public static void SetUpNarrowTitleBar()
