@@ -113,7 +113,7 @@ namespace MyerListUWP.ViewModel
             CatesToModify = cateList;
         }
 
-        public async Task SaveCatesToModify()
+        public async Task<bool> SaveCatesToModify()
         {
             var currentMaxID = CreateNewID();
             var array = new JsonArray();
@@ -129,7 +129,7 @@ namespace MyerListUWP.ViewModel
             var cateString = AppSettings.DefaultCateJsonStringFore + arrayString + "}";
 
             var isOK = await CloudService.UpdateCateInfo(cateString);
-            if(isOK)
+            if (isOK)
             {
                 Categories = CatesToModify;
                 var ok = await SerializerHelper.SerializerToJson<ObservableCollection<ToDoCategory>>(Categories, SerializerFileNames.CategoryFileName);
@@ -137,7 +137,9 @@ namespace MyerListUWP.ViewModel
                 Categories.Add(new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateDelete"), CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush, CateColorID = -1 });
                 UpdateCatesToAdd();
                 App.MainVM.RefreshCate();
+                return true;
             }
+            else return false;
         }
 
         public int CreateNewID()

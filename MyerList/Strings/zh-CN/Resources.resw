@@ -486,4 +486,10 @@
   <data name="ChooseColorTB.Text" xml:space="preserve">
     <value>选择一个颜色</value>
   </data>
+  <data name="NewCateName" xml:space="preserve">
+    <value>新类别</value>
+  </data>
+  <data name="SyncingCatesTB.Text" xml:space="preserve">
+    <value>同步中...</value>
+  </data>
 </root>

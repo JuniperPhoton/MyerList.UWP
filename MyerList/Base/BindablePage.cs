@@ -56,7 +56,7 @@ namespace MyerList.Base
 
         protected virtual void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpWideTitleBar();
+            TitleBarHelper.SetUpForeBlackTitleBar();
         }
 
         protected virtual void SetUpStatusBar()

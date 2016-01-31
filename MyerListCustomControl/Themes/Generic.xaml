@@ -506,27 +506,22 @@
                                 <CompositeTransform/>
                             </StackPanel.RenderTransform>
                             <StackPanel Margin="15,15,15,10">
-                                <TextBlock x:Name="TitleTB" Text="{TemplateBinding TitleText}" FontSize="20" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock x:Name="ContentTB" TextWrapping="Wrap" TextAlignment="Center" Text="{TemplateBinding ContentText}" FontSize="15" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="TitleTB" Text="{TemplateBinding TitleText}" FontSize="23" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="ContentTB" TextWrapping="Wrap" TextAlignment="Center" Text="{TemplateBinding ContentText}" FontSize="15" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK" Margin="0,10,0,0" HorizontalAlignment="Left"/>
                                 <TextBox x:Name="InputBox" VerticalAlignment="Center" PlaceholderText="{TemplateBinding InputBoxHintText}"  FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK" Margin="0 10 0 0" />
                             </StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Border Width="1" Height="30" HorizontalAlignment="Right" Background="#FF8E8E8E" Margin="0,0,0,5"/>
-                                <Button x:Name="LeftBtn" Style="{StaticResource AnimatedButtonStyle}" Margin="15,10,5,15" Height="40"  HorizontalAlignment="Stretch" Background="{x:Null}" BorderThickness="0" >
-                                    <Border>
-                                        <TextBlock x:Name="LeftBtnTB" Text="{TemplateBinding LeftButtonContent}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK"/>
-                                    </Border>
-                                </Button>
-                                <Button x:Name="RightBtn" Style="{StaticResource AnimatedButtonStyle}" Margin="5,10,15,15" Grid.Column="1" Height="40"  HorizontalAlignment="Stretch" Background="{x:Null}" BorderThickness="0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 10">
+                                <Button x:Name="LeftBtn" Style="{StaticResource AnimatedButtonStyle}" Grid.Column="1" HorizontalAlignment="Stretch" Background="{x:Null}" BorderThickness="0">
                                     <Border BorderThickness="2">
-                                        <TextBlock x:Name="RightBtnTB" Text="{TemplateBinding RightButtonContent}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK"/>
+                                        <TextBlock x:Name="LeftBtnTB" Margin="15 10 15 10" Text="{TemplateBinding LeftButtonContent}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK"/>
                                     </Border>
                                 </Button>
-                            </Grid>
+                                <Button x:Name="RightBtn" Style="{StaticResource AnimatedButtonStyle}"  Grid.Column="1"  HorizontalAlignment="Stretch" Background="{x:Null}" BorderThickness="0">
+                                    <Border BorderThickness="2">
+                                        <TextBlock x:Name="RightBtnTB" Margin="15 10 15 10" Text="{TemplateBinding RightButtonContent}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="ms-appx:/Assets/Fonts/fzltxh.TTF#FZLanTingHei-EL-GBK"/>
+                                    </Border>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </ControlTemplate>

@@ -7,7 +7,6 @@
     xmlns:base="using:MyerList.Base"
     xmlns:attach="using:JP.Utils.Framework"
     xmlns:cc="using:MyerListCustomControl"
-    xmlns:ext="using:FABExt"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:triggers="using:JP.CustomTriggers"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
@@ -190,6 +189,7 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
+                    <!--Narrow-->
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
@@ -230,6 +230,7 @@
                     </Storyboard>
                 </VisualState>
                 <VisualState>
+                    <!--Wide-->
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
@@ -279,7 +280,6 @@
                         <Setter Target="DisplayedListView.MaxWidth" Value="{StaticResource MaxWidth}"/>
                         <Setter Target="HeaderContentGrid.MaxWidth" Value="{StaticResource MaxWidth}"/>
                         <Setter Target="DeleteListView.MaxWidth" Value="{StaticResource MaxWidth}"/>
-
                         <!--<Setter Target="HamburgerBtn.ForegroundBrush" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>
                         <Setter Target="TitleTB.Foreground" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>-->
                     </VisualState.Setters>
@@ -311,16 +311,11 @@
                 </Grid.Background>
                 <Grid x:Name="HeaderContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,20">
                     <StackPanel Orientation="Horizontal">
-                        <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="Black" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5">
+                        <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="Black" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" Background="Transparent">
                             <uc:HamburgerButton.RenderTransform>
                                 <CompositeTransform/>
                             </uc:HamburgerButton.RenderTransform>
                         </uc:HamburgerButton>
-                        <!--<TextBlock x:Name="TitleTB" Text="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="Black" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left">
-                            <TextBlock.RenderTransform>
-                                <CompositeTransform/>
-                            </TextBlock.RenderTransform>
-                        </TextBlock>-->
                         <cc:AnimatedTextBlock x:Name="TitleTB" TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="Black" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left">
                             <cc:AnimatedTextBlock.RenderTransform>
                                 <CompositeTransform/>
@@ -406,7 +401,7 @@
                     <ToggleButton
                         Width="60" Height="50"
                         BorderThickness="0"
-                        Background="{x:Null}"
+                        Background="#0AFFFFFF"
                         Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" 
                         IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" 
                         Command="{x:Bind MainVM.ToggleReorderCommand}">

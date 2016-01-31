@@ -32,7 +32,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace MyerList
 {
-    
+
     public sealed partial class AboutPage : CustomTitleBarPage
     {
         public AboutPage()
@@ -40,7 +40,7 @@ namespace MyerList
             this.InitializeComponent();
         }
 
-        private async void FeedbackClick(object sender,RoutedEventArgs e)
+        private async void FeedbackClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace MyerList
                 mes.Subject = "MyerList for Windows 10 feedback";
                 await EmailManager.ShowComposeNewEmailAsync(mes);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var task = ExceptionHelper.WriteRecordAsync(ex, nameof(AboutPage), nameof(FeedbackClick));
             }
@@ -65,14 +65,14 @@ namespace MyerList
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if(DeviceHelper.IsDesktop)
+            if (DeviceHelper.IsMobile)
             {
-                this.TitleBarUC.SetForegroundColor(Colors.Black);
-                TitleBarHelper.SetUpNarrowTitleBar();
+                StatusBarHelper.SetUpBlueStatusBar();
             }
             else
             {
-                //StatusBarHelper.SetUpStatusBar("MyerListGrayLight");
+                this.TitleBarUC.SetForegroundColor(Colors.Black);
+                TitleBarHelper.SetUpForeBlackTitleBar();
             }
         }
 
@@ -81,7 +81,7 @@ namespace MyerList
             try
             {
                 var msg = await ExceptionHelper.ReadRecordAsync();
-                var task=ExceptionHelper.EraseRecord();
+                var task = ExceptionHelper.EraseRecord();
                 EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
                 EmailMessage mes = new EmailMessage();
                 mes.To.Add(rec);
@@ -93,6 +93,11 @@ namespace MyerList
             {
                 var task = ExceptionHelper.WriteRecordAsync(ex, nameof(AboutPage), nameof(stackPanel_DoubleTapped));
             }
+        }
+
+        private void LogoImg_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+
         }
     }
 }

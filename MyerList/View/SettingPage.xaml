@@ -8,26 +8,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding SettingVM,Source={StaticResource Locator}}"
-    IsTextScaleFactorEnabled="False" Background="White">
-    <Grid>
+    IsTextScaleFactorEnabled="False" Background="{StaticResource MyerListGray}">
+    <Grid Background="{StaticResource MyerListGray}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="130"/>
+            <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
-        <Grid Background="{StaticResource MyerListBlue}" Margin="0 -30 0 0">
+        <Grid Margin="0 -30 0 0">
             <Grid MaxWidth="550">
-                <TextBlock x:Uid="SettingTB"  FontFamily="{StaticResource MyerListThemeFontFamily}"  Text="SETTINGS" Foreground="White" FontSize="26.667" VerticalAlignment="Bottom" Margin="10,0,0,10" FontWeight="Bold" HorizontalAlignment="Left"/>
+                <TextBlock x:Uid="SettingTB"  FontFamily="{StaticResource MyerListThemeFontFamily}"  Text="SETTINGS" Foreground="{StaticResource DefaultColor}" FontSize="26.667" VerticalAlignment="Bottom" Margin="10,0,0,10" FontWeight="Bold" HorizontalAlignment="Left"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Background="White">
-            <ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="550" Background="White" Margin="0">
+        <Grid Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="550" Background="{x:Null}" Margin="0">
                 <StackPanel Grid.Row="1" >
                     <Border Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                         <TextBlock x:Uid="HabbitTB"  FontFamily="{StaticResource MyerListThemeFontFamily}" TextWrapping="Wrap" Text="USER HABBIT" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
                     </Border>
                     <ToggleSwitch x:Uid="HamburgerTS"  FontFamily="{StaticResource MyerListThemeFontFamily}" Header="Hamburger Gesture" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{Binding Source={StaticResource AppSettings},Mode=TwoWay,Path=EnableGesture}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
-                    <ToggleSwitch x:Uid="KeyboardTS"  FontFamily="{StaticResource MyerListThemeFontFamily}" Header="Show keyboard" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{Binding Source={StaticResource AppSettings},Mode=TwoWay,Path=ShowKeyboard}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
+                    <ToggleSwitch x:Uid="KeyboardTS" FontFamily="{StaticResource MyerListThemeFontFamily}" Header="Show keyboard" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{Binding Source={StaticResource AppSettings},Mode=TwoWay,Path=ShowKeyboard}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
                     <ToggleSwitch x:Uid="AddToBottomts"  FontFamily="{StaticResource MyerListThemeFontFamily}" Header="Add to bottom" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{Binding Source={StaticResource AppSettings},Mode=TwoWay,Path=IsAddToBottom}" FontSize="15" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>
                     <Border Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
                         <TextBlock x:Uid="TileTB"  FontFamily="{StaticResource MyerListThemeFontFamily}" TextWrapping="Wrap" Text="LIVE TILE" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
@@ -55,8 +54,8 @@
                         <TextBlock x:Uid="AccountTB" FontFamily="{StaticResource MyerListThemeFontFamily}" TextWrapping="Wrap" Text="LANGUAGE" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" FontWeight="Bold"/>
                     </Border>
                     <Button Margin="10 10 10 40" Command="{x:Bind SettingVM.LogoutCommand}" HorizontalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}"  BorderThickness="0" HorizontalAlignment="Stretch" Height="40" >
-                        <Grid Background="#FFF4F4F4">
-                            <TextBlock x:Uid="LogoutTB" HorizontalAlignment="Center" Text="LOGOUT" VerticalAlignment="Center" Margin="20,0,0,0" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
+                        <Grid Background="{StaticResource DefaultColorLight}">
+                            <TextBlock x:Uid="LogoutTB" HorizontalAlignment="Center" Text="LOGOUT" VerticalAlignment="Center" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
                         </Grid>
                     </Button>
                 </StackPanel>

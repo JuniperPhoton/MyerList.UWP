@@ -502,7 +502,7 @@ namespace MyerList.Helper
             try
             {
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}",cts.Token);
+                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}&a={new Random().Next()}",cts.Token);
                 return response.JsonSrc;
             }
             catch (Exception)

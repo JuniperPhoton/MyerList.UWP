@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="MyerList.UC.CateItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <Grid Background="{x:Null}" Margin="-10,0,0,0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center">
+        <Grid.Resources>
+            <Storyboard x:Name="GoSortStory">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="DeleteBtn">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-50"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="SortBtn">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Name="LeaveSortStory">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="DeleteBtn">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="-50"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="SortBtn">
+                    <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="50"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </Grid.Resources>
+        <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="SelectCateClick" Tag="{Binding CateColorID,Mode=OneWay}" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Ellipse Width="20" Height="20" Fill="{Binding CateColor,Mode=OneWay}" StrokeThickness="0"/>
+            </Button>
+            <TextBox Text="{Binding CateName,Mode=TwoWay}" Margin="10,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="Black" BorderThickness="0" Grid.Column="1" Background="{x:Null}" MinHeight="20"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                <Button Width="40"  x:Name="SortUpBtn" Click="SortUpBtn_Click" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                    <SymbolIcon Symbol="Up" Foreground="Black"/>
+                </Button>
+                <Button Width="40" x:Name="SortDownBtn" Click="SortDownBtn_Click" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleY="-1"/>
+                    </Button.RenderTransform>
+                    <SymbolIcon Symbol="Up" Foreground="Black"/>
+                </Button>
+                <Button Width="40" Click="DeleteBtn_Click" x:Name="DeleteBtn" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                    <SymbolIcon Symbol="Delete" Foreground="Black"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

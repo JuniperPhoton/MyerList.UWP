@@ -208,35 +208,34 @@ namespace MyerListCustomControl
 
             _tcs = new TaskCompletionSource<int>();
 
-            if (_currentPopup == null)
+            if(!DesignMode.DesignModeEnabled)
             {
-                _currentPopup = new Popup();
-                _currentPopup.VerticalAlignment = VerticalAlignment.Stretch;
-                this.Height = (Window.Current.Content as Frame).Height;
-                this.Width = (Window.Current.Content as Frame).Width;
-                _currentPopup.Child = this;
-                _currentPopup.IsOpen = true;
-            }
+                if (_currentPopup == null)
+                {
+                    _currentPopup = new Popup();
+                    _currentPopup.VerticalAlignment = VerticalAlignment.Stretch;
+                    this.Height = (Window.Current.Content as Frame).Height;
+                    this.Width = (Window.Current.Content as Frame).Width;
+                    _currentPopup.Child = this;
+                    _currentPopup.IsOpen = true;
+                }
 
-            CurrentPage.SizeChanged -= Page_SizeChanged;
-            CurrentPage.SizeChanged += Page_SizeChanged;
+                CurrentPage.SizeChanged -= Page_SizeChanged;
+                CurrentPage.SizeChanged += Page_SizeChanged;
+            }
         }
 
         public DialogService(DialogKind kind, string title, string content) : this()
         {
             this._kind = kind;
-
             _title = title;
             _content = content;
-
         }
 
         public DialogService(string title, string content) : this()
         {
-
             _title = title;
             _content = content;
-
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

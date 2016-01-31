@@ -26,7 +26,7 @@ namespace MyerList.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
-        public event Action OnCategoryChanged;
+        public event Action OnCateColorChanged;
 
         private AddMode _addMode = AddMode.None;
 
@@ -69,7 +69,6 @@ namespace MyerList.ViewModel
                     SelectedPage = 0;
                     UpdateCallByCate();
                     _lastIndex = value;
-                    OnCategoryChanged?.Invoke();
                 }
             }
         }
@@ -749,19 +748,15 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 重新添加回列表
         /// </summary>
-        private RelayCommand<string> _redoCommand;
-        public RelayCommand<string> RedoCommand
+        private RelayCommand<ToDo> _redoCommand;
+        public RelayCommand<ToDo> RedoCommand
         {
             get
             {
                 if (_redoCommand != null) return _redoCommand;
-                return _redoCommand = new RelayCommand<string>(async (id) =>
+                return _redoCommand = new RelayCommand<ToDo>(async (id) =>
                 {
-                    var scheToAdd = DeletedToDos.ToList().Find(s =>
-                    {
-                        if (s.ID == id) return true;
-                        else return false;
-                    });
+                    var scheToAdd = id;
 
                     _addMode = AddMode.None;
                     NewToDo = scheToAdd;
@@ -932,7 +927,7 @@ namespace MyerList.ViewModel
             //设置当前页面为 ALL To-Do
             SelectedPage = 0;
 
-            Title = ResourcesHelper.GetResString("CateDefault");
+            Title = ResourcesHelper.GetResString("CateAll");
 
             RegisterMessenger();
         }
@@ -952,16 +947,11 @@ namespace MyerList.ViewModel
                 var id = act.Content;
                 DeleteCommand.Execute(id);
             });
-
-            Messenger.Default.Register<GenericMessage<ToDo>>(this, MessengerTokens.ReaddToDo, act =>
+            //重新加入已经删除了的
+            Messenger.Default.Register<GenericMessage<ToDo>>(this, MessengerTokens.ReAddToDo, act =>
             {
                 this.NewToDo = act.Content;
                 OkCommand.Execute(false);
-            });
-
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CompleteSort, async act =>
-            {
-                await UpdateOrder();
             });
         }
 
@@ -973,11 +963,6 @@ namespace MyerList.ViewModel
         {
             var orderStr = ToDo.GetCurrentOrderString(MyToDos);
             await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), orderStr);
-        }
-
-        private void UpdateAddingColor()
-        {
-            
         }
 
         #region Add,modify,check,delete
@@ -1106,6 +1091,7 @@ namespace MyerList.ViewModel
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName);
 
                 MyToDos.Remove(itemToDeleted);
+
                 UpdateDisplayList(SelectedCate);
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
 
@@ -1175,9 +1161,12 @@ namespace MyerList.ViewModel
                 if (sche.ID == NewToDo.ID) return true;
                 else return false;
             });
+
             itemToModify.Content = NewToDo.Content;
-            itemToModify.Category = AddingCate;
+            itemToModify.Category =CateVM.Categories[AddingCate].CateColorID;
             itemToModify.CreateTime = DateTime.Now.ToString();
+
+            UpdateDisplayList(SelectedCate);
 
             //离线模式
             if (App.IsInOfflineMode)
@@ -1240,7 +1229,7 @@ namespace MyerList.ViewModel
                     var index = CateVM.Categories.ToList().FindIndex(s => s.CateColorID == cateID);
                     index++;
                     if (index == CateVM.Categories.Count - 1) index = 0;
-                    currentSchedule.Category = index;
+                    currentSchedule.Category = CateVM.Categories[index].CateColorID;
                 }
                 if (!App.IsNoNetwork && !App.IsInOfflineMode)
                 {
@@ -1263,7 +1252,7 @@ namespace MyerList.ViewModel
             var cateID = 0;
             if (SelectedCate == 0) cateID = 0;
             else if (SelectedCate == CateVM.Categories.Count - 1) cateID = -1;
-            else cateID = SelectedCate;
+            else cateID = CateVM.Categories[SelectedCate].CateColorID;
 
             UpdateColor(cateID);
             UpdateTitle(cateID);
@@ -1295,6 +1284,7 @@ namespace MyerList.ViewModel
             {
                 CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush;
             }
+            OnCateColorChanged?.Invoke();
         }
 
         private void UpdateTitle(int cateID)
@@ -1521,6 +1511,8 @@ namespace MyerList.ViewModel
             var mode = args.Mode;
             var stringParam = args.Param;
 
+            IsLoading = Visibility.Visible;
+
             await InitialCate(mode);
 
             //已经登陆过的了
@@ -1563,6 +1555,7 @@ namespace MyerList.ViewModel
                 ShowAccountInfoVisibility = Visibility.Collapsed;
                 await RestoreData();
             }
+            IsLoading = Visibility.Collapsed;
         }
 
         private async Task InitialCate(LoginMode mode)

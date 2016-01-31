@@ -23,5 +23,15 @@ namespace MyerList
         {
             this.InitializeComponent();
         }
+
+        private void CatePersonalizationControl_OnClickCancelBtn()
+        {
+            Frame.GoBack();
+        }
+
+        private void CatePersonalizationControl_OnClickOKBtn()
+        {
+            Frame.GoBack();
+        }
     }
 }

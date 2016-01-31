@@ -23,7 +23,7 @@
         </Grid>
         <Button 
             Command="{Binding MainVM.RedoCommand,Source={StaticResource Locator}}" 
-            CommandParameter="{Binding ID}"
+            CommandParameter="{Binding}"
             Grid.RowSpan="2" 
             Style="{StaticResource ButtonCommonStyle}" 
             BorderThickness="0,2,0,0" Background="{x:Null}">

@@ -489,4 +489,10 @@
   <data name="PersonalizeCateTB.Text" xml:space="preserve">
     <value></value>
   </data>
+  <data name="NewCateName" xml:space="preserve">
+    <value>New cate</value>
+  </data>
+  <data name="SyncingCatesTB.Text" xml:space="preserve">
+    <value>Syncing...</value>
+  </data>
 </root>

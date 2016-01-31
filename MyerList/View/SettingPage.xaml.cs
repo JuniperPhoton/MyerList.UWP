@@ -49,7 +49,12 @@ namespace MyerList
 
             if(DeviceHelper.IsMobile)
             {
-                //StatusBarHelper.SetUpBlueStatusBar();
+               StatusBarHelper.SetUpBlueStatusBar();
+            }
+            else
+            {
+                this.TitleBarUC.SetForegroundColor(Colors.Black);
+                TitleBarHelper.SetUpForeBlackTitleBar();
             }
         }
 

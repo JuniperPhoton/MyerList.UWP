@@ -93,12 +93,33 @@ namespace MyerListUWP.View
 
             this.Loaded += MainPage_Loaded;
 
-            MainVM.OnCategoryChanged += MainVM_OnCategoryChanged;
+            MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
         }
 
         private void MainVM_OnCategoryChanged()
         {
-            UpdateColorWhenSizeChanged();
+            if (this.ActualWidth >= 720)
+            {
+                HamburgerBtn.ForegroundBrush = MainVM.CateColor;
+                TitleTB.Foreground = MainVM.CateColor;
+                ProgressRing.Foreground = MainVM.CateColor;
+                TitleBarHelper.SetUpForeBlackTitleBar();
+            }
+            else
+            {
+                var solidColor = HeaderContentRootGrid.Background as SolidColorBrush;
+                if (solidColor == null) return;
+                if (solidColor.Color!=MainVM.CateColor.Color)
+                {
+                    ChangeColorAnim.To = MainVM.CateColor.Color;
+                    ChangeColorAnim.From = Colors.White;
+                    ChangeColorStory.Begin();
+                }
+                HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
+                TitleTB.Foreground = new SolidColorBrush(Colors.White);
+                ProgressRing.Foreground = new SolidColorBrush(Colors.White);
+                TitleBarHelper.SetUpForeWhiteTitleBar();
+            }                
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -184,8 +205,8 @@ namespace MyerListUWP.View
 
             if(ListContentGrid.Margin.Left!=left)
             {
-                ListContentGrid.Margin = new Thickness(left, 0, 0, 0);
-                HeaderContentGrid.Margin = new Thickness(left, 0, 0, 0);
+                ListContentGrid.Margin = new Thickness(left, 0, right, 0);
+                HeaderContentGrid.Margin = new Thickness(left, 0, right, 20);
             }
 
             AddingPaneFirstOffset.Value = -this.ActualWidth;
@@ -194,6 +215,7 @@ namespace MyerListUWP.View
 
         bool _isToggleAnim1 = false;
         bool _isToggleAnim2 = false;
+
         private void UpdateColorWhenSizeChanged()
         {
             if(this.ActualWidth >= 720)
@@ -205,12 +227,11 @@ namespace MyerListUWP.View
                     ChangeColorStory.Begin();
                     _isToggleAnim1 = true;
                     _isToggleAnim2 = false;
-                    
                 }
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
                 ProgressRing.Foreground = MainVM.CateColor;
-                TitleBarHelper.SetUpWideTitleBar();
+                TitleBarHelper.SetUpForeBlackTitleBar();
             }
             else
             {
@@ -221,12 +242,11 @@ namespace MyerListUWP.View
                     ChangeColorStory.Begin();
                     _isToggleAnim2 = true;
                     _isToggleAnim1 = false;
-                    
                 }
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
-                TitleBarHelper.SetUpNarrowTitleBar();
+                TitleBarHelper.SetUpForeWhiteTitleBar();
             }
         }
 
@@ -394,7 +414,10 @@ namespace MyerListUWP.View
             {
                 BackgroundTaskHelper.RegisterBackgroundTask();
             }
-
+            if (DeviceHelper.IsMobile)
+            {
+                StatusBarHelper.SetUpStatusBar();
+            }
             Frame.BackStack.Clear();
         }
 

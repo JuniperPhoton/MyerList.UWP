@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>MyerList_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>2E0DC88BBA40010A33052B0F9A19E0A67319FCF5</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -97,6 +97,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\AGENCYB.TTF" />
     <None Include="MyerList_StoreKey.pfx" />
     <None Include="project.json" />
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
@@ -121,7 +122,6 @@
     <Compile Include="Common\InvokeCommandByKeyDown.cs" />
     <Compile Include="Helper\JumpListHelper.cs" />
     <Compile Include="Common\MessengerTokens.cs" />
-    <Compile Include="Helper\MultiWindowsHelper.cs" />
     <Compile Include="Helper\ResourcesHelper.cs" />
     <Compile Include="Helper\StatusBarHelper.cs" />
     <Compile Include="Helper\TitleBarHelper.cs" />
@@ -140,6 +140,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControl\AddingPanel.xaml.cs">
       <DependentUpon>AddingPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\CateItemControl.xaml.cs">
+      <DependentUpon>CateItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\CatePersonalizationControl.xaml.cs">
       <DependentUpon>CatePersonalizationControl.xaml</DependentUpon>
@@ -171,9 +174,6 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CardViewPage.xaml.cs">
-      <DependentUpon>CardViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FeaturePage.xaml.cs">
       <DependentUpon>FeaturePage.xaml</DependentUpon>
@@ -210,11 +210,6 @@
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\cate_add.png" />
-    <Content Include="Assets\cate_default.png" />
-    <Content Include="Assets\cate_enter.png" />
-    <Content Include="Assets\cate_family.png" />
-    <Content Include="Assets\cate_life.png" />
-    <Content Include="Assets\cate_work.png" />
     <Content Include="Assets\CLIP_WHITE.png" />
     <Content Include="Assets\feature1.png" />
     <Content Include="Assets\Icon\accept.png" />
@@ -224,12 +219,6 @@
     <Content Include="Assets\Icon\DELETE_BLACK.png" />
     <Content Include="Assets\Icon\DELETE_WHITE.png" />
     <Content Include="Assets\Icon\Like_BLACK.png" />
-    <Content Include="Assets\Icon\LOCK_100.png" />
-    <Content Include="Assets\Icon\LOCK_500.png" />
-    <Content Include="Assets\Icon\NAVI_DELETE.png" />
-    <Content Include="Assets\Icon\NAVI_DELETE_WHITE.png" />
-    <Content Include="Assets\Icon\NAVI_TODO.png" />
-    <Content Include="Assets\Icon\NAVI_TODO2.png" />
     <Content Include="Assets\Icon\Redo.png" />
     <Content Include="Assets\Icon\Refresh.png" />
     <Content Include="Assets\Icon\Settings_BLACK.png" />
@@ -303,6 +292,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControl\CateItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControl\CatePersonalizationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -334,10 +327,6 @@
     <Page Include="View\AboutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\CardViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FeaturePage.xaml">
       <Generator>MSBuild:Compile</Generator>

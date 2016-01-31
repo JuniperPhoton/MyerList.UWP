@@ -37,7 +37,7 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Button x:Name="HamBtn" Click="HamClick" Style="{StaticResource ButtonCommonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" VerticalAlignment="Center" Width="40" Height="40" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" HorizontalAlignment="Left">
+    <Button x:Name="HamBtn" Click="HamClick" Style="{StaticResource ButtonCommonStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" VerticalAlignment="Center" Width="40" Height="40" Background="Transparent" BorderBrush="{x:Null}" BorderThickness="0" HorizontalAlignment="Left">
         <Grid Width="40" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Grid.RowDefinitions>
                 <RowDefinition/>

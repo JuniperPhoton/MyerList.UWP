@@ -2,7 +2,6 @@
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight.Messaging;
-using MyerList.Helper;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using System;
@@ -40,7 +39,6 @@ namespace MyerList.UC
                         _canBeSorted = true;
                         GoSortStory.Begin();
                         SchduleTempleteGrid.ManipulationMode = reordermode;
-                        //LeftSP.IsHitTestVisible = false;
                     }
                 });
             Messenger.Default.Register<GenericMessage<string>>(this,MessengerTokens.LeaveSort, act =>
@@ -156,20 +154,20 @@ namespace MyerList.UC
 
         private void SchduleTempleteGrid_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
-            if (element != null)
-            {
-                try
-                {
-                    var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
-                    var position = e.GetPosition(null);
-                    attatchedFlyout.ShowAt(null, position);
-                }
-                catch (Exception)
-                {
+            //FrameworkElement element = sender as FrameworkElement;
+            //if (element != null)
+            //{
+            //    try
+            //    {
+            //        var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
+            //        var position = e.GetPosition(null);
+            //        attatchedFlyout.ShowAt(null, position);
+            //    }
+            //    catch (Exception)
+            //    {
 
-                }
-            }
+            //    }
+            //}
         }
 
         private void SchduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)

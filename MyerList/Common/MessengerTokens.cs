@@ -21,6 +21,7 @@ namespace MyerListUWP.Common
         public static string CompleteSort { get; set; } = "CompleteSort";
         public static string CheckToDo { get; set; } = "CheckToDo";
         public static string DeleteToDo { get; set; } = "DeleteToDo";
-        public static string ReaddToDo { get; set; } = "ReAddToDo";
+        public static string ReAddToDo { get; set; } = "ReAddToDo";
+        public static string ShowPickCatePanel { get; set; } = "ShowPickCatePanel";
     }
 }
