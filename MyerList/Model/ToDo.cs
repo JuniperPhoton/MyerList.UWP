@@ -9,6 +9,7 @@ using MyerList.Helper;
 using Windows.UI.Xaml.Media;
 using MyerListUWP;
 using MyerList.ViewModel;
+using Windows.UI.Xaml;
 
 namespace MyerList.Model
 {
@@ -36,9 +37,9 @@ namespace MyerList.Model
         {
             get
             {
-                if(App.MainVM.CateVM!= null)
+                if (App.MainVM.CateVM != null)
                 {
-                    if(App.MainVM.CateVM.Categories!= null)
+                    if (App.MainVM.CateVM.Categories != null)
                     {
                         var color = (from e in App.MainVM.CateVM.Categories where e.CateColorID == Category select e.CateColor).FirstOrDefault();
                         if (color != null)
@@ -51,7 +52,7 @@ namespace MyerList.Model
                 return (App.Current.Resources["MyerListBlue"] as SolidColorBrush);
             }
         }
-        
+
         private string _id;
         public string ID
         {
@@ -114,8 +115,8 @@ namespace MyerList.Model
             }
         }
 
-        private bool _shoDoneLine;
-        public bool ShowDoneLine
+        private Visibility _shoDoneLine;
+        public Visibility ShowDoneLine
         {
             get
             {
@@ -159,9 +160,11 @@ namespace MyerList.Model
             set
             {
                 if (_isdone != value)
+                {
                     _isdone = value;
-                RaisePropertyChanged(() => IsDone);
-                ShowDoneLine = IsDone;
+                    RaisePropertyChanged(() => IsDone);
+                    ShowDoneLine = IsDone?Visibility.Visible:Visibility.Collapsed;
+                }
             }
         }
 
@@ -171,7 +174,7 @@ namespace MyerList.Model
             Content = "";
             Order = 0;
             Category = 0;
-            ShowDoneLine = false;
+            ShowDoneLine = Visibility.Collapsed;
         }
 
         public static ObservableCollection<ToDo> SetOrderByString(ObservableCollection<ToDo> orisches, string orderString)
@@ -219,13 +222,13 @@ namespace MyerList.Model
 
         }
 
-        public static ObservableCollection<ToDo> ParseJsonToObs(string jsontext)
+        public static ObservableCollection<ToDo> ParseJsonToObs(string rawJson)
         {
             try
             {
                 ObservableCollection<ToDo> schedules = new ObservableCollection<ToDo>();
 
-                JObject job = JObject.Parse(jsontext);
+                JObject job = JObject.Parse(rawJson);
                 JArray array = job["ScheduleInfo"] as JArray;
                 if (array != null)
                     foreach (var sch in array)

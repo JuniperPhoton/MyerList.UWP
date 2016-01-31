@@ -990,18 +990,10 @@ namespace MyerList.ViewModel
             if (!AppSettings.Instance.IsAddToBottom)
             {
                 AllToDos.Insert(0, EditedToDo);
-                if (SelectedCate == AddingCate)
-                {
-                    (CurrentDisplayToDos as ObservableCollection<ToDo>).Insert(0, EditedToDo);
-                }
             }
             else
             {
                 AllToDos.Add(EditedToDo);
-                if (SelectedCate == AddingCate)
-                {
-                    (CurrentDisplayToDos as ObservableCollection<ToDo>).Add(EditedToDo);
-                }
             }
 
             //序列化保存
@@ -1046,6 +1038,7 @@ namespace MyerList.ViewModel
             }
             EditedToDo = new ToDo();
             IsLoading = Visibility.Collapsed;
+            UpdateListByChangingSelectedCate();
             UpdateUndoneCount();
         }
 
@@ -1068,7 +1061,7 @@ namespace MyerList.ViewModel
 
                 AllToDos.Remove(item);
 
-                UpdateDisplayList(SelectedCate);
+                UpdateDisplayList(CateVM.Categories[SelectedCate].CateColorID);
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
 
                 //登录过的
@@ -1139,7 +1132,7 @@ namespace MyerList.ViewModel
             itemToModify.Category = CateVM.Categories[AddingCate].CateColorID;
             itemToModify.CreateTime = DateTime.Now.ToString();
 
-            UpdateDisplayList(SelectedCate);
+            UpdateDisplayList(CateVM.Categories[SelectedCate].CateColorID);
 
             //离线模式
             if (App.IsInOfflineMode)

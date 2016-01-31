@@ -85,19 +85,19 @@
         <Border x:Name="border"  BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" Background="#004BB685"/>
         <Grid x:Name="LeftSP" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="35"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button
-                    Width="20"
-                    Padding="0"
-                    Style="{StaticResource ButtonCommonStyle}"
+                    Width="35"
+                    Style="{StaticResource ListButtonStyle}"
                     Command="{Binding MainVM.ChangeCateCommand,Mode=OneWay, Source={StaticResource Locator}}"
                     CommandParameter="{Binding}"
+                Margin="-5"
                     Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
-                    <Border Background="White" Opacity="0.001"/>
-                    <Ellipse Width="15" Height="15" Fill="{Binding CateColor,Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <!--<Border Background="White" Opacity="0.001"/>-->
+                    <Ellipse Width="15" Height="15" Fill="{Binding CateColor,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
