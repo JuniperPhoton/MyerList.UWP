@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JP.Utils.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,22 @@ namespace MyerList.Helper
 {
     public static class UrlHelper
     {
+        public static string SID
+        {
+            get
+            {
+                return LocalSettingHelper.GetValue("sid");
+            }
+        }
+
+        public static string AccessToken
+        {
+            get
+            {
+                return LocalSettingHelper.GetValue("access_token");
+            }
+        }
+
         #region API_URI
         public const string DOMAIN = "juniperphoton.net";
         public const string PROTOCOL ="http";

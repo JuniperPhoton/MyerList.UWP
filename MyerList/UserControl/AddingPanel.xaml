@@ -202,7 +202,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding NewToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10"/>
+            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding EditedToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10"/>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Button Command="{x:Bind MainVM.OkCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}">
                     <Grid Width="100" Height="35" Background="#33FFFFFF"  BorderThickness="3" BorderBrush="#33FFFFFF">

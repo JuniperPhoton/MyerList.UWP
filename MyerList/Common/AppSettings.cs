@@ -1,13 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
+using JP.Utils.Data;
 using System;
 using Windows.Storage;
 
 namespace MyerListUWP.Common
 {
-    public class AppSettings:ViewModelBase
+    public class AppSettings : ViewModelBase
     {
-        public static string DefaultCateJsonString= "{ \"modified\":true, \"cates\":[{\"name\":\"Work\",\"color\":\"#FF436998\",\"id\":1},{\"name\":\"Life\",\"color\":\"#FFFFB542\",\"id\":2},{\"name\":\"Family\",\"color\":\"#FFFF395F\",\"id\":3},{\"name\":\"Entertainment\",\"color\":\"#FF55C1C1\",\"id\":4}]}";
+        public static string DefaultCateJsonString = "{ \"modified\":true, \"cates\":[{\"name\":\"Work\",\"color\":\"#FF436998\",\"id\":1},{\"name\":\"Life\",\"color\":\"#FFFFB542\",\"id\":2},{\"name\":\"Family\",\"color\":\"#FFFF395F\",\"id\":3},{\"name\":\"Entertainment\",\"color\":\"#FF55C1C1\",\"id\":4}]}";
         public static string DefaultCateJsonStringFore = "{ \"modified\":true, \"cates\":";
 
         public bool EnableTile
@@ -101,14 +102,14 @@ namespace MyerListUWP.Common
             {
                 return (T)LocalSettings.Values[key];
             }
-            if (defaultValue!=null)
+            if (defaultValue != null)
             {
                 return defaultValue;
             }
             return default(T);
         }
 
-        private static readonly Lazy<AppSettings> lazy =new Lazy<AppSettings>(() => new AppSettings());
+        private static readonly Lazy<AppSettings> lazy = new Lazy<AppSettings>(() => new AppSettings());
 
         public static AppSettings Instance { get { return lazy.Value; } }
     }

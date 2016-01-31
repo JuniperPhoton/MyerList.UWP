@@ -234,7 +234,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("cate", cate));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var task =APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var task =APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 var result = await task;
                 if (result.IsSuccessful)
@@ -282,7 +282,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("time", time));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 if (result.IsSuccessful)
                 {
@@ -323,7 +323,7 @@ namespace MyerList.Helper
 
                 HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 if (result.IsSuccessful)
                 {
@@ -361,7 +361,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("id", id));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 if (result.IsSuccessful)
                 {
@@ -399,7 +399,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("sid", sid));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 if (result.IsSuccessful)
                 {
@@ -435,7 +435,7 @@ namespace MyerList.Helper
 
                 HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 if (result.IsSuccessful)
                 {
@@ -478,7 +478,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("order", order));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param,cts.Token);
                 if (result.IsSuccessful)
                 {
@@ -508,7 +508,7 @@ namespace MyerList.Helper
             try
             {
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={LocalSettingHelper.GetValue("sid")}&access_token={LocalSettingHelper.GetValue("access_token")}&a={new Random().Next()}",cts.Token);
+                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={UrlHelper.SID}&access_token={UrlHelper.AccessToken}&a={new Random().Next()}",cts.Token);
                 return response.JsonSrc;
             }
             catch (Exception)
@@ -522,12 +522,12 @@ namespace MyerList.Helper
             try
             {
                 var param = GetDefaultParam();
-                param.Add(new KeyValuePair<string, string>("sid", LocalSettingHelper.GetValue("sid")));
-                param.Add(new KeyValuePair<string, string>("access_token", LocalSettingHelper.GetValue("access_token")));
+                param.Add(new KeyValuePair<string, string>("sid", UrlHelper.SID));
+                param.Add(new KeyValuePair<string, string>("access_token", UrlHelper.AccessToken));
                 param.Add(new KeyValuePair<string, string>("cate_info", content));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserUpdateCateUri + "sid=" + LocalSettingHelper.GetValue("sid") + "&access_token=" + LocalSettingHelper.GetValue("access_token"),
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserUpdateCateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 if (!result.IsSuccessful) throw new ArgumentException();
 

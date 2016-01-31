@@ -131,7 +131,7 @@ namespace MyerList.UC
             {
                 if (e.Cumulative.Translation.X > 100)
                 {
-                   Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag),MessengerTokens.CheckToDo);
+                   Messenger.Default.Send(new GenericMessage<ToDo>(this.DataContext as ToDo),MessengerTokens.CheckToDo);
                 }
                 HideGreenStory.Begin();
                 BeginReturnStoryboard(e.Cumulative.Translation.X);
@@ -142,7 +142,7 @@ namespace MyerList.UC
                 {
                     if (SchduleTempleteGrid != null)
                     {
-                        Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag), MessengerTokens.DeleteToDo);
+                        Messenger.Default.Send(new GenericMessage<ToDo>(this.DataContext as ToDo), MessengerTokens.DeleteToDo);
                     }
                 }
                 HideRedStory.Begin();
