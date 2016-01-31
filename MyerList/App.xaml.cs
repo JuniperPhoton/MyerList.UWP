@@ -44,12 +44,22 @@ namespace MyerListUWP
         /// </summary>
         /// 
         public static bool IsInOfflineMode { get; set; } = false;
+
         public static bool IsSyncListOnce { get; set; } = false;
+
         public static bool IsNoNetwork
         {
             get
             {
                 return !NetworkHelper.HasNetWork;
+            }
+        }
+
+        public static bool CanSendRequest
+        {
+            get
+            {
+                return (!IsNoNetwork || !IsInOfflineMode);
             }
         }
 
@@ -131,12 +141,12 @@ namespace MyerListUWP
 
                 if (LocalSettingHelper.HasValue("email"))
                 {
-                    rootFrame.Navigate(typeof(MainPage), new LaunchParam() { Mode = LoginMode.Login, Param = e.Arguments });
+                    rootFrame.Navigate(typeof(MainPage), LoginMode.Login);
                 }
                 else if (LocalSettingHelper.GetValue("OfflineMode") == "true")
                 {
                     IsInOfflineMode = true;
-                    rootFrame.Navigate(typeof(MainPage), new LaunchParam() { Mode = LoginMode.OfflineMode, Param = e.Arguments });
+                    rootFrame.Navigate(typeof(MainPage), LoginMode.OfflineMode);
                 }
                 else
                 {

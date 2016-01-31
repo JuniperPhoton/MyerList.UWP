@@ -114,6 +114,23 @@ namespace MyerList.Model
             }
         }
 
+        private bool _shoDoneLine;
+        public bool ShowDoneLine
+        {
+            get
+            {
+                return _shoDoneLine;
+            }
+            set
+            {
+                if (_shoDoneLine != value)
+                {
+                    _shoDoneLine = value;
+                    RaisePropertyChanged(() => ShowDoneLine);
+                }
+            }
+        }
+
 
         private int _order;
         public int Order
@@ -144,6 +161,7 @@ namespace MyerList.Model
                 if (_isdone != value)
                     _isdone = value;
                 RaisePropertyChanged(() => IsDone);
+                ShowDoneLine = IsDone;
             }
         }
 
@@ -153,6 +171,7 @@ namespace MyerList.Model
             Content = "";
             Order = 0;
             Category = 0;
+            ShowDoneLine = false;
         }
 
         public static ObservableCollection<ToDo> SetOrderByString(ObservableCollection<ToDo> orisches, string orderString)

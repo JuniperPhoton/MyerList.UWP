@@ -46,7 +46,7 @@ namespace MyerList.Helper
                     var registration = taskBuilder.Register();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 
             }

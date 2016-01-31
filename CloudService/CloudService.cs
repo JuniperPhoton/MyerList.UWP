@@ -222,12 +222,12 @@ namespace MyerList.Helper
         /// <param name="content">内容</param>
         /// <param name="isdone">是否完成 0未完成 1完成</param>
         /// <returns>返回JSON数据</returns>
-        public async static Task<string> AddSchedule(string sid, string content, string isdone, string cate)
+        public async static Task<string> AddSchedule(string content, string isdone, string cate)
         {
             try
             {
                 var param = GetDefaultParam();
-                param.Add(new KeyValuePair<string, string>("sid", sid));
+                param.Add(new KeyValuePair<string, string>("sid", UrlHelper.SID));
                 param.Add(new KeyValuePair<string, string>("time", DateTime.Now.ToString()));
                 param.Add(new KeyValuePair<string, string>("content", content));
                 param.Add(new KeyValuePair<string, string>("isdone", isdone));
@@ -391,12 +391,12 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="sid">用户ID</param>
         /// <returns>返回JSON</returns>
-        public async static Task<string> GetMySchedules(string sid)
+        public async static Task<string> GetMySchedules()
         {
             try
             {
                 var param = GetDefaultParam();
-                param.Add(new KeyValuePair<string, string>("sid", sid));
+                param.Add(new KeyValuePair<string, string>("sid", UrlHelper.SID));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
@@ -426,12 +426,12 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<string> GetMyOrder(string sid)
+        public async static Task<string> GetMyOrder()
         {
             try
             {
                 var param = GetDefaultParam();
-                param.Add(new KeyValuePair<string, string>("sid", sid));
+                param.Add(new KeyValuePair<string, string>("sid", UrlHelper.SID));
 
                 HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
@@ -469,12 +469,12 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<bool> SetMyOrder(string sid, string order)
+        public async static Task<bool> SetAllOrder(string order)
         {
             try
             {
                 var param = GetDefaultParam();
-                param.Add(new KeyValuePair<string, string>("sid", sid));
+                param.Add(new KeyValuePair<string, string>("sid", UrlHelper.SID));
                 param.Add(new KeyValuePair<string, string>("order", order));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);

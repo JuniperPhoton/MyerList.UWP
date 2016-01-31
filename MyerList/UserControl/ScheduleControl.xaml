@@ -85,11 +85,10 @@
         <Border x:Name="border"  BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" Background="#004BB685"/>
         <Grid x:Name="LeftSP" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding MainVM.ShowCategory,Converter={StaticResource ToDoRawCol1Converter}, Mode=OneWay,Source={StaticResource Locator}}"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button
-                    Visibility="{Binding MainVM.ShowCategory,Mode=OneWay,Source={StaticResource Locator}}"
                     Width="20"
                     Padding="0"
                     Style="{StaticResource ButtonCommonStyle}"
@@ -103,7 +102,7 @@
             </Button>
             <Grid Grid.Column="1" VerticalAlignment="Stretch" Grid.RowSpan="1" Margin="0" >
                 <TextBlock FontWeight="Light"  Text="{Binding Content,Mode=OneWay}" VerticalAlignment="Center" Grid.Column="1" FontSize="15" Foreground="#FF474747" Margin="10,0,0,0" TextTrimming="WordEllipsis" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left"/>
-                <Border Background="#FF888888" Visibility="{Binding IsDone,Mode=OneWay,Converter={StaticResource ShowDoneLineConverter}}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
+                <Border Background="#FF888888" Visibility="{Binding ShowDoneLine,Mode=OneWay}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="2">

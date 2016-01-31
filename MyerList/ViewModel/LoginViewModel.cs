@@ -22,7 +22,7 @@ namespace MyerList.ViewModel
 {
     public class LoginViewModel:ViewModelBase, INavigable
     {
-        private LoginMode LOGINMODE;
+        private LoginMode LoginMode;
 
         /// <summary>
         /// Login or Register
@@ -170,7 +170,7 @@ namespace MyerList.ViewModel
                         }
 
                         //注册
-                        if (LOGINMODE==LoginMode.Register || LOGINMODE==LoginMode.OfflineModeToRegister)
+                        if (LoginMode==LoginMode.Register || LoginMode==LoginMode.OfflineModeToRegister)
                         {
                            
                             if (InputPassword != ConfirmPassword)
@@ -192,19 +192,19 @@ namespace MyerList.ViewModel
                                 if(isLogin)
                                 {
                                     Frame rootframe = Window.Current.Content as Frame;
-                                    if (rootframe != null) rootframe.Navigate(typeof(MainPage), new LaunchParam() { Mode = LOGINMODE });
+                                    if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
                                 }
                             }
                         }
 
                         //登录
-                        else if(LOGINMODE == LoginMode.Login || LOGINMODE==LoginMode.OfflineModeToLogin)
+                        else if(LoginMode == LoginMode.Login || LoginMode==LoginMode.OfflineModeToLogin)
                         {
                             var isLoginSuccessfylly = await Login();
                             if (isLoginSuccessfylly)
                             {
                                 Frame rootframe = Window.Current.Content as Frame;
-                                if (rootframe != null) rootframe.Navigate(typeof(MainPage), new LaunchParam() { Mode=LOGINMODE});
+                                if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
                             }
                         }
                     }
@@ -375,9 +375,9 @@ namespace MyerList.ViewModel
             if(param is LoginMode)
             {
                 var mode = (LoginMode)param;
-                LOGINMODE = mode;
+                LoginMode = mode;
 
-                switch (LOGINMODE)
+                switch (LoginMode)
                 {
                     case LoginMode.Login:
                         {

@@ -112,11 +112,8 @@
     <Compile Include="Common\UmengKey.cs" />
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converter\CateColorConverter.cs" />
     <Compile Include="Converter\CateStrokeConverter.cs" />
     <Compile Include="Converter\IsInReorderConverter.cs" />
-    <Compile Include="Converter\ShowDoneLineConverter.cs" />
-    <Compile Include="Converter\ToDoRawCol1Converter.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Helper\CategoryHelper.cs" />
     <Compile Include="Common\InvokeCommandByKeyDown.cs" />
@@ -128,9 +125,7 @@
     <Compile Include="Interface\ICanGoBack.cs" />
     <Compile Include="Interface\INavigable.cs" />
     <Compile Include="Common\AddMode.cs" />
-    <Compile Include="Common\LaunchParam.cs" />
     <Compile Include="Common\LoginMode.cs" />
-    <Compile Include="Common\MultiWindowsData.cs" />
     <Compile Include="Model\MyerListUser.cs" />
     <Compile Include="Model\SendingItem.cs" />
     <Compile Include="Common\SerializerFiles.cs" />
@@ -357,10 +352,6 @@
     <ProjectReference Include="..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
       <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
       <Name>JP.Utils.UWP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.vcxproj">
-      <Project>{56df5d9a-057e-418f-9702-de07ee283a4d}</Project>
-      <Name>BackgroundTasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\CloudService\CloudService.csproj">
       <Project>{cf48ac98-e3ae-426a-8411-66ed3e2e59ed}</Project>
