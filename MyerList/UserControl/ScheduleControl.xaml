@@ -94,7 +94,7 @@
                     Padding="0"
                     Style="{StaticResource ButtonCommonStyle}"
                     Command="{Binding MainVM.ChangeCateCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                    CommandParameter="{Binding ID,Mode=OneWay}"
+                    CommandParameter="{Binding}"
                     Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
                     <Border Background="White" Opacity="0.001"/>
@@ -112,15 +112,14 @@
             </Grid.Clip>
             <Button x:Name="DeleteBtn" MinHeight="0" MinWidth="0" Padding="0" Margin="0" Style="{StaticResource ButtonCommonStyle}" 
                 Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding ID,Mode=OneWay}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
+                CommandParameter="{Binding}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
                 <Button.RenderTransform>
                     <CompositeTransform/>
                 </Button.RenderTransform>
                 <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
             </Button>
             <Button x:Name="SortBtn" Padding="0" Margin="0" IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" 
-                Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding ID,Mode=OneWay}" HorizontalAlignment="Center" Background="{x:Null}" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
+                HorizontalAlignment="Center" Background="{x:Null}" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
                 <Button.RenderTransform>
                     <CompositeTransform TranslateX="30"/>
                 </Button.RenderTransform>

@@ -14,6 +14,12 @@ namespace MyerList.Helper
 {
     public class CloudService
     {
+        private static List<KeyValuePair<string, string>> GetDefaultParam()
+        {
+            var param = new List<KeyValuePair<string, string>>();
+            param.Add(new KeyValuePair<string, string>("a", new Random().Next().ToString()));
+            return param;
+        }
         public static string GetHashingCode()
         {
             //TIMESTAMP
@@ -35,7 +41,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("email", email));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
@@ -82,7 +88,7 @@ namespace MyerList.Helper
                 var md5 = MD5.Create();
                 var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密
 
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("email", email));
                 param.Add(new KeyValuePair<string, string>("password", ps));
 
@@ -127,7 +133,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("email", email));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
@@ -165,7 +171,7 @@ namespace MyerList.Helper
                 var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密,这是数据库存的密码
                 var psplussalt = NetworkHelper.GetMd5Hash(md5, ps + salt); //加密后的密码跟盐串联再MD5加密
 
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("email", email));
                 param.Add(new KeyValuePair<string, string>("password", psplussalt));
 
@@ -220,7 +226,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("sid", sid));
                 param.Add(new KeyValuePair<string, string>("time", DateTime.Now.ToString()));
                 param.Add(new KeyValuePair<string, string>("content", content));
@@ -269,7 +275,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("content", content));
                 param.Add(new KeyValuePair<string, string>("id", id));
                 param.Add(new KeyValuePair<string, string>("cate", cate.ToString()));
@@ -311,7 +317,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("id", id));
                 param.Add(new KeyValuePair<string, string>("isdone", isdone));
 
@@ -351,7 +357,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("id", id));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
@@ -389,7 +395,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("sid", sid));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
@@ -424,7 +430,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("sid", sid));
 
                 HttpClient client = new HttpClient();
@@ -467,7 +473,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("sid", sid));
                 param.Add(new KeyValuePair<string, string>("order", order));
 
@@ -515,7 +521,7 @@ namespace MyerList.Helper
         {
             try
             {
-                var param = new List<KeyValuePair<string, string>>();
+                var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("sid", LocalSettingHelper.GetValue("sid")));
                 param.Add(new KeyValuePair<string, string>("access_token", LocalSettingHelper.GetValue("access_token")));
                 param.Add(new KeyValuePair<string, string>("cate_info", content));

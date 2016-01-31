@@ -404,7 +404,7 @@
                         Background="#0AFFFFFF"
                         Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" 
                         IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" 
-                        Command="{x:Bind MainVM.ToggleReorderCommand}">
+                        >
                         <SymbolIcon Symbol="Sort"/>
                     </ToggleButton>
                 </StackPanel>

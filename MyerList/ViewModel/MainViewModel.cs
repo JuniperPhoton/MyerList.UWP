@@ -314,7 +314,7 @@ namespace MyerList.ViewModel
                 return _addCommand = new RelayCommand(() =>
                 {
                     ModeTitle = ResourcesHelper.GetResString("AddTitle");
-                    NewToDo = new ToDo();
+                    EditedToDo = new ToDo();
                     AddingCate = SelectedCate;
                     _addMode = AddMode.Add;
 
@@ -342,18 +342,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        private RelayCommand _toggleReorderCommand;
-        public RelayCommand ToggleReorderCommand
-        {
-            get
-            {
-                if (_toggleReorderCommand != null) return _toggleReorderCommand;
-                return _toggleReorderCommand = new RelayCommand(() =>
-                  {
-
-                  });
-            }
-        }
         #endregion
 
         #region 添加/修改面板
@@ -452,10 +440,11 @@ namespace MyerList.ViewModel
                 {
                     return _cancelCommand;
                 }
-                return _cancelCommand = new RelayCommand(() =>
+                return _cancelCommand = new RelayCommand(async() =>
                 {
                     ShowPaneOpen = false;
-                    NewToDo = new ToDo();
+                    await Task.Delay(500);
+                    EditedToDo = new ToDo();
                 });
             }
         }
@@ -475,19 +464,19 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 表示当前添加的待办事项
         /// </summary>
-        private ToDo _newToDo;
-        public ToDo NewToDo
+        private ToDo _editedToDo;
+        public ToDo EditedToDo
         {
             get
             {
-                return _newToDo;
+                return _editedToDo;
             }
             set
             {
-                if (_newToDo != value)
+                if (_editedToDo != value)
                 {
-                    _newToDo = value;
-                    RaisePropertyChanged(() => NewToDo);
+                    _editedToDo = value;
+                    RaisePropertyChanged(() => EditedToDo);
                 }
             }
         }
@@ -512,24 +501,24 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 所有待办事项
         /// </summary>
-        private ObservableCollection<ToDo> _myToDos;
-        public ObservableCollection<ToDo> MyToDos
+        private ObservableCollection<ToDo> _myAllToDos;
+        public ObservableCollection<ToDo> AllToDos
         {
             get
             {
-                if (_myToDos != null)
+                if (_myAllToDos != null)
                 {
-                    return _myToDos;
+                    return _myAllToDos;
                 }
-                return _myToDos = new ObservableCollection<ToDo>();
+                return _myAllToDos = new ObservableCollection<ToDo>();
             }
             set
             {
-                if (_myToDos != value)
+                if (_myAllToDos != value)
                 {
-                    _myToDos = value;
+                    _myAllToDos = value;
                 }
-                RaisePropertyChanged(() => MyToDos);
+                RaisePropertyChanged(() => AllToDos);
             }
         }
 
@@ -559,20 +548,15 @@ namespace MyerList.ViewModel
         /// <summary>
         ///删除待办事项
         /// </summary>
-        private RelayCommand<object> _deleteCommand;
-        public RelayCommand<object> DeleteCommand
+        private RelayCommand<ToDo> _deleteCommand;
+        public RelayCommand<ToDo> DeleteCommand
         {
             get
             {
-                if (_deleteCommand != null)
+                if (_deleteCommand != null) return _deleteCommand;
+                return _deleteCommand = new RelayCommand<ToDo>(async (todo) =>
                 {
-                    return _deleteCommand;
-                }
-
-                return _deleteCommand = new RelayCommand<object>(async (param) =>
-                {
-                    string id = (string)param;
-                    await DeleteToDo(id);
+                    await DeleteToDo(todo);
                 });
             }
         }
@@ -617,7 +601,7 @@ namespace MyerList.ViewModel
                         ShowPaneOpen = true;
 
                         var id = todo.ID;
-                        var targetToDo = MyToDos.ToList().Find(sche =>
+                        var targetToDo = AllToDos.ToList().Find(sche =>
                         {
                             if (sche.ID == id) return true;
                             else return false;
@@ -628,8 +612,8 @@ namespace MyerList.ViewModel
                             return;
                         }
 
-                        this.NewToDo.ID = targetToDo.ID;
-                        this.NewToDo.Content = targetToDo.Content;
+                        this.EditedToDo.ID = targetToDo.ID;
+                        this.EditedToDo.Content = targetToDo.Content;
 
                         var cateIndex = CateVM.Categories.ToList().FindIndex(s=>s.CateColorID==targetToDo.Category);
                         if(cateIndex!=-1)
@@ -650,16 +634,15 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 修改类别 
         /// </summary>
-        private RelayCommand<object> _changeCateCommand;
-        public RelayCommand<object> ChangeCateCommand
+        private RelayCommand<ToDo> _changeCateCommand;
+        public RelayCommand<ToDo> ChangeCateCommand
         {
             get
             {
                 if (_changeCateCommand != null) return _changeCateCommand;
-                return _changeCateCommand = new RelayCommand<object>(async (param) =>
+                return _changeCateCommand = new RelayCommand<ToDo>(async (todo) =>
                  {
-                     var id = (string)param;
-                     await ChangeCategory(id);
+                     await ChangeCategory(todo);
                  });
             }
         }
@@ -759,7 +742,7 @@ namespace MyerList.ViewModel
                     var scheToAdd = id;
 
                     _addMode = AddMode.None;
-                    NewToDo = scheToAdd;
+                    EditedToDo = scheToAdd;
                     await AddToDo();
 
                     DeletedToDos.Remove(scheToAdd);
@@ -771,21 +754,17 @@ namespace MyerList.ViewModel
         /// <summary>
         /// 永久删除
         /// </summary>
-        private RelayCommand<string> _permanentDeleteCommand;
-        public RelayCommand<string> PermanentDeleteCommand
+        private RelayCommand<ToDo> _permanentDeleteCommand;
+        public RelayCommand<ToDo> PermanentDeleteCommand
         {
             get
             {
                 if (_permanentDeleteCommand != null) return _permanentDeleteCommand;
-                return _permanentDeleteCommand = new RelayCommand<string>(async (id) =>
+                return _permanentDeleteCommand = new RelayCommand<ToDo>(async (todo) =>
                 {
-                    DeletedToDos.Remove(DeletedToDos.ToList().Find(s =>
-                    {
-                        if (s.ID == id) return true;
-                        else return false;
-                    }));
-                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch");
-
+                    var item = todo;
+                    DeletedToDos.Remove(item);
+                    await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName);
                 });
             }
         }
@@ -910,12 +889,12 @@ namespace MyerList.ViewModel
 
             //初始化
             CateVM = new CategoryViewModel();
-            NewToDo = new ToDo();
+            EditedToDo = new ToDo();
             CurrentUser = new MyerListUser();
-            MyToDos = new ObservableCollection<ToDo>();
+            AllToDos = new ObservableCollection<ToDo>();
             DeletedToDos = new ObservableCollection<ToDo>();
             StagedToDos = new ObservableCollection<ToDo>();
-            CurrentDisplayToDos = MyToDos;
+            CurrentDisplayToDos = AllToDos;
             IsInSortMode = false;
 
             SelectedCate = -1;
@@ -950,7 +929,7 @@ namespace MyerList.ViewModel
             //重新加入已经删除了的
             Messenger.Default.Register<GenericMessage<ToDo>>(this, MessengerTokens.ReAddToDo, act =>
             {
-                this.NewToDo = act.Content;
+                this.EditedToDo = act.Content;
                 OkCommand.Execute(false);
             });
         }
@@ -961,7 +940,7 @@ namespace MyerList.ViewModel
         /// <returns></returns>
         private async Task UpdateOrder()
         {
-            var orderStr = ToDo.GetCurrentOrderString(MyToDos);
+            var orderStr = ToDo.GetCurrentOrderString(AllToDos);
             await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), orderStr);
         }
 
@@ -974,7 +953,7 @@ namespace MyerList.ViewModel
         {
             try
             {
-                if (NewToDo != null)
+                if (EditedToDo != null)
                 {
                     if (_addMode == AddMode.None) return;
 
@@ -1009,29 +988,29 @@ namespace MyerList.ViewModel
         {
             ShowNoItems = Visibility.Collapsed;
 
-            NewToDo.ID = Guid.NewGuid().ToString();
-            NewToDo.Category = AddingCate;
+            EditedToDo.ID = Guid.NewGuid().ToString();
+            EditedToDo.Category = AddingCate;
 
             //0 for insert,1 for add
             if (!AppSettings.Instance.IsAddToBottom)
             {
-                MyToDos.Insert(0, NewToDo);
+                AllToDos.Insert(0, EditedToDo);
             }
             else
             {
-                MyToDos.Add(NewToDo);
+                AllToDos.Add(EditedToDo);
             }
 
             if(SelectedCate==AddingCate)
             {
-                CurrentDisplayToDos.Add(NewToDo);
+                CurrentDisplayToDos.Add(EditedToDo);
             }
 
             //序列化保存
-            await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+            await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
 
             //更新磁贴
-            Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+            Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
 
             //离线模式，还没有登录过
             if (App.IsInOfflineMode)
@@ -1041,7 +1020,7 @@ namespace MyerList.ViewModel
             //登录过的，但是没有网络
             else if (App.IsNoNetwork && !App.IsInOfflineMode)
             {
-                StagedToDos.Add(NewToDo);
+                StagedToDos.Add(EditedToDo);
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
             }
             //登录过的，有网络
@@ -1051,20 +1030,20 @@ namespace MyerList.ViewModel
                 {
                     //在线模式
                     //发送请求
-                    var result = await CloudService.AddSchedule(LocalSettingHelper.GetValue("sid"), NewToDo.Content, "0", AddingCate.ToString());
+                    var result = await CloudService.AddSchedule(LocalSettingHelper.GetValue("sid"), EditedToDo.Content, "0", AddingCate.ToString());
                     if (!string.IsNullOrEmpty(result))
                     {
                         ////发送当前的顺序
-                        await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
+                        await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(AllToDos));
                     }
                 }
                 catch (Exception)
                 {
-                    StagedToDos.Add(NewToDo);
+                    StagedToDos.Add(EditedToDo);
                     await ToastService.SendToastAsync("发送失败，下次登录将自动发送。");
                 }
             }
-            NewToDo = new ToDo();
+            EditedToDo = new ToDo();
             IsLoading = Visibility.Collapsed;
             UpdateUndoneCount();
         }
@@ -1077,32 +1056,28 @@ namespace MyerList.ViewModel
         /// 先从列表删除，然后把列表内容都序列化保存，接着：
         /// 1.如果已经登陆的，尝试发送请求；
         /// 2.离线模式，不用管
-        private async Task DeleteToDo(string id)
+        private async Task DeleteToDo(ToDo todo)
         {
             try
             {
-                var itemToDeleted = MyToDos.ToList().Find(s =>
-                  {
-                      if (s.ID == id) return true;
-                      else return false;
-                  });
+                var itemToDeleted = todo;
 
                 DeletedToDos.Add(itemToDeleted);
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, SerializerFileNames.DeletedFileName);
 
-                MyToDos.Remove(itemToDeleted);
+                AllToDos.Remove(itemToDeleted);
 
                 UpdateDisplayList(SelectedCate);
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
 
                 //登录过的
                 if (!App.IsInOfflineMode)
                 {
-                    var result = await CloudService.DeleteSchedule(id);
-                    await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
+                    var result = await CloudService.DeleteSchedule(todo.ID);
+                    await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(AllToDos));
                 }
 
-                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
 
                 UpdateUndoneCount();
             }
@@ -1121,10 +1096,10 @@ namespace MyerList.ViewModel
         {
             try
             {
-                var currentItem = (from e in MyToDos where e.ID == id select e).FirstOrDefault();
+                var currentItem = (from e in AllToDos where e.ID == id select e).FirstOrDefault();
                 currentItem.IsDone = !currentItem.IsDone;
 
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, "myschedules.sch");
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, "myschedules.sch");
 
                 //非离线模式
                 if (!App.IsInOfflineMode)
@@ -1132,13 +1107,13 @@ namespace MyerList.ViewModel
                     var isDone = await CloudService.FinishSchedule(id, currentItem.IsDone ? "1" : "0");
                     if (isDone)
                     {
-                        await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
+                        await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(AllToDos));
 
-                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
                     }
                 }
                 //离线模式
-                else Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                else Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
 
                 UpdateUndoneCount();
             }
@@ -1156,13 +1131,13 @@ namespace MyerList.ViewModel
             IsLoading = Visibility.Visible;
 
             //修改当前列表
-            var itemToModify = MyToDos.ToList().Find(sche =>
+            var itemToModify = AllToDos.ToList().Find(sche =>
             {
-                if (sche.ID == NewToDo.ID) return true;
+                if (sche.ID == EditedToDo.ID) return true;
                 else return false;
             });
 
-            itemToModify.Content = NewToDo.Content;
+            itemToModify.Content = EditedToDo.Content;
             itemToModify.Category =CateVM.Categories[AddingCate].CateColorID;
             itemToModify.CreateTime = DateTime.Now.ToString();
 
@@ -1171,11 +1146,11 @@ namespace MyerList.ViewModel
             //离线模式
             if (App.IsInOfflineMode)
             {
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
 
-                NewToDo = new ToDo();
+                EditedToDo = new ToDo();
 
-                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
 
                 return;
             }
@@ -1184,18 +1159,18 @@ namespace MyerList.ViewModel
             {
                 try
                 {
-                    var resultUpdate = await CloudService.UpdateContent(itemToModify.ID, itemToModify.Content, itemToModify.CreateTime, AddingCate);
+                    var resultUpdate = await CloudService.UpdateContent(itemToModify.ID, itemToModify.Content, itemToModify.CreateTime,itemToModify.Category);
                     if (resultUpdate)
                     {
-                        MyToDos.ToList().Find(sche =>
+                        AllToDos.ToList().Find(sche =>
                         {
-                            if (sche.ID == NewToDo.ID) return true;
+                            if (sche.ID == EditedToDo.ID) return true;
                             else return false;
-                        }).Content = NewToDo.Content;
+                        }).Content = EditedToDo.Content;
 
-                        NewToDo = new ToDo();
+                        EditedToDo = new ToDo();
 
-                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                        Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
                     }
                 }
                 catch (COMException)
@@ -1214,28 +1189,24 @@ namespace MyerList.ViewModel
         /// </summary>
         /// <param name="sid"></param>
         /// <returns></returns>
-        private async Task ChangeCategory(string sid)
+        private async Task ChangeCategory(ToDo todo)
         {
-            var currentSchedule = MyToDos.ToList().Find(s =>
-              {
-                  if (s.ID == sid) return true;
-                  else return false;
-              });
-            if (currentSchedule != null)
+            var item = todo;
+            if (item != null)
             {
-                var cateID = (from e in CateVM.Categories where e.CateColorID == currentSchedule.Category select e.CateColorID).FirstOrDefault();
+                var cateID = (from e in CateVM.Categories where e.CateColorID == item.Category select e.CateColorID).FirstOrDefault();
                 if(cateID!=-1)
                 {
                     var index = CateVM.Categories.ToList().FindIndex(s => s.CateColorID == cateID);
                     index++;
                     if (index == CateVM.Categories.Count - 1) index = 0;
-                    currentSchedule.Category = CateVM.Categories[index].CateColorID;
+                    item.Category = CateVM.Categories[index].CateColorID;
                 }
                 if (!App.IsNoNetwork && !App.IsInOfflineMode)
                 {
-                    await CloudService.UpdateContent(sid, currentSchedule.Content, "", currentSchedule.Category);
+                    await CloudService.UpdateContent(todo.ID, item.Content, "", item.Category);
                 }
-                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
             }
         }
 
@@ -1315,7 +1286,7 @@ namespace MyerList.ViewModel
         {
             if (cateID != 0 && cateID != -1)
             {
-                var newList = from e in MyToDos where e.Category == cateID select e;
+                var newList = from e in AllToDos where e.Category == cateID select e;
                 CurrentDisplayToDos = new ObservableCollection<ToDo>();
                 foreach(var item in newList)
                 {
@@ -1325,7 +1296,7 @@ namespace MyerList.ViewModel
             }
             else if (cateID == 0)
             {
-                CurrentDisplayToDos = MyToDos;
+                CurrentDisplayToDos = AllToDos;
                 SelectedPage = 0;
             }
             else if (cateID == -1)
@@ -1391,11 +1362,11 @@ namespace MyerList.ViewModel
                         var orders = await CloudService.GetMyOrder(LocalSettingHelper.GetValue("sid"));
 
                         //排序
-                        MyToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
+                        AllToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
 
                         UpdateCallByCate();
 
-                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(MyToDos, SerializerFileNames.ToDoFileName);
+                        await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
 
                         isSyncOK = true;
                     }
@@ -1414,7 +1385,7 @@ namespace MyerList.ViewModel
                 }
 
                 //最后更新动态磁贴
-                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
             }
             catch (Exception ex)
             {
@@ -1428,7 +1399,7 @@ namespace MyerList.ViewModel
         /// <returns></returns>
         private async Task AddAllOfflineToDos()
         {
-            foreach (var sche in MyToDos)
+            foreach (var sche in AllToDos)
             {
                 var result = await CloudService.AddSchedule(LocalSettingHelper.GetValue("sid"), sche.Content, sche.IsDone ? "1" : "0", SelectedCate.ToString());
             }
@@ -1444,10 +1415,10 @@ namespace MyerList.ViewModel
             {
                 SelectedCate = 0;
 
-                MyToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
-                CurrentDisplayToDos = MyToDos;
+                AllToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
+                CurrentDisplayToDos = AllToDos;
 
-                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(MyToDos), MessengerTokens.UpdateTile);
+                Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
 
                 DeletedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.DeletedFileName);
                 DeletedToDos.ToList().ForEach(s =>
@@ -1475,7 +1446,7 @@ namespace MyerList.ViewModel
             {
                 var result = await CloudService.AddSchedule(LocalSettingHelper.GetValue("sid"), item.Content, "0", item.Category.ToString());
             }
-            await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(MyToDos));
+            await CloudService.SetMyOrder(LocalSettingHelper.GetValue("sid"), ToDo.GetCurrentOrderString(AllToDos));
             StagedToDos.Clear();
             await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
         }
@@ -1545,7 +1516,7 @@ namespace MyerList.ViewModel
 
                     await SyncAllToDos();
 
-                    CurrentDisplayToDos = MyToDos;
+                    CurrentDisplayToDos = AllToDos;
                 }
             }
             //处于离线模式
