@@ -1020,7 +1020,7 @@ namespace MyerList.ViewModel
                 {
                     //在线模式
                     //发送请求
-                    var result = await CloudService.AddSchedule(EditedToDo.Content, "0", AddingCate.ToString());
+                    var result = await CloudService.AddSchedule(EditedToDo.Content, "0", EditedToDo.Category.ToString());
                     if (!string.IsNullOrEmpty(result))
                     {
                         ////发送当前的顺序
