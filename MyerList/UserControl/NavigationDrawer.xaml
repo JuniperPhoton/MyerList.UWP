@@ -102,7 +102,6 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,30">
@@ -117,7 +116,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0,0,0,30">
             <ScrollViewer 
                 VerticalScrollBarVisibility="Auto"
                 attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
@@ -140,17 +139,16 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    
+                    <Button Command="{x:Bind MainVM.PersonalizeCommand}" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
+                            <Image Source="ms-appx:///Assets/Icon/cate_per.png" Width="20" Height="20"/>
+                            <TextBlock Text="Personalize" x:Uid="ModifyCateTB"  Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <Button Grid.Row="2" Command="{x:Bind MainVM.PersonalizeCommand}" Style="{StaticResource ListButtonStyle}" Background="{x:Null}" Margin="0" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
-                <Image Source="ms-appx:///Assets/Icon/cate_per.png" Width="20" Height="20"/>
-                <TextBlock Text="Personalize" x:Uid="ModifyCateTB"  Margin="20,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="White"/>
-            </StackPanel>
-        </Button>
-        <Grid Grid.Row="3" Margin="0">
+        <Grid Grid.Row="2" Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

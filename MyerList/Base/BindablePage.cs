@@ -32,6 +32,7 @@ namespace MyerList.Base
         {
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
+
         protected virtual void SetUpPageAnimation()
         {
             TransitionCollection collection = new TransitionCollection();
