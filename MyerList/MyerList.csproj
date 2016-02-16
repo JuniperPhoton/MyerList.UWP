@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>MyerList_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>2E0DC88BBA40010A33052B0F9A19E0A67319FCF5</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -247,9 +247,13 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\tran_logo.scale-125.png" />
+    <Content Include="Assets\tran_logo.scale-200.png" />
+    <Content Include="Assets\tran_logo.targetsize-176.png" />
+    <Content Include="Assets\tran_logo.targetsize-176_altform-unplated.png" />
     <Content Include="Assets\tran_logo.targetsize-44.png" />
     <Content Include="Assets\tran_logo.targetsize-44_altform-unplated.png" />
+    <Content Include="Assets\tran_logo.targetsize-88.png" />
+    <Content Include="Assets\tran_logo.targetsize-88_altform-unplated.png" />
     <Content Include="Assets\WHITE_500.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
