@@ -31,6 +31,8 @@ namespace MyerList.ViewModel
 
         private AddMode _addMode = AddMode.None;
 
+        public Page CurrentMainPage { get; set; }
+
         private int _undoneCount;
         public int UndoneCount
         {
@@ -67,7 +69,6 @@ namespace MyerList.ViewModel
                     _selectedCate = value;
                     RaisePropertyChanged(() => SelectedCate);
                     RaisePropertyChanged(() => ShowSortButton);
-                    SelectedPage = 0;
                     UpdateListByChangingSelectedCate();
                     _lastIndex = value;
                 }
@@ -153,7 +154,6 @@ namespace MyerList.ViewModel
                     {
                         case 0:
                             {
-                                Title = ResourcesHelper.GetResString("ToDoPivotItem");
                                 Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.ChangeCommandBarToDefault);
                             }; break;
                         case 1:
@@ -735,15 +735,13 @@ namespace MyerList.ViewModel
             get
             {
                 if (_redoCommand != null) return _redoCommand;
-                return _redoCommand = new RelayCommand<ToDo>(async (id) =>
+                return _redoCommand = new RelayCommand<ToDo>(async (todo) =>
                 {
-                    var scheToAdd = id;
-
                     _addMode = AddMode.None;
-                    EditedToDo = scheToAdd;
-                    await AddToDo();
+                    EditedToDo = todo;
+                    await AddOrRestoreAndSyncNewToDo(todo.Category);
 
-                    DeletedToDos.Remove(scheToAdd);
+                    DeletedToDos.Remove(todo);
                     await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch");
                 });
             }
@@ -952,6 +950,12 @@ namespace MyerList.ViewModel
                 {
                     if (_addMode == AddMode.None) return;
 
+                    if (string.IsNullOrEmpty(EditedToDo.Content))
+                    {
+                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("ContentEmpty"));
+                        return;
+                    }
+
                     ShowPaneOpen = false;
 
                     //显示进度条
@@ -960,12 +964,12 @@ namespace MyerList.ViewModel
                     //添加
                     if (_addMode == AddMode.Add)
                     {
-                        await AddToDo();
+                        await AddOrRestoreAndSyncNewToDo();
                     }
                     //修改
                     else if (_addMode == AddMode.Modify)
                     {
-                        await ModifyToDo();
+                        await ModifyAndSyncToDo();
                     }
                 }
             }
@@ -979,12 +983,15 @@ namespace MyerList.ViewModel
         /// 添加待办事项
         /// </summary>
         /// <returns></returns>
-        private async Task AddToDo()
+        private async Task AddOrRestoreAndSyncNewToDo(int? category=null)
         {
             ShowNoItems = Visibility.Collapsed;
 
             EditedToDo.ID = Guid.NewGuid().ToString();
-            EditedToDo.Category = CateVM.Categories[AddingCate].CateColorID;
+            if(category== null)
+            {
+                EditedToDo.Category = CateVM.Categories[AddingCate].CateColorID;
+            }
 
             //0 for insert,1 for add
             if (!AppSettings.Instance.IsAddToBottom)
@@ -1117,7 +1124,7 @@ namespace MyerList.ViewModel
         /// 修改待办事项
         /// </summary>
         /// <returns></returns>
-        private async Task ModifyToDo()
+        private async Task ModifyAndSyncToDo()
         {
             IsLoading = Visibility.Visible;
 
@@ -1454,8 +1461,9 @@ namespace MyerList.ViewModel
 
         public void RefreshCate()
         {
-            UpdateDisplayList(0);
-            SelectedCate = 0;
+            if (SelectedCate == -1) SelectedCate = 0;
+            UpdateDisplayList(CateVM.Categories[SelectedCate].CateColorID);
+           // SelectedCate = 0;
         }
 
         /// <summary>
@@ -1524,17 +1532,21 @@ namespace MyerList.ViewModel
         /// <param name="param"></param>
         public async void Activate(object param)
         {
+            if (App.IsSyncListOnce) return;
+
             if (param is LoginMode)
             {
-                if (App.IsSyncListOnce) return;
                 App.IsSyncListOnce = true;
 
                 await HandleActive((LoginMode)param);
             }
+
             if (ApiInformationHelper.HasStatusBar)
             {
                 StatusBarHelper.SetUpStatusBar();
             }
+
+            this.CurrentMainPage = (Window.Current.Content as Frame).Content as Page;
         }
 
         public void Deactivate(object param)

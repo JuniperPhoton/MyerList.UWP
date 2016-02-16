@@ -131,7 +131,7 @@ namespace MyerList.Base
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void CoreWindow_KeyDown(CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
+        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             GlobalPageKeyDown(sender, args);
         }

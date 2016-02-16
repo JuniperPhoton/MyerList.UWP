@@ -1,38 +1,22 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using HttpReqModule;
-using JP.Utils.Data;
 using JP.Utils.Debug;
-using MyerList.Helper;
 using MyerList.Model;
 using MyerListUWP.Common;
-using MyerListUWP.Helper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Data.Xml.Dom;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Notifications;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
 
 namespace MyerList.UC
 {
     public sealed partial class LiveTileTemplate : UserControl
     {
-
         public LiveTileTemplate()
         {
             this.InitializeComponent();

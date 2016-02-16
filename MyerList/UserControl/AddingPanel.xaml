@@ -177,15 +177,16 @@
         </Style>
     </UserControl.Resources>
     <Grid x:Name="AddGrid" Background="{x:Bind MainVM.AddingCateColor,Mode=OneWay}" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
-        <StackPanel MaxWidth="450" VerticalAlignment="Center" Margin="0">
-            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+        <Image Source="ms-appx:///Assets/back4.png" Stretch="UniformToFill" Opacity="0.05"/>
+        <StackPanel x:Name="RootSP" MaxWidth="450" VerticalAlignment="Center" Margin="0,0,0,100">
+            <StackPanel Margin="10,0,0,0">
                 <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" FontWeight="Bold" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ListBox 
                     SelectedIndex="{Binding AddingCate,Mode=TwoWay}"
                     Background="{x:Null}"
                     ItemsSource="{x:Bind MainVM.CateVM.CatesToAdd,Mode=OneWay}"
                     ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
-                    Margin="20 0 0 0">
+                    Margin="0,5,0,0">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsStackPanel Orientation="Horizontal"/>
@@ -196,13 +197,18 @@
                             <Button IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Width="30" Height="30">
                                 <Grid>
                                     <Ellipse Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{x:Bind CateColor,Mode=OneWay}" Stroke="{x:Bind CateColor,Mode=OneWay,Converter={StaticResource CateStrokeConverter}}" StrokeThickness="2"/>
+                                    <ToolTipService.ToolTip>
+                                        <TextBlock Text="{x:Bind CateName,Mode=OneWay}"/>
+                                    </ToolTipService.ToolTip>
                                 </Grid>
                             </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-            <TextBox x:Uid="AddContentBox" BorderThickness="0" x:Name="AddContentBox" Text="{Binding EditedToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Margin="10,10,10,0"  Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10"/>
+            <Border Background="White" Margin="10,20,10,10">
+                <TextBox x:Uid="AddContentBox" Margin="5" KeyUp="AddContentBox_KeyUp" BorderThickness="0" x:Name="AddContentBox" Text="{Binding EditedToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10" VerticalAlignment="Center"/>
+            </Border>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Button Command="{x:Bind MainVM.OkCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}">
                     <Grid Width="100" Height="35" Background="#33FFFFFF"  BorderThickness="3" BorderBrush="#33FFFFFF">

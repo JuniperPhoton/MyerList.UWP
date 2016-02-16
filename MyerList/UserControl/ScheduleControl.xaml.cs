@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using System;
 using MyerList.Model;
 using MyerListUWP.Common;
+using JP.Utils.Helper;
 
 namespace MyerList.UC
 {
@@ -34,22 +35,22 @@ namespace MyerList.UC
 
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, act =>
                 {
-                    if(!_canBeSorted)
-                    {
-                        _canBeSorted = true;
-                        GoSortStory.Begin();
-                        SchduleTempleteGrid.ManipulationMode = reordermode;
-                    }
+                    //if(!_canBeSorted)
+                    //{
+                    //    _canBeSorted = true;
+                    //    GoSortStory.Begin();
+                    //    SchduleTempleteGrid.ManipulationMode = reordermode;
+                    //}
                 });
             Messenger.Default.Register<GenericMessage<string>>(this,MessengerTokens.LeaveSort, act =>
             {
-                if (_canBeSorted)
-                {
-                    _canBeSorted = false;
-                    LeaveSortStory.Begin();
-                    SchduleTempleteGrid.ManipulationMode = defaultmode;
-                    LeftSP.IsHitTestVisible = true;
-                }
+                //if (_canBeSorted)
+                //{
+                //    _canBeSorted = false;
+                //    LeaveSortStory.Begin();
+                //    SchduleTempleteGrid.ManipulationMode = defaultmode;
+                //    LeftSP.IsHitTestVisible = true;
+                //}
             });
 
             BackStory.Completed += ((senderb, eb) =>
@@ -172,18 +173,21 @@ namespace MyerList.UC
 
         private void SchduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
-            if (element != null)
+            if(DeviceHelper.IsDesktop)
             {
-                try
+                FrameworkElement element = sender as FrameworkElement;
+                if (element != null)
                 {
-                    var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
-                    var position = e.GetPosition(null);
-                    attatchedFlyout.ShowAt(null, position);
-                }
-                catch (Exception)
-                {
+                    try
+                    {
+                        var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
+                        var position = e.GetPosition(null);
+                        attatchedFlyout.ShowAt(null, position);
+                    }
+                    catch (Exception)
+                    {
 
+                    }
                 }
             }
         }

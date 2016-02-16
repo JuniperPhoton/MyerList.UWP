@@ -492,4 +492,10 @@
   <data name="SyncingCatesTB.Text" xml:space="preserve">
     <value>同步中...</value>
   </data>
+  <data name="ContentEmpty" xml:space="preserve">
+    <value>请输入内容</value>
+  </data>
+  <data name="PressMoreToExit" xml:space="preserve">
+    <value>再按一次返回键退出</value>
+  </data>
 </root>

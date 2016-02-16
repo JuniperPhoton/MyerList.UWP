@@ -7,7 +7,6 @@ using MyerList.ViewModel;
 using MyerListCustomControl;
 using MyerListUWP.Common;
 using MyerListUWP.Helper;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
 using Windows.UI;
@@ -53,15 +52,15 @@ namespace MyerListUWP.View
         {
             this.InitializeComponent();
 
-            //if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
-            //{
-            //    if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
-            //    {
-            //        FeatureGrid.Visibility = Visibility.Collapsed;
-            //    }
-            //    else FeatureGrid.Visibility = Visibility.Visible;
-            //}
-            //else FeatureGrid.Visibility = Visibility.Visible;
+            if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
+            {
+                if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
+                {
+                    FeatureGrid.Visibility = Visibility.Collapsed;
+                }
+                else FeatureGrid.Visibility = Visibility.Visible;
+            }
+            else FeatureGrid.Visibility = Visibility.Visible;
 
             var b = new Binding()
             {
@@ -88,17 +87,16 @@ namespace MyerListUWP.View
 
             RegisterMessenger();
 
-            AddingPaneFirstOffset.Value= -this.ActualWidth;
-            AddingPaneLastOffset.Value = -this.ActualWidth;
-
             this.Loaded += MainPage_Loaded;
 
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
+
+            InitialLayout();
         }
 
         private void MainVM_OnCategoryChanged()
         {
-            if (this.ActualWidth >= 720)
+            if (Window.Current.Bounds.Width >= 720)
             {
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
@@ -124,7 +122,14 @@ namespace MyerListUWP.View
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if(this.ActualWidth>=720)
+            AddingPaneFirstOffset.Value = -this.ActualWidth;
+            AddingPaneLastOffset.Value = -this.ActualWidth;
+            AddingPanelTransform.TranslateX = -this.ActualWidth;
+        }
+
+        private void InitialLayout()
+        {
+            if (Window.Current.Bounds.Width >= 720)
             {
                 HeaderContentRootGrid.Background = new SolidColorBrush(Colors.White);
                 HamburgerBtn.ForegroundBrush = App.Current.Resources["MyerListBlue"] as SolidColorBrush;
@@ -138,13 +143,14 @@ namespace MyerListUWP.View
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
             }
+            MainPage_SizeChanged(null, null);
         }
 
-        public static async void IsAddingPaneOpenPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs args)
+        public static void IsAddingPaneOpenPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs args)
         {
             var page = d as MainPage;
             if (args.NewValue == args.OldValue) return;
-            if ((bool)args.NewValue) await page.EnterAddMode();
+            if ((bool)args.NewValue) page.EnterAddMode();
             else page.LeaveAddmode();
         }
 
@@ -190,10 +196,10 @@ namespace MyerListUWP.View
             var left = 0d;
             var right = 0d;
 
-            if (args.Size.Width >= 720)
+            if (Window.Current.Bounds.Width >= 720)
             {
                 left = 270;
-                right = (args.Size.Width - 250) / 5d;
+                right = (Window.Current.Bounds.Width - 250) / 5d;
                 _isDrawerSlided = true;
             }
             else
@@ -211,6 +217,7 @@ namespace MyerListUWP.View
 
             AddingPaneFirstOffset.Value = -this.ActualWidth;
             AddingPaneLastOffset.Value = -this.ActualWidth;
+            AddingPanelTransform.TranslateX = -this.ActualWidth;
         }
 
         bool _isToggleAnim1 = false;
@@ -218,7 +225,7 @@ namespace MyerListUWP.View
 
         private void UpdateColorWhenSizeChanged()
         {
-            if(this.ActualWidth >= 720)
+            if(Window.Current.Bounds.Width >= 720)
             {
                 if (!_isToggleAnim1)
                 {
@@ -253,26 +260,15 @@ namespace MyerListUWP.View
         #endregion
 
         #region CommandBar
-        private async Task EnterAddMode()
+        private void EnterAddMode()
         {
-            AddingPanel.Visibility = Visibility.Visible;
             AddStory.Begin();
-            if (_isDrawerSlided)
-            {
-                SlideOutStory.Begin();
-            }
-            await Task.Delay(100);
             AddingPanel.SetFocus();
         }
 
         private void LeaveAddmode()
         {
             RemoveStory.Begin();
-            if (CoreWindow.GetForCurrentThread().Bounds.Width >= 720)
-            {
-                SlideInStory.Begin();
-                _isDrawerSlided = true;
-            }
         }
         #endregion
 
@@ -348,7 +344,6 @@ namespace MyerListUWP.View
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
 
-
         protected override void SetNavigationBackBtn()
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
@@ -384,6 +379,13 @@ namespace MyerListUWP.View
             else e.Handled = false;
         }
 
+        private bool _readyToExit = false;
+        DispatcherTimer _timer = new DispatcherTimer();
+
+        /// <summary>
+        /// 处理返回逻辑
+        /// </summary>
+        /// <returns>是否已经被处理了</returns>
         private bool HandleBackLogic()
         {
             if (MainVM.ShowPaneOpen)

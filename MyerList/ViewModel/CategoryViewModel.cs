@@ -126,20 +126,28 @@ namespace MyerListUWP.ViewModel
                 array.Add(obj);
             }
             var arrayString = array.ToString();
-            var cateString = AppSettings.DefaultCateJsonStringFore + arrayString + "}";
+            var cateString = AppSettings.ModifiedCateJsonStringFore + arrayString + "}";
 
-            var isOK = await CloudService.UpdateCateInfo(cateString);
-            if (isOK)
+            try
             {
+                if (!App.IsInOfflineMode)
+                {
+                    var isOK = await CloudService.UpdateCateInfo(cateString);
+                    if (!isOK) throw new ArgumentException();
+                }
+
                 Categories = CatesToModify;
-                var ok = await SerializerHelper.SerializerToJson<ObservableCollection<ToDoCategory>>(Categories, SerializerFileNames.CategoryFileName);
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDoCategory>>(Categories, SerializerFileNames.CategoryFileName);
                 Categories.Insert(0, new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateAll"), CateColor = App.Current.Resources["MyerListBlue"] as SolidColorBrush, CateColorID = 0 });
                 Categories.Add(new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateDelete"), CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush, CateColorID = -1 });
                 UpdateCatesToAdd();
                 App.MainVM.RefreshCate();
                 return true;
             }
-            else return false;
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         public int CreateNewID()
@@ -151,7 +159,8 @@ namespace MyerListUWP.ViewModel
 
         public async Task Refresh(LoginMode mode)
         {
-            Categories = await RestoreCacheButDefaultList();
+            if(Categories.Count==0)
+                Categories = await RestoreCacheButDefaultList();
             //已经登陆过的了
             if (mode != LoginMode.OfflineMode && !App.IsNoNetwork)
             {
@@ -208,12 +217,7 @@ namespace MyerListUWP.ViewModel
                 var list = await GenerateListAsync(cateObj.ToString());
                 if (list == null) throw new ArgumentNullException();
 
-                Categories.Clear();
-
-                foreach (var item in list)
-                {
-                    Categories.Add(item);
-                }
+                Categories = list;
 
                 return true;
             }

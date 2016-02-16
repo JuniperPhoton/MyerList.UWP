@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Background="{StaticResource MyerListBlue}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="White">
         <uc:CatePersonalizationControl OnClickCancelBtn="CatePersonalizationControl_OnClickCancelBtn" OnClickOKBtn="CatePersonalizationControl_OnClickOKBtn"/>
     </Grid>
 </base:CustomTitleBarPage>

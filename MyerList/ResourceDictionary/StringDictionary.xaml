@@ -3,5 +3,5 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   >
     <x:String x:Key="AppVersion">3.0</x:String>
-    <x:String x:Key="FeatureToken">feature205</x:String>
+    <x:String x:Key="FeatureToken">feature208</x:String>
 </ResourceDictionary>

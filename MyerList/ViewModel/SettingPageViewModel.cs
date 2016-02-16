@@ -11,6 +11,10 @@ using Windows.UI.Xaml.Controls;
 using MyerListUWP;
 using MyerListCustomControl;
 using MyerListUWP.Common;
+using Windows.Storage;
+using System.Threading.Tasks;
+using System;
+using Windows.UI.Xaml.Navigation;
 
 namespace MyerList.ViewModel
 {
@@ -74,12 +78,17 @@ namespace MyerList.ViewModel
                     DialogService cdex = new DialogService(ResourcesHelper.GetResString("Notice"), ResourcesHelper.GetResString("LogoutContent"));
                     cdex.LeftButtonContent = ResourcesHelper.GetResString("Ok");
                     cdex.RightButtonContent = ResourcesHelper.GetResString("Cancel");
-                    cdex.OnLeftBtnClick += ((str) =>
+                    cdex.OnLeftBtnClick += (async(str) =>
                     {
                         App.IsSyncListOnce = false;
-                        LocalSettingHelper.CleanUpAll();
+
+                        await ClearUserSettings();
+
+                        App.MainVM.CurrentMainPage.NavigationCacheMode = NavigationCacheMode.Disabled;
+
                         cdex.Hide();
                         Frame rootFrame = Window.Current.Content as Frame;
+                        rootFrame.BackStack.Clear();
                         if (rootFrame != null) rootFrame.Navigate(typeof(StartPage));
                     });
                     cdex.OnRightBtnClick += (() =>
@@ -118,6 +127,18 @@ namespace MyerList.ViewModel
                 LocalSettingHelper.AddValue("AppLang", "en-US");
                 var resourceContext = ResourceContext.GetForCurrentView();
                 resourceContext.Reset();
+            }
+        }
+
+        private async Task ClearUserSettings()
+        {
+            LocalSettingHelper.CleanUpAll();
+
+            var folder = ApplicationData.Current.LocalFolder;
+            var file = await folder.TryGetFileAsync(SerializerFileNames.CategoryFileName);
+            if (file != null)
+            {
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
         }
 

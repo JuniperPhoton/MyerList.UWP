@@ -30,21 +30,21 @@ namespace MyerList.Helper
         {
             try
             {
-                BackgroundAccessStatus status = BackgroundAccessStatus.Unspecified;
+                //BackgroundAccessStatus status = BackgroundAccessStatus.Unspecified;
 
-                status = await BackgroundExecutionManager.RequestAccessAsync();
+                //status = await BackgroundExecutionManager.RequestAccessAsync();
 
-                if (status == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
-                    status == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
-                {
-                    UnRegisterBackgroundTask();
+                //if (status == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                //    status == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+                //{
+                //    UnRegisterBackgroundTask();
 
-                    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-                    taskBuilder.Name = "TileUpdaterTask";
-                    taskBuilder.TaskEntryPoint = "BackgroundTasks.TileUpdaterTask";
-                    taskBuilder.SetTrigger(new TimeTrigger(15, false));
-                    var registration = taskBuilder.Register();
-                }
+                //    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                //    taskBuilder.Name = "TileUpdaterTask";
+                //    taskBuilder.TaskEntryPoint = "BackgroundTasks.TileUpdaterTask";
+                //    taskBuilder.SetTrigger(new TimeTrigger(15, false));
+                //    var registration = taskBuilder.Register();
+                //}
             }
             catch (Exception)
             {

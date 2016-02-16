@@ -495,4 +495,10 @@
   <data name="SyncingCatesTB.Text" xml:space="preserve">
     <value>Syncing...</value>
   </data>
+  <data name="ContentEmpty" xml:space="preserve">
+    <value>Please input sth.</value>
+  </data>
+  <data name="PressMoreToExit" xml:space="preserve">
+    <value>Press back button again to exit.</value>
+  </data>
 </root>

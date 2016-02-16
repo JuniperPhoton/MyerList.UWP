@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>MyerList_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>2E0DC88BBA40010A33052B0F9A19E0A67319FCF5</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -199,6 +199,7 @@
     <Content Include="Assets\back.png" />
     <Content Include="Assets\back2.png" />
     <Content Include="Assets\back3.png" />
+    <Content Include="Assets\back4.png" />
     <Content Include="Assets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\BadgeLogo.scale-150.png" />
@@ -206,7 +207,7 @@
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\cate_add.png" />
     <Content Include="Assets\CLIP_WHITE.png" />
-    <Content Include="Assets\feature1.png" />
+    <Content Include="Assets\feature_page.png" />
     <Content Include="Assets\Icon\accept.png" />
     <Content Include="Assets\Icon\Account.png" />
     <Content Include="Assets\Icon\Alert_BLACK.png" />

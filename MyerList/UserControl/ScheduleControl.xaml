@@ -40,26 +40,6 @@
                 <SplineColorKeyFrame KeyTime="0:0:0.3" Value="#00E2E2E2"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Name="GoSortStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="DeleteBtn">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-30"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="SortBtn">
-                <EasingDoubleKeyFrame KeyTime="0" Value="30"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="LeaveSortStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="DeleteBtn">
-                <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="SortBtn">
-                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="30"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
     </UserControl.Resources>
     <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" Holding="SchduleTempleteGrid_Holding" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
         <FlyoutBase.AttachedFlyout>
@@ -77,26 +57,25 @@
         </ToolTipService.ToolTip>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <Grid.RenderTransform>
             <CompositeTransform/>
         </Grid.RenderTransform>
-        <Border x:Name="border"  BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" Background="#004BB685"/>
+        <Border x:Name="border" BorderThickness="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0" Background="#004BB685"/>
         <Grid x:Name="LeftSP" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button
-                    Width="35"
+                    Width="50"
                     Style="{StaticResource ListButtonStyle}"
                     Command="{Binding MainVM.ChangeCateCommand,Mode=OneWay, Source={StaticResource Locator}}"
                     CommandParameter="{Binding}"
-                Margin="-5"
+                    Margin="-5"
                     Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
-                    <!--<Border Background="White" Opacity="0.001"/>-->
                     <Ellipse Width="15" Height="15" Fill="{Binding CateColor,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Button>
@@ -106,23 +85,16 @@
             </Grid>
         </Grid>
         <Grid Grid.Column="2">
-            <Grid.Clip>
-                <RectangleGeometry Rect="0 0 30 30"/>
-            </Grid.Clip>
-            <Button x:Name="DeleteBtn" MinHeight="0" MinWidth="0" Padding="0" Margin="0" Style="{StaticResource ButtonCommonStyle}" 
-                Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                CommandParameter="{Binding}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
+            <Button x:Name="DeleteBtn" 
+                    Margin="-5,-5,-5,-5"
+                    Width="50"
+                    Style="{StaticResource ListButtonStyle}"
+                    Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
+                    CommandParameter="{Binding}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
                 <Button.RenderTransform>
                     <CompositeTransform/>
                 </Button.RenderTransform>
-                <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
-            </Button>
-            <Button x:Name="SortBtn" Padding="0" Margin="0" IsHitTestVisible="False" Style="{StaticResource ButtonCommonStyle}" 
-                HorizontalAlignment="Center" Background="{x:Null}" Height="27" Width="26" Foreground="{x:Null}" RenderTransformOrigin="0.5,0.5">
-                <Button.RenderTransform>
-                    <CompositeTransform TranslateX="30"/>
-                </Button.RenderTransform>
-                <SymbolIcon x:Name="symbolIcon" Symbol="Sort" Foreground="#FFC2C2C2"/>
+                <SymbolIcon Symbol="Delete" Foreground="#FF9C9C9C" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
             </Button>
         </Grid>
     </Grid>
