@@ -45,18 +45,18 @@ namespace MyerListUWP.Common
             }
         }
 
-        public bool ShowKeyboard
-        {
-            get
-            {
-                return ReadSettings(nameof(ShowKeyboard), true);
-            }
-            set
-            {
-                SaveSettings(nameof(ShowKeyboard), value);
-                RaisePropertyChanged(() => ShowKeyboard);
-            }
-        }
+        //public bool ShowKeyboard
+        //{
+        //    get
+        //    {
+        //        return ReadSettings(nameof(ShowKeyboard), true);
+        //    }
+        //    set
+        //    {
+        //        SaveSettings(nameof(ShowKeyboard), value);
+        //        RaisePropertyChanged(() => ShowKeyboard);
+        //    }
+        //}
 
         public bool IsAddToBottom
         {
