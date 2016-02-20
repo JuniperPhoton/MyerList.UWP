@@ -498,4 +498,7 @@
   <data name="PressMoreToExit" xml:space="preserve">
     <value>再按一次返回键退出</value>
   </data>
+  <data name="LiveTileColorTB.Text" xml:space="preserve">
+    <value>动态磁贴颜色</value>
+  </data>
 </root>

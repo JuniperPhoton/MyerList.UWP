@@ -58,7 +58,6 @@
             <RowDefinition Height="55"/>
         </Grid.RowDefinitions>
         <Grid>
-            <ProgressBar x:Name="LoadingBar" Visibility="Collapsed" VerticalAlignment="Top" Margin="0 2 0 0" IsIndeterminate="True" Foreground="{StaticResource DefaultColorLight}"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Uid="ModifyCateTB" Text="Personalization" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="26.667"/>
                 <Button x:Name="AddBtn" Width="50" Height="50"  Click="AddBtn_Click" Style="{StaticResource ButtonCommonStyle}" Margin="10,0,0,0">
@@ -81,6 +80,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Grid x:Name="LoadingMaskGrid" Visibility="Collapsed">
+                <Border Background="#82FFFFFF"/>
+                <ProgressBar x:Name="LoadingBar" Visibility="Visible" VerticalAlignment="Center" Margin="0,0,0,5" IsIndeterminate="True" Foreground="{StaticResource DefaultColorLight}"/>
+            </Grid>
         </Grid>
         <Grid Grid.Row="2" Height="55">
             <Grid.ColumnDefinitions>

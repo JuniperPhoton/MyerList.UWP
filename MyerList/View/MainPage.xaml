@@ -414,9 +414,9 @@
         <Grid x:Name="FeatureGrid" Visibility="Collapsed">
             <Border Background="#E1000000"/>
             <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto">
-                <Image Source="ms-appx:///Assets/feature_page.png" HorizontalAlignment="Center" MaxWidth="400" Stretch="UniformToFill" VerticalAlignment="Center"/>
+                <Image Source="ms-appx:///Assets/feature_page.png" HorizontalAlignment="Center" MaxWidth="430" Stretch="UniformToFill" VerticalAlignment="Center"/>
             </ScrollViewer>
-            <Button x:Name="OKBtn" Click="OKBtn_Click" Opacity="0.95" HorizontalAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" Height="40" MaxWidth="400" VerticalAlignment="Bottom" Margin="10">
+            <Button x:Name="OKBtn" Click="FeatureOkClick" Opacity="0.95" HorizontalAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" Height="40" MaxWidth="400" VerticalAlignment="Bottom" Margin="10">
                 <Border Background="#85000000" BorderThickness="0">
                     <TextBlock x:Uid="KnownItTB" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>

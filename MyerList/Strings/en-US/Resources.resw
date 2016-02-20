@@ -501,4 +501,7 @@
   <data name="PressMoreToExit" xml:space="preserve">
     <value>Press back button again to exit.</value>
   </data>
+  <data name="LiveTileColorTB.Text" xml:space="preserve">
+    <value>Color of Live Tile</value>
+  </data>
 </root>

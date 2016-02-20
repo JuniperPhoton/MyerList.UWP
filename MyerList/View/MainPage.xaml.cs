@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using JP.Utils.Helper;
+using Lousy.Mon;
 using MyerList.Base;
 using MyerList.Helper;
 using MyerList.ViewModel;
@@ -16,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace MyerListUWP.View
@@ -260,8 +262,15 @@ namespace MyerListUWP.View
         #endregion
 
         #region CommandBar
+        private double origianlTranslateX = 0;
         private void EnterAddMode()
         {
+            var transfrom = Drawer.RenderTransform as CompositeTransform;
+            origianlTranslateX = transfrom.TranslateX;
+
+            Oli.MoveXOf(Drawer).From(origianlTranslateX).To(transfrom.TranslateX - 100).
+                With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
+
             AddStory.Begin();
             AddingPanel.SetFocus();
         }
@@ -269,6 +278,10 @@ namespace MyerListUWP.View
         private void LeaveAddmode()
         {
             RemoveStory.Begin();
+
+            var transfrom = Drawer.RenderTransform as CompositeTransform;
+            Oli.MoveXOf(Drawer).To(origianlTranslateX).From(transfrom.TranslateX - 100).
+                With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
         }
         #endregion
 
@@ -388,6 +401,11 @@ namespace MyerListUWP.View
         /// <returns>是否已经被处理了</returns>
         private bool HandleBackLogic()
         {
+            if(FeatureGrid.Visibility==Visibility.Visible)
+            {
+                FeatureOkClick(null, null);
+                return true;
+            }
             if (MainVM.ShowPaneOpen)
             {
                 MainVM.ShowPaneOpen = false;
@@ -437,9 +455,13 @@ namespace MyerListUWP.View
         #endregion
 
         #region Feature
-        private void OKBtn_Click(object sender, RoutedEventArgs e)
+        private void FeatureOkClick(object sender, RoutedEventArgs e)
         {
-            FeatureGrid.Visibility = Visibility.Collapsed;
+            var anim1=Oli.Fade(FeatureGrid).From(1).To(0).For(0.2, OrSo.Seconds).Now();
+            Oli.Run(() =>
+            {
+                FeatureGrid.Visibility = Visibility.Collapsed;
+            }).After(anim1);
             LocalSettingHelper.AddValue(ResourcesHelper.GetDicString("FeatureToken"), "true");
         }
         #endregion

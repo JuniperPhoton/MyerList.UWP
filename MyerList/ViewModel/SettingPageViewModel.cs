@@ -15,6 +15,8 @@ using Windows.Storage;
 using System.Threading.Tasks;
 using System;
 using Windows.UI.Xaml.Navigation;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Media;
 
 namespace MyerList.ViewModel
 {
@@ -100,6 +102,23 @@ namespace MyerList.ViewModel
             }
         }
 
+        private ObservableCollection<SolidColorBrush> _tileColors;
+        public ObservableCollection<SolidColorBrush> TileColors
+        {
+            get
+            {
+                return _tileColors;
+            }
+            set
+            {
+                if (_tileColors != value)
+                {
+                    _tileColors = value;
+                    RaisePropertyChanged(() => TileColors);
+                }
+            }
+        }
+
         public SettingPageViewModel()
         {
             ShowHint = Visibility.Collapsed;
@@ -140,6 +159,12 @@ namespace MyerList.ViewModel
             {
                 await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
+        }
+
+        private void InitialTileColors()
+        {
+            TileColors = new ObservableCollection<SolidColorBrush>();
+
         }
 
         public void Activate(object param)

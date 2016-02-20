@@ -28,7 +28,7 @@
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <TextBlock x:Uid="VersionTB" Text="VERSION"  FontFamily="{StaticResource MyerListThemeFontFamily}"  FontSize="15" FontWeight="Bold"  Foreground="{StaticResource MyerListBlueLight}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" />
-                            <TextBlock  Text="{StaticResource AppVersion}"  FontFamily="{StaticResource MyerListThemeFontFamily}" FontSize="15" FontWeight="Light"  Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Grid.Column="1" />
+                            <TextBlock  Text="{StaticResource AppVersion}" FontFamily="{StaticResource MyerListThemeFontFamily}" FontSize="15" FontWeight="Light"  Foreground="{StaticResource MyerListDark}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Grid.Column="1" />
                         </StackPanel>
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,10,0,0">
                             <TextBlock x:Uid="CreditTB"  FontFamily="{StaticResource MyerListThemeFontFamily}" Text="DEVELOPER" FontSize="15" FontWeight="Bold"  Foreground="{StaticResource MyerListBlueLight}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" />
