@@ -194,12 +194,12 @@ namespace MyerList.UC
 
         private void MarkDownItem_Click(object sender, RoutedEventArgs e)
         {
-            Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag), MessengerTokens.CheckToDo);
+            Messenger.Default.Send(new GenericMessage<ToDo>(CurrentToDo), MessengerTokens.CheckToDo);
         }
 
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            Messenger.Default.Send(new GenericMessage<string>((string)SchduleTempleteGrid.Tag), MessengerTokens.DeleteToDo);
+            Messenger.Default.Send(new GenericMessage<ToDo>(CurrentToDo), MessengerTokens.DeleteToDo);
         }
     }
 }

@@ -879,8 +879,6 @@ namespace MyerList.ViewModel
             IsLoading = Visibility.Collapsed;
             NoDeletedItemsVisibility = Visibility.Collapsed;
 
-            var task = JumpListHelper.SetupJumpList();
-
             UndoneCount = 0;
 
             //初始化
