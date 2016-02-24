@@ -41,20 +41,20 @@
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" Holding="SchduleTempleteGrid_Holding" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
-        <FlyoutBase.AttachedFlyout>
+    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0"   Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+        <!--<FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem x:Uid="MarkDeleteItem" Click="DeleteItem_Click" Text="删除" />
             </MenuFlyout>
-        </FlyoutBase.AttachedFlyout>
-        <ToolTipService.ToolTip>
+        </FlyoutBase.AttachedFlyout>-->
+        <!--<ToolTipService.ToolTip>
             <StackPanel>
                 <TextBlock Text="{Binding CreateTime,Mode=OneWay}" Margin="5" Opacity="0.5" TextWrapping="Wrap"/>
                 <TextBlock Text="{Binding Content,Mode=OneWay}" Margin="5" TextWrapping="Wrap"/>
             </StackPanel>
-        </ToolTipService.ToolTip>
+        </ToolTipService.ToolTip>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="50"/>

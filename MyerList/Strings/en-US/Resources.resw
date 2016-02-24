@@ -300,7 +300,7 @@
   <data name="SyncLabel" xml:space="preserve">
     <value>Sync</value>
   </data>
-  <data name="Privacy.Text" xml:space="preserve">
+  <data name="PrivacyTB.Text" xml:space="preserve">
     <value>Privacy</value>
   </data>
   <data name="NoticeHint.Text" xml:space="preserve">

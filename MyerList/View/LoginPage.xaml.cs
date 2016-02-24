@@ -5,6 +5,8 @@ using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListUWP;
 using MyerListUWP.Common;
+using System;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -47,6 +49,11 @@ namespace MyerList
         {
             base.OnNavigatedTo(e);
             Messenger.Default.Send(new GenericMessage<string>(""), "ClearInfo");
+        }
+
+        private async void PrivacyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("http://juniperphoton.net/myerlist/privacy.html"));
         }
     }
 }

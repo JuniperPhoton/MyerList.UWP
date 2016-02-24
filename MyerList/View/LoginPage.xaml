@@ -72,6 +72,11 @@
                 </Grid>
             </StackPanel>
         </Border>
+        <Button x:Name="PrivacyBtn" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 0 0 5" Click="PrivacyBtn_Click">
+            <Border>
+                <TextBlock x:Uid="PrivacyTB" Text="Private policy" Foreground="White"/>
+            </Border>
+        </Button>
         <Grid d:IsHidden="True" Margin="-40" Visibility="{x:Bind LoginVM.IsLoading,Mode=OneWay}" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" >
             <Border Background="Black" Opacity="0.7"/>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">

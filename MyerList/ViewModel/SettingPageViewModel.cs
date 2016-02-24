@@ -23,7 +23,6 @@ namespace MyerList.ViewModel
 
     public class SettingPageViewModel : ViewModelBase, INavigable
     {
-
         private int _currentLanguage;
         public int CurrentLanguage
         {

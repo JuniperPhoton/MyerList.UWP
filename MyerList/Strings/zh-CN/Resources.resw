@@ -300,7 +300,7 @@
   <data name="WorkDoneTB.Text" xml:space="preserve">
     <value>没有任务</value>
   </data>
-  <data name="Privacy.Text" xml:space="preserve">
+  <data name="PrivacyTB.Text" xml:space="preserve">
     <value>隐私政策</value>
   </data>
   <data name="NoticeHint.Text" xml:space="preserve">
