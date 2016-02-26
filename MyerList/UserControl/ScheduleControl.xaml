@@ -19,42 +19,42 @@
         <Storyboard x:Name="ShowGreenStory">
             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
                 <EasingColorKeyFrame KeyTime="0" Value="#00E2E2E2"/>
-                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF4BB685"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="{StaticResource DoneGreenColor}"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideGreenStory">
             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
-                <SplineColorKeyFrame KeyTime="0" Value="#FF4BB685"/>
+                <SplineColorKeyFrame KeyTime="0" Value="{StaticResource DoneGreenColor}"/>
                 <SplineColorKeyFrame KeyTime="0:0:0.3" Value="#00E2E2E2"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowRedStory">
             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
                 <EasingColorKeyFrame KeyTime="0" Value="#00E2E2E2"/>
-                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFB64B50"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="{StaticResource DeleteRedColor}"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideRedStory">
             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
-                <SplineColorKeyFrame KeyTime="0" Value="#FFB64B50"/>
+                <SplineColorKeyFrame KeyTime="0" Value="{StaticResource DeleteRedColor}"/>
                 <SplineColorKeyFrame KeyTime="0:0:0.3" Value="#00E2E2E2"/>
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0"   Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
-        <!--<FlyoutBase.AttachedFlyout>
+    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+        <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem x:Uid="MarkDeleteItem" Click="DeleteItem_Click" Text="删除" />
             </MenuFlyout>
-        </FlyoutBase.AttachedFlyout>-->
-        <!--<ToolTipService.ToolTip>
+        </FlyoutBase.AttachedFlyout>
+        <ToolTipService.ToolTip>
             <StackPanel>
                 <TextBlock Text="{Binding CreateTime,Mode=OneWay}" Margin="5" Opacity="0.5" TextWrapping="Wrap"/>
                 <TextBlock Text="{Binding Content,Mode=OneWay}" Margin="5" TextWrapping="Wrap"/>
             </StackPanel>
-        </ToolTipService.ToolTip>-->
+        </ToolTipService.ToolTip>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="50"/>

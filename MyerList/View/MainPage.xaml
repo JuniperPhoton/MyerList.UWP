@@ -184,7 +184,6 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-
             <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Drawer" d:IsOptimized="True"/>
         </Storyboard>
         <Storyboard x:Name="MaskInStory">
@@ -251,6 +250,7 @@
                         <Setter Target="DisplayedListView.MaxWidth" Value="{StaticResource MaxWidth}"/>
                         <Setter Target="HeaderContentGrid.MaxWidth" Value="{StaticResource MaxWidth}"/>
                         <Setter Target="DeleteListView.MaxWidth" Value="{StaticResource MaxWidth}"/>
+                        <Setter Target="SortBtn.Visibility" Value="Visible"/>
                         <!--<Setter Target="HamburgerBtn.ForegroundBrush" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>
                         <Setter Target="TitleTB.Foreground" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>-->
                     </VisualState.Setters>
@@ -263,6 +263,7 @@
                         <Setter Target="DeleteListView.MaxWidth" Value="450"/>
                         <Setter Target="DisplayedListView.MaxWidth" Value="450"/>
                         <Setter Target="HeaderContentGrid.MaxWidth" Value="450"/>
+                        <Setter Target="SortBtn.Visibility" Value="Collapsed"/>
 
                         <!--<Setter Target="HeaderContentRootGrid.Background" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>-->
                         <!--<Setter Target="HamburgerBtn.ForegroundBrush" Value="White"/>
@@ -283,7 +284,7 @@
                 <Grid.Background>
                     <SolidColorBrush Color="White"/>
                 </Grid.Background>
-                <Grid x:Name="HeaderContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,20">
+                <Grid x:Name="HeaderContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,10">
                     <StackPanel Orientation="Horizontal">
                         <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="Black" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" Background="Transparent">
                             <uc:HamburgerButton.RenderTransform>
@@ -376,6 +377,7 @@
                     <ToggleButton
                         Width="60" Height="50"
                         BorderThickness="0"
+                        x:Name="SortBtn"
                         Background="#0AFFFFFF"
                         Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" 
                         IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" 

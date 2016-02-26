@@ -30,10 +30,14 @@ namespace MyerList
                 EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
                 EmailMessage mes = new EmailMessage();
                 mes.To.Add(rec);
-
+                var attach = await ExceptionHelper.GetLogFileAttachement();
+                if(attach!= null)
+                {
+                    mes.Attachments.Add(attach);
+                }
                 var platform = DeviceHelper.IsDesktop ? "PC" : "Mobile";
 
-                mes.Subject = $"MyerList for Windows 10 {platform}, {ResourcesHelper.GetDicString("AppVersion")} 版反馈, {DeviceHelper.OSVersion}, {DeviceHelper.DeviceModel}";
+                mes.Subject = $"MyerList for Windows 10 {platform}, {ResourcesHelper.GetDicString("AppVersion")} feedback, {DeviceHelper.OSVersion}, {DeviceHelper.DeviceModel}";
                 await EmailManager.ShowComposeNewEmailAsync(mes);
             }
             catch (Exception ex)
@@ -52,7 +56,7 @@ namespace MyerList
             base.OnNavigatedTo(e);
             if (DeviceHelper.IsMobile)
             {
-                StatusBarHelper.SetUpBlueStatusBar();
+                StatusBarHelper.SetUpBlackStatusBar();
             }
             else
             {

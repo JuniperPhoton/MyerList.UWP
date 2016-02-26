@@ -68,7 +68,7 @@
                                 <TextBlock Text="{x:Bind LoginVM.BtnContent,Mode=OneWay}" Foreground="{StaticResource MyerListGray}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                             </Border>
                         </Button>
-                    </StackPanel>
+                    </StackPanel>                
                 </Grid>
             </StackPanel>
         </Border>

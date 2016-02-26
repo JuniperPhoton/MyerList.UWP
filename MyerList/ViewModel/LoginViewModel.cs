@@ -152,7 +152,6 @@ namespace MyerList.ViewModel
                 if (_nextCommand != null) return _nextCommand;
                 return _nextCommand = new RelayCommand(async () =>
                 {
-                    IsLoading = Visibility.Visible;
                     try
                     {
                         if (string.IsNullOrEmpty(TempEmail) || string.IsNullOrEmpty(InputPassword))
@@ -188,29 +187,38 @@ namespace MyerList.ViewModel
                             }
                             else
                             {
+                                IsLoading = Visibility.Visible;
+
                                 var isLogin = await Login();
                                 if(isLogin)
                                 {
                                     Frame rootframe = Window.Current.Content as Frame;
                                     if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
                                 }
+
+                                IsLoading = Visibility.Collapsed;
                             }
                         }
 
                         //登录
                         else if(LoginMode == LoginMode.Login || LoginMode==LoginMode.OfflineModeToLogin)
                         {
+                            IsLoading = Visibility.Visible;
+
                             var isLoginSuccessfylly = await Login();
                             if (isLoginSuccessfylly)
                             {
                                 Frame rootframe = Window.Current.Content as Frame;
                                 if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
                             }
+
+                            IsLoading = Visibility.Collapsed;
                         }
                     }
                     catch (Exception e)
                     {
                         var task = ExceptionHelper.WriteRecordAsync(e);
+                        IsLoading = Visibility.Collapsed;
                     }
                 });
             }

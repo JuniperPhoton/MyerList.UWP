@@ -180,7 +180,7 @@
         <Image Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Opacity="0.02"/>
         <StackPanel x:Name="RootSP" MaxWidth="450" VerticalAlignment="Center" Margin="0,0,0,100">
             <StackPanel Margin="10,0,0,0">
-                <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" FontWeight="Bold" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ListBox 
                     SelectedIndex="{Binding AddingCate,Mode=TwoWay}"
                     Background="{x:Null}"

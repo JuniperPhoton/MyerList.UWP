@@ -278,7 +278,11 @@ namespace MyerList.ViewModel
         {
             get
             {
-                if (SelectedCate == 0) return Visibility.Visible;
+                if (DeviceHelper.IsDesktop)
+                {
+                    if (SelectedCate == 0) return Visibility.Visible;
+                    else return Visibility.Collapsed;
+                }
                 else return Visibility.Collapsed;
             }
         }

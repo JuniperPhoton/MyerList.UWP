@@ -163,6 +163,7 @@ namespace MyerListUWP.View
                 if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < 720)
                 {
                     SlideOutStory.Begin();
+                    MaskOutStory.Begin();
                     HamburgerBtn.PlayHamOutStory();
                     _isDrawerSlided = false;
                 }
@@ -277,6 +278,8 @@ namespace MyerListUWP.View
 
             AddStory.Begin();
             AddingPanel.SetFocus();
+
+            TitleBarHelper.SetUpForeWhiteTitleBar();
         }
 
         private void LeaveAddmode()
@@ -286,6 +289,11 @@ namespace MyerListUWP.View
             var transfrom = Drawer.RenderTransform as CompositeTransform;
             Oli.MoveXOf(Drawer).To(origianlTranslateX).From(transfrom.TranslateX - 100).
                 With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
+
+            if (Window.Current.Bounds.Width >= 720)
+            {
+                TitleBarHelper.SetUpForeBlackTitleBar();
+            }
         }
         #endregion
 

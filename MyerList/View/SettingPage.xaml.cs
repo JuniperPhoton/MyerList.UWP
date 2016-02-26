@@ -30,7 +30,7 @@ namespace MyerList
 
             if(DeviceHelper.IsMobile)
             {
-               StatusBarHelper.SetUpBlueStatusBar();
+               StatusBarHelper.SetUpBlackStatusBar();
             }
             else
             {
@@ -38,6 +38,5 @@ namespace MyerList
                 TitleBarHelper.SetUpForeBlackTitleBar();
             }
         }
-
     }
 }

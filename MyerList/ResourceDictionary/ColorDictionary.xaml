@@ -20,6 +20,8 @@
     <SolidColorBrush x:Key="MyerListDarkBlue">#FF3686B6</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListDoneGreen">#FF4BB685</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListDeleteRed">#FFB64B4B</SolidColorBrush>
+    <Color x:Key="DoneGreenColor">#FF4AD4CB</Color>
+    <Color x:Key="DeleteRedColor">#FFDC7373</Color>
     <SolidColorBrush x:Key="WorkColor">#FF436998</SolidColorBrush>
     <SolidColorBrush x:Key="LifeColor">#FFFFB542</SolidColorBrush>
     <SolidColorBrush x:Key="FamilyColor">#FFFF395F</SolidColorBrush>

@@ -15,7 +15,7 @@ namespace MyerList.UC
     {
         TranslateTransform _tranTemplete = new TranslateTransform();
         bool _isToBeDone = false;
-        bool _isInDeleteMode = false;
+        bool _isToBeDeleted = false;
         bool _canBeSorted = false;
 
         ManipulationModes defaultmode=ManipulationModes.TranslateX | ManipulationModes.System;
@@ -92,7 +92,7 @@ namespace MyerList.UC
             if (e.Delta.Translation.X > 0)
             {
                 _tranTemplete.X += e.Delta.Translation.X;
-                if (_isInDeleteMode)
+                if (_isToBeDeleted)
                 {
                     return;
                 }
@@ -102,7 +102,7 @@ namespace MyerList.UC
                     {
                         ShowGreenStory.Begin();
                         _isToBeDone = true;
-                        _isInDeleteMode = false;
+                        _isToBeDeleted = false;
                     }
                 }
             }
@@ -116,11 +116,11 @@ namespace MyerList.UC
                 }
                 if (_tranTemplete.X < -100)
                 {
-                    if (!_isInDeleteMode)
+                    if (!_isToBeDeleted)
                     {
                         ShowRedStory.Begin();
                         _isToBeDone = false;
-                        _isInDeleteMode = true;
+                        _isToBeDeleted = true;
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace MyerList.UC
 
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if (e.Cumulative.Translation.X > 10)
+            if (e.Cumulative.Translation.X > 0)
             {
                 if (e.Cumulative.Translation.X > 100)
                 {
@@ -137,7 +137,7 @@ namespace MyerList.UC
                 HideGreenStory.Begin();
                 BeginReturnStoryboard(e.Cumulative.Translation.X);
             }
-            else if (e.Cumulative.Translation.X < -10)
+            else if (e.Cumulative.Translation.X < 0)
             {
                 if (e.Cumulative.Translation.X < -100)
                 {
@@ -150,25 +150,25 @@ namespace MyerList.UC
                 BeginReturnStoryboard(e.Cumulative.Translation.X);
             }
             _isToBeDone = false;
-            _isInDeleteMode = false;
+            _isToBeDeleted = false;
         }
 
         private void SchduleTempleteGrid_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            //FrameworkElement element = sender as FrameworkElement;
-            //if (element != null)
-            //{
-            //    try
-            //    {
-            //        var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
-            //        var position = e.GetPosition(null);
-            //        attatchedFlyout.ShowAt(null, position);
-            //    }
-            //    catch (Exception)
-            //    {
+            FrameworkElement element = sender as FrameworkElement;
+            if (element != null)
+            {
+                try
+                {
+                    var attatchedFlyout = FlyoutBase.GetAttachedFlyout(element) as MenuFlyout;
+                    var position = e.GetPosition(null);
+                    attatchedFlyout.ShowAt(null, position);
+                }
+                catch (Exception)
+                {
 
-            //    }
-            //}
+                }
+            }
         }
 
         private void SchduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)

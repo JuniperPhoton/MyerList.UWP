@@ -5,6 +5,7 @@ using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListUWP;
 using MyerListUWP.Common;
+using MyerListUWP.Helper;
 using System;
 using Windows.System;
 using Windows.UI;
@@ -34,15 +35,21 @@ namespace MyerList
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;
                 StatusBar.GetForCurrentView().ForegroundColor = Colors.White;
             }
+
         }
 
         private void LoginPage_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter)
             {
                 Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.PressEnterToLoginToken);
                 this.Focus(FocusState.Pointer);
             }
+        }
+
+        protected override void SetUpTitleBar()
+        {
+            TitleBarHelper.SetUpForeWhiteTitleBar();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

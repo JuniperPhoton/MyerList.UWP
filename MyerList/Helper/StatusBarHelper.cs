@@ -25,5 +25,11 @@ namespace MyerList.Helper
             sb.BackgroundOpacity = 0;
             sb.ForegroundColor = (App.Current.Resources["DefaultColor"] as SolidColorBrush).Color;
         }
+
+        public static void SetUpBlackStatusBar()
+        {
+            sb.BackgroundOpacity = 0;
+            sb.ForegroundColor = (App.Current.Resources["MyerListDark"] as SolidColorBrush).Color;
+        }
     }
 }
