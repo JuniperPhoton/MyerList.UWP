@@ -10,7 +10,7 @@
     IsTextScaleFactorEnabled="False"
     Background="{StaticResource MyerListGray}">
     <Grid Background="{StaticResource MyerListGray}" >
-        <Image Source="ms-appx:///Assets/back2.png" Stretch="UniformToFill" Opacity="0.02"/>
+        <Image Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Opacity="0.02"/>
         <ScrollViewer 
             VerticalScrollBarVisibility="Hidden" 
             VerticalScrollMode="Auto" 

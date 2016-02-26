@@ -203,10 +203,12 @@ namespace MyerListUWP.View
                 left = 270;
                 right = (Window.Current.Bounds.Width - 250) / 5d;
                 _isDrawerSlided = true;
+
             }
             else
             {
                 _isDrawerSlided = false;
+
             }
 
             UpdateColorWhenSizeChanged();
@@ -236,6 +238,7 @@ namespace MyerListUWP.View
                     ChangeColorStory.Begin();
                     _isToggleAnim1 = true;
                     _isToggleAnim2 = false;
+                    NarrowToWideStory.Begin();
                 }
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
@@ -251,6 +254,7 @@ namespace MyerListUWP.View
                     ChangeColorStory.Begin();
                     _isToggleAnim2 = true;
                     _isToggleAnim1 = false;
+                    WideToNarrowStory.Begin();
                 }
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
@@ -292,6 +296,7 @@ namespace MyerListUWP.View
             MaskBorder.Visibility = Visibility.Visible;
             HamburgerBtn.PlayHamInStory();
             SlideInStory.Begin();
+            MaskInStory.Begin();
         }
 
         private void MaskBorder_Tapped(object sender, TappedRoutedEventArgs e)
@@ -301,6 +306,7 @@ namespace MyerListUWP.View
                 _isDrawerSlided = false;
                 HamburgerBtn.PlayHamOutStory();
                 SlideOutStory.Begin();
+                MaskOutStory.Begin();
             }
         }
 
@@ -336,6 +342,7 @@ namespace MyerListUWP.View
                 SlideInKey1.Value = transform.TranslateX;
                 SlideInKey2.Value = 0.8;
                 SlideInStory.Begin();
+                MaskInStory.Begin();
                 HamburgerBtn.PlayHamInStory();
             }
             else if (transform.TranslateX <= -200)
@@ -344,6 +351,7 @@ namespace MyerListUWP.View
                 SlideOutKey1.Value = transform.TranslateX;
                 SlideOutKey2.Value = MaskBorder.Opacity;
                 SlideOutStory.Begin();
+                MaskOutStory.Begin();
                 HamburgerBtn.PlayHamOutStory();
             }
         }

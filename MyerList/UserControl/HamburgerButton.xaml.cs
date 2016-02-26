@@ -46,17 +46,17 @@ namespace MyerList.UC
 
         public void PlayHamInStory()
         {
-            HamInStory.Begin();
+            //HamInStory.Begin();
         }
 
         public void PlayHamOutStory()
         {
-            HamOutStory.Begin();
+            //HamOutStory.Begin();
         }
 
         private void HamClick(object sender,RoutedEventArgs e)
         {
-            PlayHamInStory();
+            //PlayHamInStory();
             ButtonClick(sender, e);
         }
     }

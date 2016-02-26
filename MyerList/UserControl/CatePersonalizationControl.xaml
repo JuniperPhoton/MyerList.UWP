@@ -59,12 +59,12 @@
             <RowDefinition Height="55"/>
         </Grid.RowDefinitions>
         <Grid>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock x:Uid="ModifyCateTB" Text="Personalization" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="26.667"/>
-                <Button x:Name="AddBtn" Width="50" Height="50"  Click="AddBtn_Click" Style="{StaticResource ButtonCommonStyle}" Margin="10,0,0,0">
-                    <SymbolIcon Symbol="Add"/>
+                <TextBlock x:Uid="ModifyCateTB" Text="Personalization" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="26.667" HorizontalAlignment="Left"/>
+                <Button x:Name="AddBtn" Click="AddBtn_Click" Style="{StaticResource ListButtonStyle}" Margin="10,0" HorizontalAlignment="Right">
+                    <Border>
+                            <SymbolIcon Symbol="Add" Foreground="Black" Margin="10"/>
+                    </Border>
                 </Button>
-            </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <ListView

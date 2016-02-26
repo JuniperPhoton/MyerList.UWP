@@ -9,11 +9,11 @@
     d:DesignHeight="35"
     d:DesignWidth="400">
 
-    <Grid x:Name="SchduleTempleteGrid"  Tag="{Binding ID}"  Height="35" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Margin="0,0,10,0">
+    <Grid x:Name="SchduleTempleteGrid" Tag="{Binding ID}"  Height="35" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Margin="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="50"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <Grid.RenderTransform>
             <CompositeTransform/>
@@ -24,11 +24,13 @@
         <Button 
             Command="{Binding MainVM.RedoCommand,Source={StaticResource Locator}}" 
             CommandParameter="{Binding}"
-            Grid.RowSpan="2" 
-            Style="{StaticResource ButtonCommonStyle}" 
-            BorderThickness="0,2,0,0" Background="{x:Null}">
+            Grid.RowSpan="2"
+            Width="50"
+            Margin="-5,-5,-5,-5"
+            Style="{StaticResource ListButtonStyle}"
+            Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid>
-                <SymbolIcon Symbol="RepeatAll" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2" Foreground="#FFC2C2C2"/>
+                <SymbolIcon Symbol="RepeatAll" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2" Foreground="{StaticResource ListButtonBackgrd}"/>
             </Grid>
         </Button>
         <Button 
@@ -36,10 +38,12 @@
             Command="{Binding MainVM.PermanentDeleteCommand, Mode=OneWay, Source={StaticResource Locator}}"
         	CommandParameter="{Binding}"            
             Grid.Column="2"
-            Style="{StaticResource ButtonCommonStyle}" 
-            BorderThickness="0,2,0,0" HorizontalAlignment="Right" Margin="0" Background="{x:Null}">
+            Width="50"
+            Margin="-5,-5,-5,-5"
+            Style="{StaticResource ListButtonStyle}"
+            HorizontalAlignment="Stretch" Background="{x:Null}" VerticalAlignment="Stretch">
             <Grid>
-                <SymbolIcon Symbol="Delete" Foreground="#FFC2C2C2"/>
+                <SymbolIcon Symbol="Delete" Foreground="{StaticResource ListButtonBackgrd}"/>
             </Grid>
         </Button>
     </Grid>

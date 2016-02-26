@@ -105,7 +105,7 @@
         </Grid.RowDefinitions>
         <Grid>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="0,0,0,30">
-                <TextBlock Text="{x:Bind MainVM.UndoneCount,Mode=OneWay}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="ms-appx:///Assets/AGENCYR.TTF#Agency FB" FontSize="106.667" Margin="0"/>
+                <TextBlock Text="{x:Bind MainVM.UndoneCount,Mode=OneWay}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="ms-appx:/Assets/AGENCYB.TTF#Agency FB" FontSize="106.667" Margin="0"/>
                 <TextBlock x:Uid="UndoneLeftTB" FontFamily="{StaticResource MyerListThemeFontFamily}" Text="个没完成" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,15" FontSize="17.333"/>
             </StackPanel>
             <StackPanel Margin="0,5,0,20" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">

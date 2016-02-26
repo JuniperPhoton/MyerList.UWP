@@ -177,7 +177,7 @@
         </Style>
     </UserControl.Resources>
     <Grid x:Name="AddGrid" Background="{x:Bind MainVM.AddingCateColor,Mode=OneWay}" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
-        <Image Source="ms-appx:///Assets/back4.png" Stretch="UniformToFill" Opacity="0.05"/>
+        <Image Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Opacity="0.02"/>
         <StackPanel x:Name="RootSP" MaxWidth="450" VerticalAlignment="Center" Margin="0,0,0,100">
             <StackPanel Margin="10,0,0,0">
                 <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" FontWeight="Bold" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -207,7 +207,7 @@
                 </ListBox>
             </StackPanel>
             <Border Background="White" Margin="10,20,10,10">
-                <TextBox x:Uid="AddContentBox" Margin="5" KeyUp="AddContentBox_KeyUp" BorderThickness="0" x:Name="AddContentBox" Text="{Binding EditedToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10" VerticalAlignment="Center"/>
+                <TextBox x:Uid="AddContentBox" Margin="5" KeyUp="AddContentBox_KeyUp" BorderThickness="0" x:Name="AddContentBox" Text="{Binding EditedToDo.Content,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" PlaceholderText="例如：晚上跟好基友吃饭" Style="{StaticResource TextBoxStyle}" FontFamily="{StaticResource MyerListThemeFontFamily}" SelectionHighlightColor="{StaticResource DefaultColor}" MinHeight="10" VerticalAlignment="Center" TextWrapping="Wrap"/>
             </Border>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Button Command="{x:Bind MainVM.OkCommand}" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}">

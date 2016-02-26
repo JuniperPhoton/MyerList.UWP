@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using JP.Utils.UI;
 using JP.UWP.CustomControl;
 using Lousy.Mon;
 using MyerList.Helper;
@@ -123,6 +124,8 @@ namespace MyerList.UC
                 CateColorID=CreateNewID(),
                 CateName=ResourcesHelper.GetResString("NewCateName"),
             });
+            var sv = CateListView.GetScrollViewer();
+            sv.ChangeView(null, 1000, null);
         }
 
         public int CreateNewID()

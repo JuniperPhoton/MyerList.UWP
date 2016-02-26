@@ -504,4 +504,7 @@
   <data name="LiveTileColorTB.Text" xml:space="preserve">
     <value>Color of Live Tile</value>
   </data>
+  <data name="AddTB.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
 </root>

@@ -94,7 +94,7 @@
                 <Button.RenderTransform>
                     <CompositeTransform/>
                 </Button.RenderTransform>
-                <SymbolIcon Symbol="Delete" Foreground="#FF9C9C9C" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
+                <SymbolIcon Symbol="Delete" Foreground="{StaticResource ListButtonBackgrd}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
             </Button>
         </Grid>
     </Grid>

@@ -737,12 +737,16 @@ namespace MyerList.ViewModel
                 if (_redoCommand != null) return _redoCommand;
                 return _redoCommand = new RelayCommand<ToDo>(async (todo) =>
                 {
+                    IsLoading = Visibility.Visible;
+
                     _addMode = AddMode.None;
                     EditedToDo = todo;
                     await AddOrRestoreAndSyncNewToDo(todo.Category);
 
                     DeletedToDos.Remove(todo);
                     await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(DeletedToDos, "deleteditems.sch");
+
+                    IsLoading = Visibility.Collapsed;
                 });
             }
         }

@@ -16,6 +16,7 @@
     <SolidColorBrush x:Key="MyerListBlueLight">#FF47A5DD</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListLight">White</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListDark">#FF464646</SolidColorBrush>
+    <SolidColorBrush x:Key="ListButtonBackgrd">#FF9C9C9C</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListDarkBlue">#FF3686B6</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListDoneGreen">#FF4BB685</SolidColorBrush>
     <SolidColorBrush x:Key="MyerListDeleteRed">#FFB64B4B</SolidColorBrush>

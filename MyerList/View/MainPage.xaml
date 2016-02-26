@@ -16,11 +16,76 @@
     mc:Ignorable="d" Background="White">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
-            <!--<attach:InvokeCommandByKeyDown Command="{x:Bind MainVM.OkCommand}" PressedKey="Enter" />-->
             <attach:InvokeCommandByKeyDown Command="{x:Bind MainVM.SyncCommand}" PressedKey="F5" />
         </Core:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
     <base:BindablePage.Resources>
+        <Storyboard x:Name="WideToNarrowStory">
+            <ColorAnimation To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
+            <ColorAnimation To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
+                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-260">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Drawer" d:IsOptimized="True"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="HamburgerBtn">
+                <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TitleTB">
+                <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ProgressRing">
+                <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HamburgerBtn">
+                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="HamburgerBtn">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="True"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="NarrowToWideStory">
+            <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
+            <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-260"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="HamburgerBtn">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TitleTB">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ProgressRing">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HamburgerBtn">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="HamburgerBtn">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="True"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="False"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
         <Storyboard x:Name="ChangeColorStory">
             <ColorAnimation x:Name="ChangeColorAnim" To="White" From="White" Duration="0:0:0.2" Storyboard.TargetName="HeaderContentRootGrid" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
         </Storyboard>
@@ -109,10 +174,6 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MaskBorder">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.0" x:Name="SlideInKey2" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.8"/>
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="SlideOutStory">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
@@ -123,12 +184,21 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
+
+            <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Drawer" d:IsOptimized="True"/>
+        </Storyboard>
+        <Storyboard x:Name="MaskInStory">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MaskBorder">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" x:Name="SlideInKey2" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="MaskOutStory">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MaskBorder">
                 <EasingDoubleKeyFrame KeyTime="0" x:Name="SlideOutKey2" Value="0.8"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Drawer" d:IsOptimized="True"/>
         </Storyboard>
         <Storyboard x:Name="SwitchCommandBarToDelete">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="DefaultCommandBar">
@@ -162,39 +232,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                     </VisualState.Setters>
-                    <Storyboard>
-                        <ColorAnimation To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
-                        <ColorAnimation To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
-                            <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-260">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <CircleEase EasingMode="EaseOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-                        <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Drawer" d:IsOptimized="True"/>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="HamburgerBtn">
-                            <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TitleTB">
-                            <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ProgressRing">
-                            <SplineDoubleKeyFrame KeyTime="0" Value="-30"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HamburgerBtn">
-                            <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="HamburgerBtn">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="True"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
                 </VisualState>
                 <VisualState>
                     <!--Wide-->
@@ -203,39 +240,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                     </VisualState.Setters>
-                    <Storyboard>
-                        <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
-                        <ColorAnimation To="White" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Drawer">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="-260"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
-                                <EasingDoubleKeyFrame.EasingFunction>
-                                    <CircleEase EasingMode="EaseOut"/>
-                                </EasingDoubleKeyFrame.EasingFunction>
-                            </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="HamburgerBtn">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="TitleTB">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ProgressRing">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-30"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="HamburgerBtn">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="HamburgerBtn">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="True"/>
-                            <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="False"/>
-                        </ObjectAnimationUsingKeyFrames>
-                    </Storyboard>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup>
@@ -318,9 +322,9 @@
 				                    MaxWidth="750"  
                                     SelectionMode="None" 
                                     Margin="0,20,0,50"
-                                    CanReorderItems="True"
-                                    AllowDrop="True"
-                                    CanDragItems="True"
+                                    CanReorderItems="False"
+                                    AllowDrop="False"
+                                    CanDragItems="False"
                                     IsItemClickEnabled="True"
                                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
                                     attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"

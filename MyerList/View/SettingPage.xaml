@@ -35,9 +35,10 @@
             <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Image Source="ms-appx:///Assets/BackgrdImage.png" Grid.RowSpan="2" Stretch="UniformToFill" Opacity="0.02"/>
         <Grid Margin="0 -30 0 0">
             <Grid MaxWidth="550">
-                <TextBlock x:Uid="SettingTB"  FontFamily="{StaticResource MyerListThemeFontFamily}"  Text="SETTINGS" Foreground="{StaticResource DefaultColor}" FontSize="26.667" VerticalAlignment="Bottom" Margin="10,0,0,10" FontWeight="Bold" HorizontalAlignment="Left"/>
+                <TextBlock x:Uid="SettingTB"  FontFamily="{StaticResource MyerListThemeFontFamily}"  Text="SETTINGS" Foreground="{StaticResource MyerListDark}" FontSize="26.667" VerticalAlignment="Bottom" Margin="10,0,0,10" FontWeight="Bold" HorizontalAlignment="Left"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">

@@ -196,10 +196,7 @@
     <None Include="MyerList_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\back.png" />
-    <Content Include="Assets\back2.png" />
-    <Content Include="Assets\back3.png" />
-    <Content Include="Assets\back4.png" />
+    <Content Include="Assets\BackgrdImage.png" />
     <Content Include="Assets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\BadgeLogo.scale-150.png" />

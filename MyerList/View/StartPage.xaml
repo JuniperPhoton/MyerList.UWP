@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
     <base:BindablePage.Resources>
         <Storyboard x:Name="StartStory">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="textBlock">
@@ -300,16 +299,12 @@
     <base:BindablePage.Background>
         <StaticResource ResourceKey="MyerListGray"/>
     </base:BindablePage.Background>
-
-
     <Grid Background="{StaticResource MyerListGray}">
-
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition/>
-
         </Grid.RowDefinitions>
-        <Image x:Name="image" Source="ms-appx:///Assets/back.png" Stretch="UniformToFill" Grid.RowSpan="2" Grid.ColumnSpan="2" Opacity="0.02" Margin="0"/>
+        <Image x:Name="image" Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Grid.RowSpan="2" Grid.ColumnSpan="2" Opacity="0.02" Margin="0"/>
         <StackPanel x:Name="textBlock" Orientation="Vertical" Margin="0" VerticalAlignment="Center" Grid.RowSpan="2" >
             <StackPanel.RenderTransform>
                 <CompositeTransform/>
@@ -323,16 +318,15 @@
                 <StackPanel.RenderTransform>
                     <CompositeTransform TranslateY="-50"/>
                 </StackPanel.RenderTransform>
-
                 <TextBlock Text="Myer" FontSize="25" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}" />
                 <TextBlock Text="List" FontSize="25" FontWeight="Bold" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}"/>
             </StackPanel>
             <TextBlock x:Name="textBlock1" 
                        x:Uid="SubtitleTB"
-        	Foreground="{StaticResource MyerListDark}" 
-        	FontSize="15" 
-        	FontFamily="{StaticResource MyerListThemeFontFamily}" 
-        	VerticalAlignment="Center"  TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="0,20,0,0" FontWeight="Light" Opacity="0">
+        	            Foreground="{StaticResource MyerListDark}" 
+        	            FontSize="15" 
+        	            FontFamily="{StaticResource MyerListThemeFontFamily}" 
+        	            VerticalAlignment="Center"  TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" Margin="0,20,0,0" FontWeight="Light" Opacity="0">
                 <TextBlock.RenderTransform>
                     <CompositeTransform TranslateY="-50"/>
                 </TextBlock.RenderTransform>
@@ -396,12 +390,7 @@
                         <TextBlock Text="Offline Mode" FontSize="15"  x:Uid="OfflineTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListDark}" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                     </Border>
                 </Button>
-
             </StackPanel>
-
         </StackPanel>
-
-
     </Grid>
-
 </base:BindablePage>

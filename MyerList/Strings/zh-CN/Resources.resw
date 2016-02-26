@@ -501,4 +501,7 @@
   <data name="LiveTileColorTB.Text" xml:space="preserve">
     <value>动态磁贴颜色</value>
   </data>
+  <data name="AddTB.Text" xml:space="preserve">
+    <value>添加</value>
+  </data>
 </root>
