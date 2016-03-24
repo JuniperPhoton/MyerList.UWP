@@ -20,17 +20,6 @@ namespace MyerList.Helper
             param.Add(new KeyValuePair<string, string>("a", new Random().Next().ToString()));
             return param;
         }
-        public static string GetHashingCode()
-        {
-            //TIMESTAMP
-            DateTime timeStamp = new DateTime(1970, 1, 1);
-            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-            //SHA1 FUCK HASH
-            MD5 md5 = MD5.Create();
-            string requsetCode = NetworkHelper.GetMd5Hash(md5, unixTimestamp.ToString());
-            return NetworkHelper.GetMd5Hash(md5, "1ca2bcdb6fe26c8f50480a02c6439f24" + requsetCode);
-        }
 
         /// <summary>
         /// Check if email input is existed
@@ -45,7 +34,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("email", email));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserCheckExist, param,cts.Token);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserCheckExist, param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -85,15 +74,14 @@ namespace MyerList.Helper
         {
             try
             {
-                var md5 = MD5.Create();
-                var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密
+                var ps = MD5.GetMd5String(password); //把密码MD5加密
 
                 var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("email", email));
                 param.Add(new KeyValuePair<string, string>("password", ps));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserRegisterUri, param,cts.Token);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserRegisterUri, param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -113,7 +101,7 @@ namespace MyerList.Helper
                     return null;
                 }
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 throw;
             }
@@ -137,7 +125,7 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("email", email));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var message = await APIHelper.SendPostRequestAsync(UrlHelper.UserGetSalt, param,cts.Token);
+                var message = await APIHelper.SendPostRequestAsync(UrlHelper.UserGetSalt, param, cts.Token);
                 if (message.IsSuccessful)
                 {
                     var content = message.JsonSrc;
@@ -167,16 +155,15 @@ namespace MyerList.Helper
         {
             try
             {
-                var md5 = MD5.Create();
-                var ps = NetworkHelper.GetMd5Hash(md5, password); //把密码MD5加密,这是数据库存的密码
-                var psplussalt = NetworkHelper.GetMd5Hash(md5, ps + salt); //加密后的密码跟盐串联再MD5加密
+                var ps = MD5.GetMd5String(password); //把密码MD5加密,这是数据库存的密码
+                var psplussalt = MD5.GetMd5String(ps + salt); //加密后的密码跟盐串联再MD5加密
 
                 var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("email", email));
                 param.Add(new KeyValuePair<string, string>("password", psplussalt));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserLoginUri, param,cts.Token);
+                var result = await APIHelper.SendPostRequestAsync(UrlHelper.UserLoginUri, param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -204,7 +191,7 @@ namespace MyerList.Helper
                     return false;
                 }
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 throw;
             }
@@ -234,8 +221,8 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("cate", cate));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var task =APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                var task = APIHelper.SendPostRequestAsync(UrlHelper.ScheduleAddUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
+                    param, cts.Token);
                 var result = await task;
                 if (result.IsSuccessful)
                 {
@@ -253,7 +240,7 @@ namespace MyerList.Helper
                     return null;
                 }
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 throw;
             }
@@ -283,7 +270,7 @@ namespace MyerList.Helper
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                    param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -324,7 +311,7 @@ namespace MyerList.Helper
                 HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                    param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -362,7 +349,7 @@ namespace MyerList.Helper
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                    param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -400,7 +387,7 @@ namespace MyerList.Helper
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                    param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -436,7 +423,7 @@ namespace MyerList.Helper
                 HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                    param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -479,7 +466,7 @@ namespace MyerList.Helper
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await APIHelper.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
-                    param,cts.Token);
+                    param, cts.Token);
                 if (result.IsSuccessful)
                 {
                     var response = result.JsonSrc;
@@ -508,7 +495,7 @@ namespace MyerList.Helper
             try
             {
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={UrlHelper.SID}&access_token={UrlHelper.AccessToken}&a={new Random().Next()}",cts.Token);
+                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={UrlHelper.SID}&access_token={UrlHelper.AccessToken}&a={new Random().Next()}", cts.Token);
                 return response.JsonSrc;
             }
             catch (Exception)
