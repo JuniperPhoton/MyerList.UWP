@@ -147,6 +147,7 @@ namespace MyerList.Base
                     NavigationViewModel.Activate(e.Parameter);
                 }
             }
+
             SetNavigationBackBtn();
             SetUpTitleBarExtend();
             SetUpTitleBar();

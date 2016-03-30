@@ -8,6 +8,7 @@ namespace MyerList.Base
     public class CustomTitleBarPage : BindablePage
     {
         protected TitleBarUC TitleBarUC;
+
         public CustomTitleBarPage()
         {
 
@@ -22,13 +23,13 @@ namespace MyerList.Base
 
         private void CustomTitleBar()
         {
-            var oldContent = this.Content;
+            var currentContent = this.Content;
             TitleBarUC = new TitleBarUC();
             TitleBarUC.BackHandler += ((sender, e) =>
               {
                   if (Frame.CanGoBack) Frame.GoBack();
               });
-            (oldContent as Grid).Children.Add(TitleBarUC);
+            (currentContent as Grid).Children.Add(TitleBarUC);
         }
     }
 }

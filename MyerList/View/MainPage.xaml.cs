@@ -4,17 +4,21 @@ using JP.Utils.Helper;
 using Lousy.Mon;
 using MyerList.Base;
 using MyerList.Helper;
+using MyerList.UC;
 using MyerList.ViewModel;
 using MyerListCustomControl;
 using MyerListUWP.Common;
 using MyerListUWP.Helper;
+using System;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
 using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -94,6 +98,7 @@ namespace MyerListUWP.View
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
 
             InitialLayout();
+
         }
 
         private void MainVM_OnCategoryChanged()
@@ -304,7 +309,7 @@ namespace MyerListUWP.View
             MaskBorder.Visibility = Visibility.Visible;
             HamburgerBtn.PlayHamInStory();
             SlideInStory.Begin();
-            MaskInStory.Begin();
+            FadeMaskStory(true);
         }
 
         private void MaskBorder_Tapped(object sender, TappedRoutedEventArgs e)
@@ -314,7 +319,7 @@ namespace MyerListUWP.View
                 _isDrawerSlided = false;
                 HamburgerBtn.PlayHamOutStory();
                 SlideOutStory.Begin();
-                MaskOutStory.Begin();
+                FadeMaskStory(false);
             }
         }
 
@@ -367,11 +372,6 @@ namespace MyerListUWP.View
         #endregion
 
         #region Override
-
-        protected override void SetUpTitleBarExtend()
-        {
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-        }
 
         protected override void SetNavigationBackBtn()
         {
@@ -455,6 +455,9 @@ namespace MyerListUWP.View
                 StatusBarHelper.SetUpStatusBar();
             }
             Frame.BackStack.Clear();
+
+            var titleBarUC = new EmptyTitleControl();
+            (this.Content as Grid).Children.Add(titleBarUC);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -479,6 +482,21 @@ namespace MyerListUWP.View
                 FeatureGrid.Visibility = Visibility.Collapsed;
             }).After(anim1);
             LocalSettingHelper.AddValue(ResourcesHelper.GetDicString("FeatureToken"), "true");
+        }
+        #endregion
+
+        #region Composition Anim
+        private void FadeMaskStory(bool isIn)
+        {
+            var root = ElementCompositionPreview.GetElementVisual(MaskBorder);
+            var compositor = root.Compositor;
+            var anim = compositor.CreateScalarKeyFrameAnimation();
+            anim.InsertExpressionKeyFrame(1f, "isIn?0.8f:0f");
+            anim.Duration = TimeSpan.FromMilliseconds(1500);
+            //anim.IterationCount = 1;
+            //anim.IterationBehavior = AnimationIterationBehavior.Count;
+            //anim.StopBehavior = AnimationStopBehavior.SetToFinalValue;
+            root.StartAnimation("Opacity",anim);
         }
         #endregion
     }

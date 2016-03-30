@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace MyerList
 {
-
     public sealed partial class SettingPage : CustomTitleBarPage
     {
         private SettingPageViewModel SettingVM
