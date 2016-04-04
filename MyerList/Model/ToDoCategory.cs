@@ -85,7 +85,7 @@ namespace MyerList.Model
         {
             if(!string.IsNullOrEmpty(CateColorString))
             {
-                this.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(CateColorString));
+                this.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(CateColorString).Value);
             }
         }
 
@@ -102,7 +102,7 @@ namespace MyerList.Model
 
                 var newCate = new ToDoCategory();
                 newCate.CateName = name;
-                newCate.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(color.Replace("#FF","#")));
+                newCate.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(color).Value);
                 list.Add(newCate);
             }
             return list;

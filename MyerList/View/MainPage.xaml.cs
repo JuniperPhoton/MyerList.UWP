@@ -499,5 +499,10 @@ namespace MyerListUWP.View
             root.StartAnimation("Opacity",anim);
         }
         #endregion
+
+        private void DisplayedListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+
+        }
     }
 }
