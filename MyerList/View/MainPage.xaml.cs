@@ -10,6 +10,7 @@ using MyerListCustomControl;
 using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System;
+using System.Numerics;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
 using Windows.UI;
@@ -17,6 +18,7 @@ using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
@@ -36,6 +38,8 @@ namespace MyerListUWP.View
                 return DataContext as MainViewModel;
             }
         }
+
+        private Compositor _compositor;
 
         //当前抽屉是否出现了
         private bool _isDrawerSlided = false;
@@ -72,7 +76,7 @@ namespace MyerListUWP.View
             {
                 Source = MainVM,
                 Path = new PropertyPath("ShowPaneOpen"),
-                Mode=BindingMode.TwoWay
+                Mode = BindingMode.TwoWay
             };
             BindingOperations.SetBinding(this, IsAddingPaneOpenProperty, b);
 
@@ -98,7 +102,12 @@ namespace MyerListUWP.View
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
 
             InitialLayout();
+            InitialCompositor();
+        }
 
+        private void InitialCompositor()
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         }
 
         private void MainVM_OnCategoryChanged()
@@ -114,7 +123,7 @@ namespace MyerListUWP.View
             {
                 var solidColor = HeaderContentRootGrid.Background as SolidColorBrush;
                 if (solidColor == null) return;
-                if (solidColor.Color!=MainVM.CateColor.Color)
+                if (solidColor.Color != MainVM.CateColor.Color)
                 {
                     ChangeColorAnim.To = MainVM.CateColor.Color;
                     ChangeColorAnim.From = Colors.White;
@@ -124,7 +133,7 @@ namespace MyerListUWP.View
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
                 TitleBarHelper.SetUpForeWhiteTitleBar();
-            }                
+            }
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -153,7 +162,7 @@ namespace MyerListUWP.View
             MainPage_SizeChanged(null, null);
         }
 
-        public static void IsAddingPaneOpenPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs args)
+        public static void IsAddingPaneOpenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var page = d as MainPage;
             if (args.NewValue == args.OldValue) return;
@@ -219,7 +228,7 @@ namespace MyerListUWP.View
 
             UpdateColorWhenSizeChanged();
 
-            if(ListContentGrid.Margin.Left!=left)
+            if (ListContentGrid.Margin.Left != left)
             {
                 ListContentGrid.Margin = new Thickness(left, 0, right, 0);
                 HeaderContentGrid.Margin = new Thickness(left, 0, right, 20);
@@ -235,7 +244,7 @@ namespace MyerListUWP.View
 
         private void UpdateColorWhenSizeChanged()
         {
-            if(Window.Current.Bounds.Width >= 720)
+            if (Window.Current.Bounds.Width >= 720)
             {
                 if (!_isToggleAnim1)
                 {
@@ -417,7 +426,7 @@ namespace MyerListUWP.View
         /// <returns>是否已经被处理了</returns>
         private bool HandleBackLogic()
         {
-            if(FeatureGrid.Visibility==Visibility.Visible)
+            if (FeatureGrid.Visibility == Visibility.Visible)
             {
                 FeatureOkClick(null, null);
                 return true;
@@ -476,7 +485,7 @@ namespace MyerListUWP.View
         #region Feature
         private void FeatureOkClick(object sender, RoutedEventArgs e)
         {
-            var anim1=Oli.Fade(FeatureGrid).From(1).To(0).For(0.2, OrSo.Seconds).Now();
+            var anim1 = Oli.Fade(FeatureGrid).From(1).To(0).For(0.2, OrSo.Seconds).Now();
             Oli.Run(() =>
             {
                 FeatureGrid.Visibility = Visibility.Collapsed;
@@ -496,13 +505,56 @@ namespace MyerListUWP.View
             //anim.IterationCount = 1;
             //anim.IterationBehavior = AnimationIterationBehavior.Count;
             //anim.StopBehavior = AnimationStopBehavior.SetToFinalValue;
-            root.StartAnimation("Opacity",anim);
+            root.StartAnimation("Opacity", anim);
         }
         #endregion
 
         private void DisplayedListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
+            int index = args.ItemIndex;
+            var root = args.ItemContainer.ContentTemplateRoot as UserControl;
+            // Don't run an entrance animation if we're in recycling
+            if (!args.InRecycleQueue)
+            {
+                args.ItemContainer.Loaded += ItemContainer_Loaded; ;
+            }
+        }
 
+        private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
+        {
+            var itemsPanel = (ItemsStackPanel)DisplayedListView.ItemsPanelRoot;
+            var itemContainer = (ListViewItem)sender;
+            var itemIndex = DisplayedListView.IndexFromContainer(itemContainer);
+
+            var uc = itemContainer.ContentTemplateRoot as UIElement;
+
+            // Don't animate if we're not in the visible viewport
+            if (itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
+            {
+                var itemVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
+
+                float width = (float)uc.RenderSize.Width;
+                float height = (float)uc.RenderSize.Height;
+                itemVisual.CenterPoint = new Vector3(width / 2, height / 2, 0f);
+                itemVisual.Opacity = 0f;
+                itemVisual.Offset = new Vector3(0, 50, 0);
+
+                // Create KeyFrameAnimations
+                KeyFrameAnimation offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+                offsetAnimation.InsertExpressionKeyFrame(1f, "0");
+                offsetAnimation.Duration = TimeSpan.FromMilliseconds(1250);
+                offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
+
+                KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
+                fadeAnimation.InsertExpressionKeyFrame(1f, "1");
+                fadeAnimation.Duration = TimeSpan.FromMilliseconds(1500);
+                fadeAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
+
+                // Start animations
+                itemVisual.StartAnimation("Offset.Y", offsetAnimation);
+                itemVisual.StartAnimation("Opacity", fadeAnimation);
+            }
+            itemContainer.Loaded -= ItemContainer_Loaded;
         }
     }
 }

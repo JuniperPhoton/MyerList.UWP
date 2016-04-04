@@ -350,7 +350,10 @@
                                     CanReorderItems="False"
                                     AllowDrop="False"
                                     CanDragItems="False"
-                                    MaxWidth="450"  
+                                    MaxWidth="450"
+                                    ShowsScrollingPlaceholders="False"
+                                    ContainerContentChanging="DisplayedListView_ContainerContentChanging"
+                                    ItemContainerTransitions="{x:Null}"
                                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
                                     SelectionMode="None" BorderThickness="10,0" Margin="0,30,0,50">
                                 </ListView>
