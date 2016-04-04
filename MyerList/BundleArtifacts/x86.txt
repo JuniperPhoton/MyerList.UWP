@@ -1,2 +1,0 @@
-MainPackage=D:\Dev\apps\MyerListUWP\MyerList\bin\x86\Release\MyerList_3.0.1.0_x86.appx
-SymbolPackage=D:\Dev\apps\MyerListUWP\MyerList\AppPackages\MyerList_3.0.1.0_Test\MyerList_3.0.1.0_x86.appxsym

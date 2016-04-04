@@ -211,3 +211,7 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 MyerListUWP.VC.opendb
+MyerList/BundleArtifacts/Upload/arm.txt
+MyerList/BundleArtifacts/Upload/x86.txt
+MyerList/BundleArtifacts/arm.txt
+MyerList/BundleArtifacts/x86.txt
