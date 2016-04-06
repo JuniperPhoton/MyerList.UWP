@@ -2,6 +2,8 @@
 using JP.Utils.Data;
 using JP.Utils.Helper;
 using Lousy.Mon;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
 using MyerList.Base;
 using MyerList.Helper;
 using MyerList.UC;
@@ -11,20 +13,21 @@ using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System;
 using System.Numerics;
-using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Phone.UI.Input;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Composition.Toolkit;
+using System.Threading.Tasks;
 
 namespace MyerListUWP.View
 {
@@ -39,7 +42,24 @@ namespace MyerListUWP.View
             }
         }
 
-        private Compositor _compositor;
+        #region DP
+        //添加/修改的面板是否出现
+        public bool IsAddingPanelOpen
+        {
+            get { return (bool)GetValue(IsAddingPanelOpenProperty); }
+            set { SetValue(IsAddingPanelOpenProperty, value); }
+        }
+
+        public static DependencyProperty IsAddingPanelOpenProperty =
+            DependencyProperty.Register("IsAddingPanelOpen", typeof(bool), typeof(MainPage), new PropertyMetadata(false,
+               (sender, e) =>
+               {
+                   var page = sender as MainPage;
+                   if (e.NewValue == e.OldValue) return;
+                   if ((bool)e.NewValue) page.ShowAddingPanel();
+                   else page.HideAddingPanel();
+               }));
+        #endregion
 
         //当前抽屉是否出现了
         private bool _isDrawerSlided = false;
@@ -47,38 +67,21 @@ namespace MyerListUWP.View
         //当前的手指位置，用于手势
         private double _pointOriX = 0;
 
-        //添加/修改的面板是否出现
-        public bool IsAddingPaneOpen
-        {
-            get { return (bool)GetValue(IsAddingPaneOpenProperty); }
-            set { SetValue(IsAddingPaneOpenProperty, value); }
-        }
-
-        public static DependencyProperty IsAddingPaneOpenProperty =
-            DependencyProperty.Register("IsAddingPaneOpen", typeof(bool), typeof(MainPage), new PropertyMetadata(false,
-               IsAddingPaneOpenPropertyChanged));
+        #region Composition vars
+        private Compositor _compositor;
+        private CompositionImageFactory _imageLoader;
+        private CompositionImage _circleMaskSurface;
+        private SpriteVisual _coloredCircleVisual;
+        private ContainerVisual _containerVisual;
+        private Visual _addingPaneVisual;
+        private Visual _drawerVisual;
+        private Visual _contentVisual;
+        private Visual _rootVisual;
+        #endregion
 
         public MainPage()
         {
             this.InitializeComponent();
-
-            if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
-            {
-                if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
-                {
-                    FeatureGrid.Visibility = Visibility.Collapsed;
-                }
-                else FeatureGrid.Visibility = Visibility.Visible;
-            }
-            else FeatureGrid.Visibility = Visibility.Visible;
-
-            var b = new Binding()
-            {
-                Source = MainVM,
-                Path = new PropertyPath("ShowPaneOpen"),
-                Mode = BindingMode.TwoWay
-            };
-            BindingOperations.SetBinding(this, IsAddingPaneOpenProperty, b);
 
             SlideOutStory.Completed += ((senders, es) =>
               {
@@ -93,21 +96,54 @@ namespace MyerListUWP.View
                   SlideInKey2.Value = 0;
                   _isDrawerSlided = true;
               });
+
             CoreWindow.GetForCurrentThread().SizeChanged += MainPage_SizeChanged;
-
-            RegisterMessenger();
-
-            this.Loaded += MainPage_Loaded;
 
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
 
+            RegisterMessenger();
             InitialLayout();
             InitialCompositor();
+            InitialBinding();
+            InitialFeature();
+        }
+
+        private void InitialFeature()
+        {
+            if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
+            {
+                if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
+                {
+                    FeatureGrid.Visibility = Visibility.Collapsed;
+                }
+                else FeatureGrid.Visibility = Visibility.Visible;
+            }
+            else FeatureGrid.Visibility = Visibility.Visible;
+
+        }
+
+        private void InitialBinding()
+        {
+            var b = new Binding()
+            {
+                Source = MainVM,
+                Path = new PropertyPath("ShowPanelOpen"),
+                Mode = BindingMode.TwoWay
+            };
+            BindingOperations.SetBinding(this, IsAddingPanelOpenProperty, b);
         }
 
         private void InitialCompositor()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _addingPaneVisual = ElementCompositionPreview.GetElementVisual(AddingPanel);
+            _addingPaneVisual.Offset = new Vector3(0f, 50f, 0);
+            _addingPaneVisual.Opacity = 0;
+            _drawerVisual = ElementCompositionPreview.GetElementVisual(Drawer);
+            _contentVisual = ElementCompositionPreview.GetElementVisual(ContentRootGird);
+            _drawerVisual.AnchorPoint = new Vector2(0.5f, 0.5f);
+            _contentVisual.AnchorPoint = new Vector2(0.5f, 0.5f);
+            _rootVisual = ElementCompositionPreview.GetElementVisual(VisualGrid);
         }
 
         private void MainVM_OnCategoryChanged()
@@ -136,13 +172,6 @@ namespace MyerListUWP.View
             }
         }
 
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            AddingPaneFirstOffset.Value = -this.ActualWidth;
-            AddingPaneLastOffset.Value = -this.ActualWidth;
-            AddingPanelTransform.TranslateX = -this.ActualWidth;
-        }
-
         private void InitialLayout()
         {
             if (Window.Current.Bounds.Width >= 720)
@@ -160,14 +189,6 @@ namespace MyerListUWP.View
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
             }
             MainPage_SizeChanged(null, null);
-        }
-
-        public static void IsAddingPaneOpenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
-        {
-            var page = d as MainPage;
-            if (args.NewValue == args.OldValue) return;
-            if ((bool)args.NewValue) page.EnterAddMode();
-            else page.LeaveAddmode();
         }
 
         private void RegisterMessenger()
@@ -233,10 +254,6 @@ namespace MyerListUWP.View
                 ListContentGrid.Margin = new Thickness(left, 0, right, 0);
                 HeaderContentGrid.Margin = new Thickness(left, 0, right, 20);
             }
-
-            AddingPaneFirstOffset.Value = -this.ActualWidth;
-            AddingPaneLastOffset.Value = -this.ActualWidth;
-            AddingPanelTransform.TranslateX = -this.ActualWidth;
         }
 
         bool _isToggleAnim1 = false;
@@ -281,28 +298,121 @@ namespace MyerListUWP.View
         #endregion
 
         #region CommandBar
-        private double origianlTranslateX = 0;
-        private void EnterAddMode()
+        private async Task KickOffCircleVisualAnimation()
         {
-            var transfrom = Drawer.RenderTransform as CompositeTransform;
-            origianlTranslateX = transfrom.TranslateX;
 
-            Oli.MoveXOf(Drawer).From(origianlTranslateX).To(transfrom.TranslateX - 100).
-                With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
+            if (_containerVisual == null)
+            {
+                _containerVisual = _compositor.CreateContainerVisual();
 
-            AddStory.Begin();
+                ElementCompositionPreview.SetElementChildVisual(VisualGrid, _containerVisual);
+
+                //Load image
+                _imageLoader = CompositionImageFactory.CreateCompositionImageFactory(_compositor);
+                _circleMaskSurface = _imageLoader.CreateImageFromUri(new Uri("ms-appx:///Assets/Icon/CircleOpacityMask.png"));
+            }
+
+            _containerVisual.Children.RemoveAll();
+
+            var point = AddBtn.TransformToVisual(VisualGrid).TransformPoint(new Point(AddBtn.ActualWidth / 2, AddBtn.ActualHeight / 2));
+
+            // create the visual with a solid colored circle as brush
+            _coloredCircleVisual = _compositor.CreateSpriteVisual();
+            _coloredCircleVisual.Brush = CreateCircleBrushWithColor(App.MainVM.AddingCateColor.Color);
+            _coloredCircleVisual.Offset = new Vector3((float)point.X, (float)point.Y, 1f);
+            _coloredCircleVisual.Size = new Vector2(50, 50);
+
+            // we want our scale animation to be anchored around the center of the visual
+            _coloredCircleVisual.AnchorPoint = new Vector2(0.5f, 0.5f);
+
+            _containerVisual.Children.InsertAtTop(_coloredCircleVisual);
+
+            var radius = CircleVisualHelper.GetLongestRadius(point);
+
+            var animation = CircleVisualHelper.CreateBoomAnim(_compositor, true, (float)radius / 25f);
+
+            _coloredCircleVisual.StartAnimation("Scale.X", animation);
+            _coloredCircleVisual.StartAnimation("Scale.Y", animation);
+
+            await Task.Delay(300);
+
+            ShowOrHideAddingPane(true);
             AddingPanel.SetFocus();
 
             TitleBarHelper.SetUpForeWhiteTitleBar();
         }
 
-        private void LeaveAddmode()
+        private CompositionEffectBrush CreateCircleBrushWithColor(Color color)
         {
-            RemoveStory.Begin();
+            var colorBrush = _compositor.CreateColorBrush(color);
 
-            var transfrom = Drawer.RenderTransform as CompositeTransform;
-            Oli.MoveXOf(Drawer).To(origianlTranslateX).From(transfrom.TranslateX - 100).
-                With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
+            //
+            // Because Windows.UI.Composition does not have a Circle visual, we will 
+            // work around by using a circular opacity mask
+            // Create a simple Composite Effect, using DestinationIn (S * DA), 
+            // with a color source and a named parameter source.
+            //
+            var effect = new CompositeEffect
+            {
+                Mode = CanvasComposite.DestinationIn,
+                Sources =
+                {
+                    new ColorSourceEffect()
+                    {
+                        Color = color
+                    },
+                    new CompositionEffectSourceParameter("mask")
+                }
+
+            };
+            var factory = _compositor.CreateEffectFactory(effect);
+            var brush = factory.CreateBrush();
+
+            //
+            // Create the mask brush using the circle mask
+            //
+            CompositionSurfaceBrush maskBrush = _compositor.CreateSurfaceBrush();
+            maskBrush.Surface = _circleMaskSurface.Surface;
+
+            brush.SetSourceParameter("mask", maskBrush);
+
+            return brush;
+        }
+
+        private void ShowOrHideAddingPane(bool show)
+        {
+            AddingPanel.Visibility = Visibility.Visible;
+
+            var offsetYAnim = _compositor.CreateScalarKeyFrameAnimation();
+            offsetYAnim.InsertKeyFrame(1f, show ? 0f : 50f);
+            offsetYAnim.Duration = TimeSpan.FromMilliseconds(500);
+
+            var fadeAnim = _compositor.CreateScalarKeyFrameAnimation();
+            fadeAnim.InsertKeyFrame(1f, show ? 1f : 0f);
+            fadeAnim.Duration = TimeSpan.FromMilliseconds(500);
+
+            _addingPaneVisual.StartAnimation("Opacity", fadeAnim);
+            _addingPaneVisual.StartAnimation("Offset.Y", offsetYAnim);
+        }
+
+        private async void ShowAddingPanel()
+        {
+            await KickOffCircleVisualAnimation();
+        }
+
+        private void HideAddingPanel()
+        {
+            var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            _coloredCircleVisual.StartAnimation("Scale.X", CircleVisualHelper.CreateBoomAnim(_compositor, false, null));
+            _coloredCircleVisual.StartAnimation("Scale.Y", CircleVisualHelper.CreateBoomAnim(_compositor, false, null));
+
+            ShowOrHideAddingPane(false);
+
+            batch.End();
+            batch.Completed += ((sender, e) =>
+              {
+                  AddingPanel.Visibility = Visibility.Collapsed;
+              });
 
             if (Window.Current.Bounds.Width >= 720)
             {
@@ -343,7 +453,7 @@ namespace MyerListUWP.View
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             if (DeviceHelper.IsDesktop) return;
-            if (_pointOriX < 20 && AppSettings.Instance.EnableGesture && !IsAddingPaneOpen)
+            if (_pointOriX < 20 && AppSettings.Instance.EnableGesture && !IsAddingPanelOpen)
             {
                 var transform = Drawer.RenderTransform as CompositeTransform;
                 var newX = transform.TranslateX + e.Delta.Translation.X;
@@ -431,9 +541,9 @@ namespace MyerListUWP.View
                 FeatureOkClick(null, null);
                 return true;
             }
-            if (MainVM.ShowPaneOpen)
+            if (MainVM.ShowPanelOpen)
             {
-                MainVM.ShowPaneOpen = false;
+                MainVM.ShowPanelOpen = false;
                 return true;
             }
             if (MainVM.SelectedCate != 0)
@@ -498,17 +608,14 @@ namespace MyerListUWP.View
         private void FadeMaskStory(bool isIn)
         {
             var root = ElementCompositionPreview.GetElementVisual(MaskBorder);
-            var compositor = root.Compositor;
-            var anim = compositor.CreateScalarKeyFrameAnimation();
+            var anim = _compositor.CreateScalarKeyFrameAnimation();
             anim.InsertExpressionKeyFrame(1f, "isIn?0.8f:0f");
             anim.Duration = TimeSpan.FromMilliseconds(1500);
-            //anim.IterationCount = 1;
-            //anim.IterationBehavior = AnimationIterationBehavior.Count;
-            //anim.StopBehavior = AnimationStopBehavior.SetToFinalValue;
             root.StartAnimation("Opacity", anim);
         }
         #endregion
 
+        #region List anim
         private void DisplayedListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             int index = args.ItemIndex;
@@ -516,7 +623,7 @@ namespace MyerListUWP.View
             // Don't run an entrance animation if we're in recycling
             if (!args.InRecycleQueue)
             {
-                args.ItemContainer.Loaded += ItemContainer_Loaded; ;
+                args.ItemContainer.Loaded += ItemContainer_Loaded;
             }
         }
 
@@ -542,12 +649,12 @@ namespace MyerListUWP.View
                 // Create KeyFrameAnimations
                 KeyFrameAnimation offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
                 offsetAnimation.InsertExpressionKeyFrame(1f, "0");
-                offsetAnimation.Duration = TimeSpan.FromMilliseconds(1250);
+                offsetAnimation.Duration = TimeSpan.FromMilliseconds(1000);
                 offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
 
                 KeyFrameAnimation fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
                 fadeAnimation.InsertExpressionKeyFrame(1f, "1");
-                fadeAnimation.Duration = TimeSpan.FromMilliseconds(1500);
+                fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
                 fadeAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
 
                 // Start animations
@@ -556,5 +663,6 @@ namespace MyerListUWP.View
             }
             itemContainer.Loaded -= ItemContainer_Loaded;
         }
+        #endregion
     }
 }

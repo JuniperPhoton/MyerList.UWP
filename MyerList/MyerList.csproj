@@ -117,6 +117,7 @@
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Helper\CategoryHelper.cs" />
     <Compile Include="Common\InvokeCommandByKeyDown.cs" />
+    <Compile Include="Helper\CircleVisualHelper.cs" />
     <Compile Include="Helper\JumpListHelper.cs" />
     <Compile Include="Common\MessengerTokens.cs" />
     <Compile Include="Helper\ResourcesHelper.cs" />
@@ -212,6 +213,7 @@
     <Content Include="Assets\Icon\Account.png" />
     <Content Include="Assets\Icon\Alert_BLACK.png" />
     <Content Include="Assets\Icon\cate_per.png" />
+    <Content Include="Assets\Icon\CircleOpacityMask.png" />
     <Content Include="Assets\Icon\DELETE_BLACK.png" />
     <Content Include="Assets\Icon\DELETE_WHITE.png" />
     <Content Include="Assets\Icon\Like_BLACK.png" />
@@ -361,6 +363,10 @@
     <ProjectReference Include="..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
       <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
       <Name>JP.Utils.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.UI.Composition.Toolkit\Microsoft.UI.Composition.Toolkit.vcxproj">
+      <Project>{08a7d060-593a-4978-8dcc-b2029aca7c95}</Project>
+      <Name>Microsoft.UI.Composition.Toolkit</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Monolith-UWP\MonolithLib\MonolithLib.csproj">
       <Project>{61250642-32f1-461d-b166-d946fbdc6429}</Project>

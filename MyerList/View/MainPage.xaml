@@ -374,7 +374,7 @@
                     <CompositeTransform/>
                 </Grid.RenderTransform>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.AddCommand}">
+                    <Button x:Name="AddBtn" Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.AddCommand}">
                         <SymbolIcon Symbol="Add"/>
                     </Button>
                     <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.SyncCommand}">
@@ -414,15 +414,15 @@
                 <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>
         </uc:NavigationDrawer>
+        <Grid x:Name="VisualGrid" Grid.ColumnSpan="5" Grid.RowSpan="5">
+            
+        </Grid>
         <uc:AddingPanel x:Name="AddingPanel" 
                         Margin="0 -30 0 0"
                         Visibility="Visible"
                         Background="{StaticResource MyerListBlueLight}" 
                         Grid.RowSpan="5" 
                         VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
-            <uc:AddingPanel.RenderTransform>
-                <CompositeTransform x:Name="AddingPanelTransform" TranslateX="-400"/>
-            </uc:AddingPanel.RenderTransform>
         </uc:AddingPanel>
         <Grid x:Name="FeatureGrid" Visibility="Collapsed">
             <Border Background="#E1000000"/>

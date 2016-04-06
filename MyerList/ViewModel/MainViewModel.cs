@@ -323,7 +323,7 @@ namespace MyerList.ViewModel
                     AddingCate = SelectedCate;
                     _addMode = AddMode.Add;
 
-                    ShowPaneOpen = true;
+                    ShowPanelOpen = true;
                 });
             }
         }
@@ -350,17 +350,17 @@ namespace MyerList.ViewModel
         #endregion
 
         #region 添加/修改面板
-        private bool _showPaneOpen;
-        public bool ShowPaneOpen
+        private bool _showPanelOpen;
+        public bool ShowPanelOpen
         {
             get
             {
-                return _showPaneOpen;
+                return _showPanelOpen;
             }
             set
             {
-                _showPaneOpen = value;
-                RaisePropertyChanged(() => ShowPaneOpen);
+                _showPanelOpen = value;
+                RaisePropertyChanged(() => ShowPanelOpen);
             }
         }
 
@@ -447,7 +447,7 @@ namespace MyerList.ViewModel
                 }
                 return _cancelCommand = new RelayCommand(() =>
                 {
-                    ShowPaneOpen = false;
+                    ShowPanelOpen = false;
                     EditedToDo = new ToDo();
                 });
             }
@@ -600,7 +600,7 @@ namespace MyerList.ViewModel
                     {
                         _addMode = AddMode.Modify;
 
-                        ShowPaneOpen = true;
+                        ShowPanelOpen = true;
 
                         var id = todo.ID;
                         var targetToDo = AllToDos.ToList().Find(sche =>
@@ -962,7 +962,7 @@ namespace MyerList.ViewModel
                         return;
                     }
 
-                    ShowPaneOpen = false;
+                    ShowPanelOpen = false;
 
                     //显示进度条
                     IsLoading = Visibility.Visible;
