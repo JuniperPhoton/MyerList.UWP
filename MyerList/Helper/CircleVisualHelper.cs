@@ -37,7 +37,7 @@ namespace MyerList.Helper
         {
             var animation = compositor.CreateScalarKeyFrameAnimation();
             animation.InsertKeyFrame(1f, isIn ? (radiusRatioForIn == null ? 40f : radiusRatioForIn.Value) : 0f, CreateCubicEasingFunc(compositor));
-            animation.Duration = TimeSpan.FromMilliseconds(500);
+            animation.Duration = TimeSpan.FromMilliseconds(300);
 
             return animation;
         }

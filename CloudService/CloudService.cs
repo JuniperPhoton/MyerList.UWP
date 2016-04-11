@@ -495,7 +495,8 @@ namespace MyerList.Helper
             try
             {
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var response = await APIHelper.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={UrlHelper.SID}&access_token={UrlHelper.AccessToken}&a={new Random().Next()}", cts.Token);
+                var response = await APIHelper.SendGetRequestAsync(
+                    UrlHelper.UserGetCateUri + $"sid={UrlHelper.SID}&access_token={UrlHelper.AccessToken}&a={new Random().Next()}", cts.Token);
                 return response.JsonSrc;
             }
             catch (Exception)

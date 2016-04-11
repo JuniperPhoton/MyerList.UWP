@@ -8,6 +8,7 @@ using System;
 using MyerList.Model;
 using MyerListUWP.Common;
 using JP.Utils.Helper;
+using JP.Utils.Debug;
 
 namespace MyerList.UC
 {
@@ -61,14 +62,14 @@ namespace MyerList.UC
 
         private void InitialManipulation()
         {
-            SchduleTempleteGrid.ManipulationDelta -= Grid_ManipulationDelta;
-            SchduleTempleteGrid.ManipulationCompleted -= Grid_ManipulationCompleted;
+            ScheduleTempleteGrid.ManipulationDelta -= Grid_ManipulationDelta;
+            ScheduleTempleteGrid.ManipulationCompleted -= Grid_ManipulationCompleted;
 
-            SchduleTempleteGrid.ManipulationDelta += Grid_ManipulationDelta;
-            SchduleTempleteGrid.ManipulationCompleted += Grid_ManipulationCompleted;
+            ScheduleTempleteGrid.ManipulationDelta += Grid_ManipulationDelta;
+            ScheduleTempleteGrid.ManipulationCompleted += Grid_ManipulationCompleted;
 
             _tranTemplete = new TranslateTransform();
-            SchduleTempleteGrid.RenderTransform = _tranTemplete;
+            ScheduleTempleteGrid.RenderTransform = _tranTemplete;
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace MyerList.UC
             BackStory.Begin();
         }
 
-        private void SchduleTempleteGrid_OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        private void ScheduleTempleteGrid_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
             InitialManipulation();
         }
@@ -141,7 +142,7 @@ namespace MyerList.UC
             {
                 if (e.Cumulative.Translation.X < -100)
                 {
-                    if (SchduleTempleteGrid != null)
+                    if (ScheduleTempleteGrid != null)
                     {
                         Messenger.Default.Send(new GenericMessage<ToDo>(this.DataContext as ToDo), MessengerTokens.DeleteToDo);
                     }
@@ -153,7 +154,7 @@ namespace MyerList.UC
             _isToBeDeleted = false;
         }
 
-        private void SchduleTempleteGrid_Holding(object sender, HoldingRoutedEventArgs e)
+        private void ScheduleTempleteGrid_Holding(object sender, HoldingRoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;
             if (element != null)
@@ -164,14 +165,14 @@ namespace MyerList.UC
                     var position = e.GetPosition(null);
                     attatchedFlyout.ShowAt(null, position);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    var task = ExceptionHelper.WriteRecordAsync(ex, nameof(ScheduleTempleteGrid_Holding), nameof(ScheduleControl));
                 }
             }
         }
 
-        private void SchduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void ScheduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if(DeviceHelper.IsDesktop)
             {

@@ -7,7 +7,7 @@ do
 	switch ($action) {
 		case 'CheckUserExist':
 			$email=$_POST['email'];
-			$queryFind=$pdo->prepare('SELECT * FROM User WHERE email=:email');
+			$queryFind=$pdo->prepare('SELECT * FROM user WHERE email=:email');
 			$queryFind->bindParam(':email',$email,PDO::PARAM_STR);
 			$result=$queryFind->execute();
 			if($result)
@@ -42,7 +42,7 @@ do
 		case 'GetSalt':
 			$email=$_POST['email'];
 
-			$queryFind=$pdo->prepare('SELECT salt from User WHERE email=:email');
+			$queryFind=$pdo->prepare('SELECT salt from user WHERE email=:email');
 			$queryFind->bindParam(':email',$email,PDO::PARAM_STR);
 			$result=$queryFind->execute();
 			if($result)
@@ -85,7 +85,7 @@ do
 
 
 
-			$queryFind=$pdo->prepare('SELECT * FROM User WHERE email=:email');
+			$queryFind=$pdo->prepare('SELECT * FROM user WHERE email=:email');
 			$queryFind->bindParam(':email',$email,PDO::PARAM_STR);
 			$resultFind=$queryFind->execute();
 			if($resultFind)
@@ -109,7 +109,7 @@ do
 			$salt=GetRandStr(10);
 			$psSalt=md5($password.$salt);
 
-			$queryInsert=$pdo->prepare('INSERT INTO User(email,password,salt) VALUES (:email,:password,:salt)');
+			$queryInsert=$pdo->prepare('INSERT INTO user(email,password,salt) VALUES (:email,:password,:salt)');
 			$queryInsert->bindParam(':email',$email,PDO::PARAM_STR);
 			$queryInsert->bindParam(':password',$psSalt,PDO::PARAM_STR);
 			$queryInsert->bindParam(':salt',$salt,PDO::PARAM_STR);
@@ -120,7 +120,7 @@ do
 				$sid=$pdo->lastInsertId();
 				$accessToken=md5($sid);
 
-				$queryInsert=$pdo->prepare('INSERT INTO AccessToken(sid,access_token) VALUES (:sid,:access_token)');
+				$queryInsert=$pdo->prepare('INSERT INTO accesstoken(sid,access_token) VALUES (:sid,:access_token)');
 				$queryInsert->bindParam(':sid',$sid,PDO::PARAM_INT);
 				$queryInsert->bindParam(':access_token',$accessToken,PDO::PARAM_STR);
 				$resultInsert=$queryInsert->execute();
@@ -206,6 +206,61 @@ do
 			else
 			{
 
+			}
+        case 'GetCateInfo':
+			
+			$sid=$_GET['sid'];
+
+			$queryFind=$pdo->prepare('SELECT cate_info FROM user WHERE sid=:sid');
+			$queryFind->bindParam(':sid',$sid,PDO::PARAM_INT);
+			$result=$queryFind->execute();
+			if($result)
+			{
+                $raw=$queryFind->fetch();
+                $json=array_values($raw);
+					$ApiResult['isSuccessed']=true;
+					$ApiResult['error_code']=0;
+                    $ApiResult['Cate_Info']=$json[0];
+					$ApiResult['error_message']='';
+					break;
+			}
+			else
+			{
+                    $ApiResult['isSuccessed']=false;
+					$ApiResult['error_code']=100;
+					$ApiResult['error_message']=$queryFind->errorInfo();
+					break;
+			}
+        case 'UpdateCateInfo':
+			
+			$sid=$_GET['sid'];
+			$cate_info=$_POST['cate_info'];
+            
+            if($cate_info=='')
+            {
+                    $ApiResult['isSuccessed']=false;
+					$ApiResult['error_code']=100;
+					$ApiResult['error_message']='Lack cate_info';
+					break;
+            }
+
+			$queryFind=$pdo->prepare('UPDATE user SET cate_info=:cate_info WHERE sid=:sid');
+			$queryFind->bindParam(':sid',$sid,PDO::PARAM_INT);
+            $queryFind->bindParam(':cate_info',$cate_info,PDO::PARAM_STR);
+			$result=$queryFind->execute();
+			if($result)
+			{
+					$ApiResult['isSuccessed']=true;
+					$ApiResult['error_code']=0;
+					$ApiResult['error_message']='';
+					break;
+			}
+			else
+			{
+                    $ApiResult['isSuccessed']=false;
+					$ApiResult['error_code']=100;
+					$ApiResult['error_message']=$queryFind->errorInfo();
+					break;
 			}
 			
 		default:

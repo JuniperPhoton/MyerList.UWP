@@ -11,7 +11,7 @@
     d:DesignWidth="400">
     <UserControl.Resources>
         <Storyboard x:Name="BackStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="SchduleTempleteGrid">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ScheduleTempleteGrid">
                 <EasingDoubleKeyFrame x:Name="StartX" KeyTime="0" Value="266"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
@@ -41,7 +41,7 @@
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+    <Grid x:Name="ScheduleTempleteGrid" Margin="0 0 5 0" RightTapped="ScheduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="ScheduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>

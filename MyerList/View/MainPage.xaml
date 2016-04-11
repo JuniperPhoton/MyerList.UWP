@@ -414,10 +414,9 @@
                 <CompositeTransform x:Name="DrawerTransform" TranslateX="-260"/>
             </uc:NavigationDrawer.RenderTransform>
         </uc:NavigationDrawer>
-        <Grid x:Name="VisualGrid" Grid.ColumnSpan="5" Grid.RowSpan="5">
-            
-        </Grid>
-        <uc:AddingPanel x:Name="AddingPanel" 
+        <Grid x:Name="VisualGrid" Grid.ColumnSpan="5" Grid.RowSpan="5"/>
+        <uc:AddingPanel x:Name="AddingPanel"
+                        CacheMode="BitmapCache"
                         Margin="0 -30 0 0"
                         Visibility="Visible"
                         Background="{StaticResource MyerListBlueLight}" 

@@ -24,7 +24,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.UI.Composition.Toolkit;
 using System.Threading.Tasks;
@@ -52,11 +51,16 @@ namespace MyerListUWP.View
 
         public static DependencyProperty IsAddingPanelOpenProperty =
             DependencyProperty.Register("IsAddingPanelOpen", typeof(bool), typeof(MainPage), new PropertyMetadata(false,
-               (sender, e) =>
+               async(sender, e) =>
                {
                    var page = sender as MainPage;
                    if (e.NewValue == e.OldValue) return;
-                   if ((bool)e.NewValue) page.ShowAddingPanel();
+
+                   await Task.Delay(100);
+                   if ((bool)e.NewValue)
+                   {
+                       page.ShowAddingPanel();
+                   }
                    else page.HideAddingPanel();
                }));
         #endregion
@@ -66,6 +70,7 @@ namespace MyerListUWP.View
 
         //当前的手指位置，用于手势
         private double _pointOriX = 0;
+        private Point _itemClickPoint;
 
         #region Composition vars
         private Compositor _compositor;
@@ -137,7 +142,7 @@ namespace MyerListUWP.View
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _addingPaneVisual = ElementCompositionPreview.GetElementVisual(AddingPanel);
-            _addingPaneVisual.Offset = new Vector3(0f, 50f, 0);
+            _addingPaneVisual.Offset = new Vector3(0f, 48f, 0);
             _addingPaneVisual.Opacity = 0;
             _drawerVisual = ElementCompositionPreview.GetElementVisual(Drawer);
             _contentVisual = ElementCompositionPreview.GetElementVisual(ContentRootGird);
@@ -298,93 +303,13 @@ namespace MyerListUWP.View
         #endregion
 
         #region CommandBar
-        private async Task KickOffCircleVisualAnimation()
-        {
-
-            if (_containerVisual == null)
-            {
-                _containerVisual = _compositor.CreateContainerVisual();
-
-                ElementCompositionPreview.SetElementChildVisual(VisualGrid, _containerVisual);
-
-                //Load image
-                _imageLoader = CompositionImageFactory.CreateCompositionImageFactory(_compositor);
-                _circleMaskSurface = _imageLoader.CreateImageFromUri(new Uri("ms-appx:///Assets/Icon/CircleOpacityMask.png"));
-            }
-
-            _containerVisual.Children.RemoveAll();
-
-            var point = AddBtn.TransformToVisual(VisualGrid).TransformPoint(new Point(AddBtn.ActualWidth / 2, AddBtn.ActualHeight / 2));
-
-            // create the visual with a solid colored circle as brush
-            _coloredCircleVisual = _compositor.CreateSpriteVisual();
-            _coloredCircleVisual.Brush = CreateCircleBrushWithColor(App.MainVM.AddingCateColor.Color);
-            _coloredCircleVisual.Offset = new Vector3((float)point.X, (float)point.Y, 1f);
-            _coloredCircleVisual.Size = new Vector2(50, 50);
-
-            // we want our scale animation to be anchored around the center of the visual
-            _coloredCircleVisual.AnchorPoint = new Vector2(0.5f, 0.5f);
-
-            _containerVisual.Children.InsertAtTop(_coloredCircleVisual);
-
-            var radius = CircleVisualHelper.GetLongestRadius(point);
-
-            var animation = CircleVisualHelper.CreateBoomAnim(_compositor, true, (float)radius / 25f);
-
-            _coloredCircleVisual.StartAnimation("Scale.X", animation);
-            _coloredCircleVisual.StartAnimation("Scale.Y", animation);
-
-            await Task.Delay(300);
-
-            ShowOrHideAddingPane(true);
-            AddingPanel.SetFocus();
-
-            TitleBarHelper.SetUpForeWhiteTitleBar();
-        }
-
-        private CompositionEffectBrush CreateCircleBrushWithColor(Color color)
-        {
-            var colorBrush = _compositor.CreateColorBrush(color);
-
-            //
-            // Because Windows.UI.Composition does not have a Circle visual, we will 
-            // work around by using a circular opacity mask
-            // Create a simple Composite Effect, using DestinationIn (S * DA), 
-            // with a color source and a named parameter source.
-            //
-            var effect = new CompositeEffect
-            {
-                Mode = CanvasComposite.DestinationIn,
-                Sources =
-                {
-                    new ColorSourceEffect()
-                    {
-                        Color = color
-                    },
-                    new CompositionEffectSourceParameter("mask")
-                }
-
-            };
-            var factory = _compositor.CreateEffectFactory(effect);
-            var brush = factory.CreateBrush();
-
-            //
-            // Create the mask brush using the circle mask
-            //
-            CompositionSurfaceBrush maskBrush = _compositor.CreateSurfaceBrush();
-            maskBrush.Surface = _circleMaskSurface.Surface;
-
-            brush.SetSourceParameter("mask", maskBrush);
-
-            return brush;
-        }
 
         private void ShowOrHideAddingPane(bool show)
         {
             AddingPanel.Visibility = Visibility.Visible;
 
             var offsetYAnim = _compositor.CreateScalarKeyFrameAnimation();
-            offsetYAnim.InsertKeyFrame(1f, show ? 0f : 50f);
+            offsetYAnim.InsertKeyFrame(1f, show ? 0f : 48f);
             offsetYAnim.Duration = TimeSpan.FromMilliseconds(500);
 
             var fadeAnim = _compositor.CreateScalarKeyFrameAnimation();
@@ -664,5 +589,87 @@ namespace MyerListUWP.View
             itemContainer.Loaded -= ItemContainer_Loaded;
         }
         #endregion
+
+        private async Task KickOffCircleVisualAnimation()
+        {
+            if (_containerVisual == null)
+            {
+                _containerVisual = _compositor.CreateContainerVisual();
+
+                ElementCompositionPreview.SetElementChildVisual(VisualGrid, _containerVisual);
+
+                //Load image
+                _imageLoader = CompositionImageFactory.CreateCompositionImageFactory(_compositor);
+                _circleMaskSurface = _imageLoader.CreateImageFromUri(
+                   DeviceHelper.IsDesktop ? new Uri("ms-appx:///Assets/Icon/CircleOpacityMask_Large.png") :
+                                                            new Uri("ms-appx:///Assets/Icon/CircleOpacityMask.png"));
+            }
+
+            _containerVisual.Children.RemoveAll();
+
+            _itemClickPoint = AddBtn.TransformToVisual(VisualGrid).TransformPoint(new Point(AddBtn.ActualWidth / 2, AddBtn.ActualHeight / 2));
+
+            // create the visual with a solid colored circle as brush
+            _coloredCircleVisual = _compositor.CreateSpriteVisual();
+            _coloredCircleVisual.Brush = CreateCircleBrushWithColor(App.MainVM.AddingCateColor.Color);
+            _coloredCircleVisual.Offset = new Vector3((float)_itemClickPoint.X, (float)_itemClickPoint.Y, 1f);
+            _coloredCircleVisual.Size = new Vector2(50, 50);
+
+            // we want our scale animation to be anchored around the center of the visual
+            _coloredCircleVisual.AnchorPoint = new Vector2(0.5f, 0.5f);
+
+            _containerVisual.Children.InsertAtTop(_coloredCircleVisual);
+
+            var radius = CircleVisualHelper.GetLongestRadius(_itemClickPoint);
+
+            var animation = CircleVisualHelper.CreateBoomAnim(_compositor, true, (float)radius / 25f);
+
+            _coloredCircleVisual.StartAnimation("Scale.X", animation);
+            _coloredCircleVisual.StartAnimation("Scale.Y", animation);
+
+            await Task.Delay(200);
+
+            ShowOrHideAddingPane(true);
+            AddingPanel.SetFocus();
+
+            TitleBarHelper.SetUpForeWhiteTitleBar();
+        }
+
+        private CompositionEffectBrush CreateCircleBrushWithColor(Color color)
+        {
+            var colorBrush = _compositor.CreateColorBrush(color);
+
+            //
+            // Because Windows.UI.Composition does not have a Circle visual, we will 
+            // work around by using a circular opacity mask
+            // Create a simple Composite Effect, using DestinationIn (S * DA), 
+            // with a color source and a named parameter source.
+            //
+            var effect = new CompositeEffect
+            {
+                Mode = CanvasComposite.DestinationIn,
+                Sources =
+                {
+                    new ColorSourceEffect()
+                    {
+                        Color = color
+                    },
+                    new CompositionEffectSourceParameter("mask")
+                }
+
+            };
+            var factory = _compositor.CreateEffectFactory(effect);
+            var brush = factory.CreateBrush();
+
+            //
+            // Create the mask brush using the circle mask
+            //
+            CompositionSurfaceBrush maskBrush = _compositor.CreateSurfaceBrush();
+            maskBrush.Surface = _circleMaskSurface.Surface;
+
+            brush.SetSourceParameter("mask", maskBrush);
+
+            return brush;
+        }
     }
 }

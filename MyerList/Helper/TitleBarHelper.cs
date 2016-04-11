@@ -26,10 +26,10 @@ namespace MyerListUWP.Helper
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonHoverBackgroundColor = ColorConverter.Hex2Color("#DEDEDE");
-            titleBar.ButtonPressedBackgroundColor = ColorConverter.Hex2Color("#BBBBBB");
+            titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#DEDEDE");
+            titleBar.ButtonPressedBackgroundColor = ColorConverter.HexToColor("#BBBBBB");
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveForegroundColor = ColorConverter.Hex2Color("#676767");
+            titleBar.ButtonInactiveForegroundColor = ColorConverter.HexToColor("#676767");
         }
 
         public static void SetUpForeWhiteTitleBar()
@@ -43,9 +43,9 @@ namespace MyerListUWP.Helper
             titleBar.ButtonForegroundColor = Colors.White;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveForegroundColor = Colors.White;
-            titleBar.ButtonHoverBackgroundColor = ColorConverter.Hex2Color("#31DEDEDE");
+            titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#31DEDEDE");
             titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonPressedBackgroundColor = ColorConverter.Hex2Color("#22DEDEDE");
+            titleBar.ButtonPressedBackgroundColor = ColorConverter.HexToColor("#22DEDEDE");
         }
     }
 }
