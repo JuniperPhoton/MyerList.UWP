@@ -276,7 +276,7 @@
   <data name="StoryTB.Text" xml:space="preserve">
     <value>一些你想知道的事情</value>
   </data>
-  <data name="SubTitleTB.Text" xml:space="preserve">
+  <data name="SubtitleTB.Text" xml:space="preserve">
     <value>在 Windows &amp; Android 设备同步待办事项</value>
   </data>
   <data name="SyncABB.Label" xml:space="preserve">

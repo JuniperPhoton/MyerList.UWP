@@ -41,7 +41,7 @@
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="ScheduleTempleteGrid" Margin="0 0 5 0" RightTapped="ScheduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="ScheduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+    <Grid x:Name="ScheduleTempleteGrid" Margin="0 0 0 0" RightTapped="ScheduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="ScheduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>
@@ -85,7 +85,10 @@
             </Grid>
         </Grid>
         <Grid Grid.Column="2">
-            <Button x:Name="DeleteBtn" 
+            <Grid x:Name="ReorderThumb" Background="White">
+                <SymbolIcon Symbol="More"/>
+            </Grid>
+            <!--<Button x:Name="DeleteBtn" 
                     Margin="-5,-5,-5,-5"
                     Width="50"
                     Style="{StaticResource ListButtonStyle}"
@@ -95,7 +98,7 @@
                     <CompositeTransform/>
                 </Button.RenderTransform>
                 <SymbolIcon Symbol="Delete" Foreground="{StaticResource ListButtonBackgrd}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
-            </Button>
+            </Button>-->
         </Grid>
     </Grid>
 </UserControl>

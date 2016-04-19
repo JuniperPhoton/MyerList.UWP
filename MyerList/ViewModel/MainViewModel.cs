@@ -428,7 +428,7 @@ namespace MyerList.ViewModel
             {
                 return _okCommand = new RelayCommand(async () =>
                 {
-                    await AddOrModifyToDo();
+                    await AddOrModifyToDoAsync();
                 });
             }
         }
@@ -676,7 +676,7 @@ namespace MyerList.ViewModel
                     else
                     {
                         Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.LeaveSort);
-                        var task = UpdateOrder();
+                        var task = UpdateOrderAsync();
                     }
                 }
             }
@@ -937,7 +937,7 @@ namespace MyerList.ViewModel
         /// 更新排序
         /// </summary>
         /// <returns></returns>
-        private async Task UpdateOrder()
+        public async Task UpdateOrderAsync()
         {
             var orderStr = ToDo.GetCurrentOrderString(AllToDos);
             await CloudService.SetAllOrder(orderStr);
@@ -948,7 +948,7 @@ namespace MyerList.ViewModel
         /// 添加or修改内容
         /// </summary>
         /// <returns></returns>
-        private async Task AddOrModifyToDo()
+        private async Task AddOrModifyToDoAsync()
         {
             try
             {
@@ -981,7 +981,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(AddOrModifyToDo));
+                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(AddOrModifyToDoAsync));
             }
         }
 

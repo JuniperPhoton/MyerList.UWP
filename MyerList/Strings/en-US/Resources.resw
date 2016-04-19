@@ -264,7 +264,7 @@
   <data name="StoryTB.Text" xml:space="preserve">
     <value>STH. YOU MAY WANT TO KNOW</value>
   </data>
-  <data name="SubTitleTB.Text" xml:space="preserve">
+  <data name="SubtitleTB.Text" xml:space="preserve">
     <value>Sync your todos over  Windows &amp; Android </value>
   </data>
   <data name="TileTS.Header" xml:space="preserve">

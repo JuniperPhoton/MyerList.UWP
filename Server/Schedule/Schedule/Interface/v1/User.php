@@ -113,7 +113,9 @@ do
 			$queryInsert->bindParam(':email',$email,PDO::PARAM_STR);
 			$queryInsert->bindParam(':password',$psSalt,PDO::PARAM_STR);
 			$queryInsert->bindParam(':salt',$salt,PDO::PARAM_STR);
-			
+			do {
+				# code...
+			} while ( <= 10);
 			$resultInsert=$queryInsert->execute();
 			if($resultInsert)
 			{
@@ -218,18 +220,18 @@ do
 			{
                 $raw=$queryFind->fetch();
                 $json=array_values($raw);
-					$ApiResult['isSuccessed']=true;
-					$ApiResult['error_code']=0;
-                    $ApiResult['Cate_Info']=$json[0];
-					$ApiResult['error_message']='';
-					break;
+				$ApiResult['isSuccessed']=true;
+				$ApiResult['error_code']=0;
+                $ApiResult['Cate_Info']=$json[0];
+				$ApiResult['error_message']='';
+				break;
 			}
 			else
 			{
-                    $ApiResult['isSuccessed']=false;
-					$ApiResult['error_code']=100;
-					$ApiResult['error_message']=$queryFind->errorInfo();
-					break;
+                $ApiResult['isSuccessed']=false;
+				$ApiResult['error_code']=100;
+				$ApiResult['error_message']=$queryFind->errorInfo();
+				break;
 			}
         case 'UpdateCateInfo':
 			
@@ -238,10 +240,10 @@ do
             
             if($cate_info=='')
             {
-                    $ApiResult['isSuccessed']=false;
-					$ApiResult['error_code']=100;
-					$ApiResult['error_message']='Lack cate_info';
-					break;
+                $ApiResult['isSuccessed']=false;
+				$ApiResult['error_code']=100;
+				$ApiResult['error_message']='Lack cate_info';
+				break;
             }
 
 			$queryFind=$pdo->prepare('UPDATE user SET cate_info=:cate_info WHERE sid=:sid');
@@ -250,17 +252,17 @@ do
 			$result=$queryFind->execute();
 			if($result)
 			{
-					$ApiResult['isSuccessed']=true;
-					$ApiResult['error_code']=0;
-					$ApiResult['error_message']='';
-					break;
+				$ApiResult['isSuccessed']=true;
+				$ApiResult['error_code']=0;
+				$ApiResult['error_message']='';
+				break;
 			}
 			else
 			{
-                    $ApiResult['isSuccessed']=false;
-					$ApiResult['error_code']=100;
-					$ApiResult['error_message']=$queryFind->errorInfo();
-					break;
+                $ApiResult['isSuccessed']=false;
+				$ApiResult['error_code']=100;
+				$ApiResult['error_message']=$queryFind->errorInfo();
+				break;
 			}
 			
 		default:

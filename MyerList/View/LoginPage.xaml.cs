@@ -35,7 +35,6 @@ namespace MyerList
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;
                 StatusBar.GetForCurrentView().ForegroundColor = Colors.White;
             }
-
         }
 
         private void LoginPage_KeyDown(object sender, KeyRoutedEventArgs e)

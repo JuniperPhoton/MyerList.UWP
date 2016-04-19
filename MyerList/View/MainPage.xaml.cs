@@ -548,6 +548,7 @@ namespace MyerListUWP.View
             // Don't run an entrance animation if we're in recycling
             if (!args.InRecycleQueue)
             {
+                args.ItemContainer.Loaded -= ItemContainer_Loaded;
                 args.ItemContainer.Loaded += ItemContainer_Loaded;
             }
         }
@@ -569,7 +570,7 @@ namespace MyerListUWP.View
                 float height = (float)uc.RenderSize.Height;
                 itemVisual.CenterPoint = new Vector3(width / 2, height / 2, 0f);
                 itemVisual.Opacity = 0f;
-                itemVisual.Offset = new Vector3(0, 50, 0);
+                //itemVisual.Offset = new Vector3(0, 50, 0);
 
                 // Create KeyFrameAnimations
                 KeyFrameAnimation offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
@@ -583,7 +584,7 @@ namespace MyerListUWP.View
                 fadeAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
 
                 // Start animations
-                itemVisual.StartAnimation("Offset.Y", offsetAnimation);
+                //itemVisual.StartAnimation("Offset.Y", offsetAnimation);
                 itemVisual.StartAnimation("Opacity", fadeAnimation);
             }
             itemContainer.Loaded -= ItemContainer_Loaded;
@@ -670,6 +671,11 @@ namespace MyerListUWP.View
             brush.SetSourceParameter("mask", maskBrush);
 
             return brush;
+        }
+
+        private async void DisplayedListView_OnReorderStopped()
+        {
+            await MainVM.UpdateOrderAsync();
         }
     }
 }
