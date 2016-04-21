@@ -243,7 +243,7 @@ namespace MyerListUWP.ViewModel
                     ToDoCategory newCate = new ToDoCategory();
                     newCate.CateName = JsonParser.GetStringFromJsonObj(item, "name");
                     var colorStr = JsonParser.GetStringFromJsonObj(item, "color");
-                    newCate.CateColor = new SolidColorBrush(ColorConverter.Hex2Color(colorStr));
+                    newCate.CateColor = new SolidColorBrush(ColorConverter.HexToColor(colorStr).Value);
                     newCate.CateColorID = (int)JsonParser.GetNumberFromJsonObj(item, "id");
                     list.Add(newCate);
                 }
