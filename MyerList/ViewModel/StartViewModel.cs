@@ -21,13 +21,14 @@ namespace MyerList.ViewModel
                 {
                     return _navigateToLoginCommand;
                 }
-                return _navigateToLoginCommand = new RelayCommand(() =>
+                return _navigateToLoginCommand = new RelayCommand(async() =>
                 {
                     App.IsInOfflineMode = false;
                     LocalSettingHelper.AddValue("OfflineMode", "false");
 
+                    await Task.Delay(500);
                     Frame rootFrame = Window.Current.Content as Frame;
-                    //if (rootFrame != null) rootFrame.Navigate(typeof(LoginPage),LoginMode.Login);
+                    if (rootFrame != null) rootFrame.Navigate(typeof(LoginPage),LoginMode.Login);
                 });
             }
         }

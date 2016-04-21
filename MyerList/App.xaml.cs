@@ -1,4 +1,5 @@
 ﻿using JP.Utils.Data;
+using JP.Utils.Debug;
 using JP.Utils.Network;
 using MyerList;
 using MyerList.Common;
@@ -86,8 +87,9 @@ namespace MyerListUWP
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
+            var task = ExceptionHelper.WriteRecordAsync(e.Exception, nameof(App), nameof(App_UnhandledException));
             UmengAnalytics.TrackException(e.Exception);
+            e.Handled = false;
         }
 
         private void App_Resuming(object sender, object e)

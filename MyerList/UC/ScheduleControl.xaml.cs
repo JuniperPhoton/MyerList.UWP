@@ -14,13 +14,9 @@ namespace MyerList.UC
 {
     public sealed partial class ScheduleControl : UserControl
     {
-        TranslateTransform _tranTemplete = new TranslateTransform();
+        TranslateTransform _translateTransform = new TranslateTransform();
         bool _isToBeDone = false;
         bool _isToBeDeleted = false;
-        bool _canBeSorted = false;
-
-        ManipulationModes defaultmode=ManipulationModes.TranslateX | ManipulationModes.System;
-        ManipulationModes reordermode = ManipulationModes.TranslateY;
 
         public ToDo CurrentToDo
         {
@@ -33,26 +29,6 @@ namespace MyerList.UC
         public ScheduleControl()
         {
             this.InitializeComponent();
-
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, act =>
-                {
-                    //if(!_canBeSorted)
-                    //{
-                    //    _canBeSorted = true;
-                    //    GoSortStory.Begin();
-                    //    SchduleTempleteGrid.ManipulationMode = reordermode;
-                    //}
-                });
-            Messenger.Default.Register<GenericMessage<string>>(this,MessengerTokens.LeaveSort, act =>
-            {
-                //if (_canBeSorted)
-                //{
-                //    _canBeSorted = false;
-                //    LeaveSortStory.Begin();
-                //    SchduleTempleteGrid.ManipulationMode = defaultmode;
-                //    LeftSP.IsHitTestVisible = true;
-                //}
-            });
 
             BackStory.Completed += ((senderb, eb) =>
               {
@@ -68,8 +44,8 @@ namespace MyerList.UC
             ScheduleTempleteGrid.ManipulationDelta += Grid_ManipulationDelta;
             ScheduleTempleteGrid.ManipulationCompleted += Grid_ManipulationCompleted;
 
-            _tranTemplete = new TranslateTransform();
-            ScheduleTempleteGrid.RenderTransform = _tranTemplete;
+            _translateTransform = new TranslateTransform();
+            ScheduleTempleteGrid.RenderTransform = _translateTransform;
         }
 
         /// <summary>
@@ -92,12 +68,12 @@ namespace MyerList.UC
             //完成待办事项 
             if (e.Delta.Translation.X > 0)
             {
-                _tranTemplete.X += e.Delta.Translation.X;
+                _translateTransform.X += e.Delta.Translation.X;
                 if (_isToBeDeleted)
                 {
                     return;
                 }
-                if (_tranTemplete.X > 100)
+                if (_translateTransform.X > 100)
                 {
                     if (!_isToBeDone)
                     {
@@ -110,12 +86,12 @@ namespace MyerList.UC
             //删除待办事项
             else
             {
-                _tranTemplete.X += e.Delta.Translation.X;
+                _translateTransform.X += e.Delta.Translation.X;
                 if (_isToBeDone)
                 {
                     return;
                 }
-                if (_tranTemplete.X < -100)
+                if (_translateTransform.X < -100)
                 {
                     if (!_isToBeDeleted)
                     {

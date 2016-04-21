@@ -30,8 +30,8 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Image x:Name="Image" Grid.RowSpan="2"  Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0,-35,0,0" RenderTransformOrigin="0.5,0.5"/>
-        <Border x:Name="MaskBorder" Grid.RowSpan="2" Background="Black" Opacity="0.3" RenderTransformOrigin="0.5,0.5" Margin="-30"/>
+        <Image Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Grid.RowSpan="2" Grid.ColumnSpan="2" Opacity="0.02" Margin="0" />
+        <!--<Border x:Name="MaskBorder" Grid.RowSpan="2" Background="Black" Opacity="0.3" RenderTransformOrigin="0.5,0.5" Margin="-30"/>-->
         <Border x:Name="MainBorder" Margin="20 0 20 0" MaxWidth="600" VerticalAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0" BorderBrush="#FF515151">
             <StackPanel Background="White"   VerticalAlignment="Center">
                 <Grid Height="7">

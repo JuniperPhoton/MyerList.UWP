@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudService", "CloudService\CloudService.csproj", "{CF48AC98-E3AE-426A-8411-66ED3E2E59ED}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonolithLib", "..\Monolith-UWP\MonolithLib\MonolithLib.csproj", "{61250642-32F1-461D-B166-D946FBDC6429}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Microsoft.UI.Composition.Toolkit", "..\Microsoft.UI.Composition.Toolkit\Microsoft.UI.Composition.Toolkit.vcxproj", "{08A7D060-593A-4978-8DCC-B2029ACA7C95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplesCommon", "..\WindowsUIDevLabs\SamplesCommon\SamplesCommon\SamplesCommon.csproj", "{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,22 @@ Global
 		{08A7D060-593A-4978-8DCC-B2029ACA7C95}.Release|x64.Build.0 = Release|x64
 		{08A7D060-593A-4978-8DCC-B2029ACA7C95}.Release|x86.ActiveCfg = Release|Win32
 		{08A7D060-593A-4978-8DCC-B2029ACA7C95}.Release|x86.Build.0 = Release|Win32
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|ARM.ActiveCfg = Debug|ARM
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|ARM.Build.0 = Debug|ARM
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|x64.ActiveCfg = Debug|x64
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|x64.Build.0 = Debug|x64
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|x86.ActiveCfg = Debug|x86
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Debug|x86.Build.0 = Debug|x86
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|ARM.ActiveCfg = Release|ARM
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|ARM.Build.0 = Release|ARM
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|x64.ActiveCfg = Release|x64
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|x64.Build.0 = Release|x64
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|x86.ActiveCfg = Release|x86
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,5 +202,6 @@ Global
 		{1C9FDE7A-452E-44B7-A065-FB3C4F170048} = {BF24B06D-4821-440F-9A4E-174777149828}
 		{61250642-32F1-461D-B166-D946FBDC6429} = {CE5EE1A3-9F1F-45C4-BA35-8E8FC215020D}
 		{08A7D060-593A-4978-8DCC-B2029ACA7C95} = {D6CADD98-69CA-42F5-8A82-275EAA59830E}
+		{0B6A4830-D1FF-4018-BAA2-7257EB4579FE} = {D6CADD98-69CA-42F5-8A82-275EAA59830E}
 	EndGlobalSection
 EndGlobal

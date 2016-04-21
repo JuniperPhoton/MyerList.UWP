@@ -49,12 +49,12 @@
                 <MenuFlyoutItem x:Uid="MarkDeleteItem" Click="DeleteItem_Click" Text="删除" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
-        <ToolTipService.ToolTip>
+        <!--<ToolTipService.ToolTip>
             <StackPanel>
                 <TextBlock Text="{Binding CreateTime,Mode=OneWay}" Margin="5" Opacity="0.5" TextWrapping="Wrap"/>
                 <TextBlock Text="{Binding Content,Mode=OneWay}" Margin="5" TextWrapping="Wrap"/>
             </StackPanel>
-        </ToolTipService.ToolTip>
+        </ToolTipService.ToolTip>-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="50"/>
@@ -84,10 +84,22 @@
                 <Border Background="#FF888888" Visibility="{Binding ShowDoneLine,Mode=OneWay}" BorderThickness="0" Height="1" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
-        <Grid Grid.Column="2">
-            <Grid x:Name="ReorderThumb" Background="White">
-                <SymbolIcon Symbol="More"/>
-            </Grid>
+        <Grid Grid.Column="2" >
+            <Border Background="#0FFF8585" x:Name="ReorderThumb">
+                <Grid Width="40" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Height="2" Width="25" Background="#FFA6A6A6" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                    </Border>
+                    <Border  Height="2" Width="25" Background="#FFA6A6A6" VerticalAlignment="Center" Margin="0" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                    </Border>
+                    <Border Height="2" Width="25" Background="#FFA6A6A6" VerticalAlignment="Top" Margin="0" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
+                    </Border>
+                </Grid>
+            </Border>
             <!--<Button x:Name="DeleteBtn" 
                     Margin="-5,-5,-5,-5"
                     Width="50"

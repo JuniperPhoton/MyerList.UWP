@@ -333,7 +333,7 @@
                                     ContainerContentChanging="DisplayedListView_ContainerContentChanging"
                                     ItemContainerTransitions="{x:Null}"
                                     UIElementToMove="ReorderThumb"
-                                    EnableWaggingAnimation="False"
+                                    EnableWaggingAnimation="True"
                                     OnReorderStopped="DisplayedListView_OnReorderStopped"
                                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
                                     attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"

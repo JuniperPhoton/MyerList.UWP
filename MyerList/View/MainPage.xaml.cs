@@ -25,8 +25,9 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.UI.Composition.Toolkit;
 using System.Threading.Tasks;
+using SamplesCommon;
+using SamplesCommon.ImageLoader;
 
 namespace MyerListUWP.View
 {
@@ -74,8 +75,8 @@ namespace MyerListUWP.View
 
         #region Composition vars
         private Compositor _compositor;
-        private CompositionImageFactory _imageLoader;
-        private CompositionImage _circleMaskSurface;
+        private IImageLoader _imageLoader;
+        private IManagedSurface _circleMaskSurface;
         private SpriteVisual _coloredCircleVisual;
         private ContainerVisual _containerVisual;
         private Visual _addingPaneVisual;
@@ -599,10 +600,9 @@ namespace MyerListUWP.View
 
                 ElementCompositionPreview.SetElementChildVisual(VisualGrid, _containerVisual);
 
-                //Load image
-                _imageLoader = CompositionImageFactory.CreateCompositionImageFactory(_compositor);
-                _circleMaskSurface = _imageLoader.CreateImageFromUri(
-                   DeviceHelper.IsDesktop ? new Uri("ms-appx:///Assets/Icon/CircleOpacityMask_Large.png") :
+                // initialize the ImageLoader and create the circle mask
+                _imageLoader = ImageLoaderFactory.CreateImageLoader(_compositor);
+                _circleMaskSurface = _imageLoader.CreateManagedSurfaceFromUri(DeviceHelper.IsDesktop ? new Uri("ms-appx:///Assets/Icon/CircleOpacityMask_Large.png") :
                                                             new Uri("ms-appx:///Assets/Icon/CircleOpacityMask.png"));
             }
 
