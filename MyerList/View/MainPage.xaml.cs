@@ -493,7 +493,7 @@ namespace MyerListUWP.View
             var anim = compositor.CreateScalarKeyFrameAnimation();
             anim.InsertExpressionKeyFrame(1f, "isIn?0.8f:0f");
             anim.Duration = TimeSpan.FromMilliseconds(1500);
-            //anim.IterationCount = 1;
+            //anim.IterationCount = 1; 
             //anim.IterationBehavior = AnimationIterationBehavior.Count;
             //anim.StopBehavior = AnimationStopBehavior.SetToFinalValue;
             root.StartAnimation("Opacity",anim);
