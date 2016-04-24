@@ -915,7 +915,7 @@ namespace MyerList.ViewModel
                     if (string.IsNullOrEmpty(EditedToDo.Content))
                     {
                         await ToastService.SendToastAsync(ResourcesHelper.GetResString("ContentEmpty"));
-                        return;
+                        return; 
                     }
 
                     ShowPaneOpen = false;
