@@ -49,15 +49,9 @@
                 <MenuFlyoutItem x:Uid="MarkDeleteItem" Click="DeleteItem_Click" Text="删除" />
             </MenuFlyout>
         </FlyoutBase.AttachedFlyout>
-        <ToolTipService.ToolTip>
-            <StackPanel>
-                <TextBlock Text="{Binding CreateTime,Mode=OneWay}" Margin="5" Opacity="0.5" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding Content,Mode=OneWay}" Margin="5" TextWrapping="Wrap"/>
-            </StackPanel>
-        </ToolTipService.ToolTip>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition x:Name="c2" Width="50"/>
         </Grid.ColumnDefinitions>
         <Grid.RenderTransform>
             <CompositeTransform/>
@@ -85,17 +79,34 @@
             </Grid>
         </Grid>
         <Grid Grid.Column="2">
-            <Button x:Name="DeleteBtn" 
-                    Margin="-5,-5,-5,-5"
+            <Grid
+                    x:Name="ReorderThumb"
+                    Margin="0"
                     Width="50"
-                    Style="{StaticResource ListButtonStyle}"
-                    Command="{Binding MainVM.DeleteCommand,Mode=OneWay, Source={StaticResource Locator}}"
-                    CommandParameter="{Binding}" HorizontalAlignment="Stretch" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
-                <Button.RenderTransform>
-                    <CompositeTransform/>
-                </Button.RenderTransform>
-                <SymbolIcon Symbol="Delete" Foreground="{StaticResource ListButtonBackgrd}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
-            </Button>
+                    HorizontalAlignment="Stretch" Background="#02FFFFFF" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Stretch">
+                <Grid Width="40" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Height="2" Width="20" VerticalAlignment="Bottom" RenderTransformOrigin="0,0.5" Background="{StaticResource DeletedColor}">
+                        <Border.RenderTransform>
+                            <CompositeTransform/>
+                        </Border.RenderTransform>
+                    </Border>
+                    <Border Height="2" Width="20" VerticalAlignment="Center" Margin="0" Grid.Row="1" RenderTransformOrigin="0,0.5" Background="{StaticResource DeletedColor}">
+                        <Border.RenderTransform>
+                            <CompositeTransform/>
+                        </Border.RenderTransform>
+                    </Border>
+                    <Border Height="2" Width="20" VerticalAlignment="Top" Margin="0" Grid.Row="2" RenderTransformOrigin="0,0.5" Background="{StaticResource DeletedColor}">
+                        <Border.RenderTransform>
+                            <CompositeTransform/>
+                        </Border.RenderTransform>
+                    </Border>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

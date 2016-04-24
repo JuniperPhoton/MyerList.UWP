@@ -9,6 +9,7 @@
     xmlns:cc="using:MyerListCustomControl"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:triggers="using:JP.CustomTriggers"
+    xmlns:control="using:JP.Utils.Control"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -316,21 +317,21 @@
                         </Pivot.RenderTransform>
                         <PivotItem Margin="0,-50,0,0" >
                             <Grid>
-                                <ListView x:Name="DisplayedListView" Grid.Row="1"
+                                <control:ListViewEx x:Name="DisplayedListView" Grid.Row="1"
 				                    ItemTemplate="{StaticResource ScheduleTemplete}"
 				                    ItemsSource="{x:Bind MainVM.CurrentDisplayToDos,Mode=OneWay}" 
 				                    ItemContainerStyle="{StaticResource ListViewItemStyle1}" 
-				                    MaxWidth="750"  
+				                    MaxWidth="750"
+                                    ReorderUIElementName="ReorderThumb"
                                     SelectionMode="None" 
                                     Margin="0,20,0,50"
                                     CanReorderItems="False"
-                                    AllowDrop="False"
-                                    CanDragItems="False"
+                                    EnableWaggingAnimation="False"
                                     IsItemClickEnabled="True"
                                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
                                     attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"
                                     >
-                                </ListView>
+                                </control:ListViewEx>
                                 <StackPanel x:Name="stackPanel1" Orientation="Vertical"  Visibility="{x:Bind MainVM.ShowNoItems,Mode=OneWay}" Grid.RowSpan="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,100">
                                     <TextBlock x:Uid="WorkDoneTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="WORK DONE" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
                                     <TextBlock x:Uid="EnjoyTB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Enjoy your day ;-)" VerticalAlignment="Center" Foreground="#FFADADAD" FontSize="26.667" Grid.Row="1" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
@@ -374,16 +375,6 @@
                     <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.SyncCommand}">
                         <SymbolIcon Symbol="Sync"/>
                     </Button>
-                    <ToggleButton
-                        Width="60" Height="50"
-                        BorderThickness="0"
-                        x:Name="SortBtn"
-                        Background="#0AFFFFFF"
-                        Visibility="{x:Bind MainVM.ShowSortButton,Mode=OneWay}" 
-                        IsChecked="{x:Bind MainVM.IsInSortMode,Mode=TwoWay}" 
-                        >
-                        <SymbolIcon Symbol="Sort"/>
-                    </ToggleButton>
                 </StackPanel>
             </Grid>
             <Grid x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
@@ -398,7 +389,6 @@
                         <SymbolIcon Symbol="Delete"/>
                     </Button>
                 </StackPanel>
-
             </Grid>
             <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
         </Grid>

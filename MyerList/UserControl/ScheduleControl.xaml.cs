@@ -8,6 +8,7 @@ using System;
 using MyerList.Model;
 using MyerListUWP.Common;
 using JP.Utils.Helper;
+using MyerListUWP;
 
 namespace MyerList.UC
 {
@@ -16,10 +17,6 @@ namespace MyerList.UC
         TranslateTransform _tranTemplete = new TranslateTransform();
         bool _isToBeDone = false;
         bool _isToBeDeleted = false;
-        bool _canBeSorted = false;
-
-        ManipulationModes defaultmode=ManipulationModes.TranslateX | ManipulationModes.System;
-        ManipulationModes reordermode = ManipulationModes.TranslateY;
 
         public ToDo CurrentToDo
         {
@@ -33,30 +30,23 @@ namespace MyerList.UC
         {
             this.InitializeComponent();
 
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, act =>
-                {
-                    //if(!_canBeSorted)
-                    //{
-                    //    _canBeSorted = true;
-                    //    GoSortStory.Begin();
-                    //    SchduleTempleteGrid.ManipulationMode = reordermode;
-                    //}
-                });
-            Messenger.Default.Register<GenericMessage<string>>(this,MessengerTokens.LeaveSort, act =>
-            {
-                //if (_canBeSorted)
-                //{
-                //    _canBeSorted = false;
-                //    LeaveSortStory.Begin();
-                //    SchduleTempleteGrid.ManipulationMode = defaultmode;
-                //    LeftSP.IsHitTestVisible = true;
-                //}
-            });
-
             BackStory.Completed += ((senderb, eb) =>
               {
                   InitialManipulation();
               });
+            this.Loaded += ScheduleControl_Loaded;
+        }
+
+        private void ScheduleControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!App.MainVM.CanBeSorted)
+            {
+                c2.Width = new GridLength(0);
+            }
+            else
+            {
+                c2.Width = new GridLength(50);
+            }
         }
 
         private void InitialManipulation()

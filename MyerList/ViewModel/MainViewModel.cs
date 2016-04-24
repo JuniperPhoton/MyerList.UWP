@@ -30,8 +30,11 @@ namespace MyerList.ViewModel
         public event Action OnCateColorChanged;
 
         private AddMode _addMode = AddMode.None;
+        private int _lastSelectedIndex = -1;
 
         public Page CurrentMainPage { get; set; }
+
+        public bool CanBeSorted { get; set; } = true;
 
         private int _undoneCount;
         public int UndoneCount
@@ -51,7 +54,6 @@ namespace MyerList.ViewModel
         }
 
         #region 汉堡包/类别/导航
-        private int _lastIndex = -1;
         /// <summary>
         /// 选择了的类别，值表示的只是顺序
         /// </summary>
@@ -68,9 +70,10 @@ namespace MyerList.ViewModel
                 {
                     _selectedCate = value;
                     RaisePropertyChanged(() => SelectedCate);
-                    RaisePropertyChanged(() => ShowSortButton);
                     UpdateListByChangingSelectedCate();
-                    _lastIndex = value;
+                    _lastSelectedIndex = value;
+                    if (value == 0) CanBeSorted = true;
+                    else CanBeSorted = false;
                 }
             }
         }
@@ -274,19 +277,6 @@ namespace MyerList.ViewModel
         #endregion
 
         #region CommandBar
-        public Visibility ShowSortButton
-        {
-            get
-            {
-                if (DeviceHelper.IsDesktop)
-                {
-                    if (SelectedCate == 0) return Visibility.Visible;
-                    else return Visibility.Collapsed;
-                }
-                else return Visibility.Collapsed;
-            }
-        }
-
         /// <summary>
         /// 显示加载条
         /// </summary>
@@ -650,39 +640,6 @@ namespace MyerList.ViewModel
         }
         #endregion
 
-        #region 排序
-        private bool? _isInSortMode;
-        public bool? IsInSortMode
-        {
-            get
-            {
-                return _isInSortMode;
-            }
-            set
-            {
-                if (_isInSortMode != value)
-                {
-                    _isInSortMode = value;
-                    RaisePropertyChanged(() => IsInSortMode);
-
-                    if (!App.IsSyncListOnce)
-                    {
-                        return;
-                    }
-                    if (value == true)
-                    {
-                        Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.GoToSort);
-                    }
-                    else
-                    {
-                        Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.LeaveSort);
-                        var task = UpdateOrder();
-                    }
-                }
-            }
-        }
-        #endregion
-
         #region 已经删除的
         /// <summary>
         /// 已经删除了的待办事项
@@ -898,7 +855,6 @@ namespace MyerList.ViewModel
             StagedToDos = new ObservableCollection<ToDo>();
 
             CurrentDisplayToDos = AllToDos;
-            IsInSortMode = false;
 
             SelectedCate = AddingCate = -1;
 
@@ -1233,8 +1189,6 @@ namespace MyerList.ViewModel
             UpdateTitle(cateID);
 
             UpdateDisplayList(cateID);
-
-            IsInSortMode = false;
         }
 
         /// <summary>
