@@ -6,9 +6,19 @@
     xmlns:uc="using:MyerList.UC"
     xmlns:base="using:MyerList.Base"
     xmlns:triggers="using:JP.CustomTriggers"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:control="using:JP.Utils.Control"
+    xmlns:attach="using:JP.Utils.Framework"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Background="{StaticResource MyerListGray}">
+    mc:Ignorable="d" 
+    Background="{StaticResource MyerListGray}">
+    <Interactivity:Interaction.Behaviors>
+        <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
+            <attach:InvokeCommandByKeyDown Command="{x:Bind LoginVM.NextCommand}" PressedKey="F5" />
+        </Core:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
     <Grid Background="{StaticResource MyerListGray}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -30,9 +40,9 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Image x:Name="Image" Grid.RowSpan="2"  Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0,-35,0,0" RenderTransformOrigin="0.5,0.5"/>
-        <Border x:Name="MaskBorder" Grid.RowSpan="2" Background="Black" Opacity="0.3" RenderTransformOrigin="0.5,0.5" Margin="-30"/>
-        <Border x:Name="MainBorder" Margin="20 0 20 0" MaxWidth="600" VerticalAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0" BorderBrush="#FF515151">
+        <Image x:Name="BackgrdImage" Grid.RowSpan="2" Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0" />
+        <Border Background="Black" Opacity="0.3"/>
+        <Border x:Name="MainBorder" CacheMode="BitmapCache" Margin="20 0 20 0" MaxWidth="600" VerticalAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0" BorderBrush="#FF515151">
             <StackPanel Background="White"   VerticalAlignment="Center">
                 <Grid Height="7">
                     <Grid.ColumnDefinitions>
@@ -40,11 +50,13 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Column="0" Fill="{StaticResource LifeColor}"/>
-                    <Rectangle Grid.Column="1" Fill="{StaticResource WorkColor}"/>
-                    <Rectangle Grid.Column="2" Fill="{StaticResource FamilyColor}"/>
-                    <Rectangle Grid.Column="3" Fill="{StaticResource EnterColor}"/>
+                    <Rectangle Grid.Column="0" Fill="#F7C142"/>
+                    <Rectangle Grid.Column="1" Fill="#4F9595"/>
+                    <Rectangle Grid.Column="2" Fill="#FF3CBBF7"/>
+                    <Rectangle Grid.Column="3" Fill="#F7445B"/>
+                    <Rectangle Grid.Column="4" Fill="#474E88"/>
                 </Grid>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="0" RenderTransformOrigin="0.5,0.5">
                     <TextBlock HorizontalAlignment="Left" FontWeight="Bold" TextWrapping="Wrap" Text="{x:Bind LoginVM.Title,Mode=OneWay}"  VerticalAlignment="Center" Foreground="Black" FontSize="23" Margin="10,20,0,0" FontFamily="{StaticResource MyerListThemeFontFamily}" />

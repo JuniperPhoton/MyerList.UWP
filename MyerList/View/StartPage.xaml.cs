@@ -1,40 +1,80 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using MyerList.Base;
 using MyerList.ViewModel;
-using MyerListUWP;
 using MyerListUWP.Helper;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
+using System.Numerics;
+using System.Threading.Tasks;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Navigation;
 
 
 namespace MyerList
 {
-
     public sealed partial class StartPage : BindablePage
     {
-        public StartViewModel StartVM;
+        private StartViewModel StartVM;
+        private Compositor _compositor;
+        private Visual _logoVisual;
+        private Visual _nameVisual;
+        private Visual _subTitleVisual;
+        private Visual _loginBtnVisual;
+        private Visual _registerBtnVisual;
+        private Visual _offlineBtnVisual;
+
+        private List<Visual> _visualList = new List<Visual>();
 
         public StartPage()
         {
             this.InitializeComponent();
-            StartVM = new StartViewModel();
-            this.DataContext = StartVM;
+
+            this.DataContext = StartVM = new StartViewModel();
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _logoVisual = ElementCompositionPreview.GetElementVisual(LogoImage);
+            _nameVisual = ElementCompositionPreview.GetElementVisual(NameSP);
+            _subTitleVisual = ElementCompositionPreview.GetElementVisual(SubtitleTB);
+            _loginBtnVisual = ElementCompositionPreview.GetElementVisual(LoginBtn);
+            _registerBtnVisual = ElementCompositionPreview.GetElementVisual(RegisterBtn);
+            _offlineBtnVisual = ElementCompositionPreview.GetElementVisual(OfflineBtn);
+
+            _visualList = new List<Visual>();
+            _visualList.Add(_logoVisual);
+            _visualList.Add(_nameVisual);
+            _visualList.Add(_subTitleVisual);
+            _visualList.Add(_loginBtnVisual);
+            _visualList.Add(_registerBtnVisual);
+            _visualList.Add(_offlineBtnVisual);
+
+            this.Loaded += StartPage_Loaded;
+        }
+
+        private void StartPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            _visualList.ForEach(s =>
+            {
+                s.Offset = new Vector3((float)Window.Current.Bounds.Width / 4f, 0f, 0f);
+                s.Opacity = 0;
+            });
+
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, 0f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+
+            var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            fadeAnimation.InsertKeyFrame(1f, 1f);
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+
+            for (int i = 0; i < _visualList.Count; i++)
+            {
+                var visual = _visualList[i];
+                offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(i * 50);
+                visual.StartAnimation("Offset.X", offsetAnimation);
+                visual.StartAnimation("Opacity", fadeAnimation);
+            }
         }
 
         protected override void SetUpTitleBar()
@@ -48,9 +88,6 @@ namespace MyerList
 
             TitleBarHelper.SetUpForeBlackTitleBar();
             Frame.BackStack.Clear();
-            
-            StartStory.BeginTime = TimeSpan.FromSeconds(0.2);
-            StartStory2.Begin();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

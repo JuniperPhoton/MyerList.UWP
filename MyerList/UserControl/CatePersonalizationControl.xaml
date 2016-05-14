@@ -6,6 +6,7 @@
     xmlns:model="using:MyerList.Model"
     xmlns:attach="using:JP.Utils.Framework"
     xmlns:uc="using:MyerList.UC"
+    xmlns:cc="using:JP.Utils.Control"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="500"
@@ -31,88 +32,69 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Storyboard x:Name="ShowColorStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ColorGrid">
-                <EasingDoubleKeyFrame KeyTime="0" x:Name="key1" Value="450"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseInOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideColorStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ColorGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.6" x:Name="key2" Value="450">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseInOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
     </UserControl.Resources>
-    <Grid Background="White" x:Name="RootGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition/>
-            <RowDefinition Height="55"/>
-        </Grid.RowDefinitions>
-        <Grid>
-                <TextBlock x:Uid="ModifyCateTB" Text="Personalization" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="26.667" HorizontalAlignment="Left"/>
+    <Grid x:Name="RootGrid">
+        <Grid Background="White" x:Name="CateListGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition/>
+                <RowDefinition Height="55"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <TextBlock x:Uid="ModifyCateTB" Text="Personalization" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="27" HorizontalAlignment="Left"/>
                 <Button x:Name="AddBtn" Click="AddBtn_Click" Style="{StaticResource ListButtonStyle}" Margin="10,0" HorizontalAlignment="Right">
                     <Border>
-                            <SymbolIcon Symbol="Add" Foreground="Black" Margin="10"/>
+                        <SymbolIcon Symbol="Add" Foreground="Black" Margin="10"/>
                     </Border>
                 </Button>
-        </Grid>
-        <Grid Grid.Row="1">
-            <ListView
+            </Grid>
+            <Grid Grid.Row="1">
+                <cc:ListViewEx
                         x:Name="CateListView"
                         AllowDrop="False"
                         CanDragItems="False"
                         CanReorderItems="False"
                         SelectionMode="None"
+                        ReorderUIElementName="ReorderThumb"
+                        EnableWaggingAnimation="False"
                         ItemsSource="{x:Bind MainVM.CateVM.CatesToModify,Mode=OneWay}"
-                        Background="{x:Null}" ItemContainerStyle="{StaticResource ListViewItemStyle2}"
+                        Background="{x:Null}" 
+                        ItemContainerStyle="{StaticResource ListViewItemStyle2}"
                         attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="model:ToDoCategory">
-                        <uc:CateItemControl/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Grid x:Name="LoadingMaskGrid" Visibility="Collapsed">
-                <Border Background="#82FFFFFF"/>
-                <ProgressBar x:Name="LoadingBar" Visibility="Visible" VerticalAlignment="Center" Margin="0,0,0,5" IsIndeterminate="True" Foreground="{StaticResource DefaultColorLight}"/>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ToDoCategory">
+                            <uc:CateItemControl/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </cc:ListViewEx>
+                <Grid x:Name="LoadingMaskGrid" Visibility="Collapsed">
+                    <Border Background="#82FFFFFF"/>
+                    <ProgressBar x:Name="LoadingBar" Visibility="Visible" VerticalAlignment="Center" Margin="0,0,0,5" IsIndeterminate="True" Foreground="{StaticResource DefaultColorLight}"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2" Height="55">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OkBtn" Click="OkBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                    <Border Background="{StaticResource DefaultColorLight}">
+                        <TextBlock x:Uid="OkTB" Foreground="White" Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Button>
+                <Button x:Name="CancelBtn" Click="CancelBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="{x:Null}">
+                    <Border Background="#FFD0D0D0">
+                        <TextBlock x:Uid="CancelTB" Foreground="Black" Text="CANCEL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Button>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2" Height="55">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="OkBtn" Click="OkBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
-                <Border Background="{StaticResource DefaultColorLight}">
-                    <TextBlock x:Uid="OkTB" Foreground="White" Text="OK" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-            </Button>
-            <Button x:Name="CancelBtn" Click="CancelBtn_Click" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="{x:Null}">
-                <Border Background="#FFD0D0D0">
-                    <TextBlock x:Uid="CancelTB" Foreground="Black" Text="CANCEL" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-            </Button>
-        </Grid>
-        <Grid x:Name="ColorGrid" Grid.Row="1" Grid.RowSpan="2" Background="White" RenderTransformOrigin="0.5,0.5">
-            <Grid.RenderTransform>
-                <CompositeTransform x:Name="ColorGridTransform" TranslateY="450"/>
-            </Grid.RenderTransform>
+        <Grid x:Name="ColorGrid" Grid.Row="1" Grid.RowSpan="2" Background="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition/>
                 <RowDefinition Height="55"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Uid="ChooseColorTB" Text="Pick a color" Margin="10,0,0,0" FontSize="20" Foreground="#4C000000"/>
             <GridView x:Name="ColorGirdView" Grid.Row="1" SelectionMode="Single" ItemsSource="{x:Bind CateColorsVM.CateColors,Mode=OneWay}" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <GridView.ItemTemplate>
                     <DataTemplate>
@@ -136,6 +118,7 @@
                     </Border>
                 </Button>
             </Grid>
+            <TextBlock x:Uid="ChooseColorTB" Text="Pick a color" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="27" Grid.Row="0" Foreground="Black"/>
         </Grid>
     </Grid>
 </UserControl>

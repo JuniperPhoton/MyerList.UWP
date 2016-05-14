@@ -26,7 +26,6 @@ namespace MyerList.UC
             {
                 RootSP.Margin = new Thickness(0,100,0,0);
                 RootSP.VerticalAlignment = VerticalAlignment.Top;
-
             }
         }
 

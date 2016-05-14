@@ -9,9 +9,12 @@ using MyerListUWP;
 using MyerListUWP.Common;
 using System;
 using System.Linq;
+using System.Numerics;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -33,22 +36,30 @@ namespace MyerList.UC
         public event Action OnClickCancelBtn;
 
         private int _selectedID;
+        private Compositor _compositor;
+        private Visual _colorGridVisual;
+        private Visual _cateListVisual;
 
         public CatePersonalizationControl()
         {
             this.InitializeComponent();
             this.DataContext = this;
+
             CateColorsVM = new CategoryColorViewModel();
+
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _colorGridVisual = ElementCompositionPreview.GetElementVisual(ColorGrid);
+            _cateListVisual = ElementCompositionPreview.GetElementVisual(CateListGrid);
+
             this.Loaded += CatePersonalizationControl_Loaded;
 
             Messenger.Default.Register<GenericMessage<int>>(this, MessengerTokens.ShowPickCatePanel, msg =>
               {
                   var id = msg.Content;
                   _selectedID = id;
-                  ShowColorStory.Begin();
+                  ShowOrHideColorGrid(true);
 
-                  Oli.Fade(AddBtn).From(1).To(0).For(0.5, OrSo.Seconds).Now();
-                  Oli.MoveXOf(AddBtn).From(0).To(20).For(0.5, OrSo.Seconds).With(new CubicEase() { EasingMode=EasingMode.EaseOut}).Now();
+                  ToggleOrNotCateList(true);
               });
         }
 
@@ -56,9 +67,7 @@ namespace MyerList.UC
         {
             this.RootGrid.Clip = new RectangleGeometry();
             this.RootGrid.Clip.Rect = new Rect(0, 0, this.RootGrid.ActualWidth, this.RootGrid.ActualHeight);
-            ColorGridTransform.TranslateY = this.RootGrid.ActualHeight;
-            key1.Value = this.RootGrid.ActualHeight;
-            key2.Value = this.RootGrid.ActualHeight;
+            _colorGridVisual.Offset = new Vector3(0f, (float)this.RootGrid.ActualHeight, 0f);
         }
 
         private async void OkBtn_Click(object sender, RoutedEventArgs e)
@@ -96,10 +105,9 @@ namespace MyerList.UC
 
         private void PickColorOKBtn_Click(object sender, RoutedEventArgs e)
         {
-            Oli.Fade(AddBtn).From(0).To(1).For(0.5, OrSo.Seconds).Now();
-            Oli.MoveXOf(AddBtn).From(20).To(0).For(0.5, OrSo.Seconds).With(new CubicEase() { EasingMode = EasingMode.EaseOut }).Now();
+            ToggleOrNotCateList(false);
 
-            HideColorStory.Begin();
+            ShowOrHideColorGrid(false);
             var color = ColorGirdView.SelectedItem as SolidColorBrush;
             var cate = MainVM.CateVM.CatesToModify.ToList().Find(s => s.CateColorID == _selectedID);
             if(cate!= null)
@@ -110,10 +118,8 @@ namespace MyerList.UC
 
         private void PickColorCancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            HideColorStory.Begin();
-
-            Oli.Fade(AddBtn).From(0).To(1).For(0.5,OrSo.Seconds).Now();
-            Oli.MoveXOf(AddBtn).From(20).To(0).For(0.5, OrSo.Seconds).With(new CubicEase() { EasingMode = EasingMode.EaseOut }).Now();
+            ShowOrHideColorGrid(false);
+            ToggleOrNotCateList(false);
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
@@ -126,6 +132,24 @@ namespace MyerList.UC
             });
             var sv = CateListView.GetScrollViewer();
             sv.ChangeView(null, 1000, null);
+        }
+
+        private void ShowOrHideColorGrid(bool show)
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, show?0f:(float)RootGrid.ActualHeight);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
+
+            _colorGridVisual.StartAnimation("Offset.Y", offsetAnimation);
+        }
+
+        private void ToggleOrNotCateList(bool toggle)
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, toggle ? -100f : 0f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(800);
+
+            _cateListVisual.StartAnimation("offset.y", offsetAnimation);
         }
 
         public int CreateNewID()

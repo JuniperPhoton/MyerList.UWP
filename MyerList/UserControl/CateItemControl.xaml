@@ -41,18 +41,22 @@
             </Button>
             <TextBox Text="{Binding CateName,Mode=TwoWay}" Margin="10,0,0,0" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="Black" BorderThickness="0" Grid.Column="1" Background="{x:Null}" MinHeight="20"/>
             <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                <Button Width="40"  x:Name="SortUpBtn" Click="SortUpBtn_Click" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
-                    <SymbolIcon Symbol="Up" Foreground="Black"/>
-                </Button>
-                <Button Width="40" x:Name="SortDownBtn" Click="SortDownBtn_Click" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
-                    <Button.RenderTransform>
-                        <ScaleTransform ScaleY="-1"/>
-                    </Button.RenderTransform>
-                    <SymbolIcon Symbol="Up" Foreground="Black"/>
-                </Button>
-                <Button Width="40" Click="DeleteBtn_Click" x:Name="DeleteBtn" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                <Button Width="50" Click="DeleteBtn_Click" x:Name="DeleteBtn" Style="{StaticResource ListButtonStyle}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
                     <SymbolIcon Symbol="Delete" Foreground="Black"/>
                 </Button>
+                <Grid x:Name="ReorderThumb" Width="50" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#02FFFFFF" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Height="2" Width="20" VerticalAlignment="Bottom" RenderTransformOrigin="0,0.5" Background="Black">
+                    </Border>
+                    <Border Height="2" Width="20" VerticalAlignment="Center" Margin="0" Grid.Row="1" RenderTransformOrigin="0,0.5" Background="Black">
+                    </Border>
+                    <Border Height="2" Width="20" VerticalAlignment="Top" Margin="0" Grid.Row="2" RenderTransformOrigin="0,0.5" Background="Black">
+                    </Border>
+                </Grid>
             </StackPanel>
         </Grid>
     </Grid>
