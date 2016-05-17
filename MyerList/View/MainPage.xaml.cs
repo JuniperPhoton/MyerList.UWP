@@ -446,10 +446,6 @@ namespace MyerListUWP.View
         {
             base.OnNavigatedTo(e);
 
-            if (AppSettings.Instance.EnableBackgroundTask)
-            {
-                BackgroundTaskHelper.RegisterBackgroundTask();
-            }
             if (DeviceHelper.IsMobile)
             {
                 StatusBarHelper.SetUpStatusBar();
