@@ -75,7 +75,7 @@ namespace MyerList.Base
             try
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += BindablePage_BackRequested;
-                if (ApiInformationHelper.HasHardwareButton)
+                if (APIInfoHelper.HasHardwareButton)
                 {
                     HardwareButtons.BackPressed += HardwareButtons_BackPressed;
                 }
@@ -91,7 +91,7 @@ namespace MyerList.Base
             try
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= BindablePage_BackRequested;
-                if (ApiInformationHelper.HasHardwareButton)
+                if (APIInfoHelper.HasHardwareButton)
                 {
                     HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 }

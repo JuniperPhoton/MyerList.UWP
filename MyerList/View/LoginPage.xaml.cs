@@ -39,7 +39,7 @@ namespace MyerList
             _mainVisual.Offset = new Vector3(200f, 0f, 0f);
             _mainVisual.Opacity = 0;
 
-            if (ApiInformationHelper.HasStatusBar)
+            if (APIInfoHelper.HasStatusBar)
             {
                 StatusBar.GetForCurrentView().BackgroundColor = (App.Current.Resources["MyerListBlueLight"] as SolidColorBrush).Color;
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;

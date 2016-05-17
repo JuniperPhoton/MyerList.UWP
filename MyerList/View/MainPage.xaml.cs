@@ -381,7 +381,7 @@ namespace MyerListUWP.View
         protected override void RegisterHandleBackLogic()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += NewMainPage_BackRequested;
-            if (ApiInformationHelper.HasHardwareButton)
+            if (APIInfoHelper.HasHardwareButton)
             {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             }
@@ -390,7 +390,7 @@ namespace MyerListUWP.View
         protected override void UnRegisterHandleBackLogic()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= NewMainPage_BackRequested;
-            if (ApiInformationHelper.HasHardwareButton)
+            if (APIInfoHelper.HasHardwareButton)
             {
                 HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
             }

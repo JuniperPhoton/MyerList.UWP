@@ -1501,7 +1501,7 @@ namespace MyerList.ViewModel
                 await HandleActive((LoginMode)param);
             }
 
-            if (ApiInformationHelper.HasStatusBar)
+            if (APIInfoHelper.HasStatusBar)
             {
                 StatusBarHelper.SetUpStatusBar();
             }
