@@ -65,7 +65,7 @@ namespace MyerList.UC
 
                 CleanUpTileTemplate();
 
-                LargeBackGrd.Background = WideBackGrd.Background = MiddleBackGrd.Background = SmallBackGrd.Background = new SolidColorBrush(Colors.Transparent);
+                //LargeBackGrd.Background = WideBackGrd.Background = MiddleBackGrd.Background = SmallBackGrd.Background = new SolidColorBrush(Colors.Transparent);
 
                 List<string> undoList = new List<string>();
 

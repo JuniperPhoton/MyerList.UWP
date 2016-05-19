@@ -990,7 +990,7 @@ namespace MyerList.ViewModel
                     //在线模式
                     //发送请求
                     var result = await CloudService.AddSchedule(EditedToDo.Content, "0", EditedToDo.Category.ToString());
-                    if (!string.IsNullOrEmpty(result))
+                    if (!string.IsNullOrEmpty(result.JsonSrc))
                     {
                         ////发送当前的顺序
                         await CloudService.SetAllOrder(ToDo.GetCurrentOrderString(AllToDos));
@@ -1311,10 +1311,10 @@ namespace MyerList.ViewModel
                     await CateVM.Refresh(LoginMode.Login);
 
                     var result = await CloudService.GetMySchedules();
-                    if (!string.IsNullOrEmpty(result))
+                    if (!string.IsNullOrEmpty(result.JsonSrc))
                     {
                         //获得无序的待办事项
-                        var scheduleWithoutOrder = ToDo.ParseJsonToObs(result);
+                        var scheduleWithoutOrder = ToDo.ParseJsonToObs(result.JsonSrc);
 
                         //获得顺序列表
                         var orders = await CloudService.GetMyOrder();

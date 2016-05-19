@@ -6,7 +6,6 @@ using System.Diagnostics;
 using JP.Utils.Network;
 using JP.Utils.Debug;
 using JP.Utils.Data;
-using Newtonsoft.Json.Linq;
 using JP.API;
 using System.Threading;
 using Windows.Data.Json;
@@ -22,8 +21,8 @@ namespace MyerList.Helper
             var ok = JsonObject.TryParse(result.JsonSrc, out resultObj);
             if (ok)
             {
-                var errorCode = JsonParser.GetStringFromJsonObj(resultObj, "errorCode");
-                var errorMsg = JsonParser.GetStringFromJsonObj(resultObj, "errorMsg");
+                var errorCode = JsonParser.GetStringFromJsonObj(resultObj, "error_code");
+                var errorMsg = JsonParser.GetStringFromJsonObj(resultObj, "error_message");
 
                 if (!string.IsNullOrEmpty(errorCode))
                 {
@@ -53,41 +52,19 @@ namespace MyerList.Helper
         /// <returns>return the existance of email</returns>
         public async static Task<bool> CheckExist(string email)
         {
-            try
-            {
-                var param = GetDefaultParam();
-                param.Add(new KeyValuePair<string, string>("email", email));
+            var param = GetDefaultParam();
+            param.Add(new KeyValuePair<string, string>("email", email));
 
-                CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserCheckExist, param, cts.Token);
-                result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return false;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"])
-                    {
-                        if ((bool)job["isExist"])
-                        {
-                            return true;
-                        }
-                        else return false;
-                    }
-                    else throw new Exception();
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch (Exception e)
+            CancellationTokenSource cts = new CancellationTokenSource();
+            var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserCheckExist, param, cts.Token);
+            result.ParseResult();
+            if (result.IsSuccessful)
             {
-                throw e;
+                var jsonObj = JsonObject.Parse(result.JsonSrc);
+                var isExist = JsonParser.GetBooleanFromJsonObj(jsonObj, "isExist", false);
+                return isExist;
             }
+            else return false;
         }
 
         /// <summary>
@@ -111,17 +88,10 @@ namespace MyerList.Helper
                 result.ParseResult();
                 if (result.IsSuccessful)
                 {
-                    var response = result.JsonSrc;
-                    if (String.IsNullOrEmpty(response))
-                    {
-                        return null;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"])
-                    {
-                        return (string)job["UserInfo"]["Salt"];
-                    }
-                    else return null;
+                    JsonObject obj = JsonObject.Parse(result.JsonSrc);
+                    var userInfo = JsonParser.GetJsonObjFromJsonObj(obj, "UserInfo");
+                    var salt = JsonParser.GetStringFromJsonObj(userInfo, "Salt");
+                    return salt;
                 }
                 else
                 {
@@ -131,11 +101,6 @@ namespace MyerList.Helper
             catch (OperationCanceledException)
             {
                 throw;
-            }
-            catch (Exception e)
-            {
-                var task = ExceptionHelper.WriteRecordAsync(e);
-                return null;
             }
         }
 
@@ -156,20 +121,15 @@ namespace MyerList.Helper
                 result.ParseResult();
                 if (result.IsSuccessful)
                 {
-                    var content = result.JsonSrc;
-                    JObject job = JObject.Parse(content);
-                    if ((bool)job["isSuccessed"])
-                    {
-                        return (string)job["Salt"];
-                    }
-                    else return null;
+                    JsonObject obj = JsonObject.Parse(result.JsonSrc);
+                    var salt = JsonParser.GetStringFromJsonObj(obj, "Salt");
+                    return salt;
                 }
                 else return null;
             }
-            catch (Exception e)
+            catch(OperationCanceledException)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
-                return null;
+                throw;
             }
         }
 
@@ -195,25 +155,17 @@ namespace MyerList.Helper
                 result.ParseResult();
                 if (result.IsSuccessful)
                 {
-                    var response = result.JsonSrc;
-                    if (String.IsNullOrEmpty(response))
-                    {
-                        return false;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"])
-                    {
-                        LocalSettingHelper.AddValue("sid", (string)job["UserInfo"]["sid"]);
-                        LocalSettingHelper.AddValue("access_token", (string)job["UserInfo"]["access_token"]);
-                        LocalSettingHelper.AddValue("email", email);
-                        LocalSettingHelper.AddValue("password", password);
+                    JsonObject obj = JsonObject.Parse(result.JsonSrc);
+                    var userObj = JsonParser.GetJsonObjFromJsonObj(obj, "UserInfo");
+                    var sid = JsonParser.GetStringFromJsonObj(userObj, "sid");
+                    var token = JsonParser.GetStringFromJsonObj(userObj, "access_token");
 
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    LocalSettingHelper.AddValue("sid", sid);
+                    LocalSettingHelper.AddValue("access_token", token);
+                    LocalSettingHelper.AddValue("email", email);
+                    LocalSettingHelper.AddValue("password", password);
+
+                    return true;
                 }
                 else
                 {
@@ -224,11 +176,6 @@ namespace MyerList.Helper
             {
                 throw;
             }
-            catch (Exception e)
-            {
-                var task = ExceptionHelper.WriteRecordAsync(e);
-                return false;
-            }
         }
 
         /// <summary>
@@ -238,7 +185,7 @@ namespace MyerList.Helper
         /// <param name="content">内容</param>
         /// <param name="isdone">是否完成 0未完成 1完成</param>
         /// <returns>返回JSON数据</returns>
-        public async static Task<string> AddSchedule(string content, string isdone, string cate)
+        public async static Task<CommonRespMsg> AddSchedule(string content, string isdone, string cate)
         {
             try
             {
@@ -254,30 +201,11 @@ namespace MyerList.Helper
                     param, cts.Token);
                 var result = await task;
                 result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return null;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"]) return response;
-                    else return null;
-                }
-                else
-                {
-                    return null;
-                }
+                return result;
             }
             catch (OperationCanceledException)
             {
                 throw;
-            }
-            catch (Exception e)
-            {
-                var task = ExceptionHelper.WriteRecordAsync(e);
-                return null;
             }
         }
 
@@ -302,21 +230,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return false;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"]) return true;
-                    else return false;
-                }
-                else
-                {
-                    return false;
-                }
+                return result.IsSuccessful;
             }
             catch (Exception e)
             {
@@ -344,21 +258,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return false;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"]) return true;
-                    else return false;
-                }
-                else
-                {
-                    return false;
-                }
+                return result.IsSuccessful;
             }
             catch (Exception e)
             {
@@ -383,21 +283,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return false;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"]) return true;
-                    else return false;
-                }
-                else
-                {
-                    return false;
-                }
+                return result.IsSuccessful;
             }
             catch (Exception e)
             {
@@ -411,7 +297,7 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="sid">用户ID</param>
         /// <returns>返回JSON</returns>
-        public async static Task<string> GetMySchedules()
+        public async static Task<CommonRespMsg> GetMySchedules()
         {
             try
             {
@@ -422,23 +308,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleGetUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return null;
-                    }
-                    Debug.WriteLine(response);
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"]) return response;
-                    else return null;
-
-                }
-                else
-                {
-                    return null;
-                }
+                return result;
             }
             catch (Exception e)
             {
@@ -461,23 +331,11 @@ namespace MyerList.Helper
                 result.ParseResult();
                 if (result.IsSuccessful)
                 {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return null;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"])
-                    {
-                        var orderString = (string)(((job["OrderList"] as JArray).First)["list_order"]);
-                        if (orderString != null)
-                        {
-                            return orderString;
-                        }
-                        else return null;
-                    }
-                    else return null;
-
+                    var obj = JsonObject.Parse(result.JsonSrc);
+                    var array = JsonParser.GetJsonArrayFromJsonObj(obj, "OrderList");
+                    var firstObj = array.GetObjectAt(0);
+                    var listOrder = JsonParser.GetStringFromJsonObj(firstObj, "list_order");
+                    return listOrder;
                 }
                 else
                 {
@@ -503,21 +361,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
-                {
-                    var response = result.JsonSrc;
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return false;
-                    }
-                    JObject job = JObject.Parse(response);
-                    if ((bool)job["isSuccessed"]) return true;
-                    else return false;
-                }
-                else
-                {
-                    return false;
-                }
+                return result.IsSuccessful;
             }
             catch (Exception e)
             {
@@ -526,14 +370,18 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<string> GetCateInfo()
+        public async static Task<CommonRespMsg> GetCateInfo()
         {
             try
             {
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await HttpRequestSender.SendGetRequestAsync(UrlHelper.UserGetCateUri + $"sid={UrlHelper.SID}&access_token={UrlHelper.AccessToken}&a={new Random().Next()}", cts.Token);
                 result.ParseResult();
-                return result.JsonSrc;
+                return result;
+            }
+            catch(OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception)
             {
@@ -554,14 +402,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserUpdateCateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (!result.IsSuccessful) throw new ArgumentException();
-
-                var json = result.JsonSrc;
-                if (string.IsNullOrEmpty(json)) throw new ArgumentException();
-
-                JObject job = JObject.Parse(json);
-                if ((bool)job["isSuccessed"]) return true;
-                else return false;
+                return result.IsSuccessful;
             }
             catch (Exception)
             {

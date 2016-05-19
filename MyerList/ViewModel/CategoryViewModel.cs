@@ -206,10 +206,10 @@ namespace MyerListUWP.ViewModel
         {
             try
             {
-                var response = await CloudService.GetCateInfo();
-                if (response == null) throw new ArgumentNullException();
+                var result = await CloudService.GetCateInfo();
+                if (result == null) throw new ArgumentNullException();
 
-                var respJson = JsonObject.Parse(response);
+                var respJson = JsonObject.Parse(result.JsonSrc);
                 var isSuccess = JsonParser.GetBooleanFromJsonObj(respJson, "isSuccessed");
                 if (!isSuccess) throw new ArgumentException();
 

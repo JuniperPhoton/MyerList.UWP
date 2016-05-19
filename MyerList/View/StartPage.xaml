@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Image x:Name="BackgrdImage" Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Grid.RowSpan="2" Grid.ColumnSpan="2" Opacity="0.02" Margin="0" />
         <StackPanel x:Name="TitleSP" Orientation="Vertical" Margin="0" VerticalAlignment="Center" Grid.RowSpan="2">
-            <Image x:Name="LogoImage" Source="ms-appx:///Assets/SOLID_WHITE_500.png" Width="250" MaxWidth="800"/>
+            <Image x:Name="LogoImage" Source="ms-appx:///Assets/Newlogo_ho.png" Width="250" MaxWidth="800"/>
             <StackPanel x:Name="NameSP"  Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" >
                 <TextBlock Text="Myer" FontSize="25" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}" />
                 <TextBlock Text="List" FontSize="25" FontWeight="Bold" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}" />
