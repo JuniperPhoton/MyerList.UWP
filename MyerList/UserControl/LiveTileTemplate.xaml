@@ -29,8 +29,8 @@
                 <TextBlock x:Name="LargeCount" TextWrapping="Wrap" Text="4" FontSize="29.333"  TextAlignment="Right" Foreground="White" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontWeight="SemiBold"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="WideGrid" d:IsHidden="False"  HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="310" Grid.RowSpan="2" Background="{StaticResource DefaultColor}" >
-            <Border x:Name="WideBackGrd" BorderThickness="0" Background="White"/>
+        <Grid x:Name="WideGrid" d:IsHidden="True"  HorizontalAlignment="Center" Height="150" VerticalAlignment="Center" Width="310" Grid.RowSpan="2" Background="{StaticResource DefaultColor}" >
+            <Border x:Name="WideBackGrd" BorderThickness="0"/>
             <StackPanel Orientation="Vertical" Margin="2,27,10,7" VerticalAlignment="Top" Opacity="0.8">
                 <TextBlock x:Name="WideText0"    TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,5,0,0" FontSize="18.667" Foreground="White" Text="文本Text" />
                 <TextBlock x:Name="WideText1"    TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,2,0,0" FontSize="18.667" Foreground="White" Text="文本Text" />
@@ -58,7 +58,7 @@
                 <TextBlock x:Name="MiddleText3"  TextWrapping="NoWrap" TextTrimming="WordEllipsis" Margin="10,3,0,0" FontSize="18" Foreground="White"   Text="TEXT" />
             </StackPanel>
         </Grid>
-        <Grid x:Name="SmallGrid" d:IsHidden="False"  HorizontalAlignment="Center" Height="71" VerticalAlignment="Center" Width="71" Margin="50,215" Background="{StaticResource DefaultColor}" >
+        <Grid x:Name="SmallGrid" d:IsHidden="True"  HorizontalAlignment="Center" Height="71" VerticalAlignment="Center" Width="71" Margin="50,215" Background="{StaticResource DefaultColor}" >
             <Border x:Name="SmallBackGrd" BorderThickness="1" Background="{StaticResource MyerListBlueLight}"/>
             <TextBlock x:Name="SmallCount" TextWrapping="Wrap" Text="3" VerticalAlignment="Center" FontSize="22.667" FontWeight="Bold" TextAlignment="Right" Foreground="White" Margin="25,0,0,0" HorizontalAlignment="Center"  />
         </Grid>

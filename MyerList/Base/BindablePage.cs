@@ -151,6 +151,7 @@ namespace MyerList.Base
             SetNavigationBackBtn();
             SetUpTitleBarExtend();
             SetUpTitleBar();
+            SetUpStatusBar();
 
             RegisterHandleBackLogic();
 

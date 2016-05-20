@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using JP.Utils.Helper;
 using MyerList.Base;
 using MyerList.ViewModel;
 using MyerListUWP.Helper;
@@ -6,10 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Composition;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -52,13 +56,15 @@ namespace MyerList
             this.Loaded += StartPage_Loaded;
         }
 
-        private void StartPage_Loaded(object sender, RoutedEventArgs e)
+        private async void StartPage_Loaded(object sender, RoutedEventArgs e)
         {
             _visualList.ForEach(s =>
             {
                 s.Offset = new Vector3((float)Window.Current.Bounds.Width / 4f, 0f, 0f);
                 s.Opacity = 0;
             });
+
+            await Task.Delay(300);
 
             var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
             offsetAnimation.InsertKeyFrame(1f, 0f);
@@ -77,6 +83,16 @@ namespace MyerList
             }
         }
 
+        protected override void SetUpStatusBar()
+        {
+            if (APIInfoHelper.HasStatusBar)
+            {
+                StatusBar.GetForCurrentView().BackgroundColor = Colors.Transparent;
+                StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;
+                StatusBar.GetForCurrentView().ForegroundColor = Colors.Black;
+            }
+        }
+
         protected override void SetUpTitleBar()
         {
             TitleBarHelper.SetUpForeBlackTitleBar();
@@ -86,7 +102,6 @@ namespace MyerList
         {
             base.OnNavigatedTo(e);
 
-            TitleBarHelper.SetUpForeBlackTitleBar();
             Frame.BackStack.Clear();
         }
 
