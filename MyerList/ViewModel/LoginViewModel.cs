@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MyerList.ViewModel
 {
-    public class LoginViewModel:ViewModelBase, INavigable
+    public class LoginViewModel : ViewModelBase, INavigable
     {
         private LoginMode LoginMode;
 
@@ -169,9 +169,9 @@ namespace MyerList.ViewModel
                         }
 
                         //注册
-                        if (LoginMode==LoginMode.Register || LoginMode==LoginMode.OfflineModeToRegister)
+                        if (LoginMode == LoginMode.Register || LoginMode == LoginMode.OfflineModeToRegister)
                         {
-                           
+
                             if (InputPassword != ConfirmPassword)
                             {
                                 await ToastService.SendToastAsync(ResourcesHelper.GetResString("PasswordInvaild"));
@@ -190,7 +190,7 @@ namespace MyerList.ViewModel
                                 IsLoading = Visibility.Visible;
 
                                 var isLogin = await Login();
-                                if(isLogin)
+                                if (isLogin)
                                 {
                                     Frame rootframe = Window.Current.Content as Frame;
                                     if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
@@ -201,7 +201,7 @@ namespace MyerList.ViewModel
                         }
 
                         //登录
-                        else if(LoginMode == LoginMode.Login || LoginMode==LoginMode.OfflineModeToLogin)
+                        else if (LoginMode == LoginMode.Login || LoginMode == LoginMode.OfflineModeToLogin)
                         {
                             IsLoading = Visibility.Visible;
 
@@ -289,7 +289,7 @@ namespace MyerList.ViewModel
                     return false;
                 }
             }
-            catch(TaskCanceledException)
+            catch (TaskCanceledException)
             {
                 await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
                 return false;
@@ -342,7 +342,7 @@ namespace MyerList.ViewModel
                     return false;
                 }
             }
-            catch(TaskCanceledException)
+            catch (TaskCanceledException)
             {
                 IsLoading = Visibility.Collapsed;
                 await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
@@ -354,7 +354,7 @@ namespace MyerList.ViewModel
                 await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
                 return false;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 IsLoading = Visibility.Collapsed;
                 await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
@@ -380,7 +380,7 @@ namespace MyerList.ViewModel
 
         public void Activate(object param)
         {
-            if(param is LoginMode)
+            if (param is LoginMode)
             {
                 var mode = (LoginMode)param;
                 LoginMode = mode;
@@ -398,7 +398,7 @@ namespace MyerList.ViewModel
                     case LoginMode.OfflineModeToLogin:
                         {
                             ToLoginMode();
-                        };break;
+                        }; break;
                     case LoginMode.OfflineModeToRegister:
                         {
                             ToRegisterMode();
@@ -413,6 +413,11 @@ namespace MyerList.ViewModel
             InputPassword = "";
             ConfirmPassword = "";
             IsLoading = Visibility.Collapsed;
+        }
+
+        public void Loaded(object param)
+        {
+
         }
     }
 }

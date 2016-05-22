@@ -48,7 +48,7 @@ namespace MyerList
 
         protected override void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpForeWhiteTitleBar();
+            TitleBarHelper.SetUpForeBlackTitleBar();
         }
 
         protected override void SetUpNavigationCache()

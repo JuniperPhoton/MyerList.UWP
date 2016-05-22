@@ -20,7 +20,6 @@ using Windows.UI.Xaml.Media;
 
 namespace MyerList.ViewModel
 {
-
     public class SettingPageViewModel : ViewModelBase, INavigable
     {
         private int _currentLanguage;
@@ -79,9 +78,9 @@ namespace MyerList.ViewModel
                     DialogService cdex = new DialogService(ResourcesHelper.GetResString("Notice"), ResourcesHelper.GetResString("LogoutContent"));
                     cdex.LeftButtonContent = ResourcesHelper.GetResString("Ok");
                     cdex.RightButtonContent = ResourcesHelper.GetResString("Cancel");
-                    cdex.OnLeftBtnClick += (async(str) =>
+                    cdex.OnLeftBtnClick += (async (str) =>
                     {
-                        App.IsSyncListOnce = false;
+                        App.HasSyncedListOnce = false;
 
                         await ClearUserSettings();
 
@@ -172,6 +171,11 @@ namespace MyerList.ViewModel
 
         public void Deactivate(object param)
         {
+        }
+
+        public void Loaded(object param)
+        {
+
         }
     }
 }

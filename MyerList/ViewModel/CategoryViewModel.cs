@@ -75,7 +75,7 @@ namespace MyerListUWP.ViewModel
             }
             set
             {
-                if(_catesToAdd!=value)
+                if (_catesToAdd != value)
                 {
                     _catesToAdd = value;
                     RaisePropertyChanged(() => CatesToAdd);
@@ -117,7 +117,7 @@ namespace MyerListUWP.ViewModel
         {
             var currentMaxID = CreateNewID();
             var array = new JsonArray();
-            foreach(var item in CatesToModify)
+            foreach (var item in CatesToModify)
             {
                 var obj = new JsonObject();
                 obj.Add("name", JsonValue.CreateStringValue(item.CateName));
@@ -144,7 +144,7 @@ namespace MyerListUWP.ViewModel
                 App.MainVM.RefreshCate();
                 return true;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -159,7 +159,7 @@ namespace MyerListUWP.ViewModel
 
         public async Task Refresh(LoginMode mode)
         {
-            if(Categories.Count==0)
+            if (Categories.Count == 0)
                 Categories = await RestoreCacheButDefaultList();
             //已经登陆过的了
             if (mode != LoginMode.OfflineMode && !App.IsNoNetwork)
@@ -172,8 +172,8 @@ namespace MyerListUWP.ViewModel
                 }
             }
             Categories.ToList().ForEach(s => s.UpdateColor());
-            Categories.Insert(0, new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateAll"), CateColor = App.Current.Resources["MyerListBlue"] as SolidColorBrush ,CateColorID=0});
-            Categories.Add(new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateDelete"), CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush ,CateColorID=-1});
+            Categories.Insert(0, new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateAll"), CateColor = App.Current.Resources["MyerListBlue"] as SolidColorBrush, CateColorID = 0 });
+            Categories.Add(new ToDoCategory() { CateName = ResourcesHelper.GetResString("CateDelete"), CateColor = App.Current.Resources["DeletedColor"] as SolidColorBrush, CateColorID = -1 });
             UpdateCateToModify();
             UpdateCatesToAdd();
             App.MainVM.RefreshCate();

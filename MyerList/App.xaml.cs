@@ -45,7 +45,9 @@ namespace MyerListUWP
         /// 
         public static bool IsInOfflineMode { get; set; } = false;
 
-        public static bool IsSyncListOnce { get; set; } = false;
+        public static bool HasSyncedListOnce { get; set; } = false;
+
+        public static MainViewModel MainVM { get; set; }
 
         public static bool IsNoNetwork
         {
@@ -64,14 +66,6 @@ namespace MyerListUWP
         }
 
         public static Frame ContentFrame = null;
-
-        public static MainViewModel MainVM
-        {
-            get
-            {
-                return (App.Current.Resources["Locator"] as ViewModelLocator).MainVM;
-            }
-        }
 
         public App()
         {

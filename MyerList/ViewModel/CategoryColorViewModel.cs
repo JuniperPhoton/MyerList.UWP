@@ -25,7 +25,7 @@ using JP.Utils.UI;
 
 namespace MyerList.ViewModel
 {
-    public class CategoryColorViewModel:ViewModelBase
+    public class CategoryColorViewModel : ViewModelBase
     {
         private ObservableCollection<SolidColorBrush> _cateColors;
         public ObservableCollection<SolidColorBrush> CateColors

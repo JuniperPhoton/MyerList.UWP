@@ -257,14 +257,14 @@ namespace MyerList.ViewModel
                      cdex.RightButtonContent = ResourcesHelper.GetResString("Login");
                      cdex.OnLeftBtnClick += ((s) =>
                        {
-                           App.IsSyncListOnce = false;
+                           App.HasSyncedListOnce = false;
                            var rootFrame = Window.Current.Content as Frame;
                            rootFrame.Navigate(typeof(LoginPage), LoginMode.OfflineModeToRegister);
                            cdex.Hide();
                        });
                      cdex.OnRightBtnClick += (() =>
                        {
-                           App.IsSyncListOnce = false;
+                           App.HasSyncedListOnce = false;
                            var rootFrame = Window.Current.Content as Frame;
                            rootFrame.Navigate(typeof(LoginPage), LoginMode.OfflineModeToLogin);
                            cdex.Hide();
@@ -389,7 +389,10 @@ namespace MyerList.ViewModel
                     _addingCate = value;
                     RaisePropertyChanged(() => AddingCate);
                     if (AddingCate >= 0 && AddingCate < CateVM.Categories.Count)
+                    {
                         AddingCateColor = CateVM.Categories[AddingCate].CateColor;
+                        AddingCateName = CateVM.Categories[AddingCate].CateName;
+                    }
                 }
             }
         }
@@ -407,6 +410,24 @@ namespace MyerList.ViewModel
                 RaisePropertyChanged(() => AddingCateColor);
             }
         }
+
+        private string _addingCateName;
+        public string AddingCateName
+        {
+            get
+            {
+                return _addingCateName;
+            }
+            set
+            {
+                if (_addingCateName != value)
+                {
+                    _addingCateName = value;
+                    RaisePropertyChanged(() => AddingCateName);
+                }
+            }
+        }
+
 
         /// <summary>
         /// 添加/修改待办事项时候的“完成”
@@ -515,7 +536,7 @@ namespace MyerList.ViewModel
                 RaisePropertyChanged(() => AllToDos);
             }
         }
-        
+
         /// <summary>
         /// 当前的待办事项
         /// </summary>
@@ -915,7 +936,7 @@ namespace MyerList.ViewModel
                     if (string.IsNullOrEmpty(EditedToDo.Content))
                     {
                         await ToastService.SendToastAsync(ResourcesHelper.GetResString("ContentEmpty"));
-                        return; 
+                        return;
                     }
 
                     ShowPaneOpen = false;
@@ -945,12 +966,12 @@ namespace MyerList.ViewModel
         /// 添加待办事项
         /// </summary>
         /// <returns></returns>
-        private async Task AddOrRestoreAndSyncNewToDo(int? category=null)
+        private async Task AddOrRestoreAndSyncNewToDo(int? category = null)
         {
             ShowNoItems = Visibility.Collapsed;
 
             EditedToDo.ID = Guid.NewGuid().ToString();
-            if(category== null)
+            if (category == null)
             {
                 EditedToDo.Category = CateVM.Categories[AddingCate].CateColorID;
             }
@@ -1386,7 +1407,7 @@ namespace MyerList.ViewModel
 
                 StagedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.StageFileName);
 
-                App.IsSyncListOnce = true;
+                App.HasSyncedListOnce = true;
             }
             catch (Exception ex)
             {
@@ -1423,7 +1444,7 @@ namespace MyerList.ViewModel
         {
             if (SelectedCate == -1) SelectedCate = 0;
             UpdateDisplayList(CateVM.Categories[SelectedCate].CateColorID);
-           // SelectedCate = 0;
+            // SelectedCate = 0;
         }
 
         /// <summary>
@@ -1490,13 +1511,23 @@ namespace MyerList.ViewModel
         /// 进入 MainPage 会调用
         /// </summary>
         /// <param name="param"></param>
-        public async void Activate(object param)
+        public void Activate(object param)
         {
-            if (App.IsSyncListOnce) return;
+
+        }
+
+        public void Deactivate(object param)
+        {
+
+        }
+
+        public async void Loaded(object param)
+        {
+            if (App.HasSyncedListOnce) return;
 
             if (param is LoginMode)
             {
-                App.IsSyncListOnce = true;
+                App.HasSyncedListOnce = true;
 
                 await HandleActive((LoginMode)param);
             }
@@ -1507,11 +1538,6 @@ namespace MyerList.ViewModel
             }
 
             this.CurrentMainPage = (Window.Current.Content as Frame).Content as Page;
-        }
-
-        public void Deactivate(object param)
-        {
-
         }
     }
 }

@@ -21,13 +21,25 @@ namespace MyerList.Base
     {
         public event EventHandler<KeyEventArgs> GlobalPageKeyDown;
 
+        protected object NaivgationParam { get; set; }
+
         public BindablePage()
         {
             SetUpPageAnimation();
             SetUpTitleBar();
             SetUpNavigationCache();
             IsTextScaleFactorEnabled = false;
+            this.Loaded += BindablePage_Loaded;
         }
+
+        private void BindablePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(DataContext is INavigable)
+            {
+                (DataContext as INavigable).Loaded(NaivgationParam);
+            }
+        }
+
         protected virtual void SetUpTitleBarExtend()
         {
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
@@ -141,6 +153,7 @@ namespace MyerList.Base
             base.OnNavigatedTo(e);
             if (DataContext is INavigable)
             {
+                NaivgationParam = e.Parameter;
                 var NavigationViewModel = (INavigable)DataContext;
                 if (NavigationViewModel != null)
                 {

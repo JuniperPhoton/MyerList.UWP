@@ -11,7 +11,6 @@ using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System;
 using System.Numerics;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Phone.UI.Input;
 using Windows.UI;
@@ -23,7 +22,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace MyerListUWP.View
@@ -75,13 +73,18 @@ namespace MyerListUWP.View
         {
             this.InitializeComponent();
 
-            InitFeature();
+            this.DataContext = new MainViewModel();
+
+            //InitFeature();
             InitBinding();
             InitComposition();
             InitialLayout();
 
             this.SizeChanged += MainPage_SizeChanged;
+            
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
+
+            App.MainVM = this.MainVM;
 
             RegisterMessenger();
         }
@@ -285,11 +288,12 @@ namespace MyerListUWP.View
         #region CommandBar
         private void ToggleAddingPanelAnimation(bool show)
         {
-            if(show)
+            if (show)
             {
                 ToggleAddingAnimation(true);
                 TitleBarHelper.SetUpForeWhiteTitleBar();
                 ToggleAnimationWithAddingPanel(false);
+                AddingPanel.SetFocus();
             }
             else
             {
@@ -465,8 +469,12 @@ namespace MyerListUWP.View
             offsetAnimation.InsertKeyFrame(1f, show ? 0 : -100f);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(800);
 
-            _contentRootGirdVisual.StartAnimation("Offset.x", offsetAnimation);
-            if(this.ActualWidth>=WIDTH_THRESHOLD)
+            var offsetAnimation2 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation2.InsertKeyFrame(1f, show ? 0 : -150f);
+            offsetAnimation2.Duration = TimeSpan.FromMilliseconds(800);
+
+            _contentRootGirdVisual.StartAnimation("Offset.x", offsetAnimation2);
+            if (this.ActualWidth >= WIDTH_THRESHOLD)
                 _drawerVisual.StartAnimation("Offset.x", offsetAnimation);
         }
         #endregion

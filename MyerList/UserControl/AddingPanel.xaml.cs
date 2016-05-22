@@ -22,9 +22,9 @@ namespace MyerList.UC
         {
             this.InitializeComponent();
 
-            if(DeviceHelper.IsMobile)
+            if (DeviceHelper.IsMobile)
             {
-                RootSP.Margin = new Thickness(0,100,0,0);
+                RootSP.Margin = new Thickness(0, 100, 0, 0);
                 RootSP.VerticalAlignment = VerticalAlignment.Top;
             }
         }
@@ -39,7 +39,7 @@ namespace MyerList.UC
 
         private void AddContentBox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if(e.Key==Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 App.MainVM.OkCommand.Execute(null);
             }

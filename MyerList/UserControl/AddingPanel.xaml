@@ -7,7 +7,7 @@
     xmlns:converter="using:MyerList.Converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
+    d:DesignHeight="500"
     d:DesignWidth="400">
     <UserControl.Resources>
         <converter:CateStrokeConverter x:Key="CateStrokeConverter"/>
@@ -180,7 +180,13 @@
         <Image Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Opacity="0.02"/>
         <StackPanel x:Name="RootSP" MaxWidth="450" VerticalAlignment="Center" Margin="0,0,0,100">
             <StackPanel Margin="10,0,0,0">
-                <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <Border Background="#7F000000"/>
+                        <TextBlock Margin="5" TextTrimming="CharacterEllipsis" Text="{x:Bind MainVM.AddingCateName,Mode=OneWay}" Foreground="White" FontSize="16" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" />
+                    </Grid>
+                </StackPanel>
                 <ListBox 
                     SelectedIndex="{Binding AddingCate,Mode=TwoWay}"
                     Background="{x:Null}"

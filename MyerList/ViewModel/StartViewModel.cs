@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace MyerList.ViewModel
 {
-    public class StartViewModel:ViewModelBase
+    public class StartViewModel : ViewModelBase
     {
         private RelayCommand _navigateToLoginCommand;
         public RelayCommand NavigateToLoginCommand
@@ -32,7 +32,7 @@ namespace MyerList.ViewModel
                     LocalSettingHelper.AddValue("OfflineMode", "false");
 
                     Frame rootFrame = Window.Current.Content as Frame;
-                    if (rootFrame != null) rootFrame.Navigate(typeof(LoginPage),LoginMode.Login);
+                    if (rootFrame != null) rootFrame.Navigate(typeof(LoginPage), LoginMode.Login);
                 });
             }
         }
@@ -52,16 +52,16 @@ namespace MyerList.ViewModel
                     LocalSettingHelper.AddValue("OfflineMode", "false");
 
                     Frame rootFrame = Window.Current.Content as Frame;
-                    if (rootFrame != null) rootFrame.Navigate(typeof(LoginPage),LoginMode.Register);
+                    if (rootFrame != null) rootFrame.Navigate(typeof(LoginPage), LoginMode.Register);
 
-                    
+
                 });
             }
         }
 
 
         private RelayCommand _navigateToOfflinemodeCommand;
-        public RelayCommand  NavigateToOfflineModeCommand
+        public RelayCommand NavigateToOfflineModeCommand
         {
             get
             {
@@ -74,7 +74,7 @@ namespace MyerList.ViewModel
 
                     Frame rootFrame = Window.Current.Content as Frame;
                     Task.Delay(50);
-                    rootFrame.Navigate(typeof(MainPage),LoginMode.OfflineMode);
+                    rootFrame.Navigate(typeof(MainPage), LoginMode.OfflineMode);
                 });
             }
         }

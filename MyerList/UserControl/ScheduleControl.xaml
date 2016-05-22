@@ -41,7 +41,7 @@
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
+    <Grid x:Name="SchduleTempleteGrid" Margin="0 0 5 0" RightTapped="SchduleTempleteGrid_RightTapped" Tag="{Binding ID}" PointerEntered="SchduleTempleteGrid_OnPointerEntered" ManipulationMode="System,TranslateX,TranslateY" d:DesignWidth="320.167" RenderTransformOrigin="0.5,0.5" Height="35">
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem" Click="MarkDownItem_Click" Text="标记已完成"/>

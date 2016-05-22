@@ -17,5 +17,7 @@ namespace MyerList.Interface
         /// </summary>
         /// <param name="param"></param>
         void Deactivate(object param);
+
+        void Loaded(object param);
     }
 }

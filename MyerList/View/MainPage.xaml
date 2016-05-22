@@ -13,7 +13,6 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding MainVM,Source={StaticResource Locator}}"
     mc:Ignorable="d" Background="White">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
@@ -32,7 +31,6 @@
             <ColorAnimation From="White" To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
             <ColorAnimation From="White" To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
         </Storyboard>
-        <x:Double x:Key="MaxWidth">1500</x:Double>
     </base:BindablePage.Resources>
     <Grid Background="White">
         <Grid x:Name="ContentRootGird" Background="White" Grid.Column="1" Margin="0 -30 0 0" >

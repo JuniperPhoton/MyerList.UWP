@@ -91,9 +91,9 @@
         <Rectangle x:Name="backGrdRect" Fill="Transparent" HorizontalAlignment="Stretch"/>
         <Button x:Name="BackBtn" Width="60" Click="BackBtn_Click" Padding="0" Style="{StaticResource ButtonStyle2}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{x:Null}" BorderThickness="0">
             <Grid Background="#00000000">
-                <TextBlock x:Name="BackSymbol" Text="&#xE830;" Foreground="White" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock x:Name="BackSymbol" Text="&#xE830;" Foreground="Black" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
         </Button>
-        <TextBlock x:Name="TitleTB" Text="MyerList" VerticalAlignment="Center" Margin="70,0,0,0" Foreground="White"/>
+        <TextBlock x:Name="TitleTB" Text="MyerList" VerticalAlignment="Center" Margin="70,0,0,0" Foreground="Black"/>
     </Grid>
 </UserControl>
