@@ -12,6 +12,7 @@ using MyerListUWP.Helper;
 using System;
 using System.Numerics;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Phone.UI.Input;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -29,6 +30,8 @@ namespace MyerListUWP.View
 {
     public sealed partial class MainPage : BindablePage
     {
+        private static double WIDTH_THRESHOLD => 650;
+
         //数据源
         public MainViewModel MainVM
         {
@@ -40,9 +43,6 @@ namespace MyerListUWP.View
 
         //当前抽屉是否出现了
         private bool _isDrawerSlided = false;
-
-        //当前的手指位置，用于手势
-        private double _pointOriX = 0;
 
         //添加/修改的面板是否出现
         public bool IsAddingPaneOpen
@@ -58,14 +58,18 @@ namespace MyerListUWP.View
         public static void IsAddingPaneOpenPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             var page = d as MainPage;
-            if (args.NewValue == args.OldValue) return;
-            if ((bool)args.NewValue) page.EnterAddMode();
-            else page.LeaveAddmode();
+            page.ToggleAddingPanelAnimation((bool)args.NewValue);
         }
 
         private Compositor _compositor;
         private Visual _drawerVisual;
         private Visual _drawerMaskVisual;
+        private Visual _addingPanelVisual;
+        private Visual _defaultCommandBarVisual;
+        private Visual _deleteComamndBarVisual;
+        private Visual _contentRootGirdVisual;
+        private Visual _headerVisual;
+        private Visual _hamburgerVisual;
 
         public MainPage()
         {
@@ -74,16 +78,12 @@ namespace MyerListUWP.View
             InitFeature();
             InitBinding();
             InitComposition();
+            InitialLayout();
 
-            CoreWindow.GetForCurrentThread().SizeChanged += MainPage_SizeChanged;
-
-            RegisterMessenger();
-
-            this.Loaded += MainPage_Loaded;
-
+            this.SizeChanged += MainPage_SizeChanged;
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
 
-            InitialLayout();
+            RegisterMessenger();
         }
 
         private void InitComposition()
@@ -91,9 +91,18 @@ namespace MyerListUWP.View
             _drawerVisual = ElementCompositionPreview.GetElementVisual(Drawer);
             _drawerMaskVisual = ElementCompositionPreview.GetElementVisual(MaskBorder);
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _addingPanelVisual = ElementCompositionPreview.GetElementVisual(AddingPanel);
+            _contentRootGirdVisual = ElementCompositionPreview.GetElementVisual(ContentRootGird);
+            _defaultCommandBarVisual = ElementCompositionPreview.GetElementVisual(DefaultCommandBar);
+            _deleteComamndBarVisual = ElementCompositionPreview.GetElementVisual(DeleteCommandBar);
+            _headerVisual = ElementCompositionPreview.GetElementVisual(HeaderSP);
+            _hamburgerVisual = ElementCompositionPreview.GetElementVisual(HamburgerBtn);
 
             _drawerMaskVisual.Opacity = 0;
             _drawerVisual.Offset = new Vector3(-250, 0f, 0f);
+            _deleteComamndBarVisual.Offset = new Vector3(0f, 50f, 0f);
+
+            _addingPanelVisual.Offset = new Vector3(-(float)this.ActualWidth, 0f, 0f);
 
             MaskBorder.Visibility = Visibility.Collapsed;
         }
@@ -148,16 +157,9 @@ namespace MyerListUWP.View
             }
         }
 
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            AddingPaneFirstOffset.Value = -this.ActualWidth;
-            AddingPaneLastOffset.Value = -this.ActualWidth;
-            AddingPanelTransform.TranslateX = -this.ActualWidth;
-        }
-
         private void InitialLayout()
         {
-            if (Window.Current.Bounds.Width >= 720)
+            if (Window.Current.Bounds.Width >= WIDTH_THRESHOLD)
             {
                 HeaderContentRootGrid.Background = new SolidColorBrush(Colors.White);
                 HamburgerBtn.ForegroundBrush = App.Current.Resources["MyerListBlue"] as SolidColorBrush;
@@ -186,13 +188,13 @@ namespace MyerListUWP.View
                     _isDrawerSlided = false;
                 }
             });
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.ChangeCommandBarToDelete, msg =>
+            Messenger.Default.Register(this, MessengerTokens.ChangeCommandBarToDelete, (GenericMessage<string> msg) =>
             {
-                SwitchCommandBarToDelete.Begin();
+                this.SwitchToDeleteCommandBar();
             });
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.ChangeCommandBarToDefault, msg =>
+            Messenger.Default.Register(this, MessengerTokens.ChangeCommandBarToDefault, (GenericMessage<string> msg) =>
             {
-                SwitchCommandBarToDefault.Begin();
+                this.SwitchToDefaultCommandBar();
             });
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, async act =>
             {
@@ -212,48 +214,39 @@ namespace MyerListUWP.View
         }
 
         #region SizeChanged
-        private void MainPage_SizeChanged(CoreWindow sender, WindowSizeChangedEventArgs args)
-        {
-            var left = 0d;
-            var right = 0d;
-
-            if (Window.Current.Bounds.Width >= 720)
-            {
-                left = 270;
-                right = (Window.Current.Bounds.Width - 250) / 5d;
-                _isDrawerSlided = true;
-
-            }
-            else
-            {
-                _isDrawerSlided = false;
-
-            }
-
-            UpdateColorWhenSizeChanged();
-
-            if (ListContentGrid.Margin.Left != left)
-            {
-                ListContentGrid.Margin = new Thickness(left, 0, right, 0);
-                HeaderContentGrid.Margin = new Thickness(left, 0, right, 20);
-            }
-
-            AddingPaneFirstOffset.Value = -this.ActualWidth;
-            AddingPaneLastOffset.Value = -this.ActualWidth;
-            AddingPanelTransform.TranslateX = -this.ActualWidth;
-
-            if (!_isDrawerSlided)
-            {
-                _drawerVisual.Offset = new Vector3(-250f, 0f, 0f);
-            }
-        }
-
         bool _isToggleAnim1 = false;
         bool _isToggleAnim2 = false;
 
+        private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!IsAddingPaneOpen)
+            {
+                _addingPanelVisual.Offset = new Vector3(-(float)this.ActualWidth, 0f, 0f);
+            }
+
+            if (e?.NewSize.Width > WIDTH_THRESHOLD && !_isDrawerSlided)
+            {
+                ToggleDrawerAnimation(true);
+                _isDrawerSlided = true;
+                ContentRootGird.Margin = new Thickness(260, 0, 0, 0);
+                ChangeCommandBarColorToWhiteStory.Begin();
+                ToggleHeaderAnimation(false);
+            }
+            else if (e?.NewSize.Width <= WIDTH_THRESHOLD && _isDrawerSlided)
+            {
+                ToggleDrawerAnimation(false);
+                ToggleDrawerMaskAnimation(false);
+                _isDrawerSlided = false;
+                ContentRootGird.Margin = new Thickness(0, 0, 0, 0);
+                ChangeCommandBarColorToGreyStory.Begin();
+                ToggleHeaderAnimation(true);
+            }
+            UpdateColorWhenSizeChanged();
+        }
+
         private void UpdateColorWhenSizeChanged()
         {
-            if (Window.Current.Bounds.Width >= 720)
+            if (Window.Current.Bounds.Width >= WIDTH_THRESHOLD)
             {
                 if (!_isToggleAnim1)
                 {
@@ -290,38 +283,28 @@ namespace MyerListUWP.View
         #endregion
 
         #region CommandBar
-        private double origianlTranslateX = 0;
-        private void EnterAddMode()
+        private void ToggleAddingPanelAnimation(bool show)
         {
-            var transfrom = Drawer.RenderTransform as CompositeTransform;
-            origianlTranslateX = transfrom.TranslateX;
-
-            Oli.MoveXOf(Drawer).From(origianlTranslateX).To(transfrom.TranslateX - 100).
-                With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
-
-            AddStory.Begin();
-            AddingPanel.SetFocus();
-
-            TitleBarHelper.SetUpForeWhiteTitleBar();
-        }
-
-        private void LeaveAddmode()
-        {
-            RemoveStory.Begin();
-
-            var transfrom = Drawer.RenderTransform as CompositeTransform;
-            Oli.MoveXOf(Drawer).To(origianlTranslateX).From(transfrom.TranslateX - 100).
-                With(new CubicEase() { EasingMode = EasingMode.EaseOut }).For(0.5, OrSo.Seconds).Now();
-
-            if (Window.Current.Bounds.Width >= 720)
+            if(show)
             {
-                TitleBarHelper.SetUpForeBlackTitleBar();
+                ToggleAddingAnimation(true);
+                TitleBarHelper.SetUpForeWhiteTitleBar();
+                ToggleAnimationWithAddingPanel(false);
+            }
+            else
+            {
+                ToggleAddingAnimation(false);
+                ToggleAnimationWithAddingPanel(true);
+
+                if (Window.Current.Bounds.Width >= WIDTH_THRESHOLD)
+                {
+                    TitleBarHelper.SetUpForeBlackTitleBar();
+                }
             }
         }
         #endregion
 
         #region Drawer
-        #region Drawer animation trigger
         private void ToggleDrawerAnimation(bool show)
         {
             var offsetAnim = _compositor.CreateScalarKeyFrameAnimation();
@@ -347,7 +330,6 @@ namespace MyerListUWP.View
             };
             batch.End();
         }
-        #endregion
 
         private void HamClick(object sender, RoutedEventArgs e)
         {
@@ -365,6 +347,127 @@ namespace MyerListUWP.View
                 ToggleDrawerAnimation(false);
                 ToggleDrawerMaskAnimation(false);
             }
+        }
+        #endregion
+
+        #region Feature
+        private void FeatureOkClick(object sender, RoutedEventArgs e)
+        {
+            var anim1 = Oli.Fade(FeatureGrid).From(1).To(0).For(0.2, OrSo.Seconds).Now();
+            Oli.Run(() =>
+            {
+                FeatureGrid.Visibility = Visibility.Collapsed;
+            }).After(anim1);
+            LocalSettingHelper.AddValue(ResourcesHelper.GetDicString("FeatureToken"), "true");
+        }
+        #endregion
+
+        #region Drawer manipulation
+        private void TouchGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (e.Cumulative.Translation.X >= 70)
+            {
+                _isDrawerSlided = true;
+                ToggleDrawerAnimation(true);
+                ToggleDrawerMaskAnimation(true);
+            }
+            else
+            {
+                _isDrawerSlided = false;
+                ToggleDrawerAnimation(false);
+                ToggleDrawerMaskAnimation(false);
+            }
+        }
+
+        private void TouchGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (_drawerMaskVisual.Opacity < 1)
+            {
+                MaskBorder.Visibility = Visibility.Visible;
+                _drawerMaskVisual.Opacity += 0.02f;
+            }
+            var targetOffsetX = _drawerVisual.Offset.X + e.Delta.Translation.X;
+            _drawerVisual.Offset = new Vector3((float)(targetOffsetX > 1 ? 1 : targetOffsetX), 0f, 0f);
+        }
+        #endregion
+
+        #region Animations
+        private void ToggleAddingAnimation(bool show)
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, show ? 0f : -(float)this.ActualWidth);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
+
+            _addingPanelVisual.StartAnimation("Offset.x", offsetAnimation);
+        }
+
+        private void SwitchToDeleteCommandBar()
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, 50f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(300);
+
+            var offsetAnimation2 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation2.InsertKeyFrame(1f, 0f);
+            offsetAnimation2.Duration = TimeSpan.FromMilliseconds(300);
+            offsetAnimation2.DelayTime = TimeSpan.FromMilliseconds(200);
+
+            _defaultCommandBarVisual.StartAnimation("Offset.y", offsetAnimation);
+            _deleteComamndBarVisual.StartAnimation("Offset.y", offsetAnimation2);
+        }
+
+        private void SwitchToDefaultCommandBar()
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, 0f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(300);
+            offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(200);
+
+            var offsetAnimation2 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation2.InsertKeyFrame(1f, 50f);
+            offsetAnimation2.Duration = TimeSpan.FromMilliseconds(300);
+
+            _defaultCommandBarVisual.StartAnimation("Offset.y", offsetAnimation);
+            _deleteComamndBarVisual.StartAnimation("Offset.y", offsetAnimation2);
+        }
+
+        private void ToggleHeaderAnimation(bool showHamburger)
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, showHamburger ? 0 : -30f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(800);
+
+            var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            fadeAnimation.InsertKeyFrame(1f, showHamburger ? 1f : 0f);
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(800);
+
+            HamburgerBtn.IsEnabled = true;
+            var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            _headerVisual.StartAnimation("Offset.x", offsetAnimation);
+            _hamburgerVisual.StartAnimation("Opacity", fadeAnimation);
+            batch.Completed += ((sender, e) =>
+              {
+                  if (!showHamburger)
+                  {
+                      HamburgerBtn.IsEnabled = false;
+                  }
+                  else
+                  {
+                      HamburgerBtn.IsEnabled = true;
+                  }
+              });
+            batch.End();
+        }
+
+        private void ToggleAnimationWithAddingPanel(bool show)
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, show ? 0 : -100f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(800);
+
+            _contentRootGirdVisual.StartAnimation("Offset.x", offsetAnimation);
+            if(this.ActualWidth>=WIDTH_THRESHOLD)
+                _drawerVisual.StartAnimation("Offset.x", offsetAnimation);
         }
         #endregion
 
@@ -467,45 +570,10 @@ namespace MyerListUWP.View
 
         #endregion
 
-        #region Feature
-        private void FeatureOkClick(object sender, RoutedEventArgs e)
+        private void HeaderSP_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var anim1 = Oli.Fade(FeatureGrid).From(1).To(0).For(0.2, OrSo.Seconds).Now();
-            Oli.Run(() =>
-            {
-                FeatureGrid.Visibility = Visibility.Collapsed;
-            }).After(anim1);
-            LocalSettingHelper.AddValue(ResourcesHelper.GetDicString("FeatureToken"), "true");
+            var sp = sender as StackPanel;
+            sp.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height) };
         }
-        #endregion
-
-        #region Drawer manipulation
-        private void TouchGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            if (e.Cumulative.Translation.X >= 70)
-            {
-                _isDrawerSlided = true;
-                ToggleDrawerAnimation(true);
-                ToggleDrawerMaskAnimation(true);
-            }
-            else
-            {
-                _isDrawerSlided = false;
-                ToggleDrawerAnimation(false);
-                ToggleDrawerMaskAnimation(false);
-            }
-        }
-
-        private void TouchGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            if (_drawerMaskVisual.Opacity < 1)
-            {
-                MaskBorder.Visibility = Visibility.Visible;
-                _drawerMaskVisual.Opacity += 0.02f;
-            }
-            var targetOffsetX = _drawerVisual.Offset.X + e.Delta.Translation.X;
-            _drawerVisual.Offset = new Vector3((float)(targetOffsetX > 1 ? 1 : targetOffsetX), 0f, 0f);
-        }
-        #endregion
     }
 }

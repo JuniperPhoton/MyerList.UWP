@@ -24,159 +24,18 @@
         <Storyboard x:Name="ChangeColorStory">
             <ColorAnimation x:Name="ChangeColorAnim" To="White" From="White" Duration="0:0:0.2" Storyboard.TargetName="HeaderContentRootGrid" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
         </Storyboard>
-        <Storyboard x:Name="AddStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPanel">
-                <EasingDoubleKeyFrame KeyTime="0" x:Name="AddingPaneFirstOffset" Value="-400"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ContentRootGird">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="-100">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ContentRootGird">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPanel">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
+        <Storyboard x:Name="ChangeCommandBarColorToWhiteStory">
+            <ColorAnimation To="White" From="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
+            <ColorAnimation To="White" From="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
         </Storyboard>
-        <Storyboard x:Name="RemoveStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="AddingPanel">
-                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" x:Name="AddingPaneLastOffset" Value="-400">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddingPanel">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ContentRootGird">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-100"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ContentRootGird">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <CubicEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="SwitchCommandBarToDelete">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="DefaultCommandBar">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="DeleteCommandBar">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="SwitchCommandBarToDefault">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="DefaultCommandBar">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="DeleteCommandBar">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50"/>
-            </DoubleAnimationUsingKeyFrames>
+        <Storyboard x:Name="ChangeCommandBarColorToGreyStory">
+            <ColorAnimation From="White" To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
+            <ColorAnimation From="White" To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
         </Storyboard>
         <x:Double x:Key="MaxWidth">1500</x:Double>
     </base:BindablePage.Resources>
     <Grid Background="White">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <!--Narrow-->
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <!--Wide-->
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Desktop"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="DisplayedListView.MaxWidth" Value="{StaticResource MaxWidth}"/>
-                        <Setter Target="HeaderContentGrid.MaxWidth" Value="{StaticResource MaxWidth}"/>
-                        <Setter Target="DeleteListView.MaxWidth" Value="{StaticResource MaxWidth}"/>
-                        <Setter Target="SortBtn.Visibility" Value="Visible"/>
-                        <!--<Setter Target="HamburgerBtn.ForegroundBrush" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>
-                        <Setter Target="TitleTB.Foreground" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>-->
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Mobile"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="DeleteListView.MaxWidth" Value="450"/>
-                        <Setter Target="DisplayedListView.MaxWidth" Value="450"/>
-                        <Setter Target="HeaderContentGrid.MaxWidth" Value="450"/>
-                        <Setter Target="SortBtn.Visibility" Value="Collapsed"/>
-
-                        <!--<Setter Target="HeaderContentRootGrid.Background" Value="{x:Bind MainVM.CateColor,Mode=OneWay}"/>-->
-                        <!--<Setter Target="HamburgerBtn.ForegroundBrush" Value="White"/>
-                        <Setter Target="TitleTB.Foreground" Value="White"/>-->
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <Grid x:Name="ContentRootGird" Background="White" Grid.Column="1" Margin="0 -30 0 0" RenderTransformOrigin="0.5 0.5">
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
+        <Grid x:Name="ContentRootGird" Background="White" Grid.Column="1" Margin="0 -30 0 0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="130"/>
                 <RowDefinition/>
@@ -185,32 +44,17 @@
                 <Grid.Background>
                     <SolidColorBrush Color="White"/>
                 </Grid.Background>
-                <Grid x:Name="HeaderContentGrid" MaxWidth="450" VerticalAlignment="Bottom" Margin="0,0,0,20">
-                    <StackPanel Orientation="Horizontal">
-                        <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="Black" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" Background="Transparent">
-                            <uc:HamburgerButton.RenderTransform>
-                                <CompositeTransform/>
-                            </uc:HamburgerButton.RenderTransform>
-                        </uc:HamburgerButton>
-                        <cc:AnimatedTextBlock x:Name="TitleTB" TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="Black" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left">
-                            <cc:AnimatedTextBlock.RenderTransform>
-                                <CompositeTransform/>
-                            </cc:AnimatedTextBlock.RenderTransform>
-                        </cc:AnimatedTextBlock>
-                        <ProgressRing x:Name="ProgressRing" Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="Black" HorizontalAlignment="Left" Margin="10,0,0,0">
-                            <ProgressRing.RenderTransform>
-                                <CompositeTransform/>
-                            </ProgressRing.RenderTransform>
-                        </ProgressRing>
+                <Grid x:Name="HeaderContentGrid" VerticalAlignment="Bottom" Margin="0,0,0,20">
+                    <StackPanel x:Name="HeaderSP" SizeChanged="HeaderSP_SizeChanged" Orientation="Horizontal">
+                        <uc:HamburgerButton x:Name="HamburgerBtn" ForegroundBrush="Black" ButtonClick="HamClick" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" Background="Transparent"/>
+                        <cc:AnimatedTextBlock x:Name="TitleTB" TextContent="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="Black" VerticalAlignment="Center" FontSize="27" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                        <ProgressRing x:Name="ProgressRing" Visibility="{x:Bind MainVM.IsLoading,Mode=OneWay}" IsActive="True" Foreground="Black" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                     </StackPanel>
                 </Grid>
             </Grid>
             <uc:LiveTileTemplate x:Name="TileControl" Grid.Row="1" HorizontalAlignment="Right"/>
             <Grid x:Name="ListContentGrid" Grid.Row="1" Background="White">
                 <Grid x:Name="ListGrid">
-                    <Grid.RenderTransform>
-                        <CompositeTransform/>
-                    </Grid.RenderTransform>
                     <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedPage,Mode=TwoWay}" IsLocked="True" Background="White">
                         <Pivot.RenderTransform>
                             <CompositeTransform/>
@@ -221,7 +65,6 @@
 				                    ItemTemplate="{StaticResource ScheduleTemplete}"
 				                    ItemsSource="{x:Bind MainVM.CurrentDisplayToDos,Mode=OneWay}" 
 				                    ItemContainerStyle="{StaticResource ListViewItemStyle1}" 
-				                    MaxWidth="750"
                                     ReorderUIElementName="ReorderThumb"
                                     SelectionMode="None" 
                                     Margin="0,20,0,50"
@@ -248,7 +91,6 @@
                                     CanReorderItems="False"
                                     AllowDrop="False"
                                     CanDragItems="False"
-                                    MaxWidth="450"  
                                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
                                     SelectionMode="None" BorderThickness="10,0" Margin="0,30,0,50">
                                 </ListView>
@@ -261,49 +103,39 @@
                     </Pivot>
                 </Grid>
             </Grid>
-            <Grid x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
-                <Grid.Background>
-                    <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
-                </Grid.Background>
-                <Grid.RenderTransform>
-                    <CompositeTransform/>
-                </Grid.RenderTransform>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.AddCommand}">
-                        <SymbolIcon Symbol="Add"/>
-                    </Button>
-                    <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.SyncCommand}">
-                        <SymbolIcon Symbol="Sync"/>
-                    </Button>
-                </StackPanel>
-            </Grid>
-            <Grid x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
-                <Grid.Background>
-                    <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
-                </Grid.Background>
-                <Grid.RenderTransform>
-                    <CompositeTransform TranslateY="90"/>
-                </Grid.RenderTransform>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.DeteteAllCommand}">
-                        <SymbolIcon Symbol="Delete"/>
-                    </Button>
-                </StackPanel>
-            </Grid>
-            <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
+        </Grid>
+        <Grid x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.AddCommand}">
+                    <SymbolIcon Symbol="Add"/>
+                </Button>
+                <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.SyncCommand}">
+                    <SymbolIcon Symbol="Sync"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Width="60" Height="50" Style="{StaticResource ListButtonStyle}" Command="{x:Bind MainVM.DeteteAllCommand}">
+                    <SymbolIcon Symbol="Delete"/>
+                </Button>
+            </StackPanel>
         </Grid>
         <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="20" ManipulationMode="TranslateX" ManipulationDelta="TouchGrid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
+        <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
         <uc:NavigationDrawer x:Name="Drawer" Width="250" Margin="0 -30 0 0" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}"/>
-
         <uc:AddingPanel x:Name="AddingPanel" 
                         Margin="0 -30 0 0"
                         Visibility="Visible"
                         Background="{StaticResource MyerListBlueLight}" 
                         Grid.RowSpan="5" 
-                        VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
-            <uc:AddingPanel.RenderTransform>
-                <CompositeTransform x:Name="AddingPanelTransform" TranslateX="-400"/>
-            </uc:AddingPanel.RenderTransform>
+                        VerticalAlignment="Stretch">
         </uc:AddingPanel>
         <Grid x:Name="FeatureGrid" Visibility="Collapsed">
             <Border Background="#E1000000"/>
