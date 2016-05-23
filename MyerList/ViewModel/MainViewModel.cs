@@ -914,7 +914,7 @@ namespace MyerList.ViewModel
         /// 更新排序
         /// </summary>
         /// <returns></returns>
-        private async Task UpdateOrder()
+        public async Task UpdateOrder()
         {
             var orderStr = ToDo.GetCurrentOrderString(AllToDos);
             await CloudService.SetAllOrder(orderStr);

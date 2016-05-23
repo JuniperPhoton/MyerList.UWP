@@ -67,6 +67,7 @@
                                     SelectionMode="None" 
                                     Margin="0,20,0,50"
                                     CanReorderItems="False"
+                                    OnReorderStopped="DisplayedListView_OnReorderStopped"
                                     EnableWaggingAnimation="False"
                                     IsItemClickEnabled="True"
                                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"

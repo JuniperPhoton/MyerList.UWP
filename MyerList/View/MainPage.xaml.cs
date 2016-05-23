@@ -473,10 +473,18 @@ namespace MyerListUWP.View
             offsetAnimation2.InsertKeyFrame(1f, show ? 0 : -150f);
             offsetAnimation2.Duration = TimeSpan.FromMilliseconds(800);
 
+            var offsetAnimation3 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation3.InsertKeyFrame(1f, show ? 0 : 50f);
+            offsetAnimation3.Duration = TimeSpan.FromMilliseconds(800);
+
             _contentRootGirdVisual.StartAnimation("Offset.x", offsetAnimation2);
+            _defaultCommandBarVisual.StartAnimation("Offset.y", offsetAnimation3);
+
             if (this.ActualWidth >= WIDTH_THRESHOLD)
                 _drawerVisual.StartAnimation("Offset.x", offsetAnimation);
         }
+
+
         #endregion
 
         #region Override
@@ -582,6 +590,11 @@ namespace MyerListUWP.View
         {
             var sp = sender as StackPanel;
             sp.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height) };
+        }
+
+        private async void DisplayedListView_OnReorderStopped()
+        {
+            await MainVM.UpdateOrder();
         }
     }
 }
