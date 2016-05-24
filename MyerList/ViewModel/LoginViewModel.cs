@@ -189,8 +189,7 @@ namespace MyerList.ViewModel
                             {
                                 IsLoading = Visibility.Visible;
 
-                                var isLogin = await Login();
-                                if (isLogin)
+                                if (await Login())
                                 {
                                     Frame rootframe = Window.Current.Content as Frame;
                                     if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
@@ -205,8 +204,7 @@ namespace MyerList.ViewModel
                         {
                             IsLoading = Visibility.Visible;
 
-                            var isLoginSuccessfylly = await Login();
-                            if (isLoginSuccessfylly)
+                            if (await Login())
                             {
                                 Frame rootframe = Window.Current.Content as Frame;
                                 if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);

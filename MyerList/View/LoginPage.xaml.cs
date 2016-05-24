@@ -29,11 +29,7 @@ namespace MyerList
 
         private void LoginPage_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                Messenger.Default.Send(new GenericMessage<string>(""), MessengerTokens.PressEnterToLoginToken);
-                this.Focus(FocusState.Pointer);
-            }
+
         }
 
         protected override void SetUpStatusBar()

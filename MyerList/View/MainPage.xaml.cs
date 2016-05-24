@@ -4,12 +4,14 @@ using JP.Utils.Helper;
 using Lousy.Mon;
 using MyerList.Base;
 using MyerList.Helper;
+using MyerList.Model;
 using MyerList.UC;
 using MyerList.ViewModel;
 using MyerListCustomControl;
 using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System;
+using System.Collections.ObjectModel;
 using System.Numerics;
 using Windows.Foundation;
 using Windows.Phone.UI.Input;
@@ -81,7 +83,7 @@ namespace MyerListUWP.View
             InitialLayout();
 
             this.SizeChanged += MainPage_SizeChanged;
-            
+
             MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
 
             App.MainVM = this.MainVM;
@@ -181,6 +183,10 @@ namespace MyerListUWP.View
 
         private void RegisterMessenger()
         {
+            Messenger.Default.Register<GenericMessage<ObservableCollection<ToDo>>>(this, MessengerTokens.UpdateTile, async msg =>
+            {
+                await TileControl.UpdateTileAsync(msg.Content);
+            });
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.CloseHam, msg =>
             {
                 if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < 720)

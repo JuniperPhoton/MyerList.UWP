@@ -14,11 +14,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" 
     Background="{StaticResource MyerListGray}">
-    <!--<Interactivity:Interaction.Behaviors>
+    <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
             <attach:InvokeCommandByKeyDown Command="{x:Bind LoginVM.NextCommand}" PressedKey="F5" />
         </Core:EventTriggerBehavior>
-    </Interactivity:Interaction.Behaviors>-->
+    </Interactivity:Interaction.Behaviors>
     <Grid Background="{StaticResource MyerListGray}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

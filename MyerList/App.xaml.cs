@@ -21,6 +21,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
+using Windows.System.UserProfile;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -120,18 +121,7 @@ namespace MyerListUWP
 
                 Window.Current.Content = rootFrame;
 
-                if (LocalSettingHelper.HasValue("AppLang") == false)
-                {
-                    var lang = Windows.System.UserProfile.GlobalizationPreferences.Languages[0];
-                    if (lang.Contains("zh"))
-                    {
-                        ApplicationLanguages.PrimaryLanguageOverride = "zh-CN";
-                    }
-                    else ApplicationLanguages.PrimaryLanguageOverride = "en-US";
-
-                    LocalSettingHelper.AddValue("AppLang", ApplicationLanguages.PrimaryLanguageOverride);
-                }
-                else ApplicationLanguages.PrimaryLanguageOverride = LocalSettingHelper.GetValue("AppLang");
+                GlobalHelper.SetupLang();
 
                 if (LocalSettingHelper.HasValue("email"))
                 {

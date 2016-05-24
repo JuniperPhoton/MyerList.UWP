@@ -50,13 +50,12 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <uc:LiveTileTemplate x:Name="TileControl" Grid.Row="1" HorizontalAlignment="Right"/>
+            <uc:LiveTileTemplate x:Name="TileControl"
+                                 Grid.Row="1" 
+                                 HorizontalAlignment="Right"/>
             <Grid x:Name="ListContentGrid" Grid.Row="1" Background="White">
                 <Grid x:Name="ListGrid">
                     <Pivot Margin="0,0,0,0" x:Name="pivot" SelectedIndex="{x:Bind MainVM.SelectedPage,Mode=TwoWay}" IsLocked="True" Background="White">
-                        <Pivot.RenderTransform>
-                            <CompositeTransform/>
-                        </Pivot.RenderTransform>
                         <PivotItem Margin="0,-50,0,0" >
                             <Grid>
                                 <control:ListViewEx x:Name="DisplayedListView" Grid.Row="1"

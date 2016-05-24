@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="Base\BindablePage.cs" />
     <Compile Include="Base\CustomTitleBarPage.cs" />
+    <Compile Include="Common\GlobalHelper.cs" />
     <Compile Include="Common\UmengKey.cs" />
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />

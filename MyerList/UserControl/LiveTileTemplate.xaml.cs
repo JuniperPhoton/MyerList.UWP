@@ -20,27 +20,7 @@ namespace MyerList.UC
         public LiveTileTemplate()
         {
             this.InitializeComponent();
-
-            Messenger.Default.Register<GenericMessage<ObservableCollection<ToDo>>>(this, MessengerTokens.UpdateTile, async msg =>
-            {
-                try
-                {
-                    if (!AppSettings.Instance.EnableTile)
-                    {
-                        UpdateTileHelper.ClearAllSchedules();
-                        return;
-                    }
-
-                    var list = msg.Content;
-
-                    await UpdateCustomeTile(list);
-                }
-                catch(Exception)
-                {
-
-                }
-                
-            });
+            this.Opacity = 0;
         }
 
         private void CleanUpTileTemplate()
@@ -52,7 +32,7 @@ namespace MyerList.UC
             LargeCount.Text = WideCount.Text = MiddleCount.Text = "";
         }
 
-        public async Task UpdateCustomeTile(ObservableCollection<ToDo> schedules)
+        private async Task InnerUpdateTile(ObservableCollection<ToDo> schedules)
         {
             try
             {
@@ -134,6 +114,30 @@ namespace MyerList.UC
             catch (Exception e)
             {
                 var task = ExceptionHelper.WriteRecordAsync(e);
+            }
+        }
+
+        public async Task UpdateTileAsync(ObservableCollection<ToDo> todos)
+        {
+            try
+            {
+                this.Opacity = 1;
+
+                if (!AppSettings.Instance.EnableTile)
+                {
+                    UpdateTileHelper.ClearAllSchedules();
+                    return;
+                }
+
+                await InnerUpdateTile(todos);
+            }
+            catch (Exception e)
+            {
+                await ExceptionHelper.WriteRecordAsync(e, nameof(LiveTileTemplate), nameof(UpdateTileAsync));
+            }
+            finally
+            {
+                this.Opacity = 0;
             }
         }
     }
