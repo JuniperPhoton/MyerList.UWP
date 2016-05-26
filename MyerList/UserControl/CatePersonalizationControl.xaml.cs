@@ -10,6 +10,7 @@ using MyerListUWP.Common;
 using System;
 using System.Linq;
 using System.Numerics;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -45,22 +46,26 @@ namespace MyerList.UC
             this.InitializeComponent();
             this.DataContext = this;
 
-            CateColorsVM = new CategoryColorViewModel();
+            if (!DesignMode.DesignModeEnabled)
+            {
+                CateColorsVM = new CategoryColorViewModel();
 
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _colorGridVisual = ElementCompositionPreview.GetElementVisual(ColorGrid);
-            _cateListVisual = ElementCompositionPreview.GetElementVisual(CateListGrid);
+                _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+                _colorGridVisual = ElementCompositionPreview.GetElementVisual(ColorGrid);
+                _cateListVisual = ElementCompositionPreview.GetElementVisual(CateListGrid);
 
-            this.Loaded += CatePersonalizationControl_Loaded;
+                this.Loaded += CatePersonalizationControl_Loaded;
 
-            Messenger.Default.Register<GenericMessage<int>>(this, MessengerTokens.ShowPickCatePanel, msg =>
-              {
-                  var id = msg.Content;
-                  _selectedID = id;
-                  ShowOrHideColorGrid(true);
+                Messenger.Default.Register<GenericMessage<int>>(this, MessengerTokens.ShowPickCatePanel, msg =>
+                {
+                    var id = msg.Content;
+                    _selectedID = id;
+                    ShowOrHideColorGrid(true);
 
-                  ToggleOrNotCateList(true);
-              });
+                    ToggleOrNotCateList(true);
+                });
+            }
+            
         }
 
         private void CatePersonalizationControl_Loaded(object sender, RoutedEventArgs e)

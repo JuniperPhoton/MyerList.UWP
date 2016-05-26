@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
 using Windows.UI;
@@ -25,11 +26,14 @@ namespace MyerList.Base
 
         public BindablePage()
         {
-            SetUpPageAnimation();
-            SetUpTitleBar();
-            SetUpNavigationCache();
-            IsTextScaleFactorEnabled = false;
-            this.Loaded += BindablePage_Loaded;
+            if(!DesignMode.DesignModeEnabled)
+            {
+                SetUpPageAnimation();
+                SetUpTitleBar();
+                SetUpNavigationCache();
+                IsTextScaleFactorEnabled = false;
+                this.Loaded += BindablePage_Loaded;
+            }
         }
 
         private void BindablePage_Loaded(object sender, RoutedEventArgs e)

@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimatableGrid\AnimatableGrid.cs" />
     <Compile Include="AnimatedTextBlock\AnimatedTextBlock.cs" />
     <Compile Include="ContentDialogEx\DialogService.cs" />
     <Compile Include="FAB\FloatingActionButton.cs" />

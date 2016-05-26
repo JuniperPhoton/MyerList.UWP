@@ -13,6 +13,7 @@ using MyerListUWP.Helper;
 using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Phone.UI.Input;
 using Windows.UI;
@@ -75,20 +76,23 @@ namespace MyerListUWP.View
         {
             this.InitializeComponent();
 
-            this.DataContext = new MainViewModel();
+            if(!DesignMode.DesignModeEnabled)
+            {
+                this.DataContext = new MainViewModel();
 
-            //InitFeature();
-            InitBinding();
-            InitComposition();
-            InitialLayout();
+                //InitFeature();
+                InitBinding();
+                InitComposition();
+                InitialLayout();
 
-            this.SizeChanged += MainPage_SizeChanged;
+                this.SizeChanged += MainPage_SizeChanged;
 
-            MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
+                MainVM.OnCateColorChanged += MainVM_OnCategoryChanged;
 
-            App.MainVM = this.MainVM;
+                App.MainVM = this.MainVM;
 
-            RegisterMessenger();
+                RegisterMessenger();
+            }
         }
 
         private void InitComposition()
@@ -178,7 +182,7 @@ namespace MyerListUWP.View
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
             }
-            MainPage_SizeChanged(null, null);
+            //MainPage_SizeChanged(null, null);
         }
 
         private void RegisterMessenger()
@@ -233,20 +237,20 @@ namespace MyerListUWP.View
                 _addingPanelVisual.Offset = new Vector3(-(float)this.ActualWidth, 0f, 0f);
             }
 
-            if (e?.NewSize.Width > WIDTH_THRESHOLD && !_isDrawerSlided)
+            if (e?.NewSize.Width > WIDTH_THRESHOLD && e.PreviousSize.Width<=WIDTH_THRESHOLD && !_isDrawerSlided)
             {
+                SwitchToWideStory.Begin();
                 ToggleDrawerAnimation(true);
                 _isDrawerSlided = true;
-                ContentRootGird.Margin = new Thickness(260, 0, 0, 0);
                 ChangeCommandBarColorToWhiteStory.Begin();
                 ToggleHeaderAnimation(false);
             }
-            else if (e?.NewSize.Width <= WIDTH_THRESHOLD && _isDrawerSlided)
+            else if (e?.NewSize.Width <= WIDTH_THRESHOLD && e?.PreviousSize.Width>WIDTH_THRESHOLD && _isDrawerSlided)
             {
+                SwitchToNarrowStory.Begin();
                 ToggleDrawerAnimation(false);
                 ToggleDrawerMaskAnimation(false);
                 _isDrawerSlided = false;
-                ContentRootGird.Margin = new Thickness(0, 0, 0, 0);
                 ChangeCommandBarColorToGreyStory.Begin();
                 ToggleHeaderAnimation(true);
             }

@@ -31,9 +31,19 @@
             <ColorAnimation From="White" To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DefaultCommandBar" Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"/>
             <ColorAnimation From="White" To="{StaticResource CommandBarGrey}" Duration="0:0:0.2" Storyboard.TargetName="DeleteCommandBar" Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"/>
         </Storyboard>
+        <Storyboard x:Name="SwitchToNarrowStory">
+            <DoubleAnimation To="0" Duration="0:0:0.3" EnableDependentAnimation="True" Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="FirstColumnWidth"/>
+        </Storyboard>
+        <Storyboard x:Name="SwitchToWideStory">
+            <DoubleAnimation To="250" Duration="0:0:0.3" EnableDependentAnimation="True" Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="FirstColumnWidth"/>
+        </Storyboard>
     </base:BindablePage.Resources>
-    <Grid Background="White">
-        <Grid x:Name="ContentRootGird" Background="White" Grid.Column="1" Margin="0 -30 0 0" >
+    <cc:AnimatableGrid x:Name="RootGrid" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="ContentRootGird" Background="White" Margin="0 -30 0 0" Grid.ColumnSpan="2" Grid.Column="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="130"/>
                 <RowDefinition/>
@@ -102,7 +112,7 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="DefaultCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Grid.Column="1">
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
             </Grid.Background>
@@ -115,7 +125,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="DeleteCommandBar" VerticalAlignment="Bottom" Grid.RowSpan="5" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Grid.Column="1">
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource CommandBarGrey}"/>
             </Grid.Background>
@@ -125,15 +135,15 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="20" ManipulationMode="TranslateX" ManipulationDelta="TouchGrid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
-        <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black"/>
-        <uc:NavigationDrawer x:Name="Drawer" Width="250" Margin="0 -30 0 0" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}"/>
+        <Grid x:Name="TouchGrid" Grid.RowSpan="5" Width="20" ManipulationMode="TranslateX" ManipulationDelta="TouchGrid_ManipulationDelta" ManipulationCompleted="TouchGrid_ManipulationCompleted" Background="White" Opacity="0.00001" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Column="1" />
+        <Border x:Name="MaskBorder" Margin="0 -30 0 0" Tapped="MaskBorder_Tapped" Visibility="Collapsed" Opacity="0.8" Grid.RowSpan="5" Background="Black" Grid.ColumnSpan="2"/>
+        <uc:NavigationDrawer x:Name="Drawer" Width="250" Margin="0 -30 0 0" Grid.RowSpan="5" HorizontalAlignment="Left" Background="{StaticResource MyerListBlueLight}" Grid.ColumnSpan="2"/>
         <uc:AddingPanel x:Name="AddingPanel" 
                         Margin="0 -30 0 0"
                         Visibility="Visible"
                         Background="{StaticResource MyerListBlueLight}" 
                         Grid.RowSpan="5" 
-                        VerticalAlignment="Stretch">
+                        VerticalAlignment="Stretch" Grid.ColumnSpan="2">
         </uc:AddingPanel>
         <Grid x:Name="FeatureGrid" Visibility="Collapsed">
             <Border Background="#E1000000"/>
@@ -146,5 +156,5 @@
                 </Border>
             </Button>
         </Grid>
-    </Grid>
+    </cc:AnimatableGrid>
 </base:BindablePage>
