@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.UI;
 using JP.UWP.CustomControl;
-using Lousy.Mon;
 using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListCustomControl;

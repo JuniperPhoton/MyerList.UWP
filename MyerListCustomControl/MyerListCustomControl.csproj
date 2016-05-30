@@ -123,12 +123,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
-      <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
-      <Name>JP.Utils.UWP</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>

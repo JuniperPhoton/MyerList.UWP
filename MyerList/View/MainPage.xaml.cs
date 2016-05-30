@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using JP.Utils.Helper;
-using Lousy.Mon;
 using MyerList.Base;
 using MyerList.Helper;
 using MyerList.Model;
@@ -125,19 +124,6 @@ namespace MyerListUWP.View
                 Mode = BindingMode.TwoWay
             };
             BindingOperations.SetBinding(this, IsAddingPaneOpenProperty, b);
-        }
-
-        private void InitFeature()
-        {
-            if (LocalSettingHelper.HasValue(ResourcesHelper.GetDicString("FeatureToken")))
-            {
-                if (LocalSettingHelper.GetValue(ResourcesHelper.GetDicString("FeatureToken")) == "true")
-                {
-                    FeatureGrid.Visibility = Visibility.Collapsed;
-                }
-                else FeatureGrid.Visibility = Visibility.Visible;
-            }
-            else FeatureGrid.Visibility = Visibility.Visible;
         }
 
         private void MainVM_OnCategoryChanged()
@@ -364,18 +350,6 @@ namespace MyerListUWP.View
         }
         #endregion
 
-        #region Feature
-        private void FeatureOkClick(object sender, RoutedEventArgs e)
-        {
-            var anim1 = Oli.Fade(FeatureGrid).From(1).To(0).For(0.2, OrSo.Seconds).Now();
-            Oli.Run(() =>
-            {
-                FeatureGrid.Visibility = Visibility.Collapsed;
-            }).After(anim1);
-            LocalSettingHelper.AddValue(ResourcesHelper.GetDicString("FeatureToken"), "true");
-        }
-        #endregion
-
         #region Drawer manipulation
         private void TouchGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
@@ -543,11 +517,6 @@ namespace MyerListUWP.View
         /// <returns>是否已经被处理了</returns>
         private bool HandleBackLogic()
         {
-            if (FeatureGrid.Visibility == Visibility.Visible)
-            {
-                FeatureOkClick(null, null);
-                return true;
-            }
             if (MainVM.ShowPaneOpen)
             {
                 MainVM.ShowPaneOpen = false;
