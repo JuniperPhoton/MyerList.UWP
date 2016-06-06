@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -10,6 +9,7 @@ using Windows.UI.Xaml.Media;
 using MyerListUWP;
 using MyerList.ViewModel;
 using Windows.UI.Xaml;
+using Newtonsoft.Json.Linq;
 
 namespace MyerList.Model
 {

@@ -6,17 +6,17 @@
     xmlns:uc="using:MyerList.UC"
     xmlns:base="using:MyerList.Base"
     xmlns:triggers="using:JP.CustomTriggers"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:control="using:JP.Utils.Control"
     xmlns:attach="using:JP.Utils.Framework"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" 
     Background="{StaticResource MyerListGray}">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
-            <attach:InvokeCommandByKeyDown Command="{x:Bind LoginVM.NextCommand}" PressedKey="F5" />
+            <attach:InvokeCommandByKeyDown Command="{x:Bind LoginVM.NextCommand}" PressedKey="Enter" />
         </Core:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
     <Grid Background="{StaticResource MyerListGray}">

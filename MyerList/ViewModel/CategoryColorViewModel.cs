@@ -1,26 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 using Windows.UI.Xaml.Media;
-using MyerList.Model;
-using MyerList.Helper;
-using JP.Utils.Data;
-using JP.Utils.Debug;
-using MyerList.Interface;
-using MyerListUWP;
-using MyerListUWP.ViewModel;
-using MyerListCustomControl;
-using System.Runtime.InteropServices;
-using JP.Utils.Helper;
-using MyerListUWP.Common;
-using JP.UWP.CustomControl;
-using MyerList.UC;
 using JP.Utils.UI;
 
 namespace MyerList.ViewModel

@@ -185,7 +185,7 @@ namespace MyerListUWP.ViewModel
         /// <returns></returns>
         private async Task<ObservableCollection<ToDoCategory>> RestoreCacheButDefaultList()
         {
-            var cacheList = await SerializerHelper.DeserializeFromJsonByFileName
+            var cacheList = await SerializerHelper.DeserializeFromJsonByFile
                 <ObservableCollection<ToDoCategory>>(SerializerFileNames.CategoryFileName);
             if (cacheList != null)
             {

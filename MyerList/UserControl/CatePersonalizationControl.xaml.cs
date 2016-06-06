@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.UI;
-using JP.UWP.CustomControl;
 using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListCustomControl;

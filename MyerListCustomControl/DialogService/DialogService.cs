@@ -208,7 +208,7 @@ namespace MyerListCustomControl
 
             _tcs = new TaskCompletionSource<int>();
 
-            if(!DesignMode.DesignModeEnabled)
+            if (!DesignMode.DesignModeEnabled)
             {
                 if (_currentPopup == null)
                 {

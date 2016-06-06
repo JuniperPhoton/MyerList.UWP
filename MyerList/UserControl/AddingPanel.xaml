@@ -183,7 +183,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{x:Bind MainVM.ModeTitle,Mode=OneWay}" Foreground="White" FontSize="26.667" Margin="0" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
-                        <Border Background="#7F000000"/>
+                        <Border CornerRadius="3" Background="#55000000"/>
                         <TextBlock Margin="5" TextTrimming="CharacterEllipsis" Text="{x:Bind MainVM.AddingCateName,Mode=OneWay}" Foreground="White" FontSize="16" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}" HorizontalAlignment="Left" />
                     </Grid>
                 </StackPanel>

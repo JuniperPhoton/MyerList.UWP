@@ -19,7 +19,6 @@ using MyerListCustomControl;
 using System.Runtime.InteropServices;
 using JP.Utils.Helper;
 using MyerListUWP.Common;
-using JP.UWP.CustomControl;
 using MyerList.UC;
 using System.Collections.Generic;
 
@@ -90,7 +89,8 @@ namespace MyerList.ViewModel
                       CateVM.UpdateCatesToAdd();
                       if (DeviceHelper.IsDesktop)
                       {
-                          ContentPopupEx cpex = new ContentPopupEx(new CatePersonalizationControl() { Width = 400, Height = 450 });
+                          ContentPopupEx cpex = new ContentPopupEx(
+                              new CatePersonalizationControl() { Width = 400, Height = 450 });
                           var task = cpex.ShowAsync();
                       }
                       else
@@ -914,10 +914,12 @@ namespace MyerList.ViewModel
         /// 更新排序
         /// </summary>
         /// <returns></returns>
-        public async Task UpdateOrder()
+        public async Task UpdateOrderAsync()
         {
+            IsLoading = Visibility.Visible;
             var orderStr = ToDo.GetCurrentOrderString(AllToDos);
             await CloudService.SetAllOrder(orderStr);
+            IsLoading = Visibility.Collapsed;
         }
 
         #region Add,modify,check,delete
@@ -1042,6 +1044,8 @@ namespace MyerList.ViewModel
         /// 2.离线模式，不用管
         private async Task DeleteToDo(ToDo todo)
         {
+            IsLoading = Visibility.Visible;
+
             try
             {
                 var item = todo;
@@ -1069,6 +1073,10 @@ namespace MyerList.ViewModel
             {
                 var task = ExceptionHelper.WriteRecordAsync(e, nameof(MainViewModel), nameof(DeleteToDo));
             }
+            finally
+            {
+                IsLoading = Visibility.Collapsed;
+            }
         }
 
         /// <summary>
@@ -1078,6 +1086,8 @@ namespace MyerList.ViewModel
         /// <returns></returns>
         private async Task CompleteTodo(ToDo todo)
         {
+            IsLoading = Visibility.Visible;
+
             try
             {
                 var item = todo;
@@ -1100,6 +1110,10 @@ namespace MyerList.ViewModel
             catch (Exception ex)
             {
                 var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(CompleteTodo));
+            }
+            finally
+            {
+                IsLoading = Visibility.Collapsed;
             }
         }
 
@@ -1394,18 +1408,18 @@ namespace MyerList.ViewModel
             {
                 SelectedCate = 0;
 
-                AllToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
+                AllToDos = await SerializerHelper.DeserializeFromJsonByFile<ObservableCollection<ToDo>>(SerializerFileNames.ToDoFileName);
                 CurrentDisplayToDos = AllToDos;
 
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
 
-                DeletedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.DeletedFileName);
+                DeletedToDos = await SerializerHelper.DeserializeFromJsonByFile<ObservableCollection<ToDo>>(SerializerFileNames.DeletedFileName);
                 DeletedToDos.ToList().ForEach(s =>
                 {
                     if (s == null) DeletedToDos.Remove(s);
                 });
 
-                StagedToDos = await SerializerHelper.DeserializeFromJsonByFileName<ObservableCollection<ToDo>>(SerializerFileNames.StageFileName);
+                StagedToDos = await SerializerHelper.DeserializeFromJsonByFile<ObservableCollection<ToDo>>(SerializerFileNames.StageFileName);
 
                 App.HasSyncedListOnce = true;
             }

@@ -109,7 +109,9 @@
   <ItemGroup>
     <Compile Include="AnimatableGrid\AnimatableGrid.cs" />
     <Compile Include="AnimatedTextBlock\AnimatedTextBlock.cs" />
-    <Compile Include="ContentDialogEx\DialogService.cs" />
+    <Compile Include="ContentPopupEx\ContentPopupEx.cs" />
+    <Compile Include="ContentPopupEx\PopupService.cs" />
+    <Compile Include="DialogService\DialogService.cs" />
     <Compile Include="FAB\FloatingActionButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToastControl\ToastService.cs" />

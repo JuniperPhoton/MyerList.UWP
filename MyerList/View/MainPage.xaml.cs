@@ -573,7 +573,7 @@ namespace MyerListUWP.View
 
         private async void DisplayedListView_OnReorderStopped()
         {
-            await MainVM.UpdateOrder();
+            await MainVM.UpdateOrderAsync();
         }
     }
 }
