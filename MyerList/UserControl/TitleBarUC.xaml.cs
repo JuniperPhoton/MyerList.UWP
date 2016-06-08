@@ -20,7 +20,7 @@ namespace MyerList.UC
 {
     public sealed partial class TitleBarUC : UserControl
     {
-        public RoutedEventHandler BackHandler;
+        public RoutedEventHandler OnClickBackBtn;
         
         public TitleBarUC()
         {
@@ -37,7 +37,7 @@ namespace MyerList.UC
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
-            BackHandler?.Invoke(sender, e);
+            OnClickBackBtn?.Invoke(sender, e);
         }
     }
 }

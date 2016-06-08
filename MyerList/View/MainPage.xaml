@@ -145,6 +145,5 @@
                         Grid.RowSpan="5" 
                         VerticalAlignment="Stretch" Grid.ColumnSpan="2">
         </uc:AddingPanel>
-        
     </cc:AnimatableGrid>
 </base:BindablePage>

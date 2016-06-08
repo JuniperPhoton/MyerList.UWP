@@ -172,7 +172,7 @@ namespace MyerList.Base
 
             RegisterHandleBackLogic();
 
-            Window.Current.SetTitleBar(null);
+            Window.Current.SetTitleBar(this);
 
             //resolve global keydown
             if (GlobalPageKeyDown != null)
