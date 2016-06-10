@@ -1,79 +1,141 @@
-﻿<base:BindablePage
-    x:Class="MyerList.StartPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyerList"
-    xmlns:base="using:MyerList.Base"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{StaticResource MyerListGray}">
+﻿<base:BindablePage x:Class="MyerList.StartPage"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:base="using:MyerList.Base"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:local="using:MyerList"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   Background="{StaticResource MyerListGray}"
+                   mc:Ignorable="d">
     <Grid Background="{StaticResource MyerListGray}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Image x:Name="BackgrdImage" Source="ms-appx:///Assets/BackgrdImage.png" Stretch="UniformToFill" Grid.RowSpan="2" Grid.ColumnSpan="2" Opacity="0.02" Margin="0" />
-        <StackPanel x:Name="TitleSP" Orientation="Vertical" Margin="0" VerticalAlignment="Center" Grid.RowSpan="2">
-            <Image x:Name="LogoImage" Source="ms-appx:///Assets/Newlogo_ho.png" Width="250" MaxWidth="800"/>
-            <StackPanel x:Name="NameSP"  Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" >
-                <TextBlock Text="Myer" FontSize="25" FontWeight="Light" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}" />
-                <TextBlock Text="List" FontSize="25" FontWeight="Bold" FontFamily="{StaticResource MyerListThemeFontFamily}" Foreground="{StaticResource MyerListBlueLight}" />
+        <Image x:Name="BackgrdImage"
+               Grid.RowSpan="2"
+               Grid.ColumnSpan="2"
+               Margin="0"
+               Opacity="0.02"
+               Source="ms-appx:///Assets/BackgrdImage.png"
+               Stretch="UniformToFill" />
+        <StackPanel x:Name="TitleSP"
+                    Grid.RowSpan="2"
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+            <Image x:Name="LogoImage"
+                   Width="250"
+                   MaxWidth="800"
+                   Source="ms-appx:///Assets/Newlogo_ho.png" />
+            <StackPanel x:Name="NameSP"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource MyerListThemeFontFamily}"
+                           FontSize="25"
+                           FontWeight="Light"
+                           Foreground="{StaticResource MyerListBlueLight}"
+                           Text="Myer" />
+                <TextBlock FontFamily="{StaticResource MyerListThemeFontFamily}"
+                           FontSize="25"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource MyerListBlueLight}"
+                           Text="List" />
             </StackPanel>
-            <TextBlock x:Name="SubtitleTB"
-                       x:Uid="SubtitleTB"
-        	            Foreground="{StaticResource MyerListDark}"
-        	            FontSize="15"
-        	            FontFamily="{StaticResource MyerListThemeFontFamily}"
-        	            VerticalAlignment="Center"  TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center"  Margin="0,10,0,0" FontWeight="Light" >
-        	    <Run Text="Sync your To-dos over " />
-        	    <Run  Text="Windows " />
+            <TextBlock x:Uid="SubtitleTB"
+                       x:Name="SubtitleTB"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="{StaticResource MyerListThemeFontFamily}"
+                       FontSize="15"
+                       FontWeight="Light"
+                       Foreground="{StaticResource MyerListDark}"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap">
+                <Run Text="Sync your To-dos over " />
+                <Run Text="Windows " />
             </TextBlock>
-            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" VerticalAlignment="Bottom">
-                <Button x:Name="LoginBtn" Grid.Row="1"
-                    VerticalAlignment="Top"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Margin="20,0"
-                    Height="40"
-                    Foreground="White"
-                    BorderThickness="0"
-                    Command="{x:Bind StartVM.NavigateToLoginCommand}"
-                    
-                    MaxWidth="400" Style="{StaticResource ButtonCommonStyle}" >
+            <StackPanel Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,20,0,0"
+                        VerticalAlignment="Bottom"
+                        Orientation="Vertical">
+                <Button x:Name="LoginBtn"
+                        Grid.Row="1"
+                        Height="40"
+                        MaxWidth="400"
+                        Margin="20,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind StartVM.NavigateToLoginCommand}"
+                        Foreground="White"
+                        Style="{StaticResource ButtonCommonStyle}">
                     <Border Background="{StaticResource MyerListBlueLight}" BorderBrush="#FF4C83C9">
-                        <TextBlock Text="Login" FontSize="15"  x:Uid="LoginTB" FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListGray}" FontFamily="{StaticResource MyerListThemeFontFamily}" />
+                        <TextBlock x:Uid="LoginTB"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                   FontSize="15"
+                                   FontWeight="Normal"
+                                   Foreground="{StaticResource MyerListGray}"
+                                   Text="Login" />
                     </Border>
                 </Button>
-                <Button x:Name="RegisterBtn" Grid.Row="1"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Stretch"
-                    Margin="20,5,20,0"
-                    Background="{x:Null}"
-                    Foreground="{StaticResource MyerListBlue}"
-                    Height="40"
-                    BorderThickness="1"
-                    Command="{x:Bind StartVM.NavigateToRegisterCommand}"
-                    
-                    MaxWidth="400" Style="{StaticResource ButtonCommonStyle}" BorderBrush="{x:Null}" >
-                    <Border BorderThickness="0" Background="#FF69BFF1" BorderBrush="Gainsboro">
-                        <TextBlock Text="Register" FontSize="15"  x:Uid="RegisterTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource MyerListThemeFontFamily}" />
+                <Button x:Name="RegisterBtn"
+                        Grid.Row="1"
+                        Height="40"
+                        MaxWidth="400"
+                        Margin="20,5,20,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        BorderThickness="1"
+                        Command="{x:Bind StartVM.NavigateToRegisterCommand}"
+                        Foreground="{StaticResource MyerListBlue}"
+                        Style="{StaticResource ButtonCommonStyle}">
+                    <Border Background="#FF69BFF1"
+                            BorderBrush="Gainsboro"
+                            BorderThickness="0">
+                        <TextBlock x:Uid="RegisterTB"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                   FontSize="15"
+                                   FontWeight="Normal"
+                                   Foreground="White"
+                                   Text="Register" />
                     </Border>
                 </Button>
-                <Button x:Name="OfflineBtn" Grid.Row="1"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Stretch"
-                    Margin="20,5,20,50"
-                    Background="{x:Null}"
-                    Foreground="{StaticResource MyerListBlue}"
-                    Height="40"
-                    BorderThickness="1"
-                    Command="{x:Bind StartVM.NavigateToOfflineModeCommand}"
-                    
-                    MaxWidth="400" Style="{StaticResource ButtonCommonStyle}" BorderBrush="{x:Null}" >
-                    <Border BorderThickness="2" Background="#FFE7E7E7" BorderBrush="#FFE7E7E7">
-                        <TextBlock Text="Offline Mode" FontSize="15"  x:Uid="OfflineTB"  FontWeight="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource MyerListDark}" FontFamily="{StaticResource MyerListThemeFontFamily}" />
+                <Button x:Name="OfflineBtn"
+                        Grid.Row="1"
+                        Height="40"
+                        MaxWidth="400"
+                        Margin="20,5,20,50"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        BorderThickness="1"
+                        Command="{x:Bind StartVM.NavigateToOfflineModeCommand}"
+                        Foreground="{StaticResource MyerListBlue}"
+                        Style="{StaticResource ButtonCommonStyle}">
+                    <Border Background="#FFE7E7E7"
+                            BorderBrush="#FFE7E7E7"
+                            BorderThickness="2">
+                        <TextBlock x:Uid="OfflineTB"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                   FontSize="15"
+                                   FontWeight="Normal"
+                                   Foreground="{StaticResource MyerListDark}"
+                                   Text="Offline Mode" />
                     </Border>
                 </Button>
             </StackPanel>

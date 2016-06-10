@@ -1,37 +1,51 @@
-﻿<base:BindablePage
-    x:Class="MyerListUWP.View.FeaturePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyerListUWP.View"
-    xmlns:base="using:MyerList.Base"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Background="White">
+﻿<base:BindablePage x:Class="MyerListUWP.View.FeaturePage"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:base="using:MyerList.Base"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:local="using:MyerListUWP.View"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   Background="White"
+                   mc:Ignorable="d">
 
-    <Grid Background="White" MaxWidth="450">
+    <Grid MaxWidth="450" Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="100"/>
+            <RowDefinition />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <FlipView Background="{x:Null}">
             <FlipView.Items>
                 <FlipViewItem>
-                    <Image Source="ms-appx:///Assets/Feature1.jpg"/>
+                    <Image Source="ms-appx:///Assets/Feature1.jpg" />
                 </FlipViewItem>
                 <FlipViewItem>
-                    <Image Source="ms-appx:///Assets/Feature2.jpg"/>
+                    <Image Source="ms-appx:///Assets/Feature2.jpg" />
                 </FlipViewItem>
                 <FlipViewItem>
-                    <Image Source="ms-appx:///Assets/Feature3.jpg"/>
+                    <Image Source="ms-appx:///Assets/Feature3.jpg" />
                 </FlipViewItem>
                 <FlipViewItem>
-                    <Image Source="ms-appx:///Assets/Feature4.jpg"/>
+                    <Image Source="ms-appx:///Assets/Feature4.jpg" />
                 </FlipViewItem>
             </FlipView.Items>
         </FlipView>
-        <Button x:Name="EnterBtn" Click="EnterBtn_Click" Margin="10,0,10,0" HorizontalContentAlignment="Stretch" Grid.Row="1" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" HorizontalAlignment="Stretch">
-            <Border Background="{StaticResource DefaultColor}" BorderBrush="{StaticResource DefaultColor}" Height="40">
-                <TextBlock x:Uid="EnterTB" Text="ENTER" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontFamily="{StaticResource MyerListThemeFontFamily}"/>
+        <Button x:Name="EnterBtn"
+                Grid.Row="1"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Background="{x:Null}"
+                Click="EnterBtn_Click"
+                Style="{StaticResource ButtonCommonStyle}">
+            <Border Height="40"
+                    Background="{StaticResource DefaultColor}"
+                    BorderBrush="{StaticResource DefaultColor}">
+                <TextBlock x:Uid="EnterTB"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{StaticResource MyerListThemeFontFamily}"
+                           Foreground="White"
+                           Text="ENTER" />
             </Border>
         </Button>
     </Grid>
