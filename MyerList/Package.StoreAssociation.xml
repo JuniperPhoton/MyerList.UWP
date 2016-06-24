@@ -358,18 +358,17 @@
     <Language Code="zu-za" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>19204JuniperPhoton.MyerListBETA</MainPackageIdentityName>
+    <MainPackageIdentityName>19204JuniperPhoton.Myers</MainPackageIdentityName>
     <ReservedNames>
-      <ReservedName>MyerList BETA</ReservedName>
-      <ReservedName>MyerList Exp.</ReservedName>
+      <ReservedName>MyerList</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
-    <MainPackageIdentityName>19204JuniperPhoton.Myers</MainPackageIdentityName>
+    <MainPackageIdentityName>19204JuniperPhoton.MyerListBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerMoment</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerMomentBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerSplash</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.2828271CA5F95</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH1R7HD" />
+  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH11K1M" />
 </StoreAssociation>
