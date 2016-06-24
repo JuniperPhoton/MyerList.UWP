@@ -10,6 +10,7 @@ using MyerListUWP;
 using MyerList.ViewModel;
 using Windows.UI.Xaml;
 using Newtonsoft.Json.Linq;
+using MyerListCustomControl;
 
 namespace MyerList.Model
 {
@@ -163,7 +164,7 @@ namespace MyerList.Model
                 {
                     _isdone = value;
                     RaisePropertyChanged(() => IsDone);
-                    ShowDoneLine = IsDone?Visibility.Visible:Visibility.Collapsed;
+                    ShowDoneLine = IsDone ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
         }
@@ -177,49 +178,49 @@ namespace MyerList.Model
             ShowDoneLine = Visibility.Collapsed;
         }
 
-        public static ObservableCollection<ToDo> SetOrderByString(ObservableCollection<ToDo> orisches, string orderString)
+        public static ObservableCollection<ToDo> GetSortedList(ObservableCollection<ToDo> originalList, string orderString)
         {
             try
             {
                 if (orderString != "0")
                 {
-                    var order_list = orderString.Split(',');
-                    ObservableCollection<ToDo> temp = new ObservableCollection<ToDo>();
-                    foreach (var orderID in order_list)
+                    var sortedIDs = orderString.Split(',');
+                    var tempToDoList = new ObservableCollection<ToDo>();
+                    foreach (var id in sortedIDs)
                     {
-                        if (orderID == "" || orderID == " ")
+                        if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
                         {
                             continue;
                         }
-                        var currentSche = orisches.ToList().Find((sche) =>
+                        var foundToDo = originalList.ToList().Find((s) =>
                         {
-                            if (sche.ID == orderID)
+                            if (s.ID == id)
                             {
                                 return true;
                             }
                             else return false;
                         });
-                        if (currentSche != null)
+                        if (foundToDo != null)
                         {
-                            temp.Add(currentSche);
-                            orisches.Remove(currentSche);
+                            tempToDoList.Add(foundToDo);
+                            originalList.Remove(foundToDo);
                         }
                     }
-                    foreach (var item in orisches)
-                    {
-                        temp.Add(item);
-                    }
-                    return temp;
-                }
-                else return orisches;
 
+                    //剩下的还没有排序的
+                    foreach (var item in originalList)
+                    {
+                        tempToDoList.Add(item);
+                    }
+                    return tempToDoList;
+                }
+                else return originalList;
             }
             catch (Exception e)
             {
                 var task = ExceptionHelper.WriteRecordAsync(e);
-                return orisches;
+                return originalList;
             }
-
         }
 
         public static ObservableCollection<ToDo> ParseJsonToObs(string rawJson)

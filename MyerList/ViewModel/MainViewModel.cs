@@ -917,8 +917,7 @@ namespace MyerList.ViewModel
         public async Task UpdateOrderAsync()
         {
             IsLoading = Visibility.Visible;
-            var orderStr = ToDo.GetCurrentOrderString(AllToDos);
-            await CloudService.SetAllOrder(orderStr);
+            await CloudService.UpdateAllOrderAsync(ToDo.GetCurrentOrderString(AllToDos));
             IsLoading = Visibility.Collapsed;
         }
 
@@ -1012,11 +1011,11 @@ namespace MyerList.ViewModel
                 {
                     //在线模式
                     //发送请求
-                    var result = await CloudService.AddSchedule(EditedToDo.Content, "0", EditedToDo.Category.ToString());
+                    var result = await CloudService.AddToDoAsync(EditedToDo.Content, "0", EditedToDo.Category.ToString());
                     if (!string.IsNullOrEmpty(result.JsonSrc))
                     {
                         ////发送当前的顺序
-                        await CloudService.SetAllOrder(ToDo.GetCurrentOrderString(AllToDos));
+                        await CloudService.UpdateAllOrderAsync(ToDo.GetCurrentOrderString(AllToDos));
                     }
                     else
                     {
@@ -1061,8 +1060,8 @@ namespace MyerList.ViewModel
                 //登录过的
                 if (App.CanSendRequest)
                 {
-                    var result = await CloudService.DeleteSchedule(todo.ID);
-                    await CloudService.SetAllOrder(ToDo.GetCurrentOrderString(AllToDos));
+                    var result = await CloudService.DeleteToDoAsync(todo.ID);
+                    await CloudService.UpdateAllOrderAsync(ToDo.GetCurrentOrderString(AllToDos));
                 }
 
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
@@ -1097,10 +1096,10 @@ namespace MyerList.ViewModel
 
                 if (App.CanSendRequest)
                 {
-                    var result = await CloudService.FinishSchedule(todo.ID, item.IsDone ? "1" : "0");
+                    var result = await CloudService.FinishToDoAsync(todo.ID, item.IsDone ? "1" : "0");
                     if (result)
                     {
-                        await CloudService.SetAllOrder(ToDo.GetCurrentOrderString(AllToDos));
+                        await CloudService.UpdateAllOrderAsync(ToDo.GetCurrentOrderString(AllToDos));
                     }
                 }
                 Messenger.Default.Send(new GenericMessage<ObservableCollection<ToDo>>(AllToDos), MessengerTokens.UpdateTile);
@@ -1154,7 +1153,7 @@ namespace MyerList.ViewModel
             {
                 try
                 {
-                    var resultUpdate = await CloudService.UpdateContent(itemToModify.ID, itemToModify.Content, itemToModify.CreateTime, itemToModify.Category);
+                    var resultUpdate = await CloudService.UpdateToDoContentAsync(itemToModify.ID, itemToModify.Content, itemToModify.CreateTime, itemToModify.Category);
                     if (resultUpdate)
                     {
                         AllToDos.ToList().Find(sche =>
@@ -1199,7 +1198,7 @@ namespace MyerList.ViewModel
                 }
                 if (App.CanSendRequest)
                 {
-                    await CloudService.UpdateContent(todo.ID, item.Content, "", item.Category);
+                    await CloudService.UpdateToDoContentAsync(todo.ID, item.Content, "", item.Category);
                 }
                 await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(AllToDos, SerializerFileNames.ToDoFileName);
             }
@@ -1215,6 +1214,7 @@ namespace MyerList.ViewModel
 
             if (SelectedCate == -1) return;
 
+            //0 为保留值，表示所有，-1 为已删除的
             var cateID = 0;
             if (SelectedCate == 0) cateID = 0;
             else if (SelectedCate == CateVM.Categories.Count - 1) cateID = -1;
@@ -1345,17 +1345,17 @@ namespace MyerList.ViewModel
                     await ReSendStagedToDos();
                     await CateVM.Refresh(LoginMode.Login);
 
-                    var result = await CloudService.GetMySchedules();
+                    var result = await CloudService.GetMyToDosAsync();
                     if (!string.IsNullOrEmpty(result.JsonSrc))
                     {
                         //获得无序的待办事项
                         var scheduleWithoutOrder = ToDo.ParseJsonToObs(result.JsonSrc);
 
                         //获得顺序列表
-                        var orders = await CloudService.GetMyOrder();
+                        var orders = await CloudService.GetMyOrderAsync();
 
                         //排序
-                        AllToDos = ToDo.SetOrderByString(scheduleWithoutOrder, orders);
+                        AllToDos = ToDo.GetSortedList(scheduleWithoutOrder, orders);
 
                         UpdateListByChangingSelectedCate();
 
@@ -1394,7 +1394,7 @@ namespace MyerList.ViewModel
         {
             foreach (var sche in AllToDos)
             {
-                var result = await CloudService.AddSchedule(sche.Content, sche.IsDone ? "1" : "0", SelectedCate.ToString());
+                var result = await CloudService.AddToDoAsync(sche.Content, sche.IsDone ? "1" : "0", SelectedCate.ToString());
             }
         }
 
@@ -1435,11 +1435,17 @@ namespace MyerList.ViewModel
         /// <returns></returns>
         private async Task ReSendStagedToDos()
         {
+            if (StagedToDos.Count == 0)
+            {
+                return;
+            }
+
             foreach (var item in StagedToDos)
             {
-                var result = await CloudService.AddSchedule(item.Content, "0", item.Category.ToString());
+                var result = await CloudService.AddToDoAsync(item.Content, "0", item.Category.ToString());
             }
-            await CloudService.SetAllOrder(ToDo.GetCurrentOrderString(AllToDos));
+
+            await CloudService.UpdateAllOrderAsync(ToDo.GetCurrentOrderString(AllToDos));
             StagedToDos.Clear();
             await SerializerHelper.SerializerToJson<ObservableCollection<ToDo>>(StagedToDos, SerializerFileNames.StageFileName);
         }

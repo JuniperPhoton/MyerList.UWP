@@ -132,7 +132,7 @@ namespace MyerListUWP.ViewModel
             {
                 if (!App.IsInOfflineMode)
                 {
-                    var isOK = await CloudService.UpdateCateInfo(cateString);
+                    var isOK = await CloudService.UpdateCateInfoAsync(cateString);
                     if (!isOK) throw new ArgumentException();
                 }
 
@@ -206,7 +206,7 @@ namespace MyerListUWP.ViewModel
         {
             try
             {
-                var result = await CloudService.GetCateInfo();
+                var result = await CloudService.GetCateInfoAsync();
                 if (result == null) throw new ArgumentNullException();
 
                 var respJson = JsonObject.Parse(result.JsonSrc);

@@ -50,7 +50,7 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="email"></param>
         /// <returns>return the existance of email</returns>
-        public async static Task<bool> CheckExist(string email)
+        public async static Task<bool> CheckEmailExistAsync(string email)
         {
             var param = GetDefaultParam();
             param.Add(new KeyValuePair<string, string>("email", email));
@@ -72,8 +72,8 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="email">电子邮件</param>
         /// <param name="password">密码</param>
-        /// <returns>成功返回盐</returns>
-        public async static Task<string> Register(string email, string password)
+        /// <returns>成功返回盐</returns> 
+        public async static Task<string> RegisterAsync(string email, string password)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="email">用户Email</param>
         /// <returns></returns>
-        public async static Task<string> GetSalt(string email)
+        public async static Task<string> GetSaltAsync(string email)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace MyerList.Helper
                 }
                 else return null;
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 throw;
             }
@@ -139,7 +139,7 @@ namespace MyerList.Helper
         /// <param name="email">电子邮件</param>
         /// <param name="password">原始密码</param>
         /// <returns>成功返回True</returns>
-        public async static Task<bool> Login(string email, string password, string salt)
+        public async static Task<bool> LoginAsync(string email, string password, string salt)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace MyerList.Helper
         /// <param name="content">内容</param>
         /// <param name="isdone">是否完成 0未完成 1完成</param>
         /// <returns>返回JSON数据</returns>
-        public async static Task<CommonRespMsg> AddSchedule(string content, string isdone, string cate)
+        public async static Task<CommonRespMsg> AddToDoAsync(string content, string isdone, string cate)
         {
             try
             {
@@ -216,7 +216,7 @@ namespace MyerList.Helper
         /// <param name="content">更新后的内容</param>
         /// <param name="cate">类别</param>
         /// <returns>成功返回True</returns>
-        public async static Task<bool> UpdateContent(string id, string content, string time, int cate = 0)
+        public async static Task<bool> UpdateToDoContentAsync(string id, string content, string time, int cate = 0)
         {
             try
             {
@@ -245,7 +245,7 @@ namespace MyerList.Helper
         /// <param name="id">日程ID</param>
         /// <param name="isdone">是否完成</param>
         /// <returns></returns>
-        public async static Task<bool> FinishSchedule(string id, string isdone)
+        public async static Task<bool> FinishToDoAsync(string id, string isdone)
         {
             try
             {
@@ -272,7 +272,7 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="id">日程ID</param>
         /// <returns></returns>
-        public async static Task<bool> DeleteSchedule(string id)
+        public async static Task<bool> DeleteToDoAsync(string id)
         {
             try
             {
@@ -297,7 +297,7 @@ namespace MyerList.Helper
         /// </summary>
         /// <param name="sid">用户ID</param>
         /// <returns>返回JSON</returns>
-        public async static Task<CommonRespMsg> GetMySchedules()
+        public async static Task<CommonRespMsg> GetMyToDosAsync()
         {
             try
             {
@@ -317,7 +317,7 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<string> GetMyOrder()
+        public async static Task<string> GetMyOrderAsync()
         {
             try
             {
@@ -326,7 +326,8 @@ namespace MyerList.Helper
 
                 HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
+                var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri +
+                    "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
                 if (result.IsSuccessful)
@@ -349,7 +350,7 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<bool> SetAllOrder(string order)
+        public async static Task<bool> UpdateAllOrderAsync(string order)
         {
             try
             {
@@ -358,7 +359,8 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("order", order));
 
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
-                var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
+                var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleSetOrderUri +
+                    "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
                 return result.IsSuccessful;
@@ -370,7 +372,7 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<CommonRespMsg> GetCateInfo()
+        public async static Task<CommonRespMsg> GetCateInfoAsync()
         {
             try
             {
@@ -379,7 +381,7 @@ namespace MyerList.Helper
                 result.ParseResult();
                 return result;
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 throw;
             }
@@ -389,7 +391,7 @@ namespace MyerList.Helper
             }
         }
 
-        public async static Task<bool> UpdateCateInfo(string content)
+        public async static Task<bool> UpdateCateInfoAsync(string content)
         {
             try
             {
