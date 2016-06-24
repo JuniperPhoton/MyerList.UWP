@@ -381,10 +381,6 @@
       <Project>{1c9fde7a-452e-44b7-a065-fb3c4f170048}</Project>
       <Name>MyerListCustomControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SamplesCommon\SamplesCommon.csproj">
-      <Project>{0b6a4830-d1ff-4018-baa2-7257eb4579fe}</Project>
-      <Name>SamplesCommon</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">

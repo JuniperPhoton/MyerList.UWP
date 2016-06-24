@@ -8,8 +8,8 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace MyerListCustomControl
 {
-    public class ToastService:Control
-    { 
+    public class ToastService : Control
+    {
         #region DependencyProperty
 
         public string ContentText
@@ -83,12 +83,12 @@ namespace MyerListCustomControl
             CurrentPage.SizeChanged += Page_SizeChanged;
         }
 
-        private ToastService(string text):this()
+        private ToastService(string text) : this()
         {
             _tempText = text;
         }
 
-        private ToastService(string text,TimeSpan time):this()
+        private ToastService(string text, TimeSpan time) : this()
         {
             _tempText = text;
             HideTimeSpan = time;
@@ -102,7 +102,7 @@ namespace MyerListCustomControl
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var  task=UpdateSize();
+            var task = UpdateSize();
         }
 
         private async Task UpdateSize()
@@ -129,7 +129,7 @@ namespace MyerListCustomControl
             _contentTB.Text = _tempText;
             _tcs.SetResult(0);
         }
-        
+
         public async Task ShowAsync()
         {
             await _tcs.Task;

@@ -291,15 +291,12 @@
                              Margin="0 -30 0 0"
                              HorizontalAlignment="Left"
                              Background="{StaticResource MyerListBlueLight}" />
-        <Rectangle x:Name="VisualHolder"
-                   Grid.RowSpan="5"
-                   Grid.ColumnSpan="5" />
         <uc:AddingPanel x:Name="AddingPanel"
                         Grid.RowSpan="5"
                         Grid.ColumnSpan="2"
                         Margin="0 -30 0 0"
                         VerticalAlignment="Stretch"
                         Background="{StaticResource MyerListBlueLight}"
-                        Visibility="Collapsed" />
+                        />
     </cc:AnimatableGrid>
 </base:BindablePage>
