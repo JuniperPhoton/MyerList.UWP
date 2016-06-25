@@ -103,6 +103,8 @@ namespace MyerList
             base.OnNavigatedTo(e);
 
             Frame.BackStack.Clear();
+
+            Window.Current.SetTitleBar(null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

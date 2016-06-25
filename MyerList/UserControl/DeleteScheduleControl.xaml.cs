@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyerList.ViewModel;
+using MyerListUWP;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +20,14 @@ namespace MyerList.UC
 {
     public sealed partial class DeleteScheduleControl : UserControl
     {
+        public MainViewModel MainVM
+        {
+            get
+            {
+                return App.MainVM;
+            }
+        }
+
         public DeleteScheduleControl()
         {
             this.InitializeComponent();

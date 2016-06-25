@@ -28,8 +28,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="{x:Null}"
-                Command="{Binding MainVM.RedoCommand,
-                                  Source={StaticResource Locator}}"
+                Command="{x:Bind MainVM.RedoCommand, Mode=OneWay}"
                 CommandParameter="{Binding}"
                 Style="{StaticResource ListButtonStyle}">
             <Grid>
@@ -62,9 +61,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="{x:Null}"
-                Command="{Binding MainVM.PermanentDeleteCommand,
-                                  Mode=OneWay,
-                                  Source={StaticResource Locator}}"
+                Command="{x:Bind MainVM.PermanentDeleteCommand,                                   Mode=OneWay,                                   }"
                 CommandParameter="{Binding}"
                 Style="{StaticResource ListButtonStyle}">
             <Grid>
