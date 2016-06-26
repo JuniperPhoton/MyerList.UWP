@@ -9,16 +9,23 @@ using MyerList.Model;
 using MyerListUWP.Common;
 using JP.Utils.Helper;
 using MyerListUWP;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using System.Numerics;
+using JP.Utils.UI;
+using Windows.UI;
 
 namespace MyerList.UC
 {
     public sealed partial class ScheduleControl : UserControl
     {
-        TranslateTransform _tranTemplete = new TranslateTransform();
-        bool _isToBeDone = false;
-        bool _isToBeDeleted = false;
+        private bool _isToBeDone = false;
+        private bool _isToBeDeleted = false;
 
-        public ToDo CurrentToDo
+        private Compositor _compositor;
+        private Visual _rootVisual;
+
+        private ToDo CurrentToDo
         {
             get
             {
@@ -29,12 +36,17 @@ namespace MyerList.UC
         public ScheduleControl()
         {
             this.InitializeComponent();
-
-            BackStory.Completed += ((senderb, eb) =>
-              {
-                  InitialManipulation();
-              });
             this.Loaded += ScheduleControl_Loaded;
+            this.InitComposition();
+            LeftGrid.ManipulationStarted += RootGrid_ManipulationStarted;
+            LeftGrid.ManipulationDelta += Grid_ManipulationDelta;
+            LeftGrid.ManipulationCompleted += Grid_ManipulationCompleted;
+        }
+
+        private void InitComposition()
+        {
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _rootVisual = ElementCompositionPreview.GetElementVisual(RootGrid);
         }
 
         private void ScheduleControl_Loaded(object sender, RoutedEventArgs e)
@@ -49,44 +61,35 @@ namespace MyerList.UC
             }
         }
 
-        private void InitialManipulation()
+        private void RootGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            SchduleTempleteGrid.ManipulationDelta -= Grid_ManipulationDelta;
-            SchduleTempleteGrid.ManipulationCompleted -= Grid_ManipulationCompleted;
-
-            SchduleTempleteGrid.ManipulationDelta += Grid_ManipulationDelta;
-            SchduleTempleteGrid.ManipulationCompleted += Grid_ManipulationCompleted;
-
-            _tranTemplete = new TranslateTransform();
-            SchduleTempleteGrid.RenderTransform = _tranTemplete;
+            ShowBackgrdStory.Begin();
         }
 
-        /// <summary>
-        /// 启动动画
-        /// </summary>
-        /// <param name="x">当前的X位置</param>
-        private void BeginReturnStoryboard(double x)
+        private void ToggleBackAnimation()
         {
-            StartX.Value = x;
-            BackStory.Begin();
-        }
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f, 0f);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
-        private void SchduleTempleteGrid_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            InitialManipulation();
+            _rootVisual.StartAnimation("Offset.X", offsetAnimation);
         }
 
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
+            e.Handled = false;
+
+            var x = _rootVisual.Offset.X;
+            _rootVisual.Offset = new Vector3((float)(x + e.Delta.Translation.X), 0f, 0f);
+
             //完成待办事项 
-            if (e.Delta.Translation.X > 0)
+            if (_rootVisual.Offset.X > 0)
             {
-                _tranTemplete.X += e.Delta.Translation.X;
                 if (_isToBeDeleted)
                 {
                     return;
                 }
-                if (_tranTemplete.X > 100)
+                if (_rootVisual.Offset.X > 100)
                 {
                     if (!_isToBeDone)
                     {
@@ -99,12 +102,11 @@ namespace MyerList.UC
             //删除待办事项
             else
             {
-                _tranTemplete.X += e.Delta.Translation.X;
                 if (_isToBeDone)
                 {
                     return;
                 }
-                if (_tranTemplete.X < -100)
+                if (_rootVisual.Offset.X < -100)
                 {
                     if (!_isToBeDeleted)
                     {
@@ -118,32 +120,34 @@ namespace MyerList.UC
 
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
+            HideBackgrdStory.Begin();
+
             if (e.Cumulative.Translation.X > 0)
             {
                 if (e.Cumulative.Translation.X > 100)
                 {
-                   Messenger.Default.Send(new GenericMessage<ToDo>(this.DataContext as ToDo),MessengerTokens.CheckToDo);
+                    Messenger.Default.Send(new GenericMessage<ToDo>(CurrentToDo), MessengerTokens.CheckToDo);
                 }
                 HideGreenStory.Begin();
-                BeginReturnStoryboard(e.Cumulative.Translation.X);
             }
             else if (e.Cumulative.Translation.X < 0)
             {
                 if (e.Cumulative.Translation.X < -100)
                 {
-                    if (SchduleTempleteGrid != null)
+                    if (RootGrid != null)
                     {
-                        Messenger.Default.Send(new GenericMessage<ToDo>(this.DataContext as ToDo), MessengerTokens.DeleteToDo);
+                        Messenger.Default.Send(new GenericMessage<ToDo>(CurrentToDo), MessengerTokens.DeleteToDo);
                     }
                 }
                 HideRedStory.Begin();
-                BeginReturnStoryboard(e.Cumulative.Translation.X);
             }
             _isToBeDone = false;
             _isToBeDeleted = false;
+
+            ToggleBackAnimation();
         }
 
-        private void SchduleTempleteGrid_Holding(object sender, HoldingRoutedEventArgs e)
+        private void RootGrid_Holding(object sender, HoldingRoutedEventArgs e)
         {
             FrameworkElement element = sender as FrameworkElement;
             if (element != null)
@@ -161,9 +165,9 @@ namespace MyerList.UC
             }
         }
 
-        private void SchduleTempleteGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void RootGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            if(DeviceHelper.IsDesktop)
+            if (DeviceHelper.IsDesktop)
             {
                 FrameworkElement element = sender as FrameworkElement;
                 if (element != null)
@@ -190,6 +194,11 @@ namespace MyerList.UC
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             Messenger.Default.Send(new GenericMessage<ToDo>(CurrentToDo), MessengerTokens.DeleteToDo);
+        }
+
+        private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+
         }
     }
 }

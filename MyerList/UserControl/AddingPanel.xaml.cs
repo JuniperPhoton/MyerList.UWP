@@ -4,12 +4,31 @@ using MyerListUWP;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace MyerList.UC
 {
     public sealed partial class AddingPanel : UserControl
     {
+        public SolidColorBrush BackgrdColor
+        {
+            get { return (SolidColorBrush)GetValue(BackgrdColorProperty); }
+            set { SetValue(BackgrdColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty BackgrdColorProperty =
+            DependencyProperty.Register("BackgrdColor", typeof(SolidColorBrush), typeof(AddingPanel), 
+                new PropertyMetadata((SolidColorBrush)App.Current.Resources["MyerListBlue"],OnBackgrdColorPropertyChanged));
+
+        private static void OnBackgrdColorPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as AddingPanel;
+            control.UpdateBackgrdColor((SolidColorBrush)e.NewValue);
+        }
+
+
         public MainViewModel MainVM
         {
             get
@@ -27,6 +46,14 @@ namespace MyerList.UC
                 RootSP.Margin = new Thickness(0, 100, 0, 0);
                 RootSP.VerticalAlignment = VerticalAlignment.Top;
             }
+
+            var b = new Binding()
+            {
+                Source = MainVM,
+                Path = new PropertyPath("AddingCateColor"),
+                Mode=BindingMode.OneWay,
+            };
+            this.SetBinding(BackgrdColorProperty, b);
         }
 
         public async void SetFocus()
@@ -37,11 +64,41 @@ namespace MyerList.UC
             AddContentBox.Select(AddContentBox.Text.Length, 0);
         }
 
+        private void UpdateBackgrdColor(SolidColorBrush targetColorBrush)
+        {
+            ColorAnimation.To = targetColorBrush.Color;
+            ChangeColorStory.Begin();
+        }
+
         private void AddContentBox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 App.MainVM.OkCommand.Execute(null);
+            }
+        }
+
+        private void AddGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (e.Cumulative.Translation.X < 0)
+            {
+                var currentIndex = MainVM.AddingCate;
+                if (currentIndex == MainVM.CateVM.Categories.Count - 1)
+                {
+                    currentIndex = 0;
+                }
+                else currentIndex++;
+                MainVM.AddingCate = currentIndex;
+            }
+            else if (e.Cumulative.Translation.X > 0)
+            {
+                var currentIndex = MainVM.AddingCate;
+                if (currentIndex == 0)
+                {
+                    currentIndex = MainVM.CateVM.Categories.Count - 1;
+                }
+                else currentIndex--;
+                MainVM.AddingCate = currentIndex;
             }
         }
     }

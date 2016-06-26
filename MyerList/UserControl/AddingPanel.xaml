@@ -201,10 +201,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Storyboard x:Name="ChangeColorStory">
+            <ColorAnimation x:Name="ColorAnimation"
+                            Duration="0:0:0.3"
+                            Storyboard.TargetName="AddGrid"
+                            Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" />
+        </Storyboard>
     </UserControl.Resources>
     <Grid x:Name="AddGrid"
           Grid.RowSpan="5"
-          Background="{x:Bind MainVM.AddingCateColor, Mode=OneWay}"
+          Background="{StaticResource MyerListBlue}"
+          ManipulationCompleted="AddGrid_ManipulationCompleted"
+          ManipulationMode="TranslateX"
           RenderTransformOrigin="0.5,0.5">
         <Image Opacity="0.02"
                Source="ms-appx:///Assets/BackgrdImage.png"
@@ -225,7 +233,7 @@
                     <Grid Margin="10,0,0,0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Center">
-                        <Border Background="#55000000" CornerRadius="3" />
+                        <Border Background="#55000000" CornerRadius="0" />
                         <TextBlock Margin="5"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"

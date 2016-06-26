@@ -9,13 +9,17 @@
              d:DesignWidth="400"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Storyboard x:Name="BackStory">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SchduleTempleteGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                <EasingDoubleKeyFrame x:Name="StartX"
-                                      KeyTime="0"
-                                      Value="266" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
+        <Storyboard x:Name="ShowBackgrdStory">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)">
+                <EasingColorKeyFrame KeyTime="0" Value="Transparent" />
+                <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFD6D6D6" />
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideBackgrdStory">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)">
+                <SplineColorKeyFrame KeyTime="0" Value="#FFD6D6D6" />
+                <SplineColorKeyFrame KeyTime="0:0:0.3" Value="Transparent" />
+            </ColorAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowGreenStory">
             <ColorAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
@@ -42,15 +46,13 @@
             </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="SchduleTempleteGrid"
-          Height="35"
+    <Grid x:Name="RootGrid"
+          Height="40"
           Margin="0 0 5 0"
-          d:DesignWidth="320.167"
-          ManipulationMode="System,TranslateX,TranslateY"
-          PointerEntered="SchduleTempleteGrid_OnPointerEntered"
-          RenderTransformOrigin="0.5,0.5"
-          RightTapped="SchduleTempleteGrid_RightTapped"
-          Tag="{Binding ID}">
+          RightTapped="RootGrid_RightTapped">
+        <Grid.Background>
+            <SolidColorBrush Color="#004BB685" />
+        </Grid.Background>
         <FlyoutBase.AttachedFlyout>
             <MenuFlyout x:Name="ItemFlyout">
                 <MenuFlyoutItem x:Uid="MarkDownItem"
@@ -66,29 +68,23 @@
             <ColumnDefinition />
             <ColumnDefinition x:Name="c2" Width="50" />
         </Grid.ColumnDefinitions>
-        <Grid.RenderTransform>
-            <CompositeTransform />
-        </Grid.RenderTransform>
         <Border x:Name="border"
                 Grid.RowSpan="2"
                 Grid.ColumnSpan="2"
                 Margin="0"
                 Background="#004BB685"
                 BorderThickness="0" />
-        <Grid x:Name="LeftSP">
+        <Grid x:Name="LeftGrid"
+              Background="#02FFFFFF"
+              ManipulationMode="System,TranslateX">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button Width="50"
-                    Margin="-5"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Background="{x:Null}"
-                    Command="{Binding MainVM.ChangeCateCommand,
-                                      Mode=OneWay,
-                                      Source={StaticResource Locator}}"
-                    CommandParameter="{Binding}"
                     IsEnabled="False"
                     Style="{StaticResource ListButtonStyle}">
                 <Grid>
