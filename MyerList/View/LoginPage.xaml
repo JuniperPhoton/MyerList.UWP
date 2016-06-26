@@ -52,7 +52,6 @@
                 Margin="20 0 20 0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                BorderBrush="#FFDDDDDD"
                 BorderThickness="0,0,3,3">
             <StackPanel VerticalAlignment="Center" Background="White">
                 <Grid Height="8">
