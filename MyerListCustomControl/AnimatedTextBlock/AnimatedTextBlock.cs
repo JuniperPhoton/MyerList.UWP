@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Numerics;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -14,7 +18,9 @@ namespace MyerListCustomControl
         private TextBlock textblock2;
         private Grid rootGrid;
 
-        public Storyboard ChangeStory;
+        private Compositor _compositor;
+        private Visual _tb1Visual;
+        private Visual _tb2Visual;
 
         public string TextContent
         {
@@ -29,18 +35,21 @@ namespace MyerListCustomControl
         }
 
         public static DependencyProperty TextContentProperty = DependencyProperty.Register(
-            "TextContent", typeof(string), typeof(AnimatedTextBlock), new PropertyMetadata("", async (sender, e) =>
+            "TextContent", typeof(string), typeof(AnimatedTextBlock), 
+            new PropertyMetadata("", OnTextContentPropertyChanged));
+
+        private static async void OnTextContentPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
+        {
+            var tb = d as AnimatedTextBlock;
+            if (e.NewValue != e.OldValue && !string.IsNullOrEmpty(e.OldValue as string))
             {
-                var tb = sender as AnimatedTextBlock;
-                if (e.NewValue != e.OldValue && !string.IsNullOrEmpty(e.OldValue as string))
-                {
-                    await tb.Animate(e);
-                }
-                else if (e.NewValue != e.OldValue)
-                {
-                    await tb.ResetTransformAsync(e.NewValue as string);
-                }
-            }));
+                await tb.Animate((string)e.NewValue,(string)e.OldValue);
+            }
+            else if (e.NewValue != e.OldValue)
+            {
+                await tb.ResetOffsetAsync(e.NewValue as string);
+            }
+        }
 
         public TaskCompletionSource<int> tcs;
 
@@ -62,38 +71,64 @@ namespace MyerListCustomControl
 
         private void Initial()
         {
-            textblock1 = GetTemplateChild("Text1") as TextBlock;
-            textblock2 = GetTemplateChild("Text2") as TextBlock;
+            textblock1 = GetTemplateChild("TB1") as TextBlock;
+            textblock2 = GetTemplateChild("TB2") as TextBlock;
             rootGrid = GetTemplateChild("RootGrid") as Grid;
-            ChangeStory = rootGrid.Resources["ChangeStory"] as Storyboard;
-            rootGrid.Clip = new RectangleGeometry() { Rect = new Rect(new Point(0, 0), new Size(400, 50)) };
+
+            _compositor = ElementCompositionPreview.GetElementVisual(rootGrid).Compositor;
+            _tb1Visual = ElementCompositionPreview.GetElementVisual(textblock1);
+            _tb2Visual = ElementCompositionPreview.GetElementVisual(textblock2);
+            _tb2Visual.Opacity = 0f;
+            _tb2Visual.Offset = new Vector3(50f, 0f, 0f);
+
+            rootGrid.Clip = new RectangleGeometry() { Rect = new Rect(new Point(0, 0), new Size(1400, 50)) };
             tcs.SetResult(0);
         }
 
-        public async Task Animate(DependencyPropertyChangedEventArgs e)
+        public async Task Animate(string newValue,string oldValue)
         {
             await tcs.Task;
-            textblock1.Text = e.OldValue as string;
-            textblock2.Text = e.NewValue as string;
+            textblock1.Text = oldValue;
+            textblock2.Text = newValue;
 
-            ChangeStory.Completed += async (senderc, ec) =>
-            {
-                await ResetTransformAsync(e.NewValue as string);
-            };
-            ChangeStory.Begin();
+            var offsetAnimation1 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation1.InsertKeyFrame(1f, -50f);
+            offsetAnimation1.Duration = TimeSpan.FromMilliseconds(400);
+
+            var offsetAnimation2 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation2.InsertKeyFrame(1f, 0f);
+            offsetAnimation2.Duration= TimeSpan.FromMilliseconds(400);
+
+            var fadeAnimation1 = _compositor.CreateScalarKeyFrameAnimation();
+            fadeAnimation1.InsertKeyFrame(1f, 0f);
+            fadeAnimation1.Duration = TimeSpan.FromMilliseconds(400);
+
+            var fadeAnimation2 = _compositor.CreateScalarKeyFrameAnimation();
+            fadeAnimation2.InsertKeyFrame(1f, 1f);
+            fadeAnimation2.Duration = TimeSpan.FromMilliseconds(400);
+
+            var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+            _tb1Visual.StartAnimation("Offset.X", offsetAnimation1);
+            _tb2Visual.StartAnimation("Offset.X", offsetAnimation2);
+            _tb1Visual.StartAnimation("Opacity", fadeAnimation1);
+            _tb2Visual.StartAnimation("Opacity", fadeAnimation2);
+            batch.Completed += async(sender, ex) =>
+              {
+                  await ResetOffsetAsync(newValue);
+              };
+            batch.End();
         }
 
-        public async Task ResetTransformAsync(string newStr)
+        public async Task ResetOffsetAsync(string newValue)
         {
             await tcs.Task;
-            textblock1.Text = newStr;
+            textblock1.Text = newValue;
 
-            (textblock1.RenderTransform as CompositeTransform).TranslateX = 0;
-            textblock1.Opacity = 1;
-            textblock1.Visibility = Visibility.Visible;
-            (textblock2.RenderTransform as CompositeTransform).TranslateX = 100;
-            textblock2.Opacity = 0;
-            textblock2.Visibility = Visibility.Collapsed;
+            _tb1Visual.Offset = new Vector3(0f, 0f, 0f);
+            _tb1Visual.Opacity = 1f;
+
+            _tb2Visual.Offset = new Vector3(50f, 0f, 0f);
+            _tb2Visual.Opacity = 0;
         }
     }
 }

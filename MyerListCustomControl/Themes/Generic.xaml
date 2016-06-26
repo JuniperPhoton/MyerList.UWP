@@ -111,54 +111,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:AnimatedTextBlock">
                     <Grid x:Name="RootGrid"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid.Resources>
-                            <Storyboard x:Name="ChangeStory">
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="Text1">
-                                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                                </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Text1">
-                                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-50"/>
-                                </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Text1">
-                                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-                                </DoubleAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Text2">
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                                </DoubleAnimationUsingKeyFrames>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Text2">
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
-                                        <DiscreteObjectKeyFrame.Value>
-                                            <Visibility>Visible</Visibility>
-                                        </DiscreteObjectKeyFrame.Value>
-                                    </DiscreteObjectKeyFrame>
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.6">
-                                        <DiscreteObjectKeyFrame.Value>
-                                            <Visibility>Visible</Visibility>
-                                        </DiscreteObjectKeyFrame.Value>
-                                    </DiscreteObjectKeyFrame>
-                                </ObjectAnimationUsingKeyFrames>
-                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Text2">
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50"/>
-                                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                                </DoubleAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </Grid.Resources>
-                        <TextBlock x:Name="Text1"  FontFamily="Microsoft JhengHei UI"  Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontSize="{TemplateBinding FontSize}" RenderTransformOrigin="0.5,0.5" Text="" >
-                            <TextBlock.RenderTransform>
-                                <CompositeTransform/>
-                            </TextBlock.RenderTransform>
-                            <TextBlock.Projection>
-                                <PlaneProjection/>
-                            </TextBlock.Projection>
+                        <TextBlock x:Name="TB1"  FontFamily="Microsoft JhengHei UI" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontSize="{TemplateBinding FontSize}" Text="" >
                         </TextBlock>
-                        <TextBlock x:Name="Text2"  FontFamily="Microsoft JhengHei UI" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontSize="{TemplateBinding FontSize}" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" Opacity="0" Text="" >
-                            <TextBlock.RenderTransform>
-                                <CompositeTransform TranslateX="50"/>
-                            </TextBlock.RenderTransform>
+                        <TextBlock x:Name="TB2"  FontFamily="Microsoft JhengHei UI" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontSize="{TemplateBinding FontSize}" Text="" >
                         </TextBlock>
                     </Grid>
                 </ControlTemplate>
