@@ -244,7 +244,8 @@
                                    TextTrimming="CharacterEllipsis" />
                     </Grid>
                 </StackPanel>
-                <ListBox Margin="0,5,0,0"
+                <ListBox x:Name="CateListBox" 
+                    Margin="0,5,0,0"
                          Background="{x:Null}"
                          ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                          ItemsSource="{x:Bind MainVM.CateVM.CatesToAdd, Mode=OneWay}"

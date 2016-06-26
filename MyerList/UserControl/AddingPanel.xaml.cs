@@ -19,10 +19,10 @@ namespace MyerList.UC
         }
 
         public static readonly DependencyProperty BackgrdColorProperty =
-            DependencyProperty.Register("BackgrdColor", typeof(SolidColorBrush), typeof(AddingPanel), 
-                new PropertyMetadata((SolidColorBrush)App.Current.Resources["MyerListBlue"],OnBackgrdColorPropertyChanged));
+            DependencyProperty.Register("BackgrdColor", typeof(SolidColorBrush), typeof(AddingPanel),
+                new PropertyMetadata((SolidColorBrush)App.Current.Resources["MyerListBlue"], OnBackgrdColorPropertyChanged));
 
-        private static void OnBackgrdColorPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
+        private static void OnBackgrdColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as AddingPanel;
             control.UpdateBackgrdColor((SolidColorBrush)e.NewValue);
@@ -51,7 +51,7 @@ namespace MyerList.UC
             {
                 Source = MainVM,
                 Path = new PropertyPath("AddingCateColor"),
-                Mode=BindingMode.OneWay,
+                Mode = BindingMode.OneWay,
             };
             this.SetBinding(BackgrdColorProperty, b);
         }
@@ -83,22 +83,22 @@ namespace MyerList.UC
             if (e.Cumulative.Translation.X < 0)
             {
                 var currentIndex = MainVM.AddingCate;
-                if (currentIndex == MainVM.CateVM.Categories.Count - 1)
+                if (currentIndex == MainVM.CateVM.Categories.Count - 2)
                 {
                     currentIndex = 0;
                 }
                 else currentIndex++;
-                MainVM.AddingCate = currentIndex;
+                CateListBox.SelectedIndex = currentIndex;
             }
             else if (e.Cumulative.Translation.X > 0)
             {
                 var currentIndex = MainVM.AddingCate;
                 if (currentIndex == 0)
                 {
-                    currentIndex = MainVM.CateVM.Categories.Count - 1;
+                    currentIndex = MainVM.CateVM.Categories.Count - 2;
                 }
                 else currentIndex--;
-                MainVM.AddingCate = currentIndex;
+                CateListBox.SelectedIndex = currentIndex;
             }
         }
     }
