@@ -354,6 +354,8 @@ namespace MyerListUWP.View
         #region Drawer manipulation
         private void TouchGrid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
+            if (!AppSettings.Instance.EnableGesture) return;
+
             if (e.Cumulative.Translation.X >= 70)
             {
                 _isDrawerSlided = true;
@@ -370,6 +372,8 @@ namespace MyerListUWP.View
 
         private void TouchGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
+            if (!AppSettings.Instance.EnableGesture) return;
+
             if (_drawerMaskVisual.Opacity < 1)
             {
                 MaskBorder.Visibility = Visibility.Visible;
