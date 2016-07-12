@@ -1,0 +1,2 @@
+MainPackage=D:\Dev\MyerListUWP\MyerList\bin\x64\Release\Upload\MyerList_4.0.3.0_x64.appx
+SymbolPackage=D:\Dev\MyerListUWP\MyerList\AppPackages\MyerList_4.0.3.0\MyerList_4.0.3.0_x64.appxsym

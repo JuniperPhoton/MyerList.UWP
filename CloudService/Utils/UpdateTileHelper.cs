@@ -84,15 +84,24 @@ namespace HttpReqModule
                     Content = wideContent,
                 };
 
-                var content = new TileContent()
+                var content = new TileContent();
+                if (updateLarge)
                 {
-                    Visual = new TileVisual()
+                    content.Visual = new TileVisual()
                     {
                         TileMedium = mediumBinding,
                         TileWide = wideBinding,
                         TileLarge = largeBinding
-                    }
-                };
+                    };
+                }
+                else
+                {
+                    content.Visual = new TileVisual()
+                    {
+                        TileMedium = mediumBinding,
+                        TileWide = wideBinding,
+                    };
+                }
 
                 TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(isAddToSchedule);
                 var notification = new TileNotification(content.GetXml());

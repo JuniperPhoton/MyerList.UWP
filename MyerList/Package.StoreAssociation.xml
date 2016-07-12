@@ -368,7 +368,8 @@
     <MainPackageIdentityName>19204JuniperPhoton.MyerMoment</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerMomentBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerSplash</MainPackageIdentityName>
+    <MainPackageIdentityName>19204JuniperPhoton.MyerSplashBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.2828271CA5F95</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH11K1M" />
+  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9NBLGGH11K1M" />
 </StoreAssociation>
