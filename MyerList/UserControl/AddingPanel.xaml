@@ -40,6 +40,39 @@
                                     <Setter Property="FontSize" Value="15" />
                                 </Style>
                             </Grid.Resources>
+                            <Rectangle x:Name="PressedBackground"
+                                       Width="30"
+                                       Height="30"
+                                       Control.IsTemplateFocusTarget="True"
+                                       Fill="Transparent"
+                                       Visibility="Collapsed" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Width="30"
+                                              Height="30"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              RenderTransformOrigin="0.5,0.5"
+                                              Style="{StaticResource BodyContentPresenterStyle}"
+                                              TextWrapping="NoWrap">
+                                <ContentPresenter.RenderTransform>
+                                    <CompositeTransform />
+                                </ContentPresenter.RenderTransform>
+                            </ContentPresenter>
+                            <FontIcon x:Name="fontIcon"
+                                      Width="20"
+                                      Height="14"
+                                      FontSize="13.333"
+                                      Foreground="White"
+                                      Glyph="&#xE001;"
+                                      RenderTransformOrigin="0.5,0.5"
+                                      Visibility="Collapsed">
+                                <FontIcon.RenderTransform>
+                                    <CompositeTransform />
+                                </FontIcon.RenderTransform>
+                            </FontIcon>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
 
@@ -163,39 +196,6 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Rectangle x:Name="PressedBackground"
-                                       Width="30"
-                                       Height="30"
-                                       Control.IsTemplateFocusTarget="True"
-                                       Fill="Transparent"
-                                       Visibility="Collapsed" />
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Width="30"
-                                              Height="30"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}"
-                                              RenderTransformOrigin="0.5,0.5"
-                                              Style="{StaticResource BodyContentPresenterStyle}"
-                                              TextWrapping="NoWrap">
-                                <ContentPresenter.RenderTransform>
-                                    <CompositeTransform />
-                                </ContentPresenter.RenderTransform>
-                            </ContentPresenter>
-                            <FontIcon x:Name="fontIcon"
-                                      Width="20"
-                                      Height="14"
-                                      FontSize="13.333"
-                                      Foreground="White"
-                                      Glyph="&#xE001;"
-                                      RenderTransformOrigin="0.5,0.5"
-                                      Visibility="Collapsed">
-                                <FontIcon.RenderTransform>
-                                    <CompositeTransform />
-                                </FontIcon.RenderTransform>
-                            </FontIcon>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -211,14 +211,14 @@
     <Grid x:Name="AddGrid"
           Grid.RowSpan="5"
           Background="{StaticResource MyerListBlue}"
-          ManipulationCompleted="AddGrid_ManipulationCompleted"
-          ManipulationMode="TranslateX"
-          RenderTransformOrigin="0.5,0.5">
-        <Image Opacity="0.02"
+          >
+        <Image ManipulationCompleted="AddGrid_ManipulationCompleted"
+               ManipulationMode="TranslateX"
+               Opacity="0.02"
                Source="ms-appx:///Assets/BackgrdImage.png"
                Stretch="UniformToFill" />
         <StackPanel x:Name="RootSP"
-                    MaxWidth="450"
+                    MaxWidth="550"
                     Margin="0,0,0,100"
                     VerticalAlignment="Center">
             <StackPanel Margin="10,0,0,0">
@@ -244,8 +244,8 @@
                                    TextTrimming="CharacterEllipsis" />
                     </Grid>
                 </StackPanel>
-                <ListBox x:Name="CateListBox" 
-                    Margin="0,5,0,0"
+                <ListBox x:Name="CateListBox"
+                         Margin="0,5,0,0"
                          Background="{x:Null}"
                          ItemContainerStyle="{StaticResource ListBoxItemStyle1}"
                          ItemsSource="{x:Bind MainVM.CateVM.CatesToAdd, Mode=OneWay}"

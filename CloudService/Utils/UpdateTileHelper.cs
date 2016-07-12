@@ -9,9 +9,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using System.Linq;
-using NotificationsExtensions.TileContent;
 using JP.Utils.Helper;
 using JP.Utils.Debug;
+using NotificationsExtensions.Tiles;
 
 
 // ReSharper disable All
@@ -36,39 +36,66 @@ namespace HttpReqModule
                 var largeFile = await SaveUIElementToFile(largeTileGrid, TileCategory.Large);
                 var wideFile=await SaveUIElementToFile(wideTileGrid, TileCategory.Wide);
                 var mediumFile = await SaveUIElementToFile(mediumTileGrid, TileCategory.Medium);
-                //var smallFile = await SaveUIElementToFile(smallTileGrid, TileCategory.Small);
                 
                 if(wideFile==null || mediumFile==null)
                 {
                    throw new NullReferenceException();
                 }
-                //small
-                //var smallTileContent = TileContentFactory.CreateTileSquare71x71Image();
-                //smallTileContent.Image.Src = smallFile.Path;
 
-                //medium
-                var mediumTileContent = TileContentFactory.CreateTileSquare150x150Image();
-                mediumTileContent.RequireSquare71x71Content = false;
-                //mediumTileContent.Square71x71Content = smallTileContent;
-                mediumTileContent.Image.Src = mediumFile.Path;
-                mediumTileContent.Branding = TileBranding.Logo;
+                var mediumContent = new TileBindingContentAdaptive()
+                {
+                    BackgroundImage=new TileBackgroundImage()
+                    {
+                        Source=mediumFile.Path,
+                    }
+                };
 
-                //wide
-                var wideTileContent = TileContentFactory.CreateTileWide310x150Image();
-                wideTileContent.RequireSquare150x150Content = true;
-                wideTileContent.Square150x150Content = mediumTileContent;
-                wideTileContent.Image.Src = wideFile.Path;
-                wideTileContent.Branding = TileBranding.Logo;
+                var largeContent = new TileBindingContentAdaptive()
+                {
+                    BackgroundImage = new TileBackgroundImage()
+                    {
+                        Source = largeFile.Path,
+                    }
+                };
 
-                var largeTileContent = TileContentFactory.CreateTileSquare310x310Image();
-                largeTileContent.RequireWide310x150Content = true;
-                largeTileContent.Wide310x150Content = wideTileContent;
-                largeTileContent.Image.Src = largeFile.Path;
-                largeTileContent.Branding = TileBranding.Logo;
+                var wideContent = new TileBindingContentAdaptive()
+                {
+                    BackgroundImage = new TileBackgroundImage()
+                    {
+                        Source = wideFile.Path,
+                    }
+                };
+
+                var mediumBinding = new TileBinding()
+                {
+                    Branding = TileBranding.None,
+                    Content = mediumContent,
+                };
+
+                var largeBinding = new TileBinding()
+                {
+                    Branding = TileBranding.None,
+                    Content = largeContent,
+                };
+
+                var wideBinding = new TileBinding()
+                {
+                    Branding = TileBranding.None,
+                    Content = wideContent,
+                };
+
+                var content = new TileContent()
+                {
+                    Visual = new TileVisual()
+                    {
+                        TileMedium = mediumBinding,
+                        TileWide = wideBinding,
+                        TileLarge = largeBinding
+                    }
+                };
 
                 TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(isAddToSchedule);
-
-                var notification = updateLarge ? largeTileContent.CreateNotification() : wideTileContent.CreateNotification();
+                var notification = new TileNotification(content.GetXml());
                 TileUpdateManager.CreateTileUpdaterForApplication().Update(notification);
 
                 return true;
