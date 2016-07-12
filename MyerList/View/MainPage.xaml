@@ -288,9 +288,10 @@
                              Grid.RowSpan="5"
                              Grid.ColumnSpan="2"
                              Width="250"
+                             BackgrdColor="{x:Bind MainVM.CateColor, Mode=OneWay}"
                              Margin="0 -30 0 0"
                              HorizontalAlignment="Left"
-                             Background="{StaticResource MyerListBlueLight}" />
+                             />
         <uc:AddingPanel x:Name="AddingPanel"
                         Grid.RowSpan="5"
                         Grid.ColumnSpan="2"

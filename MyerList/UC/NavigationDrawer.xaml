@@ -9,8 +9,15 @@
              d:DesignHeight="600"
              d:DesignWidth="250"
              mc:Ignorable="d">
-    <UserControl.Resources />
-    <Grid x:Name="HamGrid" Background="{x:Bind MainVM.CateColor, Mode=OneWay}">
+    <UserControl.Resources>
+        <Storyboard x:Name="ColorStory">
+            <ColorAnimation x:Name="ColorAnimation"
+                            Duration="0:0:0.3"
+                            Storyboard.TargetName="HamGrid"
+                            Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" />
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid x:Name="HamGrid" Background="{StaticResource DefaultColor}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />

@@ -166,25 +166,7 @@
                            Text="Private policy" />
             </Border>
         </Button>
-        <Grid Grid.RowSpan="2"
-              Margin="-40"
-              d:IsHidden="True"
-              RenderTransformOrigin="0.5,0.5"
-              Visibility="{x:Bind LoginVM.IsLoading, Mode=OneWay}">
-            <Border Background="Black" Opacity="0.7" />
-            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                <ProgressRing Width="50"
-                              Height="50"
-                              Background="{x:Null}"
-                              Foreground="{StaticResource MyerListLight}"
-                              IsActive="True" />
-                <TextBlock x:Uid="LoadingTB"
-                           FontFamily="{StaticResource MyerListThemeFontFamily}"
-                           FontSize="26.667"
-                           Foreground="White"
-                           Text="Loading"
-                           TextAlignment="Center" />
-            </StackPanel>
-        </Grid>
+        <uc:LoadingControl 
+            IsShown="{x:Bind LoginVM.IsLoading, Mode=OneWay}"/>
     </Grid>
 </base:CustomTitleBarPage>

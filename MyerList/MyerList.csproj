@@ -134,34 +134,37 @@
     <Compile Include="Model\ToDo.cs" />
     <Compile Include="Model\ToDoCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControl\AddingPanel.xaml.cs">
+    <Compile Include="UC\AddingPanel.xaml.cs">
       <DependentUpon>AddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\CateItemControl.xaml.cs">
+    <Compile Include="UC\CateItemControl.xaml.cs">
       <DependentUpon>CateItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\CatePersonalizationControl.xaml.cs">
+    <Compile Include="UC\CatePersonalizationControl.xaml.cs">
       <DependentUpon>CatePersonalizationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\DeleteScheduleControl.xaml.cs">
+    <Compile Include="UC\DeleteScheduleControl.xaml.cs">
       <DependentUpon>DeleteScheduleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\EmptyTitleControl.xaml.cs">
+    <Compile Include="UC\EmptyTitleControl.xaml.cs">
       <DependentUpon>EmptyTitleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\HamburgerButton.xaml.cs">
+    <Compile Include="UC\HamburgerButton.xaml.cs">
       <DependentUpon>HamburgerButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\LiveTileTemplate.xaml.cs">
+    <Compile Include="UC\LiveTileTemplate.xaml.cs">
       <DependentUpon>LiveTileTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\NavigationDrawer.xaml.cs">
+    <Compile Include="UC\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\NavigationDrawer.xaml.cs">
       <DependentUpon>NavigationDrawer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\ScheduleControl.xaml.cs">
+    <Compile Include="UC\ScheduleControl.xaml.cs">
       <DependentUpon>ScheduleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\TitleBarUC.xaml.cs">
+    <Compile Include="UC\TitleBarUC.xaml.cs">
       <DependentUpon>TitleBarUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\CategoryColorViewModel.cs" />
@@ -303,43 +306,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\AddingPanel.xaml">
+    <Page Include="UC\AddingPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\CateItemControl.xaml">
+    <Page Include="UC\CateItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\CatePersonalizationControl.xaml">
+    <Page Include="UC\CatePersonalizationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\DeleteScheduleControl.xaml">
+    <Page Include="UC\DeleteScheduleControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\EmptyTitleControl.xaml">
+    <Page Include="UC\EmptyTitleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\HamburgerButton.xaml">
+    <Page Include="UC\HamburgerButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\LiveTileTemplate.xaml">
+    <Page Include="UC\LiveTileTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\NavigationDrawer.xaml">
+    <Page Include="UC\LoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\NavigationDrawer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\ScheduleControl.xaml">
+    <Page Include="UC\ScheduleControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControl\TitleBarUC.xaml">
+    <Page Include="UC\TitleBarUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
