@@ -12,32 +12,25 @@
           Height="35"
           Margin="0"
           d:DesignWidth="320.167"
-          RenderTransformOrigin="0.5,0.5"
           Tag="{Binding ID}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
             <ColumnDefinition />
             <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
-        <Grid.RenderTransform>
-            <CompositeTransform />
-        </Grid.RenderTransform>
         <Button Grid.RowSpan="2"
                 Width="50"
-                Margin="-5,-5,-5,-5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="{x:Null}"
                 Command="{x:Bind MainVM.RedoCommand, Mode=OneWay}"
                 CommandParameter="{Binding}"
                 Style="{StaticResource ListButtonStyle}">
-            <Grid>
-                <SymbolIcon Grid.RowSpan="2"
+                <SymbolIcon
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Foreground="{StaticResource ListButtonBackgrd}"
+                            Foreground="{StaticResource ListBtnForeground}"
                             Symbol="RepeatAll" />
-            </Grid>
         </Button>
         <Grid Grid.RowSpan="2"
               Grid.Column="1"
@@ -57,15 +50,15 @@
         <Button Grid.RowSpan="2"
                 Grid.Column="2"
                 Width="50"
-                Margin="-5,-5,-5,-5"
+                Margin="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="{x:Null}"
-                Command="{x:Bind MainVM.PermanentDeleteCommand,                                   Mode=OneWay,                                   }"
+                Command="{x:Bind MainVM.PermanentDeleteCommand,Mode=OneWay}"
                 CommandParameter="{Binding}"
                 Style="{StaticResource ListButtonStyle}">
             <Grid>
-                <SymbolIcon Foreground="{StaticResource ListButtonBackgrd}" Symbol="Delete" />
+                <SymbolIcon Foreground="{StaticResource ListBtnForeground}" Symbol="Delete" />
             </Grid>
         </Button>
     </Grid>

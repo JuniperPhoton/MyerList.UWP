@@ -73,7 +73,7 @@
                         Click="DeleteBtn_Click"
                         RenderTransformOrigin="0.5 0.5"
                         Style="{StaticResource ListButtonStyle}">
-                    <SymbolIcon Foreground="Black" Symbol="Delete" />
+                    <SymbolIcon Foreground="{StaticResource ListBtnForeground}" Symbol="Delete" />
                 </Button>
                 <Grid x:Name="ReorderThumb"
                       Width="50"
@@ -84,26 +84,20 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Border Width="20"
+                    <Border Grid.Row="0"
+                            Width="20"
                             Height="2"
+                            Margin="0,0,0,2"
                             VerticalAlignment="Bottom"
-                            Background="Black"
+                            Background="{StaticResource ReorderThumbColor}"
                             RenderTransformOrigin="0,0.5" />
                     <Border Grid.Row="1"
                             Width="20"
                             Height="2"
-                            Margin="0"
-                            VerticalAlignment="Center"
-                            Background="Black"
-                            RenderTransformOrigin="0,0.5" />
-                    <Border Grid.Row="2"
-                            Width="20"
-                            Height="2"
-                            Margin="0"
+                            Margin="0,2,0,0"
                             VerticalAlignment="Top"
-                            Background="Black"
+                            Background="{StaticResource ReorderThumbColor}"
                             RenderTransformOrigin="0,0.5" />
                 </Grid>
             </StackPanel>

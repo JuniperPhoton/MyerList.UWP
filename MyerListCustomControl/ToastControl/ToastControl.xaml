@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:MyerListCustomControl">
+    <Style TargetType="local:ToastService">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ToastService">
+                    <Grid x:Name="RootGrid">
+                        <Grid.Resources>
+                            <Storyboard x:Name="PlayStory">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                    <EasingDoubleKeyFrame KeyTime="0" Value="40" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <CircleEase EasingMode="EaseOut" />
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1.3" Value="50" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <CircleEase EasingMode="EaseOut" />
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:1.3" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </Grid.Resources>
+                        <Border x:Name="border"
+                                Margin="0 0 0 60"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom">
+                            <Border.RenderTransform>
+                                <CompositeTransform />
+                            </Border.RenderTransform>
+                            <Grid>
+                                <Border Background="#FF47A5DD"
+                                        CornerRadius="2"
+                                        Opacity="1" />
+                                <TextBlock x:Name="ContentTB"
+                                           Margin="20,10"
+                                           FontSize="15"
+                                           Foreground="White"
+                                           Text="{TemplateBinding ContentText}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

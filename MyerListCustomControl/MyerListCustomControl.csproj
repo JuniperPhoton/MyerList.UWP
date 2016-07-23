@@ -112,15 +112,34 @@
     <Compile Include="ContentPopupEx\ContentPopupEx.cs" />
     <Compile Include="ContentPopupEx\PopupService.cs" />
     <Compile Include="DialogService\DialogService.cs" />
-    <Compile Include="FAB\FloatingActionButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToastControl\ToastService.cs" />
     <Content Include="Properties\MyerListCustomControl.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AnimatedTextBlock\AnimatedTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="ContentPopupEx\ContentPopupEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="DialogService\DialogService.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="ToastControl\ToastControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>

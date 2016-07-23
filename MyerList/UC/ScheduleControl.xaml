@@ -134,12 +134,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Border Width="20"
+                    <Border Grid.Row="0"
+                            Width="20"
                             Height="2"
+                            Margin="0,0,0,2"
                             VerticalAlignment="Bottom"
-                            Background="{StaticResource DeletedColor}"
+                            Background="{StaticResource ReorderThumbColor}"
                             RenderTransformOrigin="0,0.5">
                         <Border.RenderTransform>
                             <CompositeTransform />
@@ -148,20 +149,9 @@
                     <Border Grid.Row="1"
                             Width="20"
                             Height="2"
-                            Margin="0"
-                            VerticalAlignment="Center"
-                            Background="{StaticResource DeletedColor}"
-                            RenderTransformOrigin="0,0.5">
-                        <Border.RenderTransform>
-                            <CompositeTransform />
-                        </Border.RenderTransform>
-                    </Border>
-                    <Border Grid.Row="2"
-                            Width="20"
-                            Height="2"
-                            Margin="0"
+                            Margin="0,2,0,0"
                             VerticalAlignment="Top"
-                            Background="{StaticResource DeletedColor}"
+                            Background="{StaticResource ReorderThumbColor}"
                             RenderTransformOrigin="0,0.5">
                         <Border.RenderTransform>
                             <CompositeTransform />
