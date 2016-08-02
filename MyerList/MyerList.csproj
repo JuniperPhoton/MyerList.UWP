@@ -121,6 +121,8 @@
     <Compile Include="Common\InvokeCommandByKeyDown.cs" />
     <Compile Include="Helper\JumpListHelper.cs" />
     <Compile Include="Common\MessengerTokens.cs" />
+    <Compile Include="OffscreenPainter\LiveTileKind.cs" />
+    <Compile Include="OffscreenPainter\LiveTilePainter.cs" />
     <Compile Include="Helper\ResourcesHelper.cs" />
     <Compile Include="Helper\StatusBarHelper.cs" />
     <Compile Include="Helper\TitleBarHelper.cs" />

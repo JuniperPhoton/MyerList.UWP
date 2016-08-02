@@ -26,7 +26,8 @@ namespace MyerListUWP.Helper
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#DEDEDE").Value;
+            //titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#676767").Value;
+            titleBar.ButtonHoverForegroundColor= Colors.Black;
             titleBar.ButtonPressedBackgroundColor = ColorConverter.HexToColor("#BBBBBB").Value;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveForegroundColor = ColorConverter.HexToColor("#676767").Value;

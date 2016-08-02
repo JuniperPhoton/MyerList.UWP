@@ -600,11 +600,7 @@ namespace MyerList.ViewModel
         {
             get
             {
-                if (_modifyCommand != null)
-                {
-                    return _modifyCommand;
-                }
-
+                if (_modifyCommand != null) return _modifyCommand;
                 return _modifyCommand = new RelayCommand<ToDo>((todo) =>
                 {
                     try
@@ -866,7 +862,7 @@ namespace MyerList.ViewModel
             NoDeletedItemsVisibility = Visibility.Collapsed;
 
             UndoneCount = 0;
-
+            
             //初始化
             CateVM = new CategoryViewModel();
             EditedToDo = new ToDo();

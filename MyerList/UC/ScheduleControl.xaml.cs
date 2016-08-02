@@ -63,7 +63,7 @@ namespace MyerList.UC
 
         private void RootGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            ShowBackgrdStory.Begin();
+            e.Handled = true;
         }
 
         private void ToggleBackAnimation()
@@ -77,7 +77,7 @@ namespace MyerList.UC
 
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            e.Handled = false;
+            e.Handled = true;
 
             var x = _rootVisual.Offset.X;
             _rootVisual.Offset = new Vector3((float)(x + e.Delta.Translation.X), 0f, 0f);
@@ -120,7 +120,7 @@ namespace MyerList.UC
 
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            HideBackgrdStory.Begin();
+            e.Handled = true;
 
             if (e.Cumulative.Translation.X > 0)
             {
