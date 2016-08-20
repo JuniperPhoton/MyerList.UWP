@@ -194,6 +194,7 @@ namespace MyerListUWP.ViewModel
             {
                 if (cacheList.Count >= 3)
                 {
+                    cacheList.ToList().ForEach(s => s.UpdateColor());
                     return cacheList;
                 }
             }
@@ -221,6 +222,7 @@ namespace MyerListUWP.ViewModel
                 if (list == null) throw new ArgumentNullException();
 
                 Categories = list;
+                await SerializerHelper.SerializerToJson<ObservableCollection<ToDoCategory>>(Categories, SerializerFileNames.CategoryFileName);
 
                 return true;
             }

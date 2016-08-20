@@ -11,6 +11,7 @@ using MyerListUWP;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace MyerList.UC
 {
@@ -72,8 +73,9 @@ namespace MyerList.UC
 
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             _rootVisual.StartAnimation("Offset.X", offsetAnimation);
-            batch.Completed += (sender, e) =>
+            batch.Completed += async(sender, e) =>
               {
+                  await Task.Delay(500);
                   App.MainVM.EnableItemClick = true;
               };
             batch.End();
