@@ -17,11 +17,11 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MyerList_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>MyerList_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>00EF2E1BE54BAE0FCE818C99BE42B55B351A4853</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>6A31F9332A21FB1C8D24E76B5B698E81F4AA6F0F</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -123,7 +123,6 @@
     <Compile Include="Common\MessengerTokens.cs" />
     <Compile Include="OffscreenPainter\LiveTileKind.cs" />
     <Compile Include="OffscreenPainter\LiveTilePainter.cs" />
-    <Compile Include="Helper\ResourcesHelper.cs" />
     <Compile Include="Helper\StatusBarHelper.cs" />
     <Compile Include="Helper\TitleBarHelper.cs" />
     <Compile Include="Interface\ICanGoBack.cs" />
@@ -391,6 +390,10 @@
       <Project>{1c9fde7a-452e-44b7-a065-fb3c4f170048}</Project>
       <Name>MyerListCustomControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyerListUWP.Shared\MyerListUWP.Shared.csproj">
+      <Project>{f6da8d91-028b-4bc6-b536-3acd86989e51}</Project>
+      <Name>MyerListUWP.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
@@ -401,7 +404,7 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>store.pfx</AssemblyOriginatorKeyFile>

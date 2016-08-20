@@ -21,6 +21,7 @@ using JP.Utils.Helper;
 using MyerListUWP.Common;
 using MyerList.UC;
 using System.Collections.Generic;
+using MyerListShared;
 
 namespace MyerList.ViewModel
 {
@@ -34,6 +35,23 @@ namespace MyerList.ViewModel
         public Page CurrentMainPage { get; set; }
 
         public bool CanBeSorted { get; set; } = true;
+
+        private bool _enableItemClick;
+        public bool EnableItemClick
+        {
+            get
+            {
+                return _enableItemClick;
+            }
+            set
+            {
+                if (_enableItemClick != value)
+                {
+                    _enableItemClick = value;
+                    RaisePropertyChanged(() => EnableItemClick);
+                }
+            }
+        }
 
         private int _undoneCount;
         public int UndoneCount
@@ -605,6 +623,8 @@ namespace MyerList.ViewModel
                 {
                     try
                     {
+                        if (!EnableItemClick) return;
+
                         _addMode = AddMode.Modify;
 
                         ShowPaneOpen = true;
@@ -634,7 +654,7 @@ namespace MyerList.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(ModifyCommand));
+                        var task = Logger.LogAsync(ex);
                     }
                 });
             }
@@ -861,8 +881,10 @@ namespace MyerList.ViewModel
             IsLoading = Visibility.Collapsed;
             NoDeletedItemsVisibility = Visibility.Collapsed;
 
+            EnableItemClick = true;
+
             UndoneCount = 0;
-            
+
             //初始化
             CateVM = new CategoryViewModel();
             EditedToDo = new ToDo();
@@ -932,7 +954,7 @@ namespace MyerList.ViewModel
 
                     if (string.IsNullOrEmpty(EditedToDo.Content))
                     {
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("ContentEmpty"));
+                        ToastService.SendToast(ResourcesHelper.GetResString("ContentEmpty"));
                         return;
                     }
 
@@ -955,7 +977,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(AddOrModifyToDo));
+                var task = Logger.LogAsync(ex);
             }
         }
 
@@ -1066,7 +1088,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(MainViewModel), nameof(DeleteToDo));
+                var task = Logger.LogAsync(e);
             }
             finally
             {
@@ -1104,7 +1126,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(CompleteTodo));
+                var task = Logger.LogAsync(ex);
             }
             finally
             {
@@ -1165,7 +1187,7 @@ namespace MyerList.ViewModel
                 }
                 catch (COMException)
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                    ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
                 }
             }
             IsLoading = Visibility.Collapsed;
@@ -1309,7 +1331,7 @@ namespace MyerList.ViewModel
                 if (App.IsNoNetwork)
                 {
                     //通知没有网络
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
+                    ToastService.SendToast(ResourcesHelper.GetResString("NoNetworkHint"));
                     return;
                 }
                 if (App.IsInOfflineMode)
@@ -1319,18 +1341,18 @@ namespace MyerList.ViewModel
                 //加载滚动条
                 IsLoading = Visibility.Visible;
 
-                var task = ToastService.SendToastAsync(ResourcesHelper.GetResString("Syncing"));
+                ToastService.SendToast(ResourcesHelper.GetResString("Syncing"));
 
                 var isSyncOK = false;
 
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromSeconds(2);
-                timer.Tick += (async (sendert, et) =>
+                timer.Tick += ((sendert, et) =>
                 {
                     if (isSyncOK)
                     {
                         IsLoading = Visibility.Collapsed;
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
+                        ToastService.SendToast(ResourcesHelper.GetResString("SyncSuccessfully"));
                     }
                     timer.Stop();
                 });
@@ -1362,14 +1384,14 @@ namespace MyerList.ViewModel
                 }
                 catch (COMException)
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                    ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
                 }
                 finally
                 {
                     IsLoading = Visibility.Collapsed;
                     if (!timer.IsEnabled)
                     {
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("SyncSuccessfully"));
+                        ToastService.SendToast(ResourcesHelper.GetResString("SyncSuccessfully"));
                     }
                 }
 
@@ -1378,7 +1400,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(SyncAllToDos));
+                var task = Logger.LogAsync(ex);
             }
         }
 
@@ -1421,7 +1443,7 @@ namespace MyerList.ViewModel
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(MainViewModel), nameof(RestoreData));
+                var task = Logger.LogAsync(ex);
             }
         }
 
@@ -1488,7 +1510,7 @@ namespace MyerList.ViewModel
                 //没有网络
                 if (App.IsNoNetwork)
                 {
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("NoNetworkHint"));
+                    ToastService.SendToast(ResourcesHelper.GetResString("NoNetworkHint"));
                 }
                 //有网络
                 else

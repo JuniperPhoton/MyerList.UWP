@@ -2,6 +2,7 @@
 using JP.Utils.Helper;
 using MyerList.Base;
 using MyerList.Helper;
+using MyerListUWP;
 using MyerListUWP.Helper;
 using System;
 using Windows.ApplicationModel;
@@ -30,19 +31,19 @@ namespace MyerList
                 EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
                 EmailMessage mes = new EmailMessage();
                 mes.To.Add(rec);
-                var attach = await ExceptionHelper.GetLogFileAttachement();
+                var attach = await Logger.GetLogFileAttachementAsync();
                 if(attach!= null)
                 {
                     mes.Attachments.Add(attach);
                 }
                 var platform = DeviceHelper.IsDesktop ? "PC" : "Mobile";
 
-                mes.Subject = $"MyerList for Windows 10 {platform}, {ResourcesHelper.GetDicString("AppVersion")} feedback, {DeviceHelper.OSVersion}, {DeviceHelper.DeviceModel}";
+                mes.Subject = $"MyerList for Windows 10 {platform}, {App.Current.Resources["AppVersion"] as string} feedback, {DeviceHelper.OSVersion}, {DeviceHelper.DeviceModel}";
                 await EmailManager.ShowComposeNewEmailAsync(mes);
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(AboutPage), nameof(FeedbackClick));
+                var task = Logger.LogAsync(ex);
             }
         }
 
@@ -70,7 +71,7 @@ namespace MyerList
             try
             {
                 var msg = await ExceptionHelper.ReadRecordAsync();
-                var task = ExceptionHelper.EraseRecord();
+                var task = Logger.EraseRecordAsync();
                 EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
                 EmailMessage mes = new EmailMessage();
                 mes.To.Add(rec);
@@ -80,7 +81,7 @@ namespace MyerList
             }
             catch (Exception ex)
             {
-                var task = ExceptionHelper.WriteRecordAsync(ex, nameof(AboutPage), nameof(stackPanel_DoubleTapped));
+                var task = Logger.LogAsync(ex);
             }
         }
 

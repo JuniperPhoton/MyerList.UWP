@@ -1,6 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight.Messaging;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,8 +11,6 @@ using MyerListUWP;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using System.Numerics;
-using JP.Utils.UI;
-using Windows.UI;
 
 namespace MyerList.UC
 {
@@ -64,6 +61,7 @@ namespace MyerList.UC
         private void RootGrid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             e.Handled = true;
+            App.MainVM.EnableItemClick = false;
         }
 
         private void ToggleBackAnimation()
@@ -72,7 +70,13 @@ namespace MyerList.UC
             offsetAnimation.InsertKeyFrame(1f, 0f);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
+            var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
             _rootVisual.StartAnimation("Offset.X", offsetAnimation);
+            batch.Completed += (sender, e) =>
+              {
+                  App.MainVM.EnableItemClick = true;
+              };
+            batch.End();
         }
 
         private void Grid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -82,7 +86,7 @@ namespace MyerList.UC
             var x = _rootVisual.Offset.X;
             _rootVisual.Offset = new Vector3((float)(x + e.Delta.Translation.X), 0f, 0f);
 
-            //完成待办事项 
+            //完成待办事项
             if (_rootVisual.Offset.X > 0)
             {
                 if (_isToBeDeleted)

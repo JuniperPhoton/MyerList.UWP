@@ -3,6 +3,7 @@ using JP.Utils.UI;
 using MyerList.Helper;
 using MyerList.ViewModel;
 using MyerListCustomControl;
+using MyerListShared;
 using MyerListUWP;
 using MyerListUWP.Common;
 using System;
@@ -93,7 +94,7 @@ namespace MyerList.UC
                 OkBtn.IsEnabled = true;
                 LoadingMaskGrid.Visibility = Visibility.Collapsed;
 
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
             }
         }
 

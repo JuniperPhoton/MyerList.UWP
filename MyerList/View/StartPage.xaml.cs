@@ -60,7 +60,7 @@ namespace MyerList
         {
             _visualList.ForEach(s =>
             {
-                s.Offset = new Vector3((float)Window.Current.Bounds.Width / 4f, 0f, 0f);
+                s.Offset = new Vector3((float)Window.Current.Bounds.Width / 10f, 0f, 0f);
                 s.Opacity = 0;
             });
 
@@ -68,11 +68,11 @@ namespace MyerList
 
             var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
             offsetAnimation.InsertKeyFrame(1f, 0f);
-            offsetAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(700);
 
             var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnimation.InsertKeyFrame(1f, 1f);
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+            fadeAnimation.Duration = TimeSpan.FromMilliseconds(700);
 
             for (int i = 0; i < _visualList.Count; i++)
             {

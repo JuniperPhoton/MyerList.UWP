@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudService", "CloudService\CloudService.csproj", "{CF48AC98-E3AE-426A-8411-66ED3E2E59ED}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BackgroundTasks", "BackgroundTasks\BackgroundTasks.vcxproj", "{56DF5D9A-057E-418F-9702-DE07EE283A4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyerListCustomControl", "MyerListCustomControl\MyerListCustomControl.csproj", "{1C9FDE7A-452E-44B7-A065-FB3C4F170048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyerListUWP.Shared", "MyerListUWP.Shared\MyerListUWP.Shared.csproj", "{F6DA8D91-028B-4BC6-B536-3ACD86989E51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,22 @@ Global
 		{1C9FDE7A-452E-44B7-A065-FB3C4F170048}.Release|x64.Build.0 = Release|x64
 		{1C9FDE7A-452E-44B7-A065-FB3C4F170048}.Release|x86.ActiveCfg = Release|x86
 		{1C9FDE7A-452E-44B7-A065-FB3C4F170048}.Release|x86.Build.0 = Release|x86
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|ARM.Build.0 = Debug|ARM
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|x64.ActiveCfg = Debug|x64
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|x64.Build.0 = Debug|x64
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|x86.ActiveCfg = Debug|x86
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Debug|x86.Build.0 = Debug|x86
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|ARM.ActiveCfg = Release|ARM
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|ARM.Build.0 = Release|ARM
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|x64.ActiveCfg = Release|x64
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|x64.Build.0 = Release|x64
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|x86.ActiveCfg = Release|x86
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,5 +145,6 @@ Global
 		{80B95CA0-EE60-43FE-9213-65A117FCD42E} = {D6CADD98-69CA-42F5-8A82-275EAA59830E}
 		{56DF5D9A-057E-418F-9702-DE07EE283A4D} = {D6CADD98-69CA-42F5-8A82-275EAA59830E}
 		{1C9FDE7A-452E-44B7-A065-FB3C4F170048} = {BF24B06D-4821-440F-9A4E-174777149828}
+		{F6DA8D91-028B-4BC6-B536-3ACD86989E51} = {D6CADD98-69CA-42F5-8A82-275EAA59830E}
 	EndGlobalSection
 EndGlobal

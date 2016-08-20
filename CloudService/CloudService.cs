@@ -10,6 +10,7 @@ using JP.API;
 using System.Threading;
 using Windows.Data.Json;
 using JP.Utils.Data.Json;
+using MyerList.CloudSerivce;
 
 namespace MyerList.Helper
 {
@@ -28,14 +29,22 @@ namespace MyerList.Helper
                 {
                     if (errorCode != "0")
                     {
-                        result.IsSuccessful = false;
+                        throw new MyerListException()
+                        {
+                            ErrorCode = errorCode,
+                            ErrorMsg = errorMsg
+                        };
                     }
-                    result.ErrorCode = int.Parse(errorCode);
-                    result.ErrorMsg = errorMsg;
                 }
-                else result.IsSuccessful = false;
+                else
+                {
+                    throw new MyerListException()
+                    {
+                        ErrorCode = errorCode,
+                        ErrorMsg = errorMsg
+                    };
+                }
             }
-            else result.IsSuccessful = false;
         }
 
         private static List<KeyValuePair<string, string>> GetDefaultParam()
@@ -58,7 +67,7 @@ namespace MyerList.Helper
             CancellationTokenSource cts = new CancellationTokenSource();
             var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserCheckExist, param, cts.Token);
             result.ParseResult();
-            if (result.IsSuccessful)
+            if (result.IsRequestSuccessful)
             {
                 var jsonObj = JsonObject.Parse(result.JsonSrc);
                 var isExist = JsonParser.GetBooleanFromJsonObj(jsonObj, "isExist", false);
@@ -86,7 +95,7 @@ namespace MyerList.Helper
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserRegisterUri, param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
+                if (result.IsRequestSuccessful)
                 {
                     JsonObject obj = JsonObject.Parse(result.JsonSrc);
                     var userInfo = JsonParser.GetJsonObjFromJsonObj(obj, "UserInfo");
@@ -119,7 +128,7 @@ namespace MyerList.Helper
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserGetSalt, param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
+                if (result.IsRequestSuccessful)
                 {
                     JsonObject obj = JsonObject.Parse(result.JsonSrc);
                     var salt = JsonParser.GetStringFromJsonObj(obj, "Salt");
@@ -153,7 +162,7 @@ namespace MyerList.Helper
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserLoginUri, param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
+                if (result.IsRequestSuccessful)
                 {
                     JsonObject obj = JsonObject.Parse(result.JsonSrc);
                     var userObj = JsonParser.GetJsonObjFromJsonObj(obj, "UserInfo");
@@ -230,11 +239,11 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleUpdateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                return result.IsSuccessful;
+                return result.IsRequestSuccessful;
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return false;
             }
         }
@@ -258,11 +267,11 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                return result.IsSuccessful;
+                return result.IsRequestSuccessful;
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return false;
             }
         }
@@ -283,11 +292,11 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleDeleteUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                return result.IsSuccessful;
+                return result.IsRequestSuccessful;
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return false;
             }
         }
@@ -312,7 +321,7 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return null;
             }
         }
@@ -330,7 +339,7 @@ namespace MyerList.Helper
                     "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                if (result.IsSuccessful)
+                if (result.IsRequestSuccessful)
                 {
                     var obj = JsonObject.Parse(result.JsonSrc);
                     var array = JsonParser.GetJsonArrayFromJsonObj(obj, "OrderList");
@@ -345,7 +354,7 @@ namespace MyerList.Helper
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return null;
             }
         }
@@ -363,11 +372,11 @@ namespace MyerList.Helper
                     "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                return result.IsSuccessful;
+                return result.IsRequestSuccessful;
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return false;
             }
         }
@@ -404,7 +413,7 @@ namespace MyerList.Helper
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.UserUpdateCateUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
                 result.ParseResult();
-                return result.IsSuccessful;
+                return result.IsRequestSuccessful;
             }
             catch (Exception)
             {

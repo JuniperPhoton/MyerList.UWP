@@ -11,6 +11,7 @@ using MyerList.ViewModel;
 using Windows.UI.Xaml;
 using Newtonsoft.Json.Linq;
 using MyerListCustomControl;
+using MyerListShared;
 
 namespace MyerList.Model
 {
@@ -218,7 +219,7 @@ namespace MyerList.Model
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return originalList;
             }
         }
@@ -256,7 +257,7 @@ namespace MyerList.Model
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return null;
             }
 
@@ -302,7 +303,7 @@ namespace MyerList.Model
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
                 return null;
             }
         }

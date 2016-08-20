@@ -111,7 +111,7 @@ namespace HttpReqModule
             }
             catch(Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(UpdateTileHelper), nameof(UpdatePersonalTile));
+                var task = Logger.LogAsync(e);
                 return false;
             }
         }

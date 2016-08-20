@@ -504,4 +504,19 @@
   <data name="AddTB.Text" xml:space="preserve">
     <value>添加</value>
   </data>
+  <data name="ErrorAccountNotExist" xml:space="preserve">
+    <value>账户不存在，请检查邮箱</value>
+  </data>
+  <data name="ErrorAuthError" xml:space="preserve">
+    <value>这里出了点问题</value>
+  </data>
+  <data name="ErrorDatabase" xml:space="preserve">
+    <value>这里出了点问题</value>
+  </data>
+  <data name="ErrorLoginFail" xml:space="preserve">
+    <value>请检查邮箱地址和密码匹配</value>
+  </data>
+  <data name="ErrorUserExist" xml:space="preserve">
+    <value>邮箱已经被使用了</value>
+  </data>
 </root>

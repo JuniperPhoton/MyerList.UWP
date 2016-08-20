@@ -1,7 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CompositionHelper.Helper;
+using GalaSoft.MvvmLight;
 using JP.Utils.Data.Json;
 using JP.Utils.UI;
 using MyerList.Helper;
+using MyerListShared;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Windows.Data.Json;
@@ -85,7 +87,7 @@ namespace MyerList.Model
         {
             if(!string.IsNullOrEmpty(CateColorString))
             {
-                this.CateColor = new SolidColorBrush(ColorConverter.HexToColor(CateColorString).Value);
+                this.CateColor = new SolidColorBrush(CateColorString.ToColor());
             }
         }
 
@@ -103,6 +105,7 @@ namespace MyerList.Model
                 var newCate = new ToDoCategory();
                 newCate.CateName = name;
                 newCate.CateColor = new SolidColorBrush(ColorConverter.HexToColor(color.Replace("#FF","#")).Value);
+                newCate.CateColorString = color.Replace("#FF", "#");
                 list.Add(newCate);
             }
             return list;

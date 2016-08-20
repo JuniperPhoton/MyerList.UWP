@@ -5,6 +5,7 @@ using JP.Utils.Debug;
 using JP.Utils.UI;
 using MyerList.Helper;
 using MyerList.Model;
+using MyerListShared;
 using MyerListUWP.Common;
 using System;
 using System.Collections.ObjectModel;
@@ -160,7 +161,9 @@ namespace MyerListUWP.ViewModel
         public async Task Refresh(LoginMode mode)
         {
             if (Categories.Count == 0)
+            {
                 Categories = await RestoreCacheButDefaultList();
+            }
             //已经登陆过的了
             if (mode != LoginMode.OfflineMode && !App.IsNoNetwork)
             {
@@ -194,7 +197,7 @@ namespace MyerListUWP.ViewModel
                     return cacheList;
                 }
             }
-            var defaultList = await GenerateListAsync(AppSettings.DefaultCateJsonString);
+            var defaultList = GenerateList(AppSettings.DefaultCateJsonString);
             return defaultList;
         }
 
@@ -214,7 +217,7 @@ namespace MyerListUWP.ViewModel
                 if (!isSuccess) throw new ArgumentException();
 
                 var cateObj = JsonParser.GetStringFromJsonObj(respJson, "Cate_Info");
-                var list = await GenerateListAsync(cateObj.ToString());
+                var list = GenerateList(cateObj.ToString());
                 if (list == null) throw new ArgumentNullException();
 
                 Categories = list;
@@ -227,7 +230,7 @@ namespace MyerListUWP.ViewModel
             }
         }
 
-        public static async Task<ObservableCollection<ToDoCategory>> GenerateListAsync(string cateJson)
+        public static ObservableCollection<ToDoCategory> GenerateList(string cateJson)
         {
             var list = new ObservableCollection<ToDoCategory>();
             try
@@ -251,7 +254,7 @@ namespace MyerListUWP.ViewModel
             }
             catch (Exception e)
             {
-                await ExceptionHelper.WriteRecordAsync(e, nameof(CategoryViewModel), nameof(GenerateListAsync));
+                var task = Logger.LogAsync(e);
                 return null;
             }
         }

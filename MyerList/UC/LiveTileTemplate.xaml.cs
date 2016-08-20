@@ -114,7 +114,7 @@ namespace MyerList.UC
             }
             catch (Exception e)
             {
-                var task = ExceptionHelper.WriteRecordAsync(e);
+                var task = Logger.LogAsync(e);
             }
         }
 
@@ -134,7 +134,7 @@ namespace MyerList.UC
             }
             catch (Exception e)
             {
-                await ExceptionHelper.WriteRecordAsync(e, nameof(LiveTileTemplate), nameof(UpdateTileAsync));
+                var task = Logger.LogAsync(e);
             }
             finally
             {

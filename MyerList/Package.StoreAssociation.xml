@@ -364,8 +364,8 @@
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
-    <MainPackageIdentityName>19204JuniperPhoton.MyerListBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerMoment</MainPackageIdentityName>
+    <MainPackageIdentityName>19204JuniperPhoton.MyerListBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerMomentBETA</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerSplash</MainPackageIdentityName>
     <MainPackageIdentityName>19204JuniperPhoton.MyerSplashBETA</MainPackageIdentityName>

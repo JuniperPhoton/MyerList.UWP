@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "JP.Utils.UWP": "1.0.7",
+    "JP.Utils.UWP": "1.1.15",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
   },
   "frameworks": {

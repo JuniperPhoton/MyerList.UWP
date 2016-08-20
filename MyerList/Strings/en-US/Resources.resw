@@ -487,7 +487,7 @@
     <value>Pick a color</value>
   </data>
   <data name="PersonalizeCateTB.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="NewCateName" xml:space="preserve">
     <value>New cate</value>
@@ -506,5 +506,20 @@
   </data>
   <data name="AddTB.Text" xml:space="preserve">
     <value>Add</value>
+  </data>
+  <data name="ErrorAccountNotExist" xml:space="preserve">
+    <value>Account not exist, please check your email.</value>
+  </data>
+  <data name="ErrorAuthError" xml:space="preserve">
+    <value>Something went wrong :-(</value>
+  </data>
+  <data name="ErrorDatabase" xml:space="preserve">
+    <value>Something went wrong :-(</value>
+  </data>
+  <data name="ErrorLoginFail" xml:space="preserve">
+    <value>Wrong email or password.</value>
+  </data>
+  <data name="ErrorUserExist" xml:space="preserve">
+    <value>Account aleady exist.</value>
   </data>
 </root>

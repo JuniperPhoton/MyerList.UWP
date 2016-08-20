@@ -94,6 +94,13 @@ namespace MyerListCustomControl
             HideTimeSpan = time;
         }
 
+        public static void SendToast(string text)
+        {
+            ToastService ts = new ToastService(text);
+            var task = ts.ShowAsync();
+        }
+
+        [Obsolete("Please user SendToast(string) instead")]
         public static async Task SendToastAsync(string text)
         {
             ToastService ts = new ToastService(text);

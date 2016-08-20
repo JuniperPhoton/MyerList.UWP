@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MyerListShared;
 
 namespace MyerListUWP.View
 {
@@ -196,13 +197,13 @@ namespace MyerListUWP.View
             {
                 this.SwitchToDefaultCommandBar();
             });
-            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, async act =>
+            Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.GoToSort, act =>
             {
                 DisplayedListView.CanDragItems = true;
                 DisplayedListView.CanReorderItems = true;
                 DisplayedListView.AllowDrop = true;
                 DisplayedListView.IsItemClickEnabled = false;
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("ReorderHint"));
+                ToastService.SendToast(ResourcesHelper.GetResString("ReorderHint"));
             });
             Messenger.Default.Register<GenericMessage<string>>(this, MessengerTokens.LeaveSort, act =>
             {
@@ -512,9 +513,6 @@ namespace MyerListUWP.View
             if (HandleBackLogic()) e.Handled = true;
             else e.Handled = false;
         }
-
-        private bool _readyToExit = false;
-        DispatcherTimer _timer = new DispatcherTimer();
 
         /// <summary>
         /// 处理返回逻辑

@@ -27,7 +27,7 @@
     text-align: center;
     position: relative;
     display:inline;
-    margin-top:140;
+    margin-top:170;
 }
 
 
@@ -121,7 +121,7 @@ body{
 }
 
 .div1 {
-    
+    margin-top: 20px;
 }
 
 .content1 {
@@ -204,13 +204,13 @@ body{
         font-size: 16px;
     }
     div.secondDiv{
-     top:-400;   
+     top:-300;   
     }
 } 
 
 @media screen and (max-height:500px){
     div.secondDiv{
-        top:-350;
+        top:-300;
         
     }
     div.rootDiv{
@@ -259,7 +259,7 @@ body{
 
 
 .rootDiv {
-    background-image:url('../assets/LOGIN_BACK.jpg');
+    background-image: url("../assets/background.jpg");
     background-repeat:no-repeat;
     background-size:cover;
     height: 100%;
@@ -272,7 +272,7 @@ body{
     font-weight: 100;
     color: white;
     font-family: Microsoft YaHei;
-    margin-top: -15;
+    margin-top: 30px;
     font-size: 18px;
     opacity: 0.6;
     
@@ -301,7 +301,7 @@ body{
     position:absolute;
     height:130px;
     margin:auto;
-    top:-470;
+    top:-300;
     left:0;
     right:0;
     bottom:0;

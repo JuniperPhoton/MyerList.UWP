@@ -4,10 +4,12 @@ using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using JP.Utils.Debug;
 using JP.Utils.Functions;
+using MyerList.CloudSerivce;
 using MyerList.Helper;
 using MyerList.Interface;
 using MyerList.Model;
 using MyerListCustomControl;
+using MyerListShared;
 using MyerListUWP;
 using MyerListUWP.Common;
 using MyerListUWP.View;
@@ -156,14 +158,14 @@ namespace MyerList.ViewModel
                     {
                         if (string.IsNullOrEmpty(TempEmail) || string.IsNullOrEmpty(InputPassword))
                         {
-                            await ToastService.SendToastAsync(ResourcesHelper.GetResString("InputAlert"));
+                            ToastService.SendToast(ResourcesHelper.GetResString("InputAlert"));
                             IsLoading = false;
                             return;
                         }
 
                         if (!Functions.IsValidEmail(TempEmail))
                         {
-                            await ToastService.SendToastAsync(ResourcesHelper.GetResString("EmailInvaild"));
+                            ToastService.SendToast(ResourcesHelper.GetResString("EmailInvaild"));
                             IsLoading = false;
                             return;
                         }
@@ -174,29 +176,22 @@ namespace MyerList.ViewModel
 
                             if (InputPassword != ConfirmPassword)
                             {
-                                await ToastService.SendToastAsync(ResourcesHelper.GetResString("PasswordInvaild"));
+                                ToastService.SendToast(ResourcesHelper.GetResString("PasswordInvaild"));
 
                                 IsLoading = false;
                                 return;
                             }
-                            var isRegisterSuccessfully = await Register();
-                            if (!isRegisterSuccessfully)
-                            {
-                                await ToastService.SendToastAsync(ResourcesHelper.GetResString("AccountExist"));
-                                IsLoading = false;
-                            }
-                            else
-                            {
-                                IsLoading = true;
+                            var isRegisterSuccessfully = await RegisterAsync();
 
-                                if (await Login())
-                                {
-                                    Frame rootframe = Window.Current.Content as Frame;
-                                    if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
-                                }
+                            IsLoading = true;
 
-                                IsLoading = false;
+                            if (await LoginAsync())
+                            {
+                                Frame rootframe = Window.Current.Content as Frame;
+                                if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
                             }
+
+                            IsLoading = false;
                         }
 
                         //登录
@@ -204,7 +199,7 @@ namespace MyerList.ViewModel
                         {
                             IsLoading = true;
 
-                            if (await Login())
+                            if (await LoginAsync())
                             {
                                 Frame rootframe = Window.Current.Content as Frame;
                                 if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
@@ -213,9 +208,14 @@ namespace MyerList.ViewModel
                             IsLoading = false;
                         }
                     }
+                    catch (MyerListException e)
+                    {
+                        ToastService.SendToast(ErrorUtils.GetUserMsgFromErrorCode(int.Parse(e.ErrorCode)));
+                        IsLoading = false;
+                    }
                     catch (Exception e)
                     {
-                        var task = ExceptionHelper.WriteRecordAsync(e);
+                        var task = Logger.LogAsync(e);
                         IsLoading = false;
                     }
                 });
@@ -253,9 +253,14 @@ namespace MyerList.ViewModel
             {
                 NextCommand.Execute(null);
             });
+
+#if DEBUG
+            TempEmail = "dengweichao@hotmail.com";
+            InputPassword = "windfantasy";
+#endif
         }
 
-        private async Task<bool> Register()
+        private async Task<bool> RegisterAsync()
         {
             try
             {
@@ -287,72 +292,61 @@ namespace MyerList.ViewModel
                     return false;
                 }
             }
+            catch (MyerListException e)
+            {
+                ToastService.SendToast(ErrorUtils.GetUserMsgFromErrorCode(int.Parse(e.ErrorCode)));
+                IsLoading = false;
+                return false;
+            }
             catch (TaskCanceledException)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
+                IsLoading = false;
                 return false;
             }
             catch (COMException)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
+                IsLoading = false;
                 return false;
             }
         }
 
-        private async Task<bool> Login()
+        private async Task<bool> LoginAsync()
         {
             try
             {
                 IsLoading = true;
 
                 var check = await CloudService.CheckEmailExistAsync(TempEmail);
-                if (check)
-                {
-                    string salt = await CloudService.GetSaltAsync(TempEmail);
-                    if (!string.IsNullOrEmpty(salt))
-                    {
-                        //尝试登录
-                        var login = await CloudService.LoginAsync(TempEmail, InputPassword, salt);
-                        if (login)
-                        {
-                            App.IsInOfflineMode = false;
-                            LocalSettingHelper.AddValue("OfflineMode", "false");
-                            return true;
-                        }
-                        else
-                        {
-                            IsLoading = false;
-                            await ToastService.SendToastAsync(ResourcesHelper.GetResString("NotCorrectContent"));
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        IsLoading = false;
-                        await ToastService.SendToastAsync(ResourcesHelper.GetResString("NotCorrectContent"));
-                        return false;
-                    }
-                }
-                else
-                {
-                    IsLoading = false;
-                    await ToastService.SendToastAsync(ResourcesHelper.GetResString("AccountNotExistContent"));
-                    return false;
-                }
+
+                string salt = await CloudService.GetSaltAsync(TempEmail);
+
+                //尝试登录
+                var login = await CloudService.LoginAsync(TempEmail, InputPassword, salt);
+
+                App.IsInOfflineMode = false;
+                LocalSettingHelper.AddValue("OfflineMode", "false");
+                return true;
+            }
+            catch (MyerListException e)
+            {
+                ToastService.SendToast(ErrorUtils.GetUserMsgFromErrorCode(int.Parse(e.ErrorCode)));
+                return false;
             }
             catch (TaskCanceledException)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
                 return false;
             }
             catch (COMException)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
                 return false;
             }
             catch (Exception)
             {
-                await ToastService.SendToastAsync(ResourcesHelper.GetResString("RequestError"));
+                ToastService.SendToast(ResourcesHelper.GetResString("RequestError"));
                 return false;
             }
             finally

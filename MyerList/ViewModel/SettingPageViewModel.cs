@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media;
 using JP.Utils.UI;
+using MyerListShared;
 
 namespace MyerList.ViewModel
 {
