@@ -173,7 +173,6 @@ namespace MyerList.ViewModel
                         //注册
                         if (LoginMode == LoginMode.Register || LoginMode == LoginMode.OfflineModeToRegister)
                         {
-
                             if (InputPassword != ConfirmPassword)
                             {
                                 ToastService.SendToast(ResourcesHelper.GetResString("PasswordInvaild"));
@@ -181,16 +180,16 @@ namespace MyerList.ViewModel
                                 IsLoading = false;
                                 return;
                             }
-                            var isRegisterSuccessfully = await RegisterAsync();
 
                             IsLoading = true;
-
-                            if (await LoginAsync())
+                            if (await RegisterAsync())
                             {
-                                Frame rootframe = Window.Current.Content as Frame;
-                                if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
+                                if (await LoginAsync())
+                                {
+                                    Frame rootframe = Window.Current.Content as Frame;
+                                    if (rootframe != null) rootframe.Navigate(typeof(MainPage), LoginMode);
+                                }
                             }
-
                             IsLoading = false;
                         }
 
@@ -272,10 +271,10 @@ namespace MyerList.ViewModel
                 var check = await CloudService.CheckEmailExistAsync(TempEmail);
                 if (check)
                 {
-                    Messenger.Default.Send(new GenericMessage<string>(loader.GetString("EmailExistContent")), "toast");
-
-                    IsLoading = false;
-                    return false;
+                    throw new MyerListException()
+                    {
+                        ErrorCode="202"
+                    };
                 }
                 string salt = await CloudService.RegisterAsync(TempEmail, InputPassword);
                 if (!string.IsNullOrEmpty(salt))
@@ -286,10 +285,10 @@ namespace MyerList.ViewModel
                 }
                 else
                 {
-                    Messenger.Default.Send(new GenericMessage<string>(loader.GetString("RegisterFailedContent")), "toast");
-
-                    IsLoading = false;
-                    return false;
+                    throw new MyerListException()
+                    {
+                        ErrorCode = ""
+                    };
                 }
             }
             catch (MyerListException e)
