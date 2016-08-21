@@ -127,6 +127,7 @@ namespace MyerList.UC
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             e.Handled = true;
+            App.MainVM.EnableItemClick = false;
 
             if (e.Cumulative.Translation.X > 0)
             {

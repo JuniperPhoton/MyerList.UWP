@@ -28,7 +28,6 @@ namespace MyerList.UC
             control.UpdateBackgrdColor((SolidColorBrush)e.NewValue);
         }
 
-
         public MainViewModel MainVM
         {
             get

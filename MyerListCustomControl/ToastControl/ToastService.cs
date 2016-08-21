@@ -28,7 +28,8 @@ namespace MyerListCustomControl
         }
 
         public static readonly DependencyProperty HideTimeSpanProperty =
-            DependencyProperty.Register("HideTimeSpan", typeof(TimeSpan), typeof(ToastService), new PropertyMetadata(TimeSpan.FromSeconds(2.0)));
+            DependencyProperty.Register("HideTimeSpan", typeof(TimeSpan), typeof(ToastService), 
+                new PropertyMetadata(TimeSpan.FromSeconds(2.0)));
 
         #endregion
 
@@ -50,7 +51,8 @@ namespace MyerListCustomControl
 
         private Grid _rootGrid;
         private TextBlock _contentTB;
-        private Storyboard _playStory;
+        private Storyboard _showStory;
+        private Storyboard _hideStory;
 
         //Use popup to show the control
         private Popup _currentPopup;
@@ -100,6 +102,12 @@ namespace MyerListCustomControl
             var task = ts.ShowAsync();
         }
 
+        public static void SendToast(string text, int time)
+        {
+            ToastService ts = new ToastService(text, TimeSpan.FromMilliseconds(time));
+            var task = ts.ShowAsync();
+        }
+
         [Obsolete("Please user SendToast(string) instead")]
         public static async Task SendToastAsync(string text)
         {
@@ -132,18 +140,25 @@ namespace MyerListCustomControl
         {
             _contentTB = GetTemplateChild("ContentTB") as TextBlock;
             _rootGrid = GetTemplateChild("RootGrid") as Grid;
-            _playStory = _rootGrid.Resources["PlayStory"] as Storyboard;
+            _showStory = _rootGrid.Resources["ShowStory"] as Storyboard;
+            _hideStory = _rootGrid.Resources["HideStory"] as Storyboard;
+            _hideStory.Completed += _hideStory_Completed;
             _contentTB.Text = _tempText;
             _tcs.SetResult(0);
+        }
+
+        private void _hideStory_Completed(object sender, object e)
+        {
+            _currentPopup.IsOpen = false;
         }
 
         public async Task ShowAsync()
         {
             await _tcs.Task;
             await UpdateSize();
-            _playStory.Begin();
+            _showStory.Begin();
             await Task.Delay(HideTimeSpan);
-            _currentPopup.IsOpen = false;
+            _hideStory.Begin();
         }
     }
 }
