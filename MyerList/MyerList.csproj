@@ -382,6 +382,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.vcxproj">
+      <Project>{56df5d9a-057e-418f-9702-de07ee283a4d}</Project>
+      <Name>BackgroundTasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CloudService\CloudService.csproj">
       <Project>{cf48ac98-e3ae-426a-8411-66ed3e2e59ed}</Project>
       <Name>CloudService</Name>

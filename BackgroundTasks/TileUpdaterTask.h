@@ -11,9 +11,6 @@ namespace BackgroundTasks
 		TileUpdaterTask();
 
 		virtual void Run(IBackgroundTaskInstance^ taskInstance);
-		void OnCompleted(
-			BackgroundTaskRegistration^ task,
-			BackgroundTaskCompletedEventArgs^ args
-			);
+		void OnCompleted(BackgroundTaskRegistration^ task, BackgroundTaskCompletedEventArgs^ args);
 	};
 }

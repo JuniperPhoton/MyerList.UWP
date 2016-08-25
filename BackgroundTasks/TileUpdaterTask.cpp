@@ -17,8 +17,9 @@ namespace BackgroundTasks
 
 		void Run(IBackgroundTaskInstance^ taskInstance)
 		{
-
+			
 		}
+
 		void TileUpdaterTask::OnCompleted(BackgroundTaskRegistration ^ task, BackgroundTaskCompletedEventArgs ^ args)
 		{
 			
