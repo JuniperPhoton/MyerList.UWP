@@ -267,6 +267,7 @@
     <Content Include="Assets\Square71x71Logo.scale-400.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\TileForBgTask.xml" />
     <Content Include="Assets\tran_logo.scale-100.png" />
     <Content Include="Assets\tran_logo.scale-125.png" />
     <Content Include="Assets\tran_logo.scale-200.png" />

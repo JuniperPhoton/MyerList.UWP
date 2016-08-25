@@ -18,10 +18,27 @@ namespace BackgroundTasks
 			Platform::String^ id;
 		};
 
+		UINT m_listSize;
 		ToDo* m_list;
-		bool GetScheduels();
-		void UpdateTile();
-		void RenderAndSave(Windows::UI::Xaml::UIElement^ element);
+		Windows::Foundation::IAsyncAction^ GetScheduelsAsync();
+
+		Windows::Foundation::IAsyncOperation<Windows::UI::Xaml::Controls::Grid^>^ GetUIElementToRenderAsync();
+
+		// Helper methods
+		concurrency::task<void> WriteBufferToFile(Platform::String^ outputImageFilename);
+		Platform::Array<unsigned char>^ GetArrayFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);
+		void StorePixelsFromBuffer(Windows::Storage::Streams::IBuffer^ buffer);
+
+		// RenderTargetBitmap
+		concurrency::task<void> RenderAndSaveToFileAsync(Windows::UI::Xaml::UIElement^ uiElement, Platform::String^ outputImageFilename, UINT width , UINT height);
+
+		// RenderTargetBitmap Pixel Data
+		unsigned int pixelWidth;
+		unsigned int pixelHeight;
+		Platform::Array<unsigned char>^ pixelData;
+
+		// Tile Updating
+		void UpdateTile(Platform::String^ tileUpdateImagePath);
 
 		std::vector<std::wstring> SplitString(const std::wstring & String, const std::wstring & Seperator);
 	};

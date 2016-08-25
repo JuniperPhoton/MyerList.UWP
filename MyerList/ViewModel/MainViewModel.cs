@@ -22,6 +22,7 @@ using MyerListUWP.Common;
 using MyerList.UC;
 using System.Collections.Generic;
 using MyerListShared;
+using Windows.ApplicationModel.Background;
 
 namespace MyerList.ViewModel
 {
@@ -1545,13 +1546,42 @@ namespace MyerList.ViewModel
             await CateVM.Refresh(mode);
         }
 
+        private bool registered = false;
+
+        private async Task RegisterBackgroundTaskAsync()
+        {
+            if (registered) return;
+
+            var statusOperation = await BackgroundExecutionManager.RequestAccessAsync();
+            if(statusOperation==BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity
+                || statusOperation==BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+            {
+                registered = true;
+                // Register the background task.
+                // To keep the memory footprint of the background task as low as possible, is has been implemented in a C++ Windows Runtime Component for Windows Phone.  
+                // The memory footprint will be higher if written in C# and will cause out of memory exception on low-cost-tier devices which will terminate the background task.
+                BackgroundTaskBuilder builder = new BackgroundTaskBuilder();
+                builder.Name = "TileUpdaterTask";
+                builder.TaskEntryPoint = "BackgroundTasks.TileUpdaterTask";
+
+                // The trigger used in this sample is the TimeZoneChange trigger. This is for illustration purposes.
+                // In a real scenario, choose the trigger that meets your needs. 
+                // Note: There are two ways to start the background task for testing purposes:
+                // 1. Change the time zone setting so that the system time changes - this will cause a TimeZoneChange to fire
+                // 2. Find the background task "AppTileUpdater" in the LifecycleEvents drop-down on the main toolbar and tap it.
+
+                builder.SetTrigger(new TimeTrigger(15, false));
+                var registration = builder.Register();
+            }
+        }
+
         /// <summary>
         /// 进入 MainPage 会调用
         /// </summary>
         /// <param name="param"></param>
         public void Activate(object param)
         {
-
+            var task = RegisterBackgroundTaskAsync();
         }
 
         public void Deactivate(object param)
