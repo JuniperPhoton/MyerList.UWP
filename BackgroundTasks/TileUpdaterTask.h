@@ -20,7 +20,7 @@ namespace BackgroundTasks
 
 		UINT m_listSize;
 		ToDo* m_list;
-		Windows::Foundation::IAsyncAction^ GetScheduelsAsync();
+		concurrency::task<void> GetScheduelsAsync();
 
 		Windows::Foundation::IAsyncOperation<Windows::UI::Xaml::Controls::Grid^>^ GetUIElementToRenderAsync();
 
