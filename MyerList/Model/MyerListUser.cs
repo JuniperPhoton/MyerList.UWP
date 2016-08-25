@@ -1,12 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyerList.Model
 {
-    public class MyerListUser:ViewModelBase
+    public class MyerListUser : ViewModelBase
     {
         private int _sid;
         public int SID
@@ -17,9 +13,9 @@ namespace MyerList.Model
             }
             set
             {
-                if(_sid!=value)
+                if (_sid != value)
                     _sid = value;
-                RaisePropertyChanged(()=>SID);
+                RaisePropertyChanged(() => SID);
             }
         }
 
@@ -32,13 +28,13 @@ namespace MyerList.Model
             }
             set
             {
-                if(_email!=value)
+                if (_email != value)
                     _email = value;
-                RaisePropertyChanged(()=>Email);
+                RaisePropertyChanged(() => Email);
             }
         }
 
-        
+
         private string _password;
         public string Password
         {
@@ -48,9 +44,9 @@ namespace MyerList.Model
             }
             set
             {
-                if(_password!=value)
+                if (_password != value)
                     _password = value;
-                RaisePropertyChanged(()=>Password);
+                RaisePropertyChanged(() => Password);
             }
         }
 

@@ -11,14 +11,14 @@ using Windows.UI.Xaml.Media;
 
 namespace MyerList.Model
 {
-    public class ToDoCategory:ViewModelBase
+    public class ToDoCategory : ViewModelBase
     {
         private string _cateName;
         public string CateName
         {
             get
             {
-                if(_cateName=="Default")
+                if (_cateName == "Default")
                 {
                     return ResourcesHelper.GetResString("DefaultCateName");
                 }
@@ -72,7 +72,7 @@ namespace MyerList.Model
 
         public string CateColorString { get; set; }
 
-        public ToDoCategory(string name,int colorID):this()
+        public ToDoCategory(string name, int colorID) : this()
         {
             this.CateName = name;
             this.CateColorID = colorID;
@@ -80,12 +80,12 @@ namespace MyerList.Model
 
         public ToDoCategory()
         {
-            
+
         }
 
         public void UpdateColor()
         {
-            if(!string.IsNullOrEmpty(CateColorString))
+            if (!string.IsNullOrEmpty(CateColorString))
             {
                 this.CateColor = new SolidColorBrush(CateColorString.ToColor());
             }
@@ -97,14 +97,14 @@ namespace MyerList.Model
             var jsonObj = JsonObject.Parse(jsonStr);
             var isModify = JsonParser.GetBooleanFromJsonObj(jsonObj, "modified");
             var array = JsonParser.GetJsonArrayFromJsonObj(jsonObj, "cates");
-            foreach(var item in array)
+            foreach (var item in array)
             {
                 var name = JsonParser.GetStringFromJsonObj(item, "name");
                 var color = JsonParser.GetStringFromJsonObj(item, "color");
 
                 var newCate = new ToDoCategory();
                 newCate.CateName = name;
-                newCate.CateColor = new SolidColorBrush(ColorConverter.HexToColor(color.Replace("#FF","#")).Value);
+                newCate.CateColor = new SolidColorBrush(ColorConverter.HexToColor(color.Replace("#FF", "#")).Value);
                 newCate.CateColorString = color.Replace("#FF", "#");
                 list.Add(newCate);
             }

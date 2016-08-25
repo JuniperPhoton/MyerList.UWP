@@ -42,6 +42,8 @@ namespace MyerList.Helper
         public static string ScheduleSetOrderUri = $"{PROTOCOL}://" + DOMAIN + "/schedule/Schedule/SetMyOrder/v1?";
         public static string UserGetCateUri = $"{PROTOCOL}://" + DOMAIN + "/schedule/User/GetCateInfo/v1?";
         public static string UserUpdateCateUri = $"{PROTOCOL}://" + DOMAIN + "/schedule/User/UpdateCateInfo/v1?";
+        
+
         #endregion
 
     }

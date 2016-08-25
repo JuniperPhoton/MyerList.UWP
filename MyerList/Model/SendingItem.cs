@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyerList.Model
 {
-    public class SendingItem:ViewModelBase
+    public class SendingItem : ViewModelBase
     {
         private ToDo _todoItem;
         public ToDo ToDoItem
@@ -16,7 +16,7 @@ namespace MyerList.Model
             }
             set
             {
-                if(_todoItem!=value)
+                if (_todoItem != value)
                 {
                     _todoItem = value;
                     RaisePropertyChanged(() => ToDoItem);
@@ -33,7 +33,7 @@ namespace MyerList.Model
             }
             set
             {
-                if(_status!=value)
+                if (_status != value)
                 {
                     _status = value;
                     RaisePropertyChanged(() => Status);
@@ -47,7 +47,7 @@ namespace MyerList.Model
             Status = SendingStatus.ToBeSent;
         }
 
-        public SendingItem(ToDo schedule,SendingStatus status)
+        public SendingItem(ToDo schedule, SendingStatus status)
         {
             this.ToDoItem = schedule;
             this.Status = status;

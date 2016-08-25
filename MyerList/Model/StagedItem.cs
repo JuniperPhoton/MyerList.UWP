@@ -23,7 +23,7 @@ namespace MyerList.Model
 
         }
 
-        public StagedItem(ToDo todo,StagedOperation operation)
+        public StagedItem(ToDo todo, StagedOperation operation)
         {
             this.CurrentToDo = todo;
             this.Operation = operation;

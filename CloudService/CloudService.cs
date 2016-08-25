@@ -262,7 +262,6 @@ namespace MyerList.Helper
                 param.Add(new KeyValuePair<string, string>("id", id));
                 param.Add(new KeyValuePair<string, string>("isdone", isdone));
 
-                HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleFinishUri + "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
                     param, cts.Token);
@@ -333,7 +332,6 @@ namespace MyerList.Helper
                 var param = GetDefaultParam();
                 param.Add(new KeyValuePair<string, string>("sid", UrlHelper.SID));
 
-                HttpClient client = new HttpClient();
                 CancellationTokenSource cts = new CancellationTokenSource(10000);
                 var result = await HttpRequestSender.SendPostRequestAsync(UrlHelper.ScheduleGetOrderUri +
                     "sid=" + UrlHelper.SID + "&access_token=" + UrlHelper.AccessToken,
