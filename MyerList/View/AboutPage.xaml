@@ -21,7 +21,7 @@
                        MaxHeight="130"
                        Margin="0,0,0,10"
                        DoubleTapped="LogoImg_DoubleTapped"
-                       Source="ms-appx:///Assets/Newlogo_tight.png" />
+                       Source="ms-appx:///Assets/raw.png" />
                 <StackPanel x:Name="stackPanel"
                             Margin="0,0,0,0"
                             HorizontalAlignment="Center"
