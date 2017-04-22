@@ -265,15 +265,30 @@
     <Content Include="Assets\Square71x71Logo.scale-150.png" />
     <Content Include="Assets\Square71x71Logo.scale-200.png" />
     <Content Include="Assets\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\tran_logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\tran_logo.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\tran_logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\tran_logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\tran_logo.altform-unplated_targetsize-48.png" />
     <Content Include="Assets\tran_logo.scale-100.png" />
     <Content Include="Assets\tran_logo.scale-125.png" />
+    <Content Include="Assets\tran_logo.scale-150.png" />
     <Content Include="Assets\tran_logo.scale-200.png" />
+    <Content Include="Assets\tran_logo.scale-400.png" />
+    <Content Include="Assets\tran_logo.targetsize-16.png" />
     <Content Include="Assets\tran_logo.targetsize-176.png" />
     <Content Include="Assets\tran_logo.targetsize-176_altform-unplated.png" />
+    <Content Include="Assets\tran_logo.targetsize-24.png" />
+    <Content Include="Assets\tran_logo.targetsize-256.png" />
+    <Content Include="Assets\tran_logo.targetsize-32.png" />
     <Content Include="Assets\tran_logo.targetsize-44.png" />
     <Content Include="Assets\tran_logo.targetsize-44_altform-unplated.png" />
+    <Content Include="Assets\tran_logo.targetsize-48.png" />
     <Content Include="Assets\tran_logo.targetsize-88.png" />
     <Content Include="Assets\tran_logo.targetsize-88_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
@@ -397,7 +412,7 @@
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
-      <Name>Windows Mobile Extensions for the UWP %28WindowsMobile, Version=10.0.10586.0%29</Name>
+      <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

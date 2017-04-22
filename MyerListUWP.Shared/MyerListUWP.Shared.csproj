@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Util\APIInfoUtil.cs" />
     <Compile Include="ErrorTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesHelper.cs" />

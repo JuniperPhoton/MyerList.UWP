@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using JP.Utils.Helper;
 using MyerList.Base;
+using MyerList.Util;
 using MyerList.ViewModel;
 using MyerListUWP.Helper;
 using System;
@@ -13,7 +13,6 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -85,7 +84,7 @@ namespace MyerList
 
         protected override void SetUpStatusBar()
         {
-            if (APIInfoHelper.HasStatusBar)
+            if (APIInfoUtil.HasStatusBar)
             {
                 StatusBar.GetForCurrentView().BackgroundColor = Colors.Transparent;
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;

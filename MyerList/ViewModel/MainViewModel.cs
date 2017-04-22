@@ -22,6 +22,7 @@ using MyerListUWP.Common;
 using MyerList.UC;
 using System.Collections.Generic;
 using MyerListShared;
+using MyerList.Util;
 
 namespace MyerList.ViewModel
 {
@@ -1570,7 +1571,7 @@ namespace MyerList.ViewModel
                 await HandleActive((LoginMode)param);
             }
 
-            if (APIInfoHelper.HasStatusBar)
+            if (APIInfoUtil.HasStatusBar)
             {
                 StatusBarHelper.SetUpStatusBar();
             }

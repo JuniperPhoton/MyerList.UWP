@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using JP.Utils.Helper;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
 using MyerList.Base;
 using MyerList.Helper;
 using MyerList.Model;
@@ -28,6 +26,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyerListShared;
+using MyerList.Util;
 
 namespace MyerListUWP.View
 {
@@ -493,7 +492,7 @@ namespace MyerListUWP.View
         protected override void RegisterHandleBackLogic()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += NewMainPage_BackRequested;
-            if (APIInfoHelper.HasHardwareButton)
+            if (APIInfoUtil.HasHardwareButton)
             {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             }
@@ -502,7 +501,7 @@ namespace MyerListUWP.View
         protected override void UnRegisterHandleBackLogic()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= NewMainPage_BackRequested;
-            if (APIInfoHelper.HasHardwareButton)
+            if (APIInfoUtil.HasHardwareButton)
             {
                 HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
             }
