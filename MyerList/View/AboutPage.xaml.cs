@@ -22,6 +22,7 @@ namespace MyerList
         public AboutPage()
         {
             this.InitializeComponent();
+            this.VersionTB.Text = App.AppVersion;
         }
 
         private async void FeedbackClick(object sender, RoutedEventArgs e)
@@ -83,11 +84,6 @@ namespace MyerList
             {
                 var task = Logger.LogAsync(ex);
             }
-        }
-
-        private void LogoImg_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-
         }
     }
 }
