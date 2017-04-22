@@ -13,7 +13,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-
 namespace MyerList
 {
 
@@ -39,7 +38,7 @@ namespace MyerList
                 }
                 var platform = DeviceHelper.IsDesktop ? "PC" : "Mobile";
 
-                mes.Subject = $"MyerList for Windows 10 {platform}, {App.Current.Resources["AppVersion"] as string} feedback, {DeviceHelper.OSVersion}, {DeviceHelper.DeviceModel}";
+                mes.Subject = $"MyerList for Windows 10 {platform}, {App.AppVersion} feedback, {DeviceHelper.OSVersion}, {DeviceHelper.DeviceModel}";
                 await EmailManager.ShowComposeNewEmailAsync(mes);
             }
             catch (Exception ex)
