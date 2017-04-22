@@ -63,7 +63,7 @@ namespace MyerList
             else
             {
                 this.TitleBarUC.SetForegroundColor(Colors.Black);
-                TitleBarHelper.SetUpForeBlackTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForDarkText();
             }
         }
 

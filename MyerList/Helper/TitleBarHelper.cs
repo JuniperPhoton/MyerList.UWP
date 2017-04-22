@@ -1,12 +1,6 @@
 ﻿using JP.Utils.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml.Media;
 
 namespace MyerListUWP.Helper
 {
@@ -21,19 +15,19 @@ namespace MyerListUWP.Helper
     }
     public static class TitleBarHelper
     {
-        public static void SetUpForeBlackTitleBar()
+        public static void SetUpTitleBarColorForDarkText()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = Colors.Black;
-            //titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#676767").Value;
+            titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#f5f5f5").Value;
             titleBar.ButtonHoverForegroundColor= Colors.Black;
             titleBar.ButtonPressedBackgroundColor = ColorConverter.HexToColor("#BBBBBB").Value;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveForegroundColor = ColorConverter.HexToColor("#676767").Value;
         }
 
-        public static void SetUpForeWhiteTitleBar()
+        public static void SetUpTitleBarColorForLightText()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = Colors.Transparent;

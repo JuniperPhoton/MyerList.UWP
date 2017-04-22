@@ -34,7 +34,6 @@ namespace MyerListUWP.View
     {
         private static double WIDTH_THRESHOLD => 650;
 
-        //数据源
         public MainViewModel MainVM
         {
             get
@@ -43,10 +42,8 @@ namespace MyerListUWP.View
             }
         }
 
-        //当前抽屉是否出现了
         private bool _isDrawerSlided = false;
 
-        //添加/修改的面板是否出现
         public bool IsAddingPaneOpen
         {
             get { return (bool)GetValue(IsAddingPaneOpenProperty); }
@@ -135,7 +132,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
                 ProgressRing.Foreground = MainVM.CateColor;
-                TitleBarHelper.SetUpForeBlackTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForDarkText();
             }
             else
             {
@@ -150,7 +147,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
-                TitleBarHelper.SetUpForeWhiteTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForLightText();
             }
         }
 
@@ -260,7 +257,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
                 ProgressRing.Foreground = MainVM.CateColor;
-                TitleBarHelper.SetUpForeBlackTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForDarkText();
             }
             else
             {
@@ -276,7 +273,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
-                TitleBarHelper.SetUpForeWhiteTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForLightText();
             }
         }
 
@@ -288,7 +285,7 @@ namespace MyerListUWP.View
             if (show)
             {
                 ToggleAddingAnimation(true);
-                TitleBarHelper.SetUpForeWhiteTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForLightText();
                 ToggleAnimationWithAddingPanel(false);
                 AddingPanel.SetFocus();
 
@@ -305,7 +302,7 @@ namespace MyerListUWP.View
 
                 if (Window.Current.Bounds.Width >= WIDTH_THRESHOLD)
                 {
-                    TitleBarHelper.SetUpForeBlackTitleBar();
+                    TitleBarHelper.SetUpTitleBarColorForDarkText();
                 }
             }
         }
