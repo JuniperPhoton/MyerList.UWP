@@ -564,7 +564,7 @@ namespace MyerListUWP.View
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < 720)
+            if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < WIDTH_THRESHOLD)
             {
                 ToggleDrawerAnimation(false);
                 ToggleDrawerMaskAnimation(false);
@@ -591,7 +591,7 @@ namespace MyerListUWP.View
             if (e.Shown)
             {
                 _titleBarUc.Visibility = Visibility.Collapsed;
-                if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < 720)
+                if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < WIDTH_THRESHOLD)
                 {
                     _isDrawerSlided = false;
                     ToggleDrawerAnimation(false);
