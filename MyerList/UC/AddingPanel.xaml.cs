@@ -66,8 +66,9 @@ namespace MyerList.UC
 
         private void UpdateBackgrdColor(SolidColorBrush targetColorBrush)
         {
-            ColorAnimation.To = targetColorBrush.Color;
-            ChangeColorStory.Begin();
+            TitleChangeColorStoryAnimation.To= OkBtnChangeColorStoryAnimation.To = targetColorBrush.Color;
+            OkBtnChangeColorStory.Begin();
+            TitleChangeColorStory.Begin();
         }
 
         private void AddContentBox_KeyUp(object sender, KeyRoutedEventArgs e)

@@ -161,7 +161,202 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="AddingCategoryListBoxStyle" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TabNavigation" Value="Local" />
+        <Setter Property="Padding" Value="12,11,12,13" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Grid
+                        x:Name="LayoutRoot"
+                        Width="30"
+                        Height="30"
+                        Background="{TemplateBinding Background}">
+                        <Grid.Resources>
+                            <Style x:Key="BaseContentPresenterStyle" TargetType="ContentPresenter">
+                                <Setter Property="FontFamily" Value="Segoe UI" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="FontSize" Value="15" />
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Setter Property="LineStackingStrategy" Value="MaxHeight" />
+                                <Setter Property="TextLineBounds" Value="Full" />
+                                <Setter Property="OpticalMarginAlignment" Value="TrimSideBearings" />
+                            </Style>
+                            <Style
+                                x:Key="BodyContentPresenterStyle"
+                                BasedOn="{StaticResource BaseContentPresenterStyle}"
+                                TargetType="ContentPresenter">
+                                <Setter Property="FontWeight" Value="Normal" />
+                                <Setter Property="FontSize" Value="15" />
+                            </Style>
+                        </Grid.Resources>
+                        <Rectangle
+                            x:Name="PressedBackground"
+                            Width="30"
+                            Height="30"
+                            Control.IsTemplateFocusTarget="True"
+                            Fill="Transparent"
+                            Visibility="Collapsed" />
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Width="30"
+                            Height="30"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            RenderTransformOrigin="0.5,0.5"
+                            Style="{StaticResource BodyContentPresenterStyle}"
+                            TextWrapping="NoWrap">
+                            <ContentPresenter.RenderTransform>
+                                <CompositeTransform />
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+                        <FontIcon
+                            x:Name="fontIcon"
+                            Width="20"
+                            Height="14"
+                            FontSize="13.333"
+                            Foreground="White"
+                            Glyph="&#xE001;"
+                            RenderTransformOrigin="0.5,0.5"
+                            Visibility="Collapsed">
+                            <FontIcon.RenderTransform>
+                                <CompositeTransform />
+                            </FontIcon.RenderTransform>
+                        </FontIcon>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
 
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Target="PressedBackground.(UIElement.Visibility)" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.(FrameworkElement.Width)" Value="30" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Target="fontIcon.(UIElement.Visibility)" Value="Visible" />
+                                        <Setter Target="PressedBackground.(UIElement.Visibility)" Value="Collapsed" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedUnfocused">
+                                    <VisualState.Setters>
+                                        <Setter Target="fontIcon.(UIElement.Visibility)" Value="Visible" />
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedPointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="fontIcon.(UIElement.Visibility)" Value="Visible" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Value="0" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Value="0" />
+                                        <Setter Target="fontIcon.(FrameworkElement.Margin)">
+                                            <Setter.Value>
+                                                <Thickness>0</Thickness>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListAccentMediumBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedPressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="fontIcon.(UIElement.Visibility)" Value="Visible" />
+                                        <Setter Target="fontIcon.(FrameworkElement.Margin)">
+                                            <Setter.Value>
+                                                <Thickness>0</Thickness>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="fontIcon.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Value="1.1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Value="1.1" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Fill">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="ComboBoxItemStyle1" TargetType="ComboBoxItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="TabNavigation" Value="Local" />

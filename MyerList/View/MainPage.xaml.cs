@@ -288,25 +288,13 @@ namespace MyerListUWP.View
             if (show)
             {
                 ToggleAddingAnimation(true);
-                TitleBarHelper.SetUpTitleBarColorForLightText();
                 ToggleAnimationWithAddingPanel(false);
                 AddingPanel.SetFocus();
-
-                if (!AppSettings.Instance.LearnGesture())
-                {
-                    LocalSettingHelper.AddValue(AppSettings.LEARNT_ADDING_PANE_GESTURE, true);
-                    ToastService.SendToast(ResourcesHelper.GetResString("HintLearnGesture"), 5000);
-                }
             }
             else
             {
                 ToggleAddingAnimation(false);
                 ToggleAnimationWithAddingPanel(true);
-
-                if (Window.Current.Bounds.Width >= WIDTH_THRESHOLD)
-                {
-                    TitleBarHelper.SetUpTitleBarColorForDarkText();
-                }
             }
         }
         #endregion

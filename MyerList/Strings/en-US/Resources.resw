@@ -522,7 +522,4 @@
   <data name="ErrorUserExist" xml:space="preserve">
     <value>Account aleady exist.</value>
   </data>
-  <data name="HintLearnGesture" xml:space="preserve">
-    <value>Swipe to switch categories</value>
-  </data>
 </root>

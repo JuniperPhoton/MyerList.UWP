@@ -522,7 +522,4 @@
   <data name="PersonalizeCateTB.Text" xml:space="preserve">
     <value>个性化</value>
   </data>
-  <data name="HintLearnGesture" xml:space="preserve">
-    <value>可以左右滑动来切换类别</value>
-  </data>
 </root>
