@@ -1,19 +1,18 @@
-﻿<base:BindablePage x:Class="MyerListUWP.View.MainPage"
-                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-                   xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-                   xmlns:attach="using:JP.Utils.Framework"
-                   xmlns:base="using:MyerList.Base"
-                   xmlns:cc="using:MyerListCustomControl"
-                   xmlns:control="using:JP.Utils.Control"
-                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                   xmlns:local="using:MyerListUWP.View"
-                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                   xmlns:triggers="using:JP.CustomTriggers"
-                   xmlns:uc="using:MyerList.UC"
-                   Background="White"
-                   mc:Ignorable="d">
+﻿<base:BindablePage
+    x:Class="MyerListUWP.View.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:attach="using:JP.Utils.Framework"
+    xmlns:base="using:MyerList.Base"
+    xmlns:cc="using:MyerListCustomControl"
+    xmlns:control="using:JP.Utils.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="using:MyerList.UC"
+    Background="White"
+    mc:Ignorable="d">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
             <attach:InvokeCommandByKeyDown Command="{x:Bind MainVM.SyncCommand}" PressedKey="F5" />
@@ -21,50 +20,57 @@
     </Interactivity:Interaction.Behaviors>
     <base:BindablePage.Resources>
         <Storyboard x:Name="ChangeColorStory">
-            <ColorAnimation x:Name="ChangeColorAnim"
-                            Duration="0:0:0.2"
-                            From="White"
-                            Storyboard.TargetName="HeaderContentRootGrid"
-                            Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"
-                            To="White" />
+            <ColorAnimation
+                x:Name="ChangeColorAnim"
+                Storyboard.TargetName="HeaderContentRootGrid"
+                Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"
+                From="White"
+                To="White"
+                Duration="0:0:0.2" />
         </Storyboard>
         <Storyboard x:Name="ChangeCommandBarColorToWhiteStory">
-            <ColorAnimation Duration="0:0:0.2"
-                            From="{StaticResource CommandBarGrey}"
-                            Storyboard.TargetName="DefaultCommandBar"
-                            Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"
-                            To="White" />
-            <ColorAnimation Duration="0:0:0.2"
-                            From="{StaticResource CommandBarGrey}"
-                            Storyboard.TargetName="DeleteCommandBar"
-                            Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"
-                            To="White" />
+            <ColorAnimation
+                Storyboard.TargetName="DefaultCommandBar"
+                Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"
+                From="{StaticResource CommandBarGrey}"
+                To="White"
+                Duration="0:0:0.2" />
+            <ColorAnimation
+                Storyboard.TargetName="DeleteCommandBar"
+                Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"
+                From="{StaticResource CommandBarGrey}"
+                To="White"
+                Duration="0:0:0.2" />
         </Storyboard>
         <Storyboard x:Name="ChangeCommandBarColorToGreyStory">
-            <ColorAnimation Duration="0:0:0.2"
-                            From="White"
-                            Storyboard.TargetName="DefaultCommandBar"
-                            Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"
-                            To="{StaticResource CommandBarGrey}" />
-            <ColorAnimation Duration="0:0:0.2"
-                            From="White"
-                            Storyboard.TargetName="DeleteCommandBar"
-                            Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"
-                            To="{StaticResource CommandBarGrey}" />
+            <ColorAnimation
+                Storyboard.TargetName="DefaultCommandBar"
+                Storyboard.TargetProperty="(DefaultCommandBar.Background).(SolidColorBrush.Color)"
+                From="White"
+                To="{StaticResource CommandBarGrey}"
+                Duration="0:0:0.2" />
+            <ColorAnimation
+                Storyboard.TargetName="DeleteCommandBar"
+                Storyboard.TargetProperty="(DeleteCommandBar.Background).(SolidColorBrush.Color)"
+                From="White"
+                To="{StaticResource CommandBarGrey}"
+                Duration="0:0:0.2" />
         </Storyboard>
         <Storyboard x:Name="SwitchToNarrowStory">
-            <DoubleAnimation Duration="0:0:0.3"
-                             EnableDependentAnimation="True"
-                             Storyboard.TargetName="RootGrid"
-                             Storyboard.TargetProperty="FirstColumnWidth"
-                             To="0" />
+            <DoubleAnimation
+                EnableDependentAnimation="True"
+                Storyboard.TargetName="RootGrid"
+                Storyboard.TargetProperty="FirstColumnWidth"
+                To="0"
+                Duration="0:0:0.3" />
         </Storyboard>
         <Storyboard x:Name="SwitchToWideStory">
-            <DoubleAnimation Duration="0:0:0.3"
-                             EnableDependentAnimation="True"
-                             Storyboard.TargetName="RootGrid"
-                             Storyboard.TargetProperty="FirstColumnWidth"
-                             To="250" />
+            <DoubleAnimation
+                EnableDependentAnimation="True"
+                Storyboard.TargetName="RootGrid"
+                Storyboard.TargetProperty="FirstColumnWidth"
+                To="250"
+                Duration="0:0:0.3" />
         </Storyboard>
     </base:BindablePage.Resources>
     <cc:AnimatableGrid x:Name="RootGrid" Background="White">
@@ -72,11 +78,12 @@
             <ColumnDefinition Width="0" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid x:Name="ContentRootGird"
-              Grid.Column="1"
-              Grid.ColumnSpan="2"
-              Margin="0 -30 0 0"
-              Background="White">
+        <Grid
+            x:Name="ContentRootGird"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="0,-30,0,0"
+            Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="130" />
                 <RowDefinition />
@@ -85,132 +92,148 @@
                 <Grid.Background>
                     <SolidColorBrush Color="White" />
                 </Grid.Background>
-                <Grid x:Name="HeaderContentGrid"
-                      Margin="0,0,0,20"
-                      VerticalAlignment="Bottom">
-                    <StackPanel x:Name="HeaderSP"
-                                Orientation="Horizontal"
-                                SizeChanged="HeaderSP_SizeChanged">
-                        <uc:HamburgerButton x:Name="HamburgerBtn"
-                                            Margin="5,0,0,0"
-                                            Background="Transparent"
-                                            ButtonClick="HamClick"
-                                            ForegroundBrush="Black"
-                                            RenderTransformOrigin="0.5,0.5" />
-                        <cc:AnimatedTextBlock x:Name="TitleTB"
-                                              Margin="5,0,0,0"
-                                              HorizontalAlignment="Left"
-                                              VerticalAlignment="Center"
-                                              FontSize="27"
-                                              Foreground="Black"
-                                              TextContent="{x:Bind MainVM.Title, Mode=OneWay}" />
-                        <ProgressRing x:Name="ProgressRing"
-                                      Margin="10,0,0,0"
-                                      HorizontalAlignment="Left"
-                                      Foreground="Black"
-                                      IsActive="True"
-                                      Visibility="{x:Bind MainVM.IsLoading, Mode=OneWay}" />
+                <Grid
+                    x:Name="HeaderContentGrid"
+                    Margin="0,0,0,20"
+                    VerticalAlignment="Bottom">
+                    <StackPanel
+                        x:Name="HeaderSP"
+                        Orientation="Horizontal"
+                        SizeChanged="HeaderSP_SizeChanged">
+                        <uc:HamburgerButton
+                            x:Name="HamburgerBtn"
+                            Margin="5,0,0,0"
+                            Background="Transparent"
+                            ButtonClick="HamClick"
+                            ForegroundBrush="Black"
+                            RenderTransformOrigin="0.5,0.5" />
+                        <cc:AnimatedTextBlock
+                            x:Name="TitleTB"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="27"
+                            Foreground="Black"
+                            TextContent="{x:Bind MainVM.Title, Mode=OneWay}" />
+                        <ProgressRing
+                            x:Name="ProgressRing"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Foreground="Black"
+                            IsActive="True"
+                            Visibility="{x:Bind MainVM.IsLoading, Mode=OneWay}" />
                     </StackPanel>
                 </Grid>
             </Grid>
-            <uc:LiveTileTemplate x:Name="TileControl"
-                                 Grid.Row="1"
-                                 HorizontalAlignment="Right" />
-            <Grid x:Name="ListContentGrid"
-                  Grid.Row="1"
-                  Background="White">
+            <uc:LiveTileTemplate
+                x:Name="TileControl"
+                Grid.Row="1"
+                HorizontalAlignment="Right" />
+            <Grid
+                x:Name="ListContentGrid"
+                Grid.Row="1"
+                Background="White">
                 <Grid x:Name="ListGrid">
-                    <Pivot x:Name="pivot"
-                           Margin="0,0,0,0"
-                           Background="White"
-                           IsLocked="True"
-                           SelectedIndex="{x:Bind MainVM.SelectedPage, Mode=TwoWay}">
+                    <Pivot
+                        x:Name="pivot"
+                        Margin="0,0,0,0"
+                        Background="White"
+                        IsLocked="True"
+                        SelectedIndex="{x:Bind MainVM.SelectedPage, Mode=TwoWay}">
                         <PivotItem Margin="0,-50,0,0">
                             <Grid>
-                                <control:ListViewEx x:Name="DisplayedListView"
-                                                    Grid.Row="1"
-                                                    Margin="0,20,0,50"
-                                                    attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"
-                                                    attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
-                                                    CanReorderItems="False"
-                                                    EnableWaggingAnimation="False"
-                                                    IsItemClickEnabled="True"
-                                                    ItemContainerStyle="{StaticResource ListViewItemStyle1}"
-                                                    ItemTemplate="{StaticResource ScheduleTemplete}"
-                                                    ItemsSource="{x:Bind MainVM.CurrentDisplayToDos, Mode=OneWay}"
-                                                    OnReorderStopped="DisplayedListView_OnReorderStopped"
-                                                    ReorderUIElementName="ReorderThumb"
-                                                    SelectionMode="None" />
-                                <StackPanel x:Name="stackPanel1"
-                                            Grid.Row="1"
-                                            Grid.RowSpan="2"
-                                            Margin="0,0,0,100"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Vertical"
-                                            Visibility="{x:Bind MainVM.ShowNoItems, Mode=OneWay}">
-                                    <TextBlock x:Uid="WorkDoneTB"
-                                               Grid.Row="1"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                               FontSize="26.667"
-                                               FontWeight="Light"
-                                               Foreground="#FFADADAD"
-                                               Text="WORK DONE"
-                                               TextWrapping="Wrap" />
-                                    <TextBlock x:Uid="EnjoyTB"
-                                               Grid.Row="1"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                               FontSize="26.667"
-                                               FontWeight="Light"
-                                               Foreground="#FFADADAD"
-                                               Text="Enjoy your day ;-)"
-                                               TextWrapping="Wrap" />
+                                <control:ListViewEx
+                                    x:Name="DisplayedListView"
+                                    Grid.Row="1"
+                                    Margin="0,20,0,50"
+                                    attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind MainVM.ModifyCommand}"
+                                    attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
+                                    CanReorderItems="False"
+                                    EnableWaggingAnimation="False"
+                                    IsItemClickEnabled="True"
+                                    ItemContainerStyle="{StaticResource ListViewItemStyle1}"
+                                    ItemTemplate="{StaticResource ScheduleTemplete}"
+                                    ItemsSource="{x:Bind MainVM.CurrentDisplayToDos, Mode=OneWay}"
+                                    OnReorderStopped="DisplayedListView_OnReorderStopped"
+                                    ReorderUIElementName="ReorderThumb"
+                                    SelectionMode="None" />
+                                <StackPanel
+                                    x:Name="stackPanel1"
+                                    Grid.Row="1"
+                                    Grid.RowSpan="2"
+                                    Margin="0,0,0,100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical"
+                                    Visibility="{x:Bind MainVM.ShowNoItems, Mode=OneWay}">
+                                    <TextBlock
+                                        x:Uid="WorkDoneTB"
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                        FontSize="26.667"
+                                        FontWeight="Light"
+                                        Foreground="#FFADADAD"
+                                        Text="WORK DONE"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        x:Uid="EnjoyTB"
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                        FontSize="26.667"
+                                        FontWeight="Light"
+                                        Foreground="#FFADADAD"
+                                        Text="Enjoy your day ;-)"
+                                        TextWrapping="Wrap" />
                                 </StackPanel>
                             </Grid>
                         </PivotItem>
                         <PivotItem Margin="0,-50,0,0">
                             <Grid>
-                                <ListView x:Name="DeleteListView"
-                                          Margin="0,30,0,50"
-                                          attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
-                                          AllowDrop="False"
-                                          BorderThickness="10,0"
-                                          CanDragItems="False"
-                                          CanReorderItems="False"
-                                          ItemContainerStyle="{StaticResource ListViewItemStyle1}"
-                                          ItemTemplate="{StaticResource DeletedTemplete}"
-                                          ItemsSource="{x:Bind MainVM.DeletedToDos, Mode=OneWay}"
-                                          SelectionMode="None" />
-                                <StackPanel Margin="0,0,0,100"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Vertical"
-                                            Visibility="{x:Bind MainVM.NoDeletedItemsVisibility, Mode=OneWay}">
-                                    <TextBlock x:Uid="NoDeletedTB"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                               FontSize="26.667"
-                                               FontWeight="Light"
-                                               Foreground="{StaticResource MyerListDark}"
-                                               Opacity="0.8"
-                                               Text="NoDeleted" />
-                                    <TextBlock x:Uid="DeletedHintTB"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                               FontSize="20"
-                                               FontWeight="Light"
-                                               Foreground="{StaticResource MyerListDark}"
-                                               Opacity="0.8"
-                                               Text="Deleted items will be showed up here"
-                                               TextAlignment="Center"
-                                               TextTrimming="WordEllipsis"
-                                               TextWrapping="Wrap" />
+                                <ListView
+                                    x:Name="DeleteListView"
+                                    Margin="0,30,0,50"
+                                    attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
+                                    AllowDrop="False"
+                                    BorderThickness="10,0"
+                                    CanDragItems="False"
+                                    CanReorderItems="False"
+                                    ItemContainerStyle="{StaticResource ListViewItemStyle1}"
+                                    ItemTemplate="{StaticResource DeletedTemplete}"
+                                    ItemsSource="{x:Bind MainVM.DeletedToDos, Mode=OneWay}"
+                                    SelectionMode="None" />
+                                <StackPanel
+                                    Margin="0,0,0,100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical"
+                                    Visibility="{x:Bind MainVM.NoDeletedItemsVisibility, Mode=OneWay}">
+                                    <TextBlock
+                                        x:Uid="NoDeletedTB"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                        FontSize="26.667"
+                                        FontWeight="Light"
+                                        Foreground="{StaticResource MyerListDark}"
+                                        Opacity="0.8"
+                                        Text="NoDeleted" />
+                                    <TextBlock
+                                        x:Uid="DeletedHintTB"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                        FontSize="20"
+                                        FontWeight="Light"
+                                        Foreground="{StaticResource MyerListDark}"
+                                        Opacity="0.8"
+                                        Text="Deleted items will be showed up here"
+                                        TextAlignment="Center"
+                                        TextTrimming="WordEllipsis"
+                                        TextWrapping="Wrap" />
                                 </StackPanel>
                             </Grid>
                         </PivotItem>
@@ -218,86 +241,107 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid x:Name="DefaultCommandBar"
-              Grid.RowSpan="5"
-              Grid.Column="1"
-              Grid.ColumnSpan="2"
-              VerticalAlignment="Bottom"
-              RenderTransformOrigin="0.5,0.5">
+        <Grid
+            x:Name="DefaultCommandBar"
+            Grid.RowSpan="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            RenderTransformOrigin="0.5,0.5">
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource CommandBarGrey}" />
             </Grid.Background>
-            <StackPanel HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal">
-                <Button x:Name="AddBtn"
-                        Width="60"
-                        Height="50"
-                        Command="{x:Bind MainVM.AddCommand}"
-                        Style="{StaticResource ListButtonStyle}">
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="AddBtn"
+                    Width="60"
+                    Height="50"
+                    Command="{x:Bind MainVM.AddCommand}"
+                    Style="{StaticResource ListButtonStyle}">
                     <SymbolIcon Symbol="Add" />
                 </Button>
-                <Button Width="60"
-                        Height="50"
-                        Command="{x:Bind MainVM.SyncCommand}"
-                        Style="{StaticResource ListButtonStyle}">
+                <Button
+                    Width="60"
+                    Height="50"
+                    Command="{x:Bind MainVM.SyncCommand}"
+                    Style="{StaticResource ListButtonStyle}">
                     <SymbolIcon Symbol="Sync" />
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="DeleteCommandBar"
-              Grid.RowSpan="5"
-              Grid.Column="1"
-              Grid.ColumnSpan="2"
-              VerticalAlignment="Bottom"
-              RenderTransformOrigin="0.5,0.5">
+        <Grid
+            x:Name="DeleteCommandBar"
+            Grid.RowSpan="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Bottom"
+            RenderTransformOrigin="0.5,0.5">
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource CommandBarGrey}" />
             </Grid.Background>
-            <StackPanel HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal">
-                <Button Width="60"
-                        Height="50"
-                        Command="{x:Bind MainVM.DeteteAllCommand}"
-                        Style="{StaticResource ListButtonStyle}">
+            <StackPanel
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button
+                    Width="60"
+                    Height="50"
+                    Command="{x:Bind MainVM.DeteteAllCommand}"
+                    Style="{StaticResource ListButtonStyle}">
                     <SymbolIcon Symbol="Delete" />
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="TouchGrid"
-              Grid.RowSpan="5"
-              Grid.Column="1"
-              Width="20"
-              HorizontalAlignment="Left"
-              VerticalAlignment="Stretch"
-              Background="White"
-              ManipulationCompleted="TouchGrid_ManipulationCompleted"
-              ManipulationDelta="TouchGrid_ManipulationDelta"
-              ManipulationMode="TranslateX"
-              Opacity="0.00001" />
-        <Border x:Name="MaskBorder"
-                Grid.RowSpan="5"
-                Grid.ColumnSpan="2"
-                Margin="0 -30 0 0"
-                Background="Black"
-                Opacity="0.8"
-                Tapped="MaskBorder_Tapped"
-                Visibility="Collapsed" />
-        <uc:NavigationDrawer x:Name="Drawer"
-                             Grid.RowSpan="5"
-                             Grid.ColumnSpan="2"
-                             Width="250"
-                             BackgrdColor="{x:Bind MainVM.CateColor, Mode=OneWay}"
-                             Margin="0 -30 0 0"
-                             HorizontalAlignment="Left"
-                             />
-        <uc:AddingPanel x:Name="AddingPanel"
-                        Grid.RowSpan="5"
-                        Grid.ColumnSpan="2"
-                        Margin="0 -30 0 0"
-                        VerticalAlignment="Stretch"
-                        Background="{StaticResource MyerListBlueLight}"
-                        />
+        <Grid
+            x:Name="TouchGrid"
+            Grid.RowSpan="5"
+            Grid.Column="1"
+            Width="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            Background="White"
+            ManipulationCompleted="TouchGrid_ManipulationCompleted"
+            ManipulationDelta="TouchGrid_ManipulationDelta"
+            ManipulationMode="TranslateX"
+            Opacity="0.00001" />
+        <Border
+            x:Name="MaskBorder"
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2"
+            Margin="0,-30,0,0"
+            Background="Black"
+            Opacity="0.8"
+            Tapped="MaskBorder_Tapped"
+            Visibility="Collapsed" />
+        <uc:NavigationDrawer
+            x:Name="Drawer"
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2"
+            Width="250"
+            Margin="0,-30,0,0"
+            HorizontalAlignment="Left"
+            BackgrdColor="{x:Bind MainVM.CateColor, Mode=OneWay}" />
+        <uc:AddingPanel
+            x:Name="AddingPanel"
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2"
+            Margin="0,-30,0,0"
+            VerticalAlignment="Stretch"
+            Background="{StaticResource MyerListBlueLight}" />
+        <uc:AboutControl
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="5"
+            d:IsHidden="True"
+            OnShownChanged="Control_OnShownChanged"
+            Shown="{x:Bind MainVM.ShowAboutUC, Mode=TwoWay}" />
+        <uc:SettingsControl
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="5"
+            d:IsHidden="True"
+            OnShownChanged="Control_OnShownChanged"
+            Shown="{x:Bind MainVM.ShowSettingsUC, Mode=TwoWay}" />
     </cc:AnimatableGrid>
 </base:BindablePage>

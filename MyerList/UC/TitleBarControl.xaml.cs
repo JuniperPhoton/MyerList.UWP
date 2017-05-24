@@ -4,13 +4,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-
 namespace MyerList.UC
 {
     public sealed partial class TitleBarControl : UserControl
     {
         public RoutedEventHandler OnClickBackBtn;
-        
+
         public TitleBarControl()
         {
             this.InitializeComponent();
@@ -20,8 +19,10 @@ namespace MyerList.UC
 
         public void SetForegroundColor(Color color)
         {
-            if(DeviceHelper.IsDesktop)
-                TitleTB.Foreground=BackSymbol.Foreground = new SolidColorBrush(color);
+            if (DeviceHelper.IsDesktop)
+            {
+                BackSymbol.Foreground = new SolidColorBrush(color);
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

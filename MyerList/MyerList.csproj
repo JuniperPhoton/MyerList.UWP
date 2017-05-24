@@ -110,6 +110,7 @@
     <Compile Include="Base\BindablePage.cs" />
     <Compile Include="Base\CustomTitleBarPage.cs" />
     <Compile Include="Common\GlobalHelper.cs" />
+    <Compile Include="Common\NavigableUserControl.cs" />
     <Compile Include="Common\UmengKey.cs" />
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Common\InvokeCommandByKeyDown.cs" />
     <Compile Include="Helper\JumpListHelper.cs" />
     <Compile Include="Common\MessengerTokens.cs" />
+    <Compile Include="Interface\INavigableUserControl.cs" />
     <Compile Include="OffscreenPainter\LiveTileKind.cs" />
     <Compile Include="OffscreenPainter\LiveTilePainter.cs" />
     <Compile Include="Helper\StatusBarHelper.cs" />
@@ -135,6 +137,9 @@
     <Compile Include="Model\ToDo.cs" />
     <Compile Include="Model\ToDoCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UC\AboutControl.xaml.cs">
+      <DependentUpon>AboutControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UC\AddingPanel.xaml.cs">
       <DependentUpon>AddingPanel.xaml</DependentUpon>
     </Compile>
@@ -165,6 +170,9 @@
     <Compile Include="UC\ScheduleControl.xaml.cs">
       <DependentUpon>ScheduleControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UC\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UC\TitleBarControl.xaml.cs">
       <DependentUpon>TitleBarControl.xaml</DependentUpon>
     </Compile>
@@ -175,9 +183,6 @@
     <Compile Include="ViewModel\SettingPageViewModel.cs" />
     <Compile Include="ViewModel\StartViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\FeaturePage.xaml.cs">
       <DependentUpon>FeaturePage.xaml</DependentUpon>
     </Compile>
@@ -189,9 +194,6 @@
     </Compile>
     <Compile Include="View\PersonalizeCatePage.xaml.cs">
       <DependentUpon>PersonalizeCatePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\SettingPage.xaml.cs">
-      <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
@@ -298,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UC\AboutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UC\AddingPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -338,13 +344,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UC\TitleBarControl.xaml">
+    <Page Include="UC\SettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AboutPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="UC\TitleBarControl.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FeaturePage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -361,10 +367,6 @@
     <Page Include="View\PersonalizeCatePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\SettingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\StartPage.xaml">
       <Generator>MSBuild:Compile</Generator>

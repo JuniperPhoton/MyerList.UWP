@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyerListShared;
 using MyerList.Util;
+using MyerList.Common;
 
 namespace MyerListUWP.View
 {
@@ -69,6 +70,8 @@ namespace MyerListUWP.View
         private Visual _contentRootGirdVisual;
         private Visual _headerVisual;
         private Visual _hamburgerVisual;
+
+        private EmptyTitleControl _titleBarUc;
 
         public MainPage()
         {
@@ -289,7 +292,7 @@ namespace MyerListUWP.View
                 ToggleAnimationWithAddingPanel(false);
                 AddingPanel.SetFocus();
 
-                if(!AppSettings.Instance.LearnGesture())
+                if (!AppSettings.Instance.LearnGesture())
                 {
                     LocalSettingHelper.AddValue(AppSettings.LEARNT_ADDING_PANE_GESTURE, true);
                     ToastService.SendToast(ResourcesHelper.GetResString("HintLearnGesture"), 5000);
@@ -552,10 +555,10 @@ namespace MyerListUWP.View
             }
             Frame.BackStack.Clear();
 
-            var titleBarUC = new EmptyTitleControl();
-            (this.Content as Grid).Children.Add(titleBarUC);
-            Grid.SetColumnSpan(titleBarUC, 5);
-            Grid.SetRowSpan(titleBarUC, 5);
+            _titleBarUc = new EmptyTitleControl();
+            (this.Content as Grid).Children.Add(_titleBarUc);
+            Grid.SetColumnSpan(_titleBarUc, 5);
+            Grid.SetRowSpan(_titleBarUc, 5);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -581,6 +584,25 @@ namespace MyerListUWP.View
         private async void DisplayedListView_OnReorderStopped()
         {
             await MainVM.UpdateOrderAsync();
+        }
+
+        private void Control_OnShownChanged(object sender, ShownArgs e)
+        {
+            if (e.Shown)
+            {
+                _titleBarUc.Visibility = Visibility.Collapsed;
+                if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < 720)
+                {
+                    _isDrawerSlided = false;
+                    ToggleDrawerAnimation(false);
+                    ToggleDrawerMaskAnimation(false);
+                }
+            }
+            else
+            {
+                _titleBarUc.Visibility = Visibility.Visible;
+                Window.Current.SetTitleBar(_titleBarUc);
+            }
         }
     }
 }

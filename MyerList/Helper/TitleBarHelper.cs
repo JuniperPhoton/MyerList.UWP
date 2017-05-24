@@ -1,6 +1,10 @@
 ﻿using JP.Utils.UI;
+using MyerList.UC;
+using System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace MyerListUWP.Helper
 {
@@ -41,6 +45,21 @@ namespace MyerListUWP.Helper
             titleBar.ButtonHoverBackgroundColor = ColorConverter.HexToColor("#31DEDEDE");
             titleBar.ButtonHoverForegroundColor = Colors.White;
             titleBar.ButtonPressedBackgroundColor = ColorConverter.HexToColor("#22DEDEDE");
+        }
+
+        public static TitleBarControl CustomTitleBar(UIElement rootContent)
+        {
+            var currentContent = rootContent as Grid;
+            if (currentContent == null)
+            {
+                throw new ArgumentNullException("The root element of the page should be Grid.");
+            }
+            var uc = new TitleBarControl();
+            (currentContent as Grid).Children.Add(uc);
+            Grid.SetColumnSpan(uc, 5);
+            Grid.SetRowSpan(uc, 5);
+
+            return uc;
         }
     }
 }

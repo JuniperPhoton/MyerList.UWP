@@ -759,6 +759,40 @@ namespace MyerList.ViewModel
 
         #endregion
 
+        private bool _showAboutUC;
+        public bool ShowAboutUC
+        {
+            get
+            {
+                return _showAboutUC;
+            }
+            set
+            {
+                if (_showAboutUC != value)
+                {
+                    _showAboutUC = value;
+                    RaisePropertyChanged(() => ShowAboutUC);
+                }
+            }
+        }
+
+        private bool _showSettingsUC;
+        public bool ShowSettingsUC
+        {
+            get
+            {
+                return _showSettingsUC;
+            }
+            set
+            {
+                if (_showSettingsUC != value)
+                {
+                    _showSettingsUC = value;
+                    RaisePropertyChanged(() => ShowSettingsUC);
+                }
+            }
+        }
+
         #region 抽屉底部命令
 
         private RelayCommand _toStartPageCommand;
@@ -775,42 +809,28 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 跳到 About 页面
-        /// </summary>
         private RelayCommand _goToAboutCommand;
         public RelayCommand GoToAboutCommand
         {
             get
             {
-                if (_goToAboutCommand != null)
-                {
-                    return _goToAboutCommand;
-                }
+                if (_goToAboutCommand != null) return _goToAboutCommand;
                 return _goToAboutCommand = new RelayCommand(() =>
                 {
-                    Frame frame = Window.Current.Content as Frame;
-                    if (frame != null) frame.Navigate(typeof(AboutPage));
+                    ShowAboutUC = true;
                 });
             }
         }
 
-        /// <summary>
-        /// 跳到 Settings 页面
-        /// </summary>
-        private RelayCommand _gotoSettingCommand;
-        public RelayCommand GoToSettingCommand
+        private RelayCommand _goToSettingsCommand;
+        public RelayCommand GoToSettingsCommand
         {
             get
             {
-                if (_gotoSettingCommand != null)
+                if (_goToSettingsCommand != null) return _goToSettingsCommand;
+                return _goToSettingsCommand = new RelayCommand(() =>
                 {
-                    return _gotoSettingCommand;
-                }
-                return _gotoSettingCommand = new RelayCommand(() =>
-                {
-                    Frame frame = Window.Current.Content as Frame;
-                    if (frame != null) frame.Navigate(typeof(SettingPage));
+                    ShowSettingsUC = true;
                 });
             }
         }

@@ -1,6 +1,6 @@
 ﻿using JP.Utils.Debug;
 using JP.Utils.Helper;
-using MyerList.Base;
+using MyerList.Common;
 using MyerList.Helper;
 using MyerListUWP;
 using MyerListUWP.Helper;
@@ -8,17 +8,13 @@ using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Email;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
 
-namespace MyerList
+namespace MyerList.UC
 {
-
-    public sealed partial class AboutPage : CustomTitleBarPage
+    public sealed partial class AboutControl : NavigableUserControl
     {
-        public AboutPage()
+        public AboutControl()
         {
             this.InitializeComponent();
             this.VersionTB.Text = App.AppVersion;
@@ -32,7 +28,7 @@ namespace MyerList
                 EmailMessage mes = new EmailMessage();
                 mes.To.Add(rec);
                 var attach = await Logger.GetLogFileAttachementAsync();
-                if(attach!= null)
+                if (attach != null)
                 {
                     mes.Attachments.Add(attach);
                 }
@@ -50,39 +46,6 @@ namespace MyerList
         private async void RateClick(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?PFN=" + Package.Current.Id.FamilyName));
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if (DeviceHelper.IsMobile)
-            {
-                StatusBarHelper.SetUpBlackStatusBar();
-            }
-            else
-            {
-                this.TitleBarUC.SetForegroundColor(Colors.Black);
-                TitleBarHelper.SetUpTitleBarColorForDarkText();
-            }
-        }
-
-        private async void stackPanel_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            try
-            {
-                var msg = await ExceptionHelper.ReadRecordAsync();
-                var task = Logger.EraseRecordAsync();
-                EmailRecipient rec = new EmailRecipient("dengweichao@hotmail.com");
-                EmailMessage mes = new EmailMessage();
-                mes.To.Add(rec);
-                mes.Subject = "MyerList for Windows 10 exception";
-                mes.Body += msg;
-                await EmailManager.ShowComposeNewEmailAsync(mes);
-            }
-            catch (Exception ex)
-            {
-                var task = Logger.LogAsync(ex);
-            }
         }
     }
 }

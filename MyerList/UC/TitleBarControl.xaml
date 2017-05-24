@@ -136,11 +136,5 @@
                     Glyph="&#xE830;" />
             </Grid>
         </Button>
-        <TextBlock
-            x:Name="TitleTB"
-            Margin="70,0,0,0"
-            VerticalAlignment="Center"
-            Foreground="Black"
-            Text="MyerList" />
     </Grid>
 </UserControl>

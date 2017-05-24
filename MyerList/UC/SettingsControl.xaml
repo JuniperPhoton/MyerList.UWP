@@ -1,0 +1,256 @@
+﻿<common:NavigableUserControl
+    x:Class="MyerList.UC.SettingsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:MyerList.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MyerList.UC"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:JP.CustomTriggers"
+    d:DesignHeight="700"
+    d:DesignWidth="400"
+    Background="{StaticResource MyerListGray}"
+    DataContext="{Binding SettingVM, Source={StaticResource Locator}}"
+    IsTextScaleFactorEnabled="False"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource MyerListGray}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Image
+            Grid.RowSpan="2"
+            Opacity="0.02"
+            Source="ms-appx:///Assets/BackgrdImage.png"
+            Stretch="UniformToFill" />
+        <Grid Margin="0,-30,0,0">
+            <Grid MaxWidth="550">
+                <TextBlock
+                    x:Uid="SettingTB"
+                    Margin="10,0,0,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    FontFamily="{StaticResource MyerListThemeFontFamily}"
+                    FontSize="26.667"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource MyerListDark}"
+                    Text="SETTINGS" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <ScrollViewer
+                MaxWidth="550"
+                Margin="0"
+                Background="{x:Null}"
+                VerticalScrollBarVisibility="Hidden">
+                <StackPanel Grid.Row="1">
+                    <Border
+                        Margin="10,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            x:Uid="HabbitTB"
+                            Margin="0,5,5,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource MyerListBlueLight}"
+                            RenderTransformOrigin="0.5,0.5"
+                            Text="USER HABBIT"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <ToggleSwitch
+                        x:Name="HamburgerSwitch"
+                        x:Uid="HamburgerTS"
+                        Margin="10,10,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        Foreground="Black"
+                        Header="Hamburger Gesture"
+                        IsOn="{Binding Source={StaticResource AppSettings}, Mode=TwoWay, Path=EnableGesture}"
+                        OffContent="OFF"
+                        OnContent="ON"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource ToggleSwitchStyle}" />
+                    <!--<ToggleSwitch x:Uid="KeyboardTS" FontFamily="{StaticResource MyerListThemeFontFamily}" Header="Show keyboard" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black"   IsOn="{Binding Source={StaticResource AppSettings},Mode=TwoWay,Path=ShowKeyboard}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>-->
+                    <ToggleSwitch
+                        x:Uid="AddToBottomts"
+                        Margin="10,10,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        FontSize="15"
+                        Foreground="Black"
+                        Header="Add to bottom"
+                        IsOn="{Binding Source={StaticResource AppSettings}, Mode=TwoWay, Path=IsAddToBottom}"
+                        OffContent="OFF"
+                        OnContent="ON"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource ToggleSwitchStyle}" />
+                    <Border
+                        Margin="10,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            x:Uid="TileTB"
+                            Margin="0,5,5,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource MyerListBlueLight}"
+                            RenderTransformOrigin="0.5,0.5"
+                            Text="LIVE TILE"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <ToggleSwitch
+                        x:Uid="TileTS"
+                        Margin="10,10,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        Foreground="Black"
+                        Header="Live tile"
+                        IsOn="{Binding Source={StaticResource AppSettings}, Mode=TwoWay, Path=EnableTile}"
+                        OffContent="OFF"
+                        OnContent="ON"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource ToggleSwitchStyle}" />
+                    <!--<ToggleSwitch x:Uid="TransparentTS" Header="Transparent Tile" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10,10,10,0" Foreground="Black" IsOn="{x:Bind SettingVM.EnableTile,Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Style="{StaticResource ToggleSwitchStyle}"/>-->
+                    <!--<ToggleSwitch x:Uid="BackgrdTaskTS" Header="Background task" OffContent="OFF" OnContent="ON" VerticalAlignment="Top" Margin="10" Foreground="Black"   IsOn="{Binding EnableBackgroundTask,Mode=TwoWay}" Style="{StaticResource ToggleSwitchStyle}" HorizontalAlignment="Stretch" />-->
+                    <!--<Border Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Uid="ThemeTB" TextWrapping="Wrap" Text="THEME" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15" FontFamily="Segoe WP" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+                    <ComboBox Margin="10,10,30,10" SelectedIndex="{x:Bind SettingVM.CurrentLanguage,Mode=TwoWay}" Foreground="Black" PlaceholderText="Language" BorderThickness="1.6" BorderBrush="#FFE2E2E2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Stretch" Background="White" ItemContainerStyle="{StaticResource ComboBoxItemStyle1}">
+                        <ComboBoxItem Content="Classic" Foreground="{StaticResource MyerListDark}" Background="{x:Null}"/>
+                        <ComboBoxItem Content="Light" Foreground="Black" Background="{x:Null}"/>
+                        <ComboBoxItem Content="Dark" Foreground="{StaticResource MyerListDark}" Background="{x:Null}"/>
+                    </ComboBox>-->
+                    <!--<Border Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock x:Uid="LiveTileColorTB" FontFamily="{StaticResource MyerListThemeFontFamily}" TextWrapping="Wrap" Text="LIVE TILE" Margin="0,5,5,5" Foreground="{StaticResource MyerListBlueLight}" FontSize="15"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Border>
+                    <GridView x:Name="ColorGridView"
+                              ItemsSource="{x:Bind SettingVM.TileColors,Mode=OneWay}">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{Binding}" Width="30" Height="30"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>-->
+                    <Border
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            x:Uid="LanguageTB"
+                            Margin="0,5,5,5"
+                            HorizontalAlignment="Left"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource MyerListBlueLight}"
+                            RenderTransformOrigin="0.5,0.5"
+                            Text="LANGUAGE"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <ComboBox
+                        Margin="10"
+                        HorizontalAlignment="Stretch"
+                        Background="White"
+                        BorderBrush="#FFE2E2E2"
+                        BorderThickness="1.6"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        Foreground="Black"
+                        ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
+                        PlaceholderText="Language"
+                        RenderTransformOrigin="0.5,0.5"
+                        SelectedIndex="{x:Bind SettingVM.CurrentLanguage, Mode=TwoWay}">
+                        <ComboBoxItem
+                            Content="English"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            Foreground="Black" />
+                        <ComboBoxItem
+                            Content="简体中文"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            Foreground="Black" />
+                    </ComboBox>
+                    <TextBlock
+                        x:Uid="NoticeHint"
+                        Margin="10"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        FontSize="14.667"
+                        Foreground="Black"
+                        RenderTransformOrigin="0.5,0.5"
+                        Text=""
+                        TextWrapping="Wrap" />
+                    <Border
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            x:Uid="AccountTB"
+                            Margin="0,5,5,5"
+                            HorizontalAlignment="Left"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource MyerListBlueLight}"
+                            RenderTransformOrigin="0.5,0.5"
+                            Text="LANGUAGE"
+                            TextWrapping="Wrap" />
+                    </Border>
+                    <Button
+                        Height="40"
+                        Margin="10,10,10,40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind SettingVM.LogoutCommand}"
+                        Style="{StaticResource ButtonCommonStyle}">
+                        <Grid Background="{StaticResource DefaultColorLight}">
+                            <TextBlock
+                                x:Uid="LogoutTB"
+                                Margin="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                Foreground="White"
+                                Text="LOGOUT" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Desktop" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HamburgerSwitch.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Mobile" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HamburgerSwitch.Visibility" Value="Visibile" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+</common:NavigableUserControl>
