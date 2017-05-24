@@ -11,8 +11,6 @@ namespace MyerListUWP.Common
         public static string DefaultCateJsonString = "{ \"modified\":true, \"cates\":[{\"name\":\"Work\",\"color\":\"#FF436998\",\"id\":1},{\"name\":\"Life\",\"color\":\"#FFFFB542\",\"id\":2},{\"name\":\"Family\",\"color\":\"#FFFF395F\",\"id\":3},{\"name\":\"Entertainment\",\"color\":\"#FF55C1C1\",\"id\":4}]}";
         public static string ModifiedCateJsonStringFore = "{ \"modified\":true, \"cates\":";
 
-        public static string LEARNT_ADDING_PANE_GESTURE = "LEARN_ADDING_PANE_GESTURE";
-
         public bool EnableTile
         {
             get
@@ -78,11 +76,6 @@ namespace MyerListUWP.Common
         public AppSettings()
         {
             LocalSettings = ApplicationData.Current.LocalSettings;
-        }
-
-        public bool LearnGesture()
-        {
-            return LocalSettingHelper.HasValue(LEARNT_ADDING_PANE_GESTURE);
         }
 
         private void SaveSettings(string key, object value)

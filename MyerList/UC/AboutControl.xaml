@@ -1,0 +1,205 @@
+﻿<common:NavigableUserControl
+    x:Class="MyerList.UC.AboutControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:MyerList.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="700"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource MyerListGray}">
+        <Image
+            Opacity="0.02"
+            Source="ms-appx:///Assets/BackgrdImage.png"
+            Stretch="UniformToFill" />
+        <ScrollViewer
+            Margin="0,0,0,0"
+            VerticalAlignment="Center"
+            VerticalScrollBarVisibility="Hidden"
+            VerticalScrollMode="Auto">
+            <StackPanel VerticalAlignment="Center">
+                <Image
+                    x:Name="LogoImg"
+                    MaxHeight="130"
+                    Margin="0,0,0,10"
+                    Source="ms-appx:///Assets/raw.png" />
+                <StackPanel
+                    x:Name="stackPanel"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    RenderTransformOrigin="0.5,0.5">
+                    <TextBlock
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        FontSize="35"
+                        FontWeight="Light"
+                        Foreground="{StaticResource MyerListBlueLight}"
+                        Text="Myer" />
+                    <TextBlock
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        FontSize="35"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource MyerListBlueLight}"
+                        Text="List" />
+                </StackPanel>
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontFamily="{StaticResource MyerListThemeFontFamily}"
+                    FontSize="20"
+                    FontWeight="Light"
+                    Foreground="{StaticResource MyerListDark}"
+                    Text="for Windows 10" />
+                <Border
+                    Margin="0,10,0,0"
+                    Padding="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource DefaultColorLight}"
+                    CornerRadius="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="8,0,2,1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="Version" />
+                        <TextBlock
+                            x:Name="VersionTB"
+                            Margin="2,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            Foreground="White" />
+                    </StackPanel>
+                </Border>
+                <Grid Margin="0,20,0,0">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <StackPanel
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock
+                                x:Uid="CreditTB"
+                                Grid.Row="1"
+                                Margin="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource MyerListBlueLight}"
+                                Text="DEVELOPER" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                FontSize="15"
+                                FontWeight="Light"
+                                Foreground="{StaticResource MyerListDark}"
+                                Text="JuniperPhoton" />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock
+                                x:Uid="FeedbackTB"
+                                Grid.Row="2"
+                                Margin="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource MyerListBlueLight}"
+                                Text="FEEDBACK" />
+                            <Button
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Center"
+                                Background="{x:Null}"
+                                BorderBrush="{StaticResource MyerListDark}"
+                                BorderThickness="0"
+                                Click="FeedbackClick"
+                                Style="{StaticResource ButtonCommonStyle}">
+                                <TextBlock
+                                    x:Uid="EmailMeTB"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                    FontSize="15"
+                                    FontWeight="Light"
+                                    Foreground="{StaticResource MyerListDark}"
+                                    Text="EMAIL ME" />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Vertical">
+                            <TextBlock
+                                x:Uid="Rate"
+                                Grid.Row="3"
+                                Margin="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource MyerListBlueLight}"
+                                Text="RATE" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="{x:Null}"
+                                BorderBrush="{StaticResource MyerListDark}"
+                                BorderThickness="0"
+                                Click="RateClick"
+                                Style="{StaticResource ButtonCommonStyle}">
+                                <TextBlock
+                                    x:Uid="RateTB"
+                                    Grid.Row="1"
+                                    Margin="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                    FontSize="15"
+                                    FontWeight="Light"
+                                    Foreground="{StaticResource MyerListDark}"
+                                    Text="I LIKE IT;-)" />
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <StackPanel
+                    Margin="0,50,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal" />
+                <StackPanel
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</common:NavigableUserControl>

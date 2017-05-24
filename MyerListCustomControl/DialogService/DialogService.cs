@@ -1,4 +1,5 @@
 ﻿using JP.Utils.Helper;
+using MyerList.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -343,7 +344,7 @@ namespace MyerListCustomControl
 
             _inStory.Begin();
 
-            if (APIInfoHelper.HasHardwareButton)
+            if (APIInfoUtil.HasHardwareButton)
             {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             }

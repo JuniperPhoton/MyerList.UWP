@@ -148,6 +148,12 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyerListUWP.Shared\MyerListUWP.Shared.csproj">
+      <Project>{f6da8d91-028b-4bc6-b536-3acd86989e51}</Project>
+      <Name>MyerListUWP.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

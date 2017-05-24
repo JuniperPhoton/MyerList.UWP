@@ -1,8 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using JP.Utils.Helper;
 using MyerList.Base;
+using MyerList.Util;
 using MyerList.ViewModel;
-using MyerListUWP.Common;
 using MyerListUWP.Helper;
 using System;
 using Windows.System;
@@ -10,7 +9,6 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace MyerList
@@ -34,7 +32,7 @@ namespace MyerList
 
         protected override void SetUpStatusBar()
         {
-            if (APIInfoHelper.HasStatusBar)
+            if (APIInfoUtil.HasStatusBar)
             {
                 StatusBar.GetForCurrentView().BackgroundColor = Colors.Transparent;
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0.01;
@@ -44,7 +42,7 @@ namespace MyerList
 
         protected override void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpForeBlackTitleBar();
+            TitleBarHelper.SetUpTitleBarColorForDarkText();
         }
 
         protected override void SetUpNavigationCache()

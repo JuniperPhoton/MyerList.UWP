@@ -1,15 +1,12 @@
 ﻿using JP.Utils.Helper;
-using MyerList.Helper;
 using MyerList.Interface;
+using MyerList.Util;
 using MyerListUWP.Helper;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Phone.UI.Input;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -73,7 +70,7 @@ namespace MyerList.Base
 
         protected virtual void SetUpTitleBar()
         {
-            TitleBarHelper.SetUpForeBlackTitleBar();
+            TitleBarHelper.SetUpTitleBarColorForDarkText();
         }
 
         protected virtual void SetUpStatusBar()
@@ -91,7 +88,7 @@ namespace MyerList.Base
             try
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += BindablePage_BackRequested;
-                if (APIInfoHelper.HasHardwareButton)
+                if (APIInfoUtil.HasHardwareButton)
                 {
                     HardwareButtons.BackPressed += HardwareButtons_BackPressed;
                 }
@@ -107,7 +104,7 @@ namespace MyerList.Base
             try
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= BindablePage_BackRequested;
-                if (APIInfoHelper.HasHardwareButton)
+                if (APIInfoUtil.HasHardwareButton)
                 {
                     HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 }

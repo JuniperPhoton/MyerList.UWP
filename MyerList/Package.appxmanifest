@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="19204JuniperPhoton.Myers" Publisher="CN=A9291247-1C35-4EE6-8B51-1551AF1EB838" Version="4.0.3.0" />
+  <Identity Name="19204JuniperPhoton.Myers" Publisher="CN=A9291247-1C35-4EE6-8B51-1551AF1EB838" Version="5.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="caae7683-22ba-4328-9dc4-25540c6c789a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MyerList</DisplayName>
@@ -17,11 +17,8 @@
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MyerList.App">
       <uap:VisualElements DisplayName="MyerList" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\tran_logo.png" Description="MyerList" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" ShortName="MyerList">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square310x310Logo" />
-          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#efefef" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#f5f5f5" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait" />
         </uap:InitialRotationPreference>

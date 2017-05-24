@@ -22,6 +22,7 @@ using MyerListUWP.Common;
 using MyerList.UC;
 using System.Collections.Generic;
 using MyerListShared;
+using MyerList.Util;
 
 namespace MyerList.ViewModel
 {
@@ -70,10 +71,7 @@ namespace MyerList.ViewModel
             }
         }
 
-        #region 汉堡包/类别/导航
-        /// <summary>
-        /// 选择了的类别，值表示的只是顺序
-        /// </summary>
+        #region Navigation
         private int _selectedCate;
         public int SelectedCate
         {
@@ -154,9 +152,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 0为显示待办事项的，1为显示已删除的
-        /// </summary>
         private int _selectedPage;
         public int SelectedPage
         {
@@ -204,10 +199,7 @@ namespace MyerList.ViewModel
         }
         #endregion
 
-        #region 账号
-        /// <summary>
-        ///是否显示要求登录按钮
-        /// </summary>
+        #region Account
         private Visibility _showLoginBtnVisibility;
         public Visibility ShowLoginBtnVisibility
         {
@@ -222,9 +214,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 是否显示账户信息
-        /// </summary>
         private Visibility _showAccountInfoVisibility;
         public Visibility ShowAccountInfoVisibility
         {
@@ -242,9 +231,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 表示当前的用户
-        /// </summary>
         private MyerListUser _currentUser;
         public MyerListUser CurrentUser
         {
@@ -295,9 +281,6 @@ namespace MyerList.ViewModel
         #endregion
 
         #region CommandBar
-        /// <summary>
-        /// 显示加载条
-        /// </summary>
         private Visibility _isLoading;
         public Visibility IsLoading
         {
@@ -312,9 +295,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 点击+号添加新的待办事项
-        /// </summary>
         private RelayCommand _addCommand;
         public RelayCommand AddCommand
         {
@@ -336,9 +316,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 同步列表
-        /// </summary>
         private RelayCommand _syncCommand;
         public RelayCommand SyncCommand
         {
@@ -357,7 +334,7 @@ namespace MyerList.ViewModel
 
         #endregion
 
-        #region 添加/修改面板
+        #region Add or modify
         private bool _showPaneOpen;
         public bool ShowPaneOpen
         {
@@ -372,9 +349,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 对话框显示的标题
-        /// </summary>
         private string _modetitle;
         public string ModeTitle
         {
@@ -390,9 +364,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 当前添加类别,数值表示的顺序
-        /// </summary>
         private int _addingCate;
         public int AddingCate
         {
@@ -446,10 +417,6 @@ namespace MyerList.ViewModel
             }
         }
 
-
-        /// <summary>
-        /// 添加/修改待办事项时候的“完成”
-        /// </summary>
         private RelayCommand _okCommand;
         public RelayCommand OkCommand
         {
@@ -462,9 +429,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        ///添加/修改待办事项时候的“取消”
-        /// </summary>
         private RelayCommand _cancelCommand;
         public RelayCommand CancelCommand
         {
@@ -484,7 +448,7 @@ namespace MyerList.ViewModel
 
         #endregion
 
-        #region 待办事项列表本身
+        #region List
         public Visibility ShowCategory
         {
             get
@@ -494,9 +458,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 表示当前添加的待办事项
-        /// </summary>
         private ToDo _editedToDo;
         public ToDo EditedToDo
         {
@@ -514,9 +475,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        ///显示没有待办事项
-        /// </summary>
         private Visibility _shownoitems;
         public Visibility ShowNoItems
         {
@@ -531,9 +489,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 所有待办事项
-        /// </summary>
         private ObservableCollection<ToDo> _myAllToDos;
         public ObservableCollection<ToDo> AllToDos
         {
@@ -555,9 +510,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 当前的待办事项
-        /// </summary>
         private IEnumerable<ToDo> _currentDisplayToDos;
         public IEnumerable<ToDo> CurrentDisplayToDos
         {
@@ -578,9 +530,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        ///删除待办事项
-        /// </summary>
         private RelayCommand<ToDo> _deleteCommand;
         public RelayCommand<ToDo> DeleteCommand
         {
@@ -594,9 +543,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 完成待办事项
-        /// </summary>
         private RelayCommand<ToDo> _checkCommand;
         public RelayCommand<ToDo> CheckCommand
         {
@@ -610,9 +556,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 点击列表的项目，修改待办事项
-        /// </summary>
         private RelayCommand<ToDo> _modifyCommand;
         public RelayCommand<ToDo> ModifyCommand
         {
@@ -660,9 +603,6 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 修改类别 
-        /// </summary>
         private RelayCommand<ToDo> _changeCateCommand;
         public RelayCommand<ToDo> ChangeCateCommand
         {
@@ -819,6 +759,40 @@ namespace MyerList.ViewModel
 
         #endregion
 
+        private bool _showAboutUC;
+        public bool ShowAboutUC
+        {
+            get
+            {
+                return _showAboutUC;
+            }
+            set
+            {
+                if (_showAboutUC != value)
+                {
+                    _showAboutUC = value;
+                    RaisePropertyChanged(() => ShowAboutUC);
+                }
+            }
+        }
+
+        private bool _showSettingsUC;
+        public bool ShowSettingsUC
+        {
+            get
+            {
+                return _showSettingsUC;
+            }
+            set
+            {
+                if (_showSettingsUC != value)
+                {
+                    _showSettingsUC = value;
+                    RaisePropertyChanged(() => ShowSettingsUC);
+                }
+            }
+        }
+
         #region 抽屉底部命令
 
         private RelayCommand _toStartPageCommand;
@@ -835,42 +809,28 @@ namespace MyerList.ViewModel
             }
         }
 
-        /// <summary>
-        /// 跳到 About 页面
-        /// </summary>
         private RelayCommand _goToAboutCommand;
         public RelayCommand GoToAboutCommand
         {
             get
             {
-                if (_goToAboutCommand != null)
-                {
-                    return _goToAboutCommand;
-                }
+                if (_goToAboutCommand != null) return _goToAboutCommand;
                 return _goToAboutCommand = new RelayCommand(() =>
                 {
-                    Frame frame = Window.Current.Content as Frame;
-                    if (frame != null) frame.Navigate(typeof(AboutPage));
+                    ShowAboutUC = true;
                 });
             }
         }
 
-        /// <summary>
-        /// 跳到 Settings 页面
-        /// </summary>
-        private RelayCommand _gotoSettingCommand;
-        public RelayCommand GoToSettingCommand
+        private RelayCommand _goToSettingsCommand;
+        public RelayCommand GoToSettingsCommand
         {
             get
             {
-                if (_gotoSettingCommand != null)
+                if (_goToSettingsCommand != null) return _goToSettingsCommand;
+                return _goToSettingsCommand = new RelayCommand(() =>
                 {
-                    return _gotoSettingCommand;
-                }
-                return _gotoSettingCommand = new RelayCommand(() =>
-                {
-                    Frame frame = Window.Current.Content as Frame;
-                    if (frame != null) frame.Navigate(typeof(SettingPage));
+                    ShowSettingsUC = true;
                 });
             }
         }
@@ -1570,7 +1530,7 @@ namespace MyerList.ViewModel
                 await HandleActive((LoginMode)param);
             }
 
-            if (APIInfoHelper.HasStatusBar)
+            if (APIInfoUtil.HasStatusBar)
             {
                 StatusBarHelper.SetUpStatusBar();
             }

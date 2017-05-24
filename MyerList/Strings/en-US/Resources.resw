@@ -133,7 +133,7 @@
     <value>e.g: Grab a cup of coffee with my friends this weekend.</value>
   </data>
   <data name="AddTitle" xml:space="preserve">
-    <value>ADD A MEMO</value>
+    <value>ADDING</value>
   </data>
   <data name="BackgrdTaskTS.OffContent" xml:space="preserve">
     <value>OFF</value>
@@ -521,8 +521,5 @@
   </data>
   <data name="ErrorUserExist" xml:space="preserve">
     <value>Account aleady exist.</value>
-  </data>
-  <data name="HintLearnGesture" xml:space="preserve">
-    <value>Swipe to switch categories</value>
   </data>
 </root>

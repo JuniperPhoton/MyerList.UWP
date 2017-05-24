@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using JP.Utils.Data;
 using JP.Utils.Helper;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
 using MyerList.Base;
 using MyerList.Helper;
 using MyerList.Model;
@@ -28,6 +26,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyerListShared;
+using MyerList.Util;
+using MyerList.Common;
 
 namespace MyerListUWP.View
 {
@@ -35,7 +35,6 @@ namespace MyerListUWP.View
     {
         private static double WIDTH_THRESHOLD => 650;
 
-        //数据源
         public MainViewModel MainVM
         {
             get
@@ -44,10 +43,8 @@ namespace MyerListUWP.View
             }
         }
 
-        //当前抽屉是否出现了
         private bool _isDrawerSlided = false;
 
-        //添加/修改的面板是否出现
         public bool IsAddingPaneOpen
         {
             get { return (bool)GetValue(IsAddingPaneOpenProperty); }
@@ -73,6 +70,8 @@ namespace MyerListUWP.View
         private Visual _contentRootGirdVisual;
         private Visual _headerVisual;
         private Visual _hamburgerVisual;
+
+        private EmptyTitleControl _titleBarUc;
 
         public MainPage()
         {
@@ -136,7 +135,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
                 ProgressRing.Foreground = MainVM.CateColor;
-                TitleBarHelper.SetUpForeBlackTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForDarkText();
             }
             else
             {
@@ -151,7 +150,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
-                TitleBarHelper.SetUpForeWhiteTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForLightText();
             }
         }
 
@@ -261,7 +260,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = MainVM.CateColor;
                 TitleTB.Foreground = MainVM.CateColor;
                 ProgressRing.Foreground = MainVM.CateColor;
-                TitleBarHelper.SetUpForeBlackTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForDarkText();
             }
             else
             {
@@ -277,7 +276,7 @@ namespace MyerListUWP.View
                 HamburgerBtn.ForegroundBrush = new SolidColorBrush(Colors.White);
                 TitleTB.Foreground = new SolidColorBrush(Colors.White);
                 ProgressRing.Foreground = new SolidColorBrush(Colors.White);
-                TitleBarHelper.SetUpForeWhiteTitleBar();
+                TitleBarHelper.SetUpTitleBarColorForLightText();
             }
         }
 
@@ -289,25 +288,13 @@ namespace MyerListUWP.View
             if (show)
             {
                 ToggleAddingAnimation(true);
-                TitleBarHelper.SetUpForeWhiteTitleBar();
                 ToggleAnimationWithAddingPanel(false);
                 AddingPanel.SetFocus();
-
-                if(!AppSettings.Instance.LearnGesture())
-                {
-                    LocalSettingHelper.AddValue(AppSettings.LEARNT_ADDING_PANE_GESTURE, true);
-                    ToastService.SendToast(ResourcesHelper.GetResString("HintLearnGesture"), 5000);
-                }
             }
             else
             {
                 ToggleAddingAnimation(false);
                 ToggleAnimationWithAddingPanel(true);
-
-                if (Window.Current.Bounds.Width >= WIDTH_THRESHOLD)
-                {
-                    TitleBarHelper.SetUpForeBlackTitleBar();
-                }
             }
         }
         #endregion
@@ -493,7 +480,7 @@ namespace MyerListUWP.View
         protected override void RegisterHandleBackLogic()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += NewMainPage_BackRequested;
-            if (APIInfoHelper.HasHardwareButton)
+            if (APIInfoUtil.HasHardwareButton)
             {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             }
@@ -502,7 +489,7 @@ namespace MyerListUWP.View
         protected override void UnRegisterHandleBackLogic()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested -= NewMainPage_BackRequested;
-            if (APIInfoHelper.HasHardwareButton)
+            if (APIInfoUtil.HasHardwareButton)
             {
                 HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
             }
@@ -556,16 +543,16 @@ namespace MyerListUWP.View
             }
             Frame.BackStack.Clear();
 
-            var titleBarUC = new EmptyTitleControl();
-            (this.Content as Grid).Children.Add(titleBarUC);
-            Grid.SetColumnSpan(titleBarUC, 5);
-            Grid.SetRowSpan(titleBarUC, 5);
+            _titleBarUc = new EmptyTitleControl();
+            (this.Content as Grid).Children.Add(_titleBarUc);
+            Grid.SetColumnSpan(_titleBarUc, 5);
+            Grid.SetRowSpan(_titleBarUc, 5);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < 720)
+            if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < WIDTH_THRESHOLD)
             {
                 ToggleDrawerAnimation(false);
                 ToggleDrawerMaskAnimation(false);
@@ -585,6 +572,25 @@ namespace MyerListUWP.View
         private async void DisplayedListView_OnReorderStopped()
         {
             await MainVM.UpdateOrderAsync();
+        }
+
+        private void Control_OnShownChanged(object sender, ShownArgs e)
+        {
+            if (e.Shown)
+            {
+                _titleBarUc.Visibility = Visibility.Collapsed;
+                if (_isDrawerSlided && CoreWindow.GetForCurrentThread().Bounds.Width < WIDTH_THRESHOLD)
+                {
+                    _isDrawerSlided = false;
+                    ToggleDrawerAnimation(false);
+                    ToggleDrawerMaskAnimation(false);
+                }
+            }
+            else
+            {
+                _titleBarUc.Visibility = Visibility.Visible;
+                Window.Current.SetTitleBar(_titleBarUc);
+            }
         }
     }
 }

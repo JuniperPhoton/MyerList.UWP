@@ -66,6 +66,16 @@ namespace MyerListUWP
             }
         }
 
+        public static string AppVersion
+        {
+            get
+            {
+                var packageVersion = Package.Current.Id.Version;
+                var version = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+                return version;
+            }
+        }
+
         public static Frame ContentFrame = null;
 
         public App()
@@ -87,7 +97,7 @@ namespace MyerListUWP
 
         private void App_Resuming(object sender, object e)
         {
-            
+
         }
 
         /// <summary>

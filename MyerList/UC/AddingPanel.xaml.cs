@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace MyerList.UC
 {
@@ -65,8 +66,9 @@ namespace MyerList.UC
 
         private void UpdateBackgrdColor(SolidColorBrush targetColorBrush)
         {
-            ColorAnimation.To = targetColorBrush.Color;
-            ChangeColorStory.Begin();
+            TitleChangeColorStoryAnimation.To= OkBtnChangeColorStoryAnimation.To = targetColorBrush.Color;
+            OkBtnChangeColorStory.Begin();
+            TitleChangeColorStory.Begin();
         }
 
         private void AddContentBox_KeyUp(object sender, KeyRoutedEventArgs e)
