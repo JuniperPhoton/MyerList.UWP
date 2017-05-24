@@ -63,7 +63,7 @@
                     CornerRadius="2">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
-                            Margin="8,0,2,0"
+                            Margin="8,0,2,1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="13"
