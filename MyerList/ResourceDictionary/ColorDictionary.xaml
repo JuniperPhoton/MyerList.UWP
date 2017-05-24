@@ -38,6 +38,6 @@
     <SolidColorBrush x:Key="FamilyColorDark">#FFFF2650</SolidColorBrush>
     <SolidColorBrush x:Key="EnterColorDark">#FF35C1C1</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultColorDark">#FF309AD9</SolidColorBrush>
-    <SolidColorBrush x:Key="ReorderThumbColor">#333333</SolidColorBrush>
+    <SolidColorBrush x:Key="ReorderThumbColor">#747474</SolidColorBrush>
     <SolidColorBrush x:Key="ListBtnForeground">#FF9C9C9C</SolidColorBrush>
 </ResourceDictionary>

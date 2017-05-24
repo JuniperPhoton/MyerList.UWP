@@ -133,7 +133,7 @@
     <value>e.g: Grab a cup of coffee with my friends this weekend.</value>
   </data>
   <data name="AddTitle" xml:space="preserve">
-    <value>ADD A MEMO</value>
+    <value>ADDING</value>
   </data>
   <data name="BackgrdTaskTS.OffContent" xml:space="preserve">
     <value>OFF</value>

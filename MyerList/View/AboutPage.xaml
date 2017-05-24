@@ -54,31 +54,37 @@
                     FontWeight="Light"
                     Foreground="{StaticResource MyerListDark}"
                     Text="for Windows 10" />
-                <Grid Margin="0,50,0,0">
+                <Border
+                    Margin="0,10,0,0"
+                    Padding="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource DefaultColorLight}"
+                    CornerRadius="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="8,0,2,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            Text="Version" />
+                        <TextBlock
+                            x:Name="VersionTB"
+                            Margin="2,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            Foreground="White" />
+                    </StackPanel>
+                </Border>
+                <Grid Margin="0,20,0,0">
                     <StackPanel
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Vertical">
-                        <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                            <TextBlock
-                                Margin="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                FontSize="15"
-                                FontWeight="Bold"
-                                Foreground="{StaticResource MyerListBlueLight}"
-                                Text="VERSION" />
-                            <TextBlock
-                                x:Name="VersionTB"
-                                Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                FontSize="15"
-                                FontWeight="Light"
-                                Foreground="{StaticResource MyerListDark}" />
-                        </StackPanel>
                         <StackPanel
                             Margin="0,10,0,0"
                             HorizontalAlignment="Center"
@@ -97,7 +103,7 @@
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Margin="0"
+                                Margin="0,4,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource MyerListThemeFontFamily}"
@@ -122,7 +128,7 @@
                                 Foreground="{StaticResource MyerListBlueLight}"
                                 Text="FEEDBACK" />
                             <Button
-                                Margin="0"
+                                Margin="0,4,0,0"
                                 HorizontalAlignment="Center"
                                 Background="{x:Null}"
                                 BorderBrush="{StaticResource MyerListDark}"
@@ -161,7 +167,7 @@
                             <Button
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                Margin="0"
+                                Margin="0,4,0,0"
                                 HorizontalAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"

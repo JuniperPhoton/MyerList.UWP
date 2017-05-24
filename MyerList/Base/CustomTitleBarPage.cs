@@ -8,7 +8,7 @@ namespace MyerList.Base
 {
     public class CustomTitleBarPage : BindablePage
     {
-        protected TitleBarUC TitleBarUC;
+        protected TitleBarControl TitleBarUC;
 
         public CustomTitleBarPage()
         {
@@ -31,7 +31,7 @@ namespace MyerList.Base
             {
                 throw new ArgumentNullException("The root element of the page should be Grid.");
             }
-            TitleBarUC = new TitleBarUC();
+            TitleBarUC = new TitleBarControl();
             TitleBarUC.OnClickBackBtn += ((sender, e) =>
               {
                   if (Frame.CanGoBack) Frame.GoBack();

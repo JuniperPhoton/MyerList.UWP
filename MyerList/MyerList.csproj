@@ -97,7 +97,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\AGENCYB.TTF" />
     <None Include="MyerList_StoreKey.pfx" />
     <None Include="project.json" />
     <None Include="store.pfx" />
@@ -166,8 +165,8 @@
     <Compile Include="UC\ScheduleControl.xaml.cs">
       <DependentUpon>ScheduleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UC\TitleBarUC.xaml.cs">
-      <DependentUpon>TitleBarUC.xaml</DependentUpon>
+    <Compile Include="UC\TitleBarControl.xaml.cs">
+      <DependentUpon>TitleBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\CategoryColorViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
@@ -339,7 +338,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UC\TitleBarUC.xaml">
+    <Page Include="UC\TitleBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
