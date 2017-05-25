@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyerListUWP.Common.Composition;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace MyerList.UC
         private void InitComposition()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _rootVisual = ElementCompositionPreview.GetElementVisual(RootGrid);
+            _rootVisual = RootGrid.GetVisual();
             _rootVisual.Opacity = 0;
             RootGrid.Visibility = Visibility.Collapsed;
         }

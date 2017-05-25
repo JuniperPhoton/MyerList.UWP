@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Navigation;
 using MyerListShared;
 using MyerList.Util;
 using MyerList.Common;
+using MyerListUWP.Common.Composition;
 
 namespace MyerListUWP.View
 {
@@ -98,21 +99,21 @@ namespace MyerListUWP.View
 
         private void InitComposition()
         {
-            _drawerVisual = ElementCompositionPreview.GetElementVisual(Drawer);
-            _drawerMaskVisual = ElementCompositionPreview.GetElementVisual(MaskBorder);
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _addingPanelVisual = ElementCompositionPreview.GetElementVisual(AddingPanel);
-            _contentRootGirdVisual = ElementCompositionPreview.GetElementVisual(ContentRootGird);
-            _defaultCommandBarVisual = ElementCompositionPreview.GetElementVisual(DefaultCommandBar);
-            _deleteComamndBarVisual = ElementCompositionPreview.GetElementVisual(DeleteCommandBar);
-            _headerVisual = ElementCompositionPreview.GetElementVisual(HeaderSP);
-            _hamburgerVisual = ElementCompositionPreview.GetElementVisual(HamburgerBtn);
+            _drawerVisual = Drawer.GetVisual();
+            _drawerMaskVisual = MaskBorder.GetVisual();
+            _addingPanelVisual = AddingPanel.GetVisual();
+            _contentRootGirdVisual = ContentRootGird.GetVisual();
+            _defaultCommandBarVisual = DefaultCommandBar.GetVisual();
+            _deleteComamndBarVisual = DeleteCommandBar.GetVisual();
+            _headerVisual = HeaderSP.GetVisual();
+            _hamburgerVisual = HamburgerBtn.GetVisual();
 
-            _addingPanelVisual.Offset = new Vector3(-(float)this.ActualWidth, 0f, 0f);
+            _addingPanelVisual.SetTranslation(new Vector3(-(float)this.ActualWidth, 0f, 0f));
 
             _drawerMaskVisual.Opacity = 0;
-            _drawerVisual.Offset = new Vector3(-250, 0f, 0f);
-            _deleteComamndBarVisual.Offset = new Vector3(0f, 50f, 0f);
+            _drawerVisual.SetTranslation(new Vector3(-250, 0f, 0f));
+            _deleteComamndBarVisual.SetTranslation(new Vector3(0f, 50f, 0f));
 
             MaskBorder.Visibility = Visibility.Collapsed;
         }
@@ -221,7 +222,7 @@ namespace MyerListUWP.View
         {
             if (!IsAddingPaneOpen)
             {
-                _addingPanelVisual.Offset = new Vector3(-(float)this.ActualWidth, 0f, 0f);
+                _addingPanelVisual.SetTranslation(new Vector3(-(float)this.ActualWidth, 0f, 0f));
             }
 
             if (e?.NewSize.Width > WIDTH_THRESHOLD && e.PreviousSize.Width <= WIDTH_THRESHOLD && !_isDrawerSlided)
@@ -306,7 +307,7 @@ namespace MyerListUWP.View
             offsetAnim.InsertKeyFrame(1f, show ? 0f : -250);
             offsetAnim.Duration = TimeSpan.FromMilliseconds(300);
 
-            _drawerVisual.StartAnimation("Offset.X", offsetAnim);
+            _drawerVisual.StartAnimation(_drawerVisual.GetTranslationXPropertyName(), offsetAnim);
         }
 
         private void ToggleDrawerMaskAnimation(bool show)
@@ -373,8 +374,8 @@ namespace MyerListUWP.View
                 MaskBorder.Visibility = Visibility.Visible;
                 _drawerMaskVisual.Opacity += 0.02f;
             }
-            var targetOffsetX = _drawerVisual.Offset.X + e.Delta.Translation.X;
-            _drawerVisual.Offset = new Vector3((float)(targetOffsetX > 1 ? 1 : targetOffsetX), 0f, 0f);
+            var targetOffsetX = _drawerVisual.GetTranslation().X + e.Delta.Translation.X;
+            _drawerVisual.SetTranslation(new Vector3((float)(targetOffsetX > 1 ? 1 : targetOffsetX), 0f, 0f));
         }
         #endregion
 
@@ -385,7 +386,7 @@ namespace MyerListUWP.View
             offsetAnimation.InsertKeyFrame(1f, show ? 0f : -(float)this.ActualWidth);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
-            _addingPanelVisual.StartAnimation("Offset.x", offsetAnimation);
+            _addingPanelVisual.StartAnimation(_addingPanelVisual.GetTranslationXPropertyName(), offsetAnimation);
         }
 
         private void SwitchToDeleteCommandBar()
@@ -399,8 +400,8 @@ namespace MyerListUWP.View
             offsetAnimation2.Duration = TimeSpan.FromMilliseconds(300);
             offsetAnimation2.DelayTime = TimeSpan.FromMilliseconds(200);
 
-            _defaultCommandBarVisual.StartAnimation("Offset.y", offsetAnimation);
-            _deleteComamndBarVisual.StartAnimation("Offset.y", offsetAnimation2);
+            _defaultCommandBarVisual.StartAnimation(_defaultCommandBarVisual.GetTranslationYPropertyName(), offsetAnimation);
+            _deleteComamndBarVisual.StartAnimation(_deleteComamndBarVisual.GetTranslationYPropertyName(), offsetAnimation2);
         }
 
         private void SwitchToDefaultCommandBar()
@@ -414,8 +415,8 @@ namespace MyerListUWP.View
             offsetAnimation2.InsertKeyFrame(1f, 50f);
             offsetAnimation2.Duration = TimeSpan.FromMilliseconds(300);
 
-            _defaultCommandBarVisual.StartAnimation("Offset.y", offsetAnimation);
-            _deleteComamndBarVisual.StartAnimation("Offset.y", offsetAnimation2);
+            _defaultCommandBarVisual.StartAnimation(_defaultCommandBarVisual.GetTranslationYPropertyName(), offsetAnimation);
+            _deleteComamndBarVisual.StartAnimation(_deleteComamndBarVisual.GetTranslationYPropertyName(), offsetAnimation2);
         }
 
         private void ToggleHeaderAnimation(bool showHamburger)
@@ -430,7 +431,7 @@ namespace MyerListUWP.View
 
             HamburgerBtn.IsEnabled = true;
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            _headerVisual.StartAnimation("Offset.x", offsetAnimation);
+            _headerVisual.StartAnimation(_headerVisual.GetTranslationXPropertyName(), offsetAnimation);
             _hamburgerVisual.StartAnimation("Opacity", fadeAnimation);
             batch.Completed += ((sender, e) =>
               {
@@ -460,14 +461,12 @@ namespace MyerListUWP.View
             offsetAnimation3.InsertKeyFrame(1f, show ? 0 : 50f);
             offsetAnimation3.Duration = TimeSpan.FromMilliseconds(800);
 
-            _contentRootGirdVisual.StartAnimation("Offset.x", offsetAnimation2);
-            _defaultCommandBarVisual.StartAnimation("Offset.y", offsetAnimation3);
+            _contentRootGirdVisual.StartAnimation(_contentRootGirdVisual.GetTranslationXPropertyName(), offsetAnimation2);
+            _defaultCommandBarVisual.StartAnimation(_defaultCommandBarVisual.GetTranslationYPropertyName(), offsetAnimation3);
 
             if (this.ActualWidth >= WIDTH_THRESHOLD)
-                _drawerVisual.StartAnimation("Offset.x", offsetAnimation);
+                _drawerVisual.StartAnimation(_drawerMaskVisual.GetTranslationXPropertyName(), offsetAnimation);
         }
-
-
         #endregion
 
         #region Override

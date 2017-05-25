@@ -1,8 +1,8 @@
-﻿using CompositionHelper;
-using JP.Utils.Helper;
+﻿using JP.Utils.Helper;
 using MyerList.Helper;
 using MyerList.Interface;
 using MyerList.UC;
+using MyerListUWP.Common.Composition;
 using MyerListUWP.Helper;
 using System;
 using System.Numerics;
@@ -70,7 +70,7 @@ namespace MyerList.Common
         {
             if (!Shown)
             {
-                _rootVisual.Offset = new Vector3(0f, (float)ActualHeight, 0f);
+                _rootVisual.SetTranslation(new Vector3(0f, (float)ActualHeight, 0f));
             }
         }
 
@@ -87,7 +87,6 @@ namespace MyerList.Common
             {
                 Shown = false;
             };
-            //Window.Current.SetTitleBar(this);
             if (DeviceHelper.IsMobile)
             {
                 StatusBarHelper.SetUpBlackStatusBar();
@@ -104,7 +103,7 @@ namespace MyerList.Common
             offsetAnimation.InsertKeyFrame(1f, Shown ? 0f : (float)ActualHeight);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(800);
 
-            _rootVisual.StartAnimation("Offset.y", offsetAnimation);
+            _rootVisual.StartAnimation(_rootVisual.GetTranslationYPropertyName(), offsetAnimation);
         }
     }
 }

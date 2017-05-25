@@ -6,6 +6,7 @@ using MyerListCustomControl;
 using MyerListShared;
 using MyerListUWP;
 using MyerListUWP.Common;
+using MyerListUWP.Common.Composition;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -50,8 +51,8 @@ namespace MyerList.UC
                 CateColorsVM = new CategoryColorViewModel();
 
                 _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-                _colorGridVisual = ElementCompositionPreview.GetElementVisual(ColorGrid);
-                _cateListVisual = ElementCompositionPreview.GetElementVisual(CateListGrid);
+                _colorGridVisual = ColorGrid.GetVisual();
+                _cateListVisual = CateListGrid.GetVisual();
 
                 this.Loaded += CatePersonalizationControl_Loaded;
 
@@ -71,7 +72,7 @@ namespace MyerList.UC
         {
             this.RootGrid.Clip = new RectangleGeometry();
             this.RootGrid.Clip.Rect = new Rect(0, 0, this.RootGrid.ActualWidth, this.RootGrid.ActualHeight);
-            _colorGridVisual.Offset = new Vector3(0f, (float)this.RootGrid.ActualHeight, 0f);
+            _colorGridVisual.SetTranslation(new Vector3(0f, (float)this.RootGrid.ActualHeight, 0f));
         }
 
         private async void OkBtn_Click(object sender, RoutedEventArgs e)
@@ -144,7 +145,7 @@ namespace MyerList.UC
             offsetAnimation.InsertKeyFrame(1f, show?0f:(float)RootGrid.ActualHeight);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
-            _colorGridVisual.StartAnimation("Offset.Y", offsetAnimation);
+            _colorGridVisual.StartAnimation(_colorGridVisual.GetTranslationYPropertyName(), offsetAnimation);
         }
 
         private void ToggleOrNotCateList(bool toggle)
@@ -153,7 +154,7 @@ namespace MyerList.UC
             offsetAnimation.InsertKeyFrame(1f, toggle ? -100f : 0f);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(800);
 
-            _cateListVisual.StartAnimation("offset.y", offsetAnimation);
+            _cateListVisual.StartAnimation(_cateListVisual.GetTranslationYPropertyName(), offsetAnimation);
         }
 
         public int CreateNewID()

@@ -12,6 +12,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using System.Numerics;
 using System.Threading.Tasks;
+using MyerListUWP.Common.Composition;
 
 namespace MyerList.UC
 {
@@ -44,7 +45,7 @@ namespace MyerList.UC
         private void InitComposition()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _rootVisual = ElementCompositionPreview.GetElementVisual(RootGrid);
+            _rootVisual = RootGrid.GetVisual();
         }
 
         private void ScheduleControl_Loaded(object sender, RoutedEventArgs e)
@@ -72,7 +73,7 @@ namespace MyerList.UC
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            _rootVisual.StartAnimation("Offset.X", offsetAnimation);
+            _rootVisual.StartAnimation(_rootVisual.GetTranslationXPropertyName(), offsetAnimation);
             batch.Completed += async(sender, e) =>
               {
                   await Task.Delay(500);
@@ -85,17 +86,17 @@ namespace MyerList.UC
         {
             e.Handled = true;
 
-            var x = _rootVisual.Offset.X;
-            _rootVisual.Offset = new Vector3((float)(x + e.Delta.Translation.X), 0f, 0f);
+            var x = _rootVisual.GetTranslation().X;
+            _rootVisual.SetTranslation(new Vector3((float)(x + e.Delta.Translation.X), 0f, 0f));
 
             //完成待办事项
-            if (_rootVisual.Offset.X > 0)
+            if (_rootVisual.GetTranslation().X > 0)
             {
                 if (_isToBeDeleted)
                 {
                     return;
                 }
-                if (_rootVisual.Offset.X > 100)
+                if (_rootVisual.GetTranslation().X > 100)
                 {
                     if (!_isToBeDone)
                     {
@@ -112,7 +113,7 @@ namespace MyerList.UC
                 {
                     return;
                 }
-                if (_rootVisual.Offset.X < -100)
+                if (_rootVisual.GetTranslation().X < -100)
                 {
                     if (!_isToBeDeleted)
                     {

@@ -2,6 +2,7 @@
 using MyerList.Base;
 using MyerList.Util;
 using MyerList.ViewModel;
+using MyerListUWP.Common.Composition;
 using MyerListUWP.Helper;
 using System;
 using System.Collections.Generic;
@@ -37,12 +38,12 @@ namespace MyerList
 
             this.DataContext = StartVM = new StartViewModel();
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            _logoVisual = ElementCompositionPreview.GetElementVisual(LogoImage);
-            _nameVisual = ElementCompositionPreview.GetElementVisual(NameSP);
-            _subTitleVisual = ElementCompositionPreview.GetElementVisual(SubtitleTB);
-            _loginBtnVisual = ElementCompositionPreview.GetElementVisual(LoginBtn);
-            _registerBtnVisual = ElementCompositionPreview.GetElementVisual(RegisterBtn);
-            _offlineBtnVisual = ElementCompositionPreview.GetElementVisual(OfflineBtn);
+            _logoVisual = LogoImage.GetVisual();
+            _nameVisual = NameSP.GetVisual();
+            _subTitleVisual = SubtitleTB.GetVisual();
+            _loginBtnVisual = LoginBtn.GetVisual();
+            _registerBtnVisual = RegisterBtn.GetVisual();
+            _offlineBtnVisual = OfflineBtn.GetVisual();
 
             _visualList = new List<Visual>();
             _visualList.Add(_logoVisual);
@@ -59,7 +60,7 @@ namespace MyerList
         {
             _visualList.ForEach(s =>
             {
-                s.Offset = new Vector3((float)Window.Current.Bounds.Width / 10f, 0f, 0f);
+                s.SetTranslation(new Vector3((float)Window.Current.Bounds.Width / 10f, 0f, 0f));
                 s.Opacity = 0;
             });
 
@@ -77,7 +78,7 @@ namespace MyerList
             {
                 var visual = _visualList[i];
                 offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(i * 50);
-                visual.StartAnimation("Offset.X", offsetAnimation);
+                visual.StartAnimation(visual.GetTranslationXPropertyName(), offsetAnimation);
                 visual.StartAnimation("Opacity", fadeAnimation);
             }
         }

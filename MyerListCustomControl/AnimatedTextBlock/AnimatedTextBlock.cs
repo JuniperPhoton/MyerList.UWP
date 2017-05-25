@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyerListUWP.Common.Composition;
+using System;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -76,8 +77,8 @@ namespace MyerListCustomControl
             rootGrid = GetTemplateChild("RootGrid") as Grid;
 
             _compositor = ElementCompositionPreview.GetElementVisual(rootGrid).Compositor;
-            _tb1Visual = ElementCompositionPreview.GetElementVisual(textblock1);
-            _tb2Visual = ElementCompositionPreview.GetElementVisual(textblock2);
+            _tb1Visual = textblock1.GetVisual();
+            _tb2Visual = textblock2.GetVisual();
             _tb2Visual.Opacity = 0f;
             _tb2Visual.Offset = new Vector3(50f, 0f, 0f);
 
@@ -108,8 +109,8 @@ namespace MyerListCustomControl
             fadeAnimation2.Duration = TimeSpan.FromMilliseconds(400);
 
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-            _tb1Visual.StartAnimation("Offset.X", offsetAnimation1);
-            _tb2Visual.StartAnimation("Offset.X", offsetAnimation2);
+            _tb1Visual.StartAnimation(_tb1Visual.GetTranslationXPropertyName(), offsetAnimation1);
+            _tb2Visual.StartAnimation(_tb2Visual.GetTranslationXPropertyName(), offsetAnimation2);
             _tb1Visual.StartAnimation("Opacity", fadeAnimation1);
             _tb2Visual.StartAnimation("Opacity", fadeAnimation2);
             batch.Completed += async(sender, ex) =>
@@ -124,10 +125,10 @@ namespace MyerListCustomControl
             await tcs.Task;
             textblock1.Text = newValue;
 
-            _tb1Visual.Offset = new Vector3(0f, 0f, 0f);
+            _tb1Visual.SetTranslation(new Vector3(0f, 0f, 0f));
             _tb1Visual.Opacity = 1f;
 
-            _tb2Visual.Offset = new Vector3(50f, 0f, 0f);
+            _tb2Visual.SetTranslation(new Vector3(50f, 0f, 0f));
             _tb2Visual.Opacity = 0;
         }
     }
