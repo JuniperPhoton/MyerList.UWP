@@ -14,17 +14,22 @@
         <Storyboard x:Name="ColorStory">
             <ColorAnimation
                 x:Name="ColorAnimation"
-                Storyboard.TargetName="HamGrid"
+                Storyboard.TargetName="BackgroundBorder"
                 Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
                 Duration="0:0:0.3" />
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="HamGrid" Background="{StaticResource DefaultColor}">
+    <Grid x:Name="HamGrid" Background="{StaticResource AppHostBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        <Border
+            x:Name="BackgroundBorder"
+            Grid.RowSpan="5"
+            Background="{StaticResource DefaultColor}"
+            Opacity="0.4" />
         <Grid>
             <StackPanel
                 Margin="0,0,0,30"

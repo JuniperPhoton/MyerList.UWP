@@ -1,0 +1,21 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:backdrop="using:MyerList.Common.Brush">
+    <backdrop:AcrylicBrush
+        x:Key="AppBackgroundBrush"
+        BackdropFactor="0.5"
+        BlurAmount="10"
+        TintColor="White"
+        TintColorFactor="1.0" />
+    <backdrop:AcrylicBrush
+        x:Key="AppBackgroundBrushDark"
+        BackdropFactor="0.2"
+        BlurAmount="10"
+        TintColor="White"
+        TintColorFactor="3.0" />
+    <backdrop:AcrylicHostBrush
+        x:Key="AppHostBackgroundBrush"
+        BlurAmount="2"
+        TintColor="Black" />
+</ResourceDictionary>
