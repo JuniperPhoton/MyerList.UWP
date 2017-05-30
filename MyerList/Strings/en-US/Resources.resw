@@ -163,7 +163,10 @@
     <value>Invalid Email</value>
   </data>
   <data name="EmailMeTB.Text" xml:space="preserve">
-    <value>Email me</value>
+    <value>I have an idea</value>
+  </data>
+  <data name="GithubTB.Text" xml:space="preserve">
+    <value>Contribute your code</value>
   </data>
   <data name="EnjoyTB.Text" xml:space="preserve">
     <value>Enjoy your day ;-)</value>
@@ -238,7 +241,7 @@
     <value>Please confirm that your password is right.</value>
   </data>
   <data name="RateTB.Text" xml:space="preserve">
-    <value>I like it!</value>
+    <value>I like it</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
@@ -301,10 +304,10 @@
     <value>Sync</value>
   </data>
   <data name="PrivacyTB.Text" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Privacy policy</value>
   </data>
   <data name="NoticeHint.Text" xml:space="preserve">
-    <value>Need to restart MyerList to change language.</value>
+    <value>Need to restart MyerList to change language</value>
   </data>
   <data name="LoginHintTB.Text" xml:space="preserve">
     <value>Login to sync your to-dos on all your devices</value>
@@ -364,7 +367,7 @@
     <value>Background Task</value>
   </data>
   <data name="HabbitTB.Text" xml:space="preserve">
-    <value>UserHabbit</value>
+    <value>Personalization</value>
   </data>
   <data name="TileTB.Text" xml:space="preserve">
     <value>Live Tile</value>

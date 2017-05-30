@@ -169,7 +169,10 @@
     <value>电子邮箱格式不正确</value>
   </data>
   <data name="EmailMeTB.Text" xml:space="preserve">
-    <value>给我发邮件</value>
+    <value>我有一个主意</value>
+  </data>
+  <data name="GithubTB.Text" xml:space="preserve">
+    <value>贡献代码</value>
   </data>
   <data name="EnjoyTB.Text" xml:space="preserve">
     <value>享受这一天 ;-)</value>
@@ -244,7 +247,7 @@
     <value>请确认两次输入的密码相同</value>
   </data>
   <data name="RateTB.Text" xml:space="preserve">
-    <value>给予评价;)</value>
+    <value>给予评价:P</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>注册</value>
@@ -364,7 +367,7 @@
     <value>后台更新磁贴</value>
   </data>
   <data name="HabbitTB.Text" xml:space="preserve">
-    <value>用户习惯</value>
+    <value>个性化</value>
   </data>
   <data name="TileTB.Text" xml:space="preserve">
     <value>动态磁贴</value>

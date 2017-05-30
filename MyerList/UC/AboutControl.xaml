@@ -8,7 +8,6 @@
     d:DesignHeight="700"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
     <Grid Background="{StaticResource MyerListGray}">
         <Image
             Opacity="0.02"
@@ -20,11 +19,6 @@
             VerticalScrollBarVisibility="Hidden"
             VerticalScrollMode="Auto">
             <StackPanel VerticalAlignment="Center">
-                <Image
-                    x:Name="LogoImg"
-                    MaxHeight="130"
-                    Margin="0,0,0,10"
-                    Source="ms-appx:///Assets/raw.png" />
                 <StackPanel
                     x:Name="stackPanel"
                     Margin="0,0,0,0"
@@ -32,28 +26,39 @@
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal"
                     RenderTransformOrigin="0.5,0.5">
+                    <Image
+                        x:Name="LogoImg"
+                        Width="40"
+                        Margin="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="ms-appx:///Assets/raw.png" />
                     <TextBlock
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Center"
                         FontFamily="{StaticResource MyerListThemeFontFamily}"
                         FontSize="35"
                         FontWeight="Light"
-                        Foreground="{StaticResource MyerListBlueLight}"
+                        Foreground="Black"
                         Text="Myer" />
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontFamily="{StaticResource MyerListThemeFontFamily}"
                         FontSize="35"
                         FontWeight="Bold"
-                        Foreground="{StaticResource MyerListBlueLight}"
+                        Foreground="Black"
                         Text="List" />
                 </StackPanel>
                 <TextBlock
                     Grid.Row="1"
+                    Margin="0,12,0,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     FontFamily="{StaticResource MyerListThemeFontFamily}"
-                    FontSize="20"
+                    FontSize="15"
                     FontWeight="Light"
                     Foreground="{StaticResource MyerListDark}"
-                    Text="for Windows 10" />
+                    Text="for Windows 10 and Android" />
                 <Border
                     Margin="0,10,0,0"
                     Padding="2"
@@ -96,7 +101,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                FontSize="15"
+                                FontSize="20"
                                 FontWeight="Bold"
                                 Foreground="{StaticResource MyerListBlueLight}"
                                 Text="DEVELOPER" />
@@ -123,12 +128,13 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                FontSize="15"
+                                FontSize="20"
                                 FontWeight="Bold"
                                 Foreground="{StaticResource MyerListBlueLight}"
                                 Text="FEEDBACK" />
                             <Button
                                 Margin="0,4,0,0"
+                                Padding="8"
                                 HorizontalAlignment="Center"
                                 Background="{x:Null}"
                                 BorderBrush="{StaticResource MyerListDark}"
@@ -146,7 +152,29 @@
                                     FontSize="15"
                                     FontWeight="Light"
                                     Foreground="{StaticResource MyerListDark}"
-                                    Text="EMAIL ME" />
+                                    Text="I HAVE AN IDEA" />
+                            </Button>
+                            <Button
+                                Margin="0,4,0,0"
+                                Padding="8"
+                                HorizontalAlignment="Center"
+                                Background="{x:Null}"
+                                BorderBrush="{StaticResource MyerListDark}"
+                                BorderThickness="0"
+                                Click="GithubClick"
+                                Style="{StaticResource ButtonCommonStyle}">
+                                <TextBlock
+                                    x:Uid="GithubTB"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                    FontSize="15"
+                                    FontWeight="Light"
+                                    Foreground="{StaticResource MyerListDark}"
+                                    Text="CONTRIBUTE YOUR CODE" />
                             </Button>
                         </StackPanel>
                         <StackPanel
@@ -160,7 +188,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                FontSize="15"
+                                FontSize="20"
                                 FontWeight="Bold"
                                 Foreground="{StaticResource MyerListBlueLight}"
                                 Text="RATE" />
@@ -168,6 +196,7 @@
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Margin="0,4,0,0"
+                                Padding="8"
                                 HorizontalAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
@@ -191,14 +220,6 @@
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-                <StackPanel
-                    Margin="0,50,0,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal" />
-                <StackPanel
-                    Margin="0,5,0,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

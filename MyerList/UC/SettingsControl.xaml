@@ -33,7 +33,6 @@
                     VerticalAlignment="Bottom"
                     FontFamily="{StaticResource MyerListThemeFontFamily}"
                     FontSize="26.667"
-                    FontWeight="Bold"
                     Foreground="{StaticResource MyerListDark}"
                     Text="SETTINGS" />
             </Grid>
@@ -164,11 +163,11 @@
                             TextWrapping="Wrap" />
                     </Border>
                     <ComboBox
-                        Margin="10"
+                        MinHeight="10"
+                        Margin="12"
                         HorizontalAlignment="Stretch"
-                        Background="White"
-                        BorderBrush="#FFE2E2E2"
-                        BorderThickness="1.6"
+                        BorderBrush="{StaticResource MyerListGrayDark}"
+                        BorderThickness="1"
                         FontFamily="{StaticResource MyerListThemeFontFamily}"
                         Foreground="Black"
                         ItemContainerStyle="{StaticResource ComboBoxItemStyle1}"
@@ -189,9 +188,9 @@
                         Margin="10"
                         FontFamily="{StaticResource MyerListThemeFontFamily}"
                         FontSize="14.667"
-                        Foreground="Black"
+                        Foreground="{StaticResource DeletedColor}"
                         RenderTransformOrigin="0.5,0.5"
-                        Text=""
+                        Text="Need to restart MyerList to change language"
                         TextWrapping="Wrap" />
                     <Border
                         Margin="10,0,0,0"
@@ -217,14 +216,14 @@
                         BorderThickness="0"
                         Command="{x:Bind SettingVM.LogoutCommand}"
                         Style="{StaticResource ButtonCommonStyle}">
-                        <Grid Background="{StaticResource DefaultColorLight}">
+                        <Grid Background="{StaticResource MyerListGrayDark}">
                             <TextBlock
                                 x:Uid="LogoutTB"
                                 Margin="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                Foreground="White"
+                                Foreground="Black"
                                 Text="LOGOUT" />
                         </Grid>
                     </Button>

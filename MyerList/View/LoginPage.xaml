@@ -1,24 +1,154 @@
-﻿<base:CustomTitleBarPage x:Class="MyerList.LoginPage"
-                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                         xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-                         xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-                         xmlns:attach="using:JP.Utils.Framework"
-                         xmlns:base="using:MyerList.Base"
-                         xmlns:control="using:JP.Utils.Control"
-                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                         xmlns:local="using:MyerList"
-                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:triggers="using:JP.CustomTriggers"
-                         xmlns:uc="using:MyerList.UC"
-                         Background="{StaticResource MyerListGray}"
-                         mc:Ignorable="d">
+﻿<base:CustomTitleBarPage
+    x:Class="MyerList.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:attach="using:JP.Utils.Framework"
+    xmlns:base="using:MyerList.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:JP.CustomTriggers"
+    xmlns:uc="using:MyerList.UC"
+    Background="{StaticResource MyerListGray}"
+    mc:Ignorable="d">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
             <attach:InvokeCommandByKeyDown Command="{x:Bind LoginVM.NextCommand}" PressedKey="Enter" />
         </Core:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
     <Grid Background="{StaticResource MyerListGray}">
+        <Image
+            x:Name="BackgrdImage"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            Margin="0"
+            Opacity="0.02"
+            Source="ms-appx:///Assets/BackgrdImage.png"
+            Stretch="UniformToFill" />
+        <Border
+            x:Name="MainBorder"
+            MaxWidth="600"
+            Margin="20,0,20,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            BorderThickness="0,0,3,3">
+            <StackPanel VerticalAlignment="Center" Background="White">
+                <Grid Height="8" Background="{StaticResource DefaultColor}" />
+                <StackPanel
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Background="White"
+                    Orientation="Vertical"
+                    RenderTransformOrigin="0.5,0.5">
+                    <TextBlock
+                        Margin="10,20,10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        FontSize="23"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="{x:Bind LoginVM.Title, Mode=OneWay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="LoginHint"
+                        x:Uid="LoginHintTB"
+                        Margin="10,10,10,20"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource MyerListThemeFontFamily}"
+                        FontSize="15"
+                        FontWeight="Light"
+                        Foreground="#9A000000"
+                        Text="Login to sync your todos"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <Grid
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    Background="White"
+                    RenderTransformOrigin="0.5,0.5">
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Orientation="Vertical">
+                        <TextBox
+                            x:Uid="Emailbox"
+                            Grid.Row="2"
+                            Margin="10,10,10,0"
+                            Padding="10,3,10,5"
+                            VerticalAlignment="Center"
+                            Background="{x:Null}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            FontFamily="{StaticResource MyerListThemeFontFamily}"
+                            InputScope="EmailSmtpAddress"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="Email"
+                            Text="{x:Bind LoginVM.TempEmail, Mode=TwoWay}"
+                            TextWrapping="Wrap" />
+                        <PasswordBox
+                            x:Uid="PasswordBox"
+                            Grid.Row="3"
+                            Margin="10,20,10,0"
+                            VerticalAlignment="Center"
+                            Background="{x:Null}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Password="{x:Bind LoginVM.InputPassword, Mode=TwoWay}"
+                            PlaceholderText="Password" />
+                        <PasswordBox
+                            x:Uid="ConfirmBox"
+                            Grid.Row="4"
+                            Margin="10,20,10,0"
+                            VerticalAlignment="Center"
+                            Background="{x:Null}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Password="{x:Bind LoginVM.ConfirmPassword, Mode=TwoWay}"
+                            PlaceholderText="Confirm Password"
+                            Visibility="{x:Bind LoginVM.ShowRegister, Mode=OneWay}" />
+                        <Button
+                            Grid.Row="5"
+                            Height="40"
+                            Margin="20"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Command="{x:Bind LoginVM.NextCommand}"
+                            Style="{StaticResource ButtonCommonStyle}">
+                            <Border Background="{StaticResource MyerListBlueLight}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource MyerListThemeFontFamily}"
+                                    Foreground="{StaticResource MyerListGray}"
+                                    Text="{x:Bind LoginVM.BtnContent, Mode=OneWay}" />
+                            </Border>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Button
+            x:Name="PrivacyBtn"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Background="{x:Null}"
+            Click="PrivacyBtn_Click"
+            Style="{StaticResource ButtonCommonStyle}">
+            <Border>
+                <TextBlock
+                    x:Uid="PrivacyTB"
+                    Foreground="Black"
+                    Text="Private policy" />
+            </Border>
+        </Button>
+        <uc:LoadingControl IsShown="{x:Bind LoginVM.IsLoading, Mode=OneWay}" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -39,134 +169,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Image x:Name="BackgrdImage"
-               Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
-               Margin="0"
-               Opacity="0.02"
-               Source="ms-appx:///Assets/BackgrdImage.png"
-               Stretch="UniformToFill" />
-        <!--<Image x:Name="BackgrdImage" Grid.RowSpan="2" Source="ms-appx:///Assets/loginbackgrd.jpg" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0" />-->
-        <Border x:Name="MainBorder"
-                MaxWidth="600"
-                Margin="20 0 20 0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                BorderThickness="0,0,3,3">
-            <StackPanel VerticalAlignment="Center" Background="White">
-                <Grid Height="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Rectangle Fill="#FF6C5C80" />
-                    <Rectangle Grid.Column="1" Fill="#FFFCC842" />
-                    <Rectangle Grid.Column="2" Fill="#FF12B5B1" />
-                    <Rectangle Grid.Column="3" Fill="{StaticResource FamilyColorLight}" />
-                </Grid>
-                <StackPanel Margin="0"
-                            VerticalAlignment="Bottom"
-                            Background="White"
-                            Orientation="Vertical"
-                            RenderTransformOrigin="0.5,0.5">
-                    <TextBlock Margin="10,20,10,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontFamily="{StaticResource MyerListThemeFontFamily}"
-                               FontSize="23"
-                               FontWeight="Bold"
-                               Foreground="Black"
-                               Text="{x:Bind LoginVM.Title, Mode=OneWay}"
-                               TextWrapping="Wrap" />
-                    <TextBlock x:Uid="LoginHintTB"
-                               x:Name="LoginHint"
-                               Margin="10,10,10,20"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontFamily="{StaticResource MyerListThemeFontFamily}"
-                               FontSize="15"
-                               FontWeight="Light"
-                               Foreground="#9A000000"
-                               Text="Login to sync your todos"
-                               TextWrapping="Wrap" />
-                </StackPanel>
-                <Grid Grid.Row="1"
-                      Margin="0,10,0,0"
-                      Background="White"
-                      RenderTransformOrigin="0.5,0.5">
-                    <StackPanel HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Orientation="Vertical">
-                        <TextBox x:Uid="Emailbox"
-                                 Grid.Row="2"
-                                 Margin="10,10,10,0"
-                                 VerticalAlignment="Center"
-                                 Background="{x:Null}"
-                                 BorderBrush="{x:Null}"
-                                 BorderThickness="0"
-                                 FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                 InputScope="EmailSmtpAddress"
-                                 IsSpellCheckEnabled="False"
-                                 Padding="10,3,10,5"
-                                 PlaceholderText="Email"
-                                 Text="{x:Bind LoginVM.TempEmail, Mode=TwoWay}"
-                                 TextWrapping="Wrap" />
-                        <PasswordBox x:Uid="PasswordBox"
-                                     Grid.Row="3"
-                                     Margin="10,20,10,0"
-                                     VerticalAlignment="Center"
-                                     Background="{x:Null}"
-                                     BorderBrush="{x:Null}"
-                                     BorderThickness="0"
-                                     Password="{x:Bind LoginVM.InputPassword, Mode=TwoWay}"
-                                     PlaceholderText="Password" />
-                        <PasswordBox x:Uid="ConfirmBox"
-                                     Grid.Row="4"
-                                     Margin="10,20,10,0"
-                                     VerticalAlignment="Center"
-                                     Background="{x:Null}"
-                                     BorderBrush="{x:Null}"
-                                     BorderThickness="0"
-                                     Password="{x:Bind LoginVM.ConfirmPassword, Mode=TwoWay}"
-                                     PlaceholderText="Confirm Password"
-                                     Visibility="{x:Bind LoginVM.ShowRegister, Mode=OneWay}" />
-                        <Button Grid.Row="5"
-                                Height="40"
-                                Margin="20"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Top"
-                                BorderBrush="{x:Null}"
-                                BorderThickness="0"
-                                Command="{x:Bind LoginVM.NextCommand}"
-                                Style="{StaticResource ButtonCommonStyle}">
-                            <Border Background="{StaticResource MyerListBlueLight}">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="{StaticResource MyerListThemeFontFamily}"
-                                           Foreground="{StaticResource MyerListGray}"
-                                           Text="{x:Bind LoginVM.BtnContent, Mode=OneWay}" />
-                            </Border>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-        </Border>
-        <Button x:Name="PrivacyBtn"
-                Margin="0 0 0 5"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Background="{x:Null}"
-                Click="PrivacyBtn_Click"
-                Style="{StaticResource ButtonCommonStyle}">
-            <Border>
-                <TextBlock x:Uid="PrivacyTB"
-                           Foreground="White"
-                           Text="Private policy" />
-            </Border>
-        </Button>
-        <uc:LoadingControl 
-            IsShown="{x:Bind LoginVM.IsLoading, Mode=OneWay}"/>
     </Grid>
 </base:CustomTitleBarPage>

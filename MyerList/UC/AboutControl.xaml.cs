@@ -1,9 +1,7 @@
 ﻿using JP.Utils.Debug;
 using JP.Utils.Helper;
 using MyerList.Common;
-using MyerList.Helper;
 using MyerListUWP;
-using MyerListUWP.Helper;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Email;
@@ -45,7 +43,12 @@ namespace MyerList.UC
 
         private async void RateClick(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?PFN=" + Package.Current.Id.FamilyName));
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://review/?PFN={Package.Current.Id.FamilyName}"));
+        }
+
+        private async void GithubClick(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/JuniperPhoton/MyerListUWP"));
         }
     }
 }

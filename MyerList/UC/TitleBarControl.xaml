@@ -131,8 +131,8 @@
                     x:Name="BackSymbol"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="12"
-                    Foreground="Black"
+                    FontSize="13"
+                    Foreground="{StaticResource MyerListDark}"
                     Glyph="&#xE830;" />
             </Grid>
         </Button>
